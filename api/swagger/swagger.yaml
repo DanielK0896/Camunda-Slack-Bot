@@ -1,0 +1,813 @@
+swagger: '2.0'
+info:
+  description: Communication with Slack API
+  version: '1'
+  title: Slack API
+host: localhost:10010
+basePath: /
+schemes:
+  - https
+paths:
+  /deleteMsg:
+    x-swagger-router-controller: deleteMsg
+    post:
+      operationId: deleteMsg
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              ts:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /deleteMsg/scheduled:
+    x-swagger-router-controller: deleteMsgScheduled
+    post:
+      operationId: deleteMsgScheduled
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              scheduledMessageId:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /getPermalink:
+    x-swagger-router-controller: getPermalink
+    post:
+      operationId: getPermalink
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              messageTs:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg:
+    x-swagger-router-controller: sendMsg
+    post:
+      operationId: sendMsg
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/oneButton:
+    x-swagger-router-controller: sendMsg
+    post:
+      operationId: sendMsgOneButton
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/oneButton/confirm:
+    x-swagger-router-controller: sendMsg
+    post:
+      operationId: sendMsgOneButtonConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textConfirmation1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/twoButtons:
+    x-swagger-router-controller: sendMsg
+    post:
+      operationId: sendMsgTwoButtons
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/twoButtons/Confirm:
+    x-swagger-router-controller: sendMsg
+    post:
+      operationId: sendMsgTwoButtonsConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+              textConfirmation1:
+                type: string
+              textConfirmation2:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/ephemeral:
+    x-swagger-router-controller: sendMsgEphemeral
+    post:
+      operationId: sendMsgEphemeral
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+              text:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/ephemeral/oneButton/:
+    x-swagger-router-controller: sendMsgEphemeral
+    post:
+      operationId: sendMsgEphemeralOneButton
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/ephemeral/oneButton/confirm:
+    x-swagger-router-controller: sendMsgEphemeral
+    post:
+      operationId: sendMsgEphemeralOneButtonConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textConfirmation1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/ephemeral/twoButtons:
+    x-swagger-router-controller: sendMsgEphemeral
+    post:
+      operationId: sendMsgEphemeralTwoButtons
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/ephemeral/twoButtons/confirm:
+    x-swagger-router-controller: sendMsgEphemeral
+    post:
+      operationId: sendMsgEphemeralTwoButtonsConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+              textConfirmation1:
+                type: string
+              textConfirmation2:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/schedule:
+    x-swagger-router-controller: sendMsgSchedule
+    post:
+      operationId: sendMsgSchedule
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              postAt:
+                type: string
+              text:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/schedule/oneButton/:
+    x-swagger-router-controller: sendMsgScheduleOneButton
+    post:
+      operationId: sendMsgScheduleOneButton
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              postAt:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/schedule/oneButton/confirm:
+    x-swagger-router-controller: sendMsgScheduleOneButtonConfirm
+    post:
+      operationId: sendMsgScheduleOneButtonConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              postAt:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textConfirmation1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/schedule/twoButtons:
+    x-swagger-router-controller: sendMsgScheduleTwoButtons
+    post:
+      operationId: sendMsgScheduleTwoButtons
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              postAt:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendMsg/schedule/twoButtons/confirm:
+    x-swagger-router-controller: sendMsgScheduleTwoButtonsConfirm
+    post:
+      operationId: sendMsgScheduleTwoButtonsConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              postAt:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+              textConfirmation1:
+                type: string
+              textConfirmation2:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /updateMsg:
+    x-swagger-router-controller: updateMsg
+    post:
+      operationId: updateMsg
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              ts:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /updateMsg/oneButton:
+    x-swagger-router-controller: updateMsg
+    post:
+      operationId: updateMsgOneButton
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              ts:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /updateMsg/oneButton/confirm:
+    x-swagger-router-controller: updateMsg
+    post:
+      operationId: updateMsgOneButtonConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textConfirmation1:
+                type: string
+              ts:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /updateMsg/twoButtons:
+    x-swagger-router-controller: updateMsg
+    post:
+      operationId: updateMsgTwoButtons
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+              ts:
+                type: string
+
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /updateMsg/twoButtons/Confirm:
+    x-swagger-router-controller: updateMsg
+    post:
+      operationId: updateMsgTwoButtonsConfirm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              text:
+                type: string
+              callbackId:
+                type: string 
+              textButton1:
+                type: string
+              textButton2:
+                type: string
+              textConfirmation1:
+                type: string
+              textConfirmation2:
+                type: string
+              ts:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /startDialog/oneTextElement:
+    x-swagger-router-controller: startDialog
+    post:
+      operationId: startDialogOneTextElement
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              triggerid:
+                type: string
+              callbackId:
+                type: string
+              title:
+                type: string
+              label1:
+                type: string
+              name1:
+                type: string
+              placeholder1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /startDialog/twoTextElements:
+    x-swagger-router-controller: startDialog
+    post:
+      operationId: startDialogTwoTextElements
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              triggerid:
+                type: string
+              callbackId:
+                type: string
+              title:
+                type: string
+              label1:
+                type: string
+              name1:
+                type: string
+              placeholder1:
+                type: string
+              label2:
+                type: string
+              name2:
+                type: string
+              placeholder2:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /sendFile:
+    x-swagger-router-controller: sendFile
+    post:
+      operationId: sendFile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              fileName:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /slackreceive:
+    x-swagger-router-controller: slackReceive
+    post:
+      description: slack request handling
+      operationId: slackReceive
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: payload
+          description: payload
+          required: true
+          type: string
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Message"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+definitions:
+  Message:
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+      
+
+
+
+
+
+
+
+
+

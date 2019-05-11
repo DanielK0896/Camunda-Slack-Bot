@@ -1,0 +1,25 @@
+{
+  "name": "Camunda-Slack-Bot",
+  "version": "0.0.1",
+  "private": true,
+  "description": "New Swagger API Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "camunda-external-task-client-js": "^1.1.1",
+    "express": "^4.12.3",
+    "pdfmake": "^0.1.56",
+    "swagger-express-mw": "^0.7.0",
+    "swagger-router": "^0.7.2"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}
