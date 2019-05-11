@@ -8,7 +8,6 @@ module.exports = {
 function slackReceive(req, res) {                  //receive Slack POSTs after invoked action                                
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
-	console.log(msg);
     var taskid = msg.callback_id.split(' ');
     var process = taskid[0];
     var topic = taskid[1];
