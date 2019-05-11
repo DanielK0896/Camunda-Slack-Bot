@@ -5,7 +5,6 @@ var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
 
 
-
 module.exports = {
     deleteMsg: deleteMsg
 };
