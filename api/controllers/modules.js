@@ -1,5 +1,6 @@
 module.exports = {
     postToSlack: postToSlack,
+    createPDF: createPDF,
     getVariables: getVariables
 };
 
@@ -22,6 +23,25 @@ function postToSlack(msg, path){             //function to call Swagger API
 
 }
 
+function createPDF(template, fileName, variables) {
+    var pdfMake = require('pdfmake/build/pdfmake.js');
+    var pdfFonts = require('pdfmake/build/vfs_fonts.js');
+    var fs = require('fs');
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    var user = variables[1].toString();
+    console.log(user);
+    
+    
+
+    var PdfPrinter = require('../../node_modules/pdfmake/src/printer');
+    var pdfOptions = require('../../PDFs/templates/' + template + '.js');
+    var printer = new PdfPrinter(fonts);
+    var pdfDoc = printer.createPdfKitDocument(pdfOptions.docDefinition(variables));
+    pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
+    pdfDoc.end();
+}
+
+
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
     var arrayOfVariables = [];
     for(var i = 0; i < variablesToGet.length; i++) {
@@ -34,3 +54,38 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
     }
     return arrayOfVariables;
 } 
+
+
+
+
+
+
+var teilnehmerliste = {
+    header: [{
+        text: 'Teilnehmerliste Schulung',
+        color: [79, 129, 189],
+        fontSize: 8
+    }, {
+        text: '| Company Consulting Team e. V.'
+    }],
+    footer: {
+        columns: [
+            'Left part',
+            { text: 'Right part', alignment: 'right' }
+        ]
+    },
+    content: [
+        'First paragraph',
+        'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
+    ]
+
+};
+
+var fonts = {
+        Roboto: {
+            normal: 'fonts/Roboto-Regular.ttf',
+            bold: 'fonts/Roboto-Medium.ttf',
+            italics: 'fonts/Roboto-Italic.ttf',
+            bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+        }
+    };

@@ -19,7 +19,7 @@ function sendFile(req, res) {
     const formData = {
         
         channels: msg.channel,
-        file: fs.createReadStream(__dirname + msg.fileName),
+        file: fs.createReadStream(__dirname + "/../../PDFs/" + msg.fileName),
     };
     request.post({url: 'https://slack.com/api/files.upload', headers: headers, formData: formData }, function optionalCallback(err, httpResponse, body) {
         if (err) {

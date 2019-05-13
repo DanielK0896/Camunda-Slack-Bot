@@ -1,7 +1,4 @@
-var pdfMake = require('pdfmake/build/pdfmake.js');
-var pdfFonts = require('pdfmake/build/vfs_fonts.js');
-var fs = require('fs');
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 const { Client, logger } = require("camunda-external-task-client-js");
 const config = { baseUrl: "http://localhost:8080/engine-rest", use: logger };
 const client = new Client(config);
@@ -49,7 +46,7 @@ function startDialogToGetRoomNumber(msg,taskid, res) {
 
 function processRegistration(msg,taskid, res) {      
     var pushedButton = msg.actions[0].value;      //evaluate pushed Button and react
-    var user = msg.user.name;
+    var user = msg.user.id;
     try {                                
         var listOfUsers = taskid[3].split(',');       //check if user already registered
         console.log(taskid[3]); console.log(listOfUsers);
@@ -77,7 +74,7 @@ function processRegistration(msg,taskid, res) {
       
             if(!taskid[3]) {                                         //if its the first sign in
                 const pvariables = new Variables().set("ts", msg.message_ts);
-                pvariables.set("teilnehmer", msg.user.name);
+                pvariables.set("teilnehmer", msg.user.id);
                 client.taskService.complete(taskid[2], pvariables);
             } else {                                                  //2nd, 3rd, ... sign in
                 teilnehmer = taskid[3] + "," + user;
@@ -120,7 +117,7 @@ function startDialogToUpdateSubscriber(msg,taskid, res) {
 
 
 
-client.subscribe("room", async function({ task, taskService }) {
+client.subscribe("list", async function({ task, taskService }) {
     var name = task.variables.get("name");
     var channel = "CH513FYHY";
     var text = `Wurde der Raum für die Schulung ${name} bereits gebucht?`;
@@ -202,49 +199,18 @@ client.subscribe("done", async function({ task, taskService }) {
     mod.postToSlack(msg, path);
 });
 
-client.subscribe("list", async function ({ task, taskService }) {
+client.subscribe("room", async function ({ task, taskService }) {
     var variables = mod.getVariables(task, ['name', 'trainer', 'teilnehmer', 'date']);
-    var listOfUsers = variables[2].split(','); 
+    
     var channel = "CH513FYHY";
-    var fileName = teilnehmerliste.pdf;
+    var fileName = `${variables[0]}_${variables[3]}`;
+    console.log(variables);
+    var listOfUsers = variables[2].split(',');
+    variables.push(variables[2].split(','));
 
-    var fonts = {
-        Roboto: {
-            normal: 'fonts/Roboto-Regular.ttf',
-            bold: 'fonts/Roboto-Medium.ttf',
-            italics: 'fonts/Roboto-Italic.ttf',
-            bolditalics: 'fonts/Roboto-MediumItalic.ttf'
-        }
-    };
 
-    var PdfPrinter = require('../../../node_modules_pdfmake/src/printer');
-    var printer = new PdfPrinter(fonts);
-
-var dd = {
-    header: [{
-        text: 'Teilnehmerliste Schulung',
-        color: [79, 129, 189],
-        fontSize: 8
-    }, {
-        text: '| Company Consulting Team e. V.'
-    }],
-    footer: {
-        columns: [
-            'Left part',
-            { text: 'Right part', alignment: 'right' }
-        ]
-    },
-    content: [
-        'First paragraph',
-        'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines',
-        listOfUsers
-    ]
-
-}
-    var pdfDoc = printer.createPdfKitDocument(docDefinition);
-    pdfDoc.pipe(fs.createWriteStream(fileName));
-    pdfDoc.end();
-
+    mod.createPDF("teilnehmerliste", fileName, variables);
+    
     var msg = JSON.stringify({
         channel: channel, fileName: fileName
     });
