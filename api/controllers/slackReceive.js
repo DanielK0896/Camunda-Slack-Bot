@@ -19,7 +19,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         else if (topic == "startDialogToGetRoomNumber") { callFunction.startDialogToGetRoomNumber(msg, taskid, res); }
         else if (topic == "processRegistration") { callFunction.processRegistration(msg, taskid, res); }
         else if (topic == "confirmExecution") { callFunction.confirmExecution(msg, taskid, res); }
-        else if (topic == "dialog2") { callFunction.dialog2(msg, taskid, res); }
+        else if (topic == "startDialogToupdateParticipants") { callFunction.startDialogToupdateParticipants(msg, taskid, res); }
         else { console.log("ERROR (schulungOrganisieren)"); }
     }
     //else if(topic == "ProzessXY") {}  

@@ -8,7 +8,8 @@ var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'applicat
 
 module.exports = {
     startDialogOneTextElement: startDialogOneTextElement,
-    startDialogTwoTextElements: startDialogTwoTextElements
+    startDialogTwoTextElements: startDialogTwoTextElements,
+    startDialogSelectMenus: startDialogSelectMenus
 };
 
 
@@ -60,6 +61,31 @@ function startDialogTwoTextElements(req, res) {
                     "name": msg.name2,
                     "type": "text",
                     "placeholder": msg.placeholder2
+                }
+            ]
+        }
+    };
+    request.post({ headers: headers, url: URL, body: body, json: true });
+    res.status(200).type('application/json').end();
+}
+
+function startDialogSelectMenus(req, res) {
+
+    var msg = req.swagger.params.body.value;
+    var body = {
+        "trigger_id": msg.triggerId,
+        "dialog": {
+            "callback_id": msg.callbackId,
+            "title": msg.title,
+            "submit_label": "Absenden",
+            "notify_on_cancel": true,
+            "state": "default",
+            "elements": [
+                {
+                    "label": msg.label1,
+                    "name": msg.name1,
+                    "type": "select",
+                    "data_source": "users"
                 }
             ]
         }

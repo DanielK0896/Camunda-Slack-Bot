@@ -741,6 +741,36 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
+
+  /startDialog/selectMenus:
+    x-swagger-router-controller: startDialog
+    post:
+      operationId: startDialogSelectMenus
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              triggerid:
+                type: string
+              callbackId:
+                type: string
+              title:
+                type: string
+              label1:
+                type: string
+              name1:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
   /sendFile:
     x-swagger-router-controller: sendFile
     post:

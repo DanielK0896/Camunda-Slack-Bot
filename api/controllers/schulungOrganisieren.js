@@ -12,7 +12,7 @@ module.exports = {
     startDialogToGetRoomNumber: startDialogToGetRoomNumber,
     processRegistration: processRegistration,
     confirmExecution: confirmExecution,
-    startDialogToUpdateSubscriber: startDialogToUpdateSubscriber
+    startDialogToUpdateParticipants: startDialogToUpdateParticipants
 };
 
 function getRoomNumber(msg, taskid, res) {                      
@@ -89,35 +89,23 @@ function processRegistration(msg,taskid, res) {
 
 function confirmExecution(msg, taskid, res) {                      
     res.status(200).type('application/json').end();      //Button pushed so start dialog
-    var callbackId = `$taskid[0]} startDialogToUpdateSubscriber ${taskid[2]} ${msg.original_message.ts}`;
+    var callbackId = `${taskid[0]} startDialogToUpdateParticipants ${taskid[2]} ${taskid[3]} ${msg.original_message.ts}`;
     var payload = JSON.stringify({triggerId: msg.trigger_id, callbackId: callbackId, 
-    title: "Anpassung der Teilnehmer", label1: "Zusätzlich anwesend", name1: "add", placeholder1: "Name1,Name2,...", 
-    label2: "Nicht anwesend trotz anmeldung", name2: "delete", placeholder2: "Name1,Name2,..."});
-    var path = '/startDialog/twoTextElements'; 
+    title: "Anpassung der Teilnehmer", label1: "Zusätzlich anwesend", name1: "add"});
+    var path = '/startDialog/selectMenus'; 
     mod.postToSlack(payload, path);
 }
 
-function startDialogToUpdateSubscriber(msg,taskid, res) {
-    if(msg.type == "dialog_submission") {      //if dialog not interrupted: get input value, set variable and complete task
-        var room = msg.submission.raum;
-        res.status(200).type('application/json').end();
-        const pvariables = new Variables().set("room", room);
-        client.taskService.complete(taskid[2], pvariables);   
-        var text = "Raum " + room + " wurde erfolgreich hinterlegt."
-        var payload = JSON.stringify({"channel": msg.channel.id, "ts": taskid[3]});
-        var path = '/deleteMsg'; 
-        http.postToSlack(payload, path);                //update message with response Text
-        payload = JSON.stringify({"channel": msg.channel.id, "text": text});
-        path = '/sendMsg'; 
-        mod.postToSlack(payload, path);  
-    } else {console.log("dialog interrupted");}   
+function startDialogToUpdateParticipants(msg,taskid, res) {
+    var pushedButton = msg.actions[0].value; 
+    console.log(pushedButton);
 }
 
 
 
 
 
-client.subscribe("list", async function({ task, taskService }) {
+client.subscribe("list2", async function({ task, taskService }) {
     var name = task.variables.get("name");
     var channel = "CH513FYHY";
     var text = `Wurde der Raum für die Schulung ${name} bereits gebucht?`;
@@ -157,6 +145,7 @@ client.subscribe("invite", async function({ task, taskService }) {
 });
 
 client.subscribe("terminate", async function({ task, taskService }) {
+    console.log("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOl");
     var variables = mod.getVariables(task, ['name','trainer', 'ts']);
     var text = `Die Anmeldephase für die Schulung ${variables[0]} wurde beendet. Sollte noch Interesse bestehen, dann meldet euch bei ${variables[1]}.`;
     var channel = "CH513FYHY";
@@ -188,18 +177,18 @@ client.subscribe("reminder", async function({ task, taskService }) {
 });
 
 
-client.subscribe("done", async function({ task, taskService }) {
+client.subscribe("room", async function({ task, taskService }) {
     var channel = "CH513FYHY";
-    var callbackId = `${process} confirmExecution ${task.id} ${teilnehmer}`;
+    var callbackId = `${process} confirmExecution ${task.id} ${task.variables.get("teilnehmer")}`;
     var text = `Wurde die Schulung ${task.variables.get("name")} erfolgreich durchgeführt?`;
 
     var msg = JSON.stringify({channel: channel, text: text, callbackId: callbackId, 
-    ts: ts,textButton1: "Ja", textConfirmation1: "Bitte bestätigen"});
-    var path = '/sendMsg/oneButtonConfirm';
+    textButton1: "Ja", textConfirmation1: "Bitte bestätigen"});
+    var path = '/sendMsg/oneButton/confirm';
     mod.postToSlack(msg, path);
 });
 
-client.subscribe("room", async function ({ task, taskService }) {
+client.subscribe("list", async function ({ task, taskService }) {
     var variables = mod.getVariables(task, ['name', 'trainer', 'teilnehmer', 'date']);
     
     var channel = "CH513FYHY";
