@@ -1,3 +1,7 @@
+var maxChannels = 100;
+
+
+
 module.exports = {
     postToSlack: postToSlack,
     createPDF: createPDF,
@@ -44,7 +48,24 @@ function createPDF(template, fileName, variables) {
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
     var arrayOfVariables = [];
-    for(var i = 0; i < variablesToGet.length; i++) {
+    for (var i = 0; i < variablesToGet.length; i++) {
+        if (variablesToGet[i] == 'slack_channel') {
+            var stringWithChannels;
+            for (var j = 1; j <= maxChannels; j++) {
+                var slackChannel;
+                try {
+                    var channel = variablesToGet[i] + "_" + j;
+                    slackChannel = task.variables.get(channel);
+                } catch (e) {
+                    console.log(e);
+                    arrayOfVariables.push(stringWithChannels);
+                    break;
+                }
+                stringWithChannels = stringWithChannels + "," + slackChannel;
+            }
+            var variable = task.variables.get(variablesToGet[i])
+            arrayOfVariables.push(variable);
+        }
         var variable = task.variables.get(variablesToGet[i])
         arrayOfVariables.push(variable);
         if(variablesToGet[i] == 'date') {
