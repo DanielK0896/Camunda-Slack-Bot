@@ -4,12 +4,12 @@ module.exports = {
     getVariables: getVariables
 };
 
-function postToSlack(msg, path){             //function to call Swagger API
+function postJsonToLocalhost(msg, port, path){             //function to call Swagger API
     var http = require('http');
     var request = http.request({
     host:'localhost',
     port: 10010,
-    method: 'POST',
+    method: port,
     path: path,
     headers: {
         'Content-Type': 'application/json',
