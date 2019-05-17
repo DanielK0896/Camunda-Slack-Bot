@@ -135,18 +135,7 @@ client.subscribe("room", async function({ task, taskService }) {
 
 client.subscribe("invite", async function({ task, taskService }) {
     
-    var variables = mod.getVariables(task, arrayOfVariables);
-    var text = `Hier könnt ihr euch für die Schulung ${variables[0]} am ${variables[7]} um ${variables[8]} Uhr anmelden. Die Schulung wird von ${variables[1]} gehalten. Der Raum ${room}.`;
-    var listOfChannels = variables[3].split(',');
-    var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
-    for (var i = 0; i < listOfChannels.length; i++) {
-        var msg = JSON.stringify({
-            channel: listOfChannels[i], text: text, callbackId: callbackId,
-            textButton1: "Anmelden", textButton2: "Abmelden"
-        });
-        var path = '/sendMsg/twoButtons';
-        mod.postJsonToLocalhost(msg, 10010, path);
-    }
+    
     await client.taskService.complete(task);
 });
 

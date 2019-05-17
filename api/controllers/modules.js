@@ -44,6 +44,23 @@ function createPDF(template, fileName, variables) {
     pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
     pdfDoc.end();
 }
+function preparePostMessage(task) {
+
+    var variables = getVariables(task, ['name', 'room']);
+    var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
+    var listOfChannels = variables[3].split(',');
+
+    for (var i = 0; i < listOfChannels.length; i++) {
+        var msg = JSON.stringify({
+            channel: listOfChannels[i], text: text, callbackId: callbackId,
+            textButton1: "Anmelden", textButton2: "Abmelden"
+        });
+        var path = '/sendMsg/twoButtons';
+        mod.postJsonToLocalhost(msg, 10010, path);
+    }
+    
+}
+
 
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
