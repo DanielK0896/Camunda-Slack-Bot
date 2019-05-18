@@ -13,8 +13,8 @@ function postJsonToLocalhost(msg, port, path){             //function to call Sw
     var http = require('http');
     var request = http.request({
     host:'localhost',
-    port: 10010,
-    method: port,
+    port: port,
+    method: 'POST',
     path: path,
     headers: {
         'Content-Type': 'application/json',
