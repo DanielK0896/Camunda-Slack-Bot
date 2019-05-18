@@ -65,7 +65,7 @@ function preparePostMessage(task) {
     var textButton2_index = variablesToGet.indexOf("textButton2");
     var textConfirmation1_index = variablesToGet.indexOf("textConfirmation1");
     var textConfirmation2_index = variablesToGet.indexOf("textConfirmation2");
-    var msg = [];
+    var msg = {};
 
     if (channel_index >= 0) {
         msg["channel"] = variables[channel_index];
@@ -106,7 +106,6 @@ function preparePostMessage(task) {
     console.log(msg);
     var payload = JSON.stringify(msg);
     console.log(payload);
-    postJsonToLocalhost(msg, 10010, path);
     postJsonToLocalhost(payload, 10010, path);
 
 
