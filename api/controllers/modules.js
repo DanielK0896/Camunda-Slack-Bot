@@ -50,7 +50,62 @@ function preparePostMessage(task) {
     var variablesToGet = task.variables.get("variablesToGet").split(',');
     console.log(variablesToGet);
     var variables = getVariables(task, variablesToGet);
-    console.log(variables);
+
+    var channel_index = variablesToGet.indexOf([channel]);
+    var text_index = variablesToGet.indexOf([text]);
+    var callbackId_index = variablesToGet.indexOf([callbackId]);
+    var user_index = variablesToGet.indexOf([user]);
+    var postAt_index = variablesToGet.indexOf([postAt]);
+    var ts_index = variablesToGet.indexOf([ts]);
+    var scheduledMessageId_index = variablesToGet.indexOf([scheduledMessageId]);
+    var messageTs_index = variablesToGet.indexOf([messageTs]);
+    var textButton1_index = variablesToGet.indexOf([textButton1]);
+    var textButton2_index = variablesToGet.indexOf([textButton2]);
+    var textConfirmation1_index = variablesToGet.indexOf([textConfirmation1]);
+    var textConfirmation2_index = variablesToGet.indexOf([textConfirmation2]);
+
+
+    if (channel_index >= 0) {
+        msg[channel] = variables[channel_index];
+        if (text_index >= 0) {
+            msg[text] = variables[text_index];
+        }
+        if (user_index >= 0) {
+            msg[user] = variables[user_index];
+        }
+        if (postAt_index >= 0) {
+            msg[postAt] = variables[postAt_index];
+        }
+        if (ts_index >= 0) {
+            msg[ts] = variables[ts_index];
+        }
+        if (scheduledMessageId_index >= 0) {
+            msg[scheduledMessageId] = variables[scheduledMessageId_index];
+        }
+        if (messageTs_index >= 0) {
+            msg[messageTs] = variables[messageTs_index];
+        }
+        if (callbackId_index >= 0) {
+            msg[callbackId] = variables[callbackId_index];
+            if (textButton1_index >= 0) {
+                msg[textButton1] = variables[textButton1_index];
+                if (textConfirmation1_index >= 0) {
+                    msg[textConfirmation1] = variables[textConfirmation1_index];
+                }
+                if (textButton2_index >= 0) {
+                    msg[textButton2] = variables[textButton2_index];
+                    if (textConfirmation2_index >= 0) {
+                        msg[textConfirmation2] = variables[textConfirmation2_index];
+                    }
+                }
+            }
+        }
+    }
+    console.log(msg);
+    var payload = JSON.stringifiy(msg);
+    console.log(payload);
+
+
     var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
     var listOfChannels = variables[3].split(',');
 
