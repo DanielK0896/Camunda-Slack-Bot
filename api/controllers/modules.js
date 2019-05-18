@@ -47,7 +47,7 @@ function createPDF(template, fileName, variables) {
 }
 function preparePostMessage(task) {
 
-    var variablesToGet = task.variables.get(variablesToGet);
+    var variablesToGet = task.variables.get(variablesToGet).toString().split(',');
     console.log(variablesToGet);
     var variables = getVariables(task, ['name', 'room']);
     var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
