@@ -76,9 +76,7 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
                 var slackChannel;
                 try {
                     var channel = variablesToGet[i] + "_" + j;
-                    console.log(channel);
                     slackChannel = task.variables.get(channel);
-                    console.log(slackChannel);
                     if (typeof slackChannel === "undefined") {
                         throw ("Slack Channel(s) erfolgreich empfangen");
                     }
@@ -93,12 +91,9 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
                     stringWithChannels = stringWithChannels + "," + slackChannel;
                 }
             }
-        }
-        var variable = task.variables.get(variablesToGet[i])
-        arrayOfVariables.push(variable);
-        if(variablesToGet[i] == 'date') {
-            arrayOfVariables.push(`${variable.getDate()}.${variable.getMonth()}.${variable.getFullYear()}`);
-            arrayOfVariables.push(`${variable.getHours()}:${variable.getMinutes()}`);
+        } else {
+            var variable = task.variables.get(variablesToGet[i])
+            arrayOfVariables.push(variable);
         }
     }
     return arrayOfVariables;
