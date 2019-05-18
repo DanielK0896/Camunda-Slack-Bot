@@ -31,7 +31,7 @@ function getRoomNumber(msg, taskid, res) {
         var payload = JSON.stringify({triggerId: msg.trigger_id, callbackId: callbackId, 
         title: "Veranstaltungsort", label1: "Raum", name1: "raum", placeholder1: "z. B. EB222"});
         var path = '/startDialog/oneTextElement'; 
-        mod.postToSlack(payload, path);
+        mod.postJsonToLocalhost(payload, 10010, path);
     } else {console.log("ERROR (room)");} 
 }
 
@@ -44,7 +44,7 @@ function startDialogToGetRoomNumber(msg,taskid, res) {
         var text = "Raum " + room + " wurde erfolgreich hinterlegt."  
         payload = JSON.stringify({"channel": msg.channel.id, "text": text, "ts": taskid[3]});
         path = '/updateMsg'; 
-        mod.postToSlack(payload, path);  //update message with response Text
+        mod.postJsonToLocalhost(payload, 10010, path);  //update message with response Text
   } else {console.log("dialog interrupted");}   
 }
 
@@ -98,7 +98,7 @@ function confirmExecution(msg, taskid, res) {
     title: "Anpassung der Teilnehmer", label1: "Zusätzlich anwesend", name1: "add", placeholder1: "Name1,Name2,...", 
     label2: "Nicht anwesend trotz anmeldung", name2: "delete", placeholder2: "Name1,Name2,..."});
     var path = '/startDialog/twoTextElements'; 
-    mod.postToSlack(payload, path);
+    mod.postJsonToLocalhost(payload, 10010, path);
 }
 
 function startDialogToUpdateSubscriber(msg,taskid, res) {
@@ -110,10 +110,10 @@ function startDialogToUpdateSubscriber(msg,taskid, res) {
         var text = "Raum " + room + " wurde erfolgreich hinterlegt."
         var payload = JSON.stringify({"channel": msg.channel.id, "ts": taskid[3]});
         var path = '/deleteMsg'; 
-        http.postToSlack(payload, path);                //update message with response Text
+        mod.postJsonToLocalhost(payload, 10010, path);               //update message with response Text
         payload = JSON.stringify({"channel": msg.channel.id, "text": text});
         path = '/sendMsg'; 
-        mod.postToSlack(payload, path);  
+        mod.postJsonToLocalhost(payload, 10010, path); 
     } else {console.log("dialog interrupted");}   
 }
 
