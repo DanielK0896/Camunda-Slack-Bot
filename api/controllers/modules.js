@@ -106,6 +106,8 @@ function preparePostMessage(task) {
     console.log(msg);
     var payload = JSON.stringify(msg);
     console.log(payload);
+    mod.postJsonToLocalhost(msg, 10010, path);
+    mod.postJsonToLocalhost(payload, 10010, path);
 
 
     var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
