@@ -21,7 +21,9 @@ function postJsonToLocalhost(msg, port, path){             //function to call Sw
         'Transfer-Encoding': 'chunked'
     }
     }, function () {
-    });
+        });
+    console.log(path);
+    console.log(msg);
     request.write(msg);
     request.end();
 
