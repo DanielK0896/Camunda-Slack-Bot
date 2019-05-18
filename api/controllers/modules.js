@@ -108,8 +108,6 @@ function preparePostMessage(task) {
     console.log(payload);
     postJsonToLocalhost(payload, 10010, path);
 
-
-    var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
     var listOfChannels = variables[3].split(',');
 
     for (var i = 0; i < listOfChannels.length; i++) {
