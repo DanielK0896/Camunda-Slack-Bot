@@ -50,6 +50,8 @@ function preparePostMessage(task) {
     var variablesToGet = task.variables.get("variablesToGet").split(',');
     console.log(variablesToGet);
     var variables = getVariables(task, variablesToGet);
+    console.log("variablesToGet: " + variablesToGet);
+    console.log("variables: " + variables);
 
     var channel_index = variablesToGet.indexOf(["slack_channel"]);
     var text_index = variablesToGet.indexOf(["text"]);
@@ -63,7 +65,7 @@ function preparePostMessage(task) {
     var textButton2_index = variablesToGet.indexOf(["textButton2"]);
     var textConfirmation1_index = variablesToGet.indexOf(["textConfirmation1"]);
     var textConfirmation2_index = variablesToGet.indexOf(["textConfirmation2"]);
-
+    console.log("channel_index: " + channel_index);
 
     if (channel_index >= 0) {
         msg[channel] = variables[channel_index];
