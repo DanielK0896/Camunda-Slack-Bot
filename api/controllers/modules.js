@@ -66,57 +66,64 @@ function preparePostMessage(task) {
     var textConfirmation1_index = variablesToGet.indexOf("textConfirmation1");
     var textConfirmation2_index = variablesToGet.indexOf("textConfirmation2");
     var msg = {};
+    var path;
 
     if (channel_index >= 0) {
-        msg["channel"] = variables[channel_index];
+        msg["channel"] = "";
+        if (ts_index >= 0) {
+            msg["ts"] = variables[ts_index];
+            var path = '/deleteMsg';
+        }
         if (text_index >= 0) {
             msg["text"] = variables[text_index];
+            var path = '/sendMsg';
+            if (ts_index >= 0) {
+                msg["ts"] = variables[ts_index];
+                var path = '/updateMsg';
+            }
         }
         if (user_index >= 0) {
             msg["user"] = variables[user_index];
+            var path = path + '/ephemeral';
         }
         if (postAt_index >= 0) {
             msg["postAt"] = variables[postAt_index];
-        }
-        if (ts_index >= 0) {
-            msg["ts"] = variables[ts_index];
+            var path = '/schedule';
         }
         if (scheduledMessageId_index >= 0) {
             msg["scheduledMessageId"] = variables[scheduledMessageId_index];
+            var path = '/deleteMsgScheduled';
         }
         if (messageTs_index >= 0) {
             msg["messageTs"] = variables[messageTs_index];
+            var path = '/getPermalink';
         }
         if (callbackId_index >= 0) {
             msg["callbackId"] = variables[callbackId_index];
             if (textButton1_index >= 0) {
                 msg["textButton1"] = variables[textButton1_index];
+                var path = path + '/oneButton';
                 if (textConfirmation1_index >= 0) {
                     msg["textConfirmation1"] = variables[textConfirmation1_index];
+                    var path = path + '/oneButton/Confirm';
                 }
                 if (textButton2_index >= 0) {
                     msg["textButton2"] = variables[textButton2_index];
+                    var path = path + '/twoButtons';
                     if (textConfirmation2_index >= 0) {
                         msg["textConfirmation2"] = variables[textConfirmation2_index];
+                        var path = path + '/twoButtons/Confirm';
                     }
                 }
             }
         }
     }
-    console.log(msg);
-    var payload = JSON.stringify(msg);
-    console.log(payload);
-    postJsonToLocalhost(payload, 10010, path);
-
-    var listOfChannels = variables[3].split(',');
+    var listOfChannels = variables[channel_index].split(',');
 
     for (var i = 0; i < listOfChannels.length; i++) {
-        var msg = JSON.stringify({
-            channel: listOfChannels[i], text: text, callbackId: callbackId,
-            textButton1: "Anmelden", textButton2: "Abmelden"
-        });
-        var path = '/sendMsg/twoButtons';
-        postJsonToLocalhost(msg, 10010, path);
+        msg["channel"] = listOfChannels[i];
+        var payload = JSON.stringify(msg);
+        postJsonToLocalhost(payload, 10010, path);
     }
     
 }
