@@ -84,8 +84,6 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
                 }
                 stringWithChannels = stringWithChannels + "," + slackChannel;
             }
-            var variable = task.variables.get(variablesToGet[i])
-            arrayOfVariables.push(variable);
         }
         var variable = task.variables.get(variablesToGet[i])
         arrayOfVariables.push(variable);
