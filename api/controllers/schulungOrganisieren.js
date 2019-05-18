@@ -133,9 +133,8 @@ client.subscribe("room", async function({ task, taskService }) {
     mod.postJsonToLocalhost(msg, 10010, path);
 });
 
-client.subscribe("invite", async function({ task, taskService }) {
-    
-    
+client.subscribe("invite", async function ({ task, taskService }) {
+    preparePostMessage(task);
     await client.taskService.complete(task);
 });
 
