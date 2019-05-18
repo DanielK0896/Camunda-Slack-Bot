@@ -102,7 +102,7 @@ function preparePostMessage(task) {
         }
     }
     console.log(msg);
-    var payload = JSON.stringifiy(msg);
+    var payload = JSON.stringify(msg);
     console.log(payload);
 
 
