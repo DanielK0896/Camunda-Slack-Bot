@@ -47,9 +47,10 @@ function createPDF(template, fileName, variables) {
 }
 function preparePostMessage(task) {
 
-    var variablesToGet = task.variables.get(variablesToGet).split(',');
+    var variablesToGet = task.variables.get(variablesToGet);
+    var variablesToGetSplitted = variablesToGet.split(',');
     console.log(variablesToGet);
-    var variables = getVariables(task, ['name', 'room']);
+    var variables = getVariables(task, variablesToGetSplitted);
     var callbackId = `${process} processRegistration ${variables[0]} ${variables[4]}`;
     var listOfChannels = variables[3].split(',');
 
