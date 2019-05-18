@@ -68,36 +68,36 @@ function preparePostMessage(task) {
     console.log("channel_index: " + channel_index);
 
     if (channel_index >= 0) {
-        msg[channel] = variables[channel_index];
+        msg["channel"] = variables[channel_index];
         if (text_index >= 0) {
-            msg[text] = variables[text_index];
+            msg["text"] = variables[text_index];
         }
         if (user_index >= 0) {
-            msg[user] = variables[user_index];
+            msg["user"] = variables[user_index];
         }
         if (postAt_index >= 0) {
-            msg[postAt] = variables[postAt_index];
+            msg["postAt"] = variables[postAt_index];
         }
         if (ts_index >= 0) {
-            msg[ts] = variables[ts_index];
+            msg["ts"] = variables[ts_index];
         }
         if (scheduledMessageId_index >= 0) {
-            msg[scheduledMessageId] = variables[scheduledMessageId_index];
+            msg["scheduledMessageId"] = variables[scheduledMessageId_index];
         }
         if (messageTs_index >= 0) {
-            msg[messageTs] = variables[messageTs_index];
+            msg["messageTs"] = variables[messageTs_index];
         }
         if (callbackId_index >= 0) {
-            msg[callbackId] = variables[callbackId_index];
+            msg["callbackId"] = variables[callbackId_index];
             if (textButton1_index >= 0) {
-                msg[textButton1] = variables[textButton1_index];
+                msg["textButton1"] = variables[textButton1_index];
                 if (textConfirmation1_index >= 0) {
-                    msg[textConfirmation1] = variables[textConfirmation1_index];
+                    msg["textConfirmation1"] = variables[textConfirmation1_index];
                 }
                 if (textButton2_index >= 0) {
-                    msg[textButton2] = variables[textButton2_index];
+                    msg["textButton2"] = variables[textButton2_index];
                     if (textConfirmation2_index >= 0) {
-                        msg[textConfirmation2] = variables[textConfirmation2_index];
+                        msg["textConfirmation2"] = variables[textConfirmation2_index];
                     }
                 }
             }
