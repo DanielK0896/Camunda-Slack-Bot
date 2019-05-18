@@ -103,16 +103,17 @@ function preparePostMessage(task) {
             if (textButton1_index >= 0) {
                 msg["textButton1"] = variables[textButton1_index];
                 path = path + '/oneButton';
-                if (textConfirmation1_index >= 0) {
-                    msg["textConfirmation1"] = variables[textConfirmation1_index];
-                    path = path + '/oneButton/Confirm';
-                }
                 if (textButton2_index >= 0) {
                     msg["textButton2"] = variables[textButton2_index];
                     path = path + '/twoButtons';
                     if (textConfirmation2_index >= 0) {
                         msg["textConfirmation2"] = variables[textConfirmation2_index];
-                        path = path + '/twoButtons/Confirm';
+                        path = path + '/Confirm';
+                    }
+                } else {
+                    if (textConfirmation1_index >= 0) {
+                        msg["textConfirmation1"] = variables[textConfirmation1_index];
+                        path = path + '/Confirm';
                     }
                 }
             }
