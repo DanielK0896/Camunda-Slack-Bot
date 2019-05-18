@@ -101,6 +101,9 @@ function preparePostMessage(task) {
         if (callbackId_index >= 0) {
             msg["callbackId"] = variables[callbackId_index];
             if (textButton2_index >= 0) {
+                if (textButton1_index >= 0) {
+                    msg["textButton1"] = variables[textButton1_index];
+                }
                 msg["textButton2"] = variables[textButton2_index];
                 path = path + '/twoButtons';
                 if (textConfirmation1_index >= 0) {
@@ -109,7 +112,6 @@ function preparePostMessage(task) {
                 }
                 if (textConfirmation2_index >= 0) {
                     msg["textConfirmation2"] = variables[textConfirmation2_index];
-                    path = path + '/Confirm';
                 }
             } else {
                 if (textButton1_index >= 0) {
