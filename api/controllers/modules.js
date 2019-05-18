@@ -119,9 +119,10 @@ function preparePostMessage(task) {
         }
     }
     var listOfChannels = variables[channel_index].split(',');
-
+    console.log(path);
     for (var i = 0; i < listOfChannels.length; i++) {
         msg["channel"] = listOfChannels[i];
+        console.log(msg);
         var payload = JSON.stringify(msg);
         postJsonToLocalhost(payload, 10010, path);
     }
