@@ -1,8 +1,5 @@
 var util = require('util');
 var request = require('request');
-var URL = "https://slack.com/api/chat.postMessage";
-var secrets = require('../../secrets');
-var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
 
 
 
@@ -35,6 +32,6 @@ function camundaStartProcess(req, res) {
         },
         "businessKey": msg.businessKey
     };
-    request.post({ headers: headers, url: URL, body: body, json: true });
+    request.post({ url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
