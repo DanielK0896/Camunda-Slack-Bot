@@ -819,6 +819,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /camunda/startProcess:
+    x-swagger-router-controller: camunda
+    post:
+      operationId: camundaStartProcess
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              variable1:
+                type: string
+              variable2:
+                type: string
+              variable3:
+                type: string 
+              variable4:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
 
 definitions:
   Message:

@@ -20,8 +20,9 @@ function postJsonToLocalhost(msg, port, path){             //function to call Sw
         'Content-Type': 'application/json',
         'Transfer-Encoding': 'chunked'
     }
-    }, function (error, res, body) {
-	console.log(body);
+    }, function (error, res, ) {
+            console.log(error);
+	        console.log(res);
     });
     request.write(msg);
     request.end();
