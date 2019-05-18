@@ -134,7 +134,7 @@ client.subscribe("room", async function({ task, taskService }) {
 });
 
 client.subscribe("invite", async function ({ task, taskService }) {
-    preparePostMessage(task);
+    mod.preparePostMessage(task);
     await client.taskService.complete(task);
 });
 
