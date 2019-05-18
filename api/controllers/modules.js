@@ -87,7 +87,11 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
                     arrayOfVariables.push(stringWithChannels);
                     break;
                 }
-                stringWithChannels = stringWithChannels + "," + slackChannel;
+                if (j == 1) {
+                    stringWithChannels = slackChannel;
+                } else {
+                    stringWithChannels = stringWithChannels + "," + slackChannel;
+                }
             }
         }
         var variable = task.variables.get(variablesToGet[i])
