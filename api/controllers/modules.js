@@ -65,7 +65,7 @@ function preparePostMessage(task) {
     var textButton2_index = variablesToGet.indexOf("textButton2");
     var textConfirmation1_index = variablesToGet.indexOf("textConfirmation1");
     var textConfirmation2_index = variablesToGet.indexOf("textConfirmation2");
-    console.log("channel_index: " + channel_index);
+    var msg = [];
 
     if (channel_index >= 0) {
         msg["channel"] = variables[channel_index];
