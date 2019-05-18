@@ -53,18 +53,18 @@ function preparePostMessage(task) {
     console.log("variablesToGet: " + variablesToGet);
     console.log("variables: " + variables);
 
-    var channel_index = variablesToGet.indexOf(["slack_channel"]);
-    var text_index = variablesToGet.indexOf(["text"]);
-    var callbackId_index = variablesToGet.indexOf(["callbackId"]);
-    var user_index = variablesToGet.indexOf(["user"]);
-    var postAt_index = variablesToGet.indexOf(["postAt"]);
-    var ts_index = variablesToGet.indexOf(["ts"]);
-    var scheduledMessageId_index = variablesToGet.indexOf(["scheduledMessageId"]);
-    var messageTs_index = variablesToGet.indexOf(["messageTs"]);
-    var textButton1_index = variablesToGet.indexOf(["textButton1"]);
-    var textButton2_index = variablesToGet.indexOf(["textButton2"]);
-    var textConfirmation1_index = variablesToGet.indexOf(["textConfirmation1"]);
-    var textConfirmation2_index = variablesToGet.indexOf(["textConfirmation2"]);
+    var channel_index = variablesToGet.indexOf("slack_channel");
+    var text_index = variablesToGet.indexOf("text");
+    var callbackId_index = variablesToGet.indexOf("callbackId");
+    var user_index = variablesToGet.indexOf("user");
+    var postAt_index = variablesToGet.indexOf("postAt");
+    var ts_index = variablesToGet.indexOf("ts");
+    var scheduledMessageId_index = variablesToGet.indexOf("scheduledMessageId");
+    var messageTs_index = variablesToGet.indexOf("messageTs");
+    var textButton1_index = variablesToGet.indexOf("textButton1");
+    var textButton2_index = variablesToGet.indexOf("textButton2");
+    var textConfirmation1_index = variablesToGet.indexOf("textConfirmation1");
+    var textConfirmation2_index = variablesToGet.indexOf("textConfirmation2");
     console.log("channel_index: " + channel_index);
 
     if (channel_index >= 0) {
@@ -145,7 +145,7 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
                 if (j == 1) {
                     stringWithChannels = slackChannel;
                 } else {
-                    stringWithChannels = stringWithChannels + "," + slackChannel;
+                    stringWithChannels = stringWithChannels + "_" + slackChannel;
                 }
             }
         } else {
