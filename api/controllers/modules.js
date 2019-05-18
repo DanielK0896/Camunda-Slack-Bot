@@ -75,10 +75,11 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
             for (var j = 1; j <= maxChannels; j++) {
                 var slackChannel;
                 try {
-                    var channel = variablesToGet[j] + "_" + j;
+                    var channel = variablesToGet[i] + "_" + j;
+                    console.log(channel);
                     slackChannel = task.variables.get(channel);
                     console.log(slackChannel);
-                    if (slackChannel == "") {
+                    if (slackChannel == "undefined") {
                         throw "Slack Channel(s) erfolgreich empfangen";
                     }
                 } catch (e) {
