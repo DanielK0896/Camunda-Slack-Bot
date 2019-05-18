@@ -3,7 +3,8 @@ var maxChannels = 100;
 
 
 module.exports = {
-    postToSlack: postToSlack,
+    postJsonToLocalhost: postJsonToLocalhost,
+    preparePostMessage: preparePostMessage,
     createPDF: createPDF,
     getVariables: getVariables
 };
