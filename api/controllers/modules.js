@@ -23,8 +23,6 @@ function postJsonToLocalhost(msg, port, path){             //function to call Sw
     }, function (err) {
             console.log(err);
         });
-    console.log(path);
-    console.log(msg);
     request.write(msg);
     request.end();
 

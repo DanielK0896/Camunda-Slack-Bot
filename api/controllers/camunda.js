@@ -33,6 +33,7 @@ function camundaStartProcess(req, res) {
         },
         "businessKey": msg.businessKey
     };
+    console.log(body);
     request.post({ url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
