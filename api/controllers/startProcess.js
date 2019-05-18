@@ -27,5 +27,5 @@ var msg = {
     },
     "businessKey": businessKey
 };
-
-mod.postJsonToLocalhost(msg, 10010, path);
+var payload = JSON.stringify(msg);
+mod.postJsonToLocalhost(payload, 8080, path);
