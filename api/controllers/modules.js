@@ -106,6 +106,10 @@ function preparePostMessage(task) {
                 if (textButton2_index >= 0) {
                     msg["textButton2"] = variables[textButton2_index];
                     path = path + '/twoButtons';
+                    if (textConfirmation1_index >= 0) {
+                        msg["textConfirmation1"] = variables[textConfirmation1_index];
+                        path = path + '/Confirm';
+                    }
                     if (textConfirmation2_index >= 0) {
                         msg["textConfirmation2"] = variables[textConfirmation2_index];
                         path = path + '/Confirm';
