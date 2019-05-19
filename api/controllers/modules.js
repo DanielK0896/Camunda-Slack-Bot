@@ -34,6 +34,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
         } else {
             console.log('An error occured');
             console.log(response.statusCode);
+            console.log(response.headers);
         }
     });
     request.on('error', function (err) {
