@@ -22,7 +22,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
     }
     }, function (response) { });
     request.on('response', function (response) {
-        if (response.statusCode === 200 && response.headers['content-type'] ===
+        if (response.statusCode === 400 && response.headers['content-type'] ===
             'text/html') {
             var body = '';
             response.on('data', function (data) {
