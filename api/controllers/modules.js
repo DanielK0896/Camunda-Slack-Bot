@@ -29,6 +29,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
                 console.log("lol");
             });
             response.on('end', function () {
+                console.log("lol2");
                 console.log(body);
             });
         } else {
