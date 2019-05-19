@@ -36,7 +36,15 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
         }
     });
     request.on('error', function (err) {
-        console.error(err);
+        if (err.statusCode === 400 && err.headers['content-type'] ===
+            'text/html') {
+            var body = '';
+            err.on('data', function (data) {
+                body += data;
+            });
+            err.on('end', function () {
+                console.log(body);
+            });
     });
     request.write(msg);
     request.end();
