@@ -1,6 +1,6 @@
 var util = require('util');
 var request = require('request');
-var URL = "localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
+var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
 
 
 
