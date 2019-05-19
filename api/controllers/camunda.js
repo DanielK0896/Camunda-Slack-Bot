@@ -14,7 +14,7 @@ function camundaStartProcess(req, res) {
     var msg = req.swagger.params.body.value;
     console.log(msg);
     msg2 = Object.values(msg);
-
+    console.log(msg2);
     var body = {
         "variables": {
             variable1: {
