@@ -12,7 +12,6 @@ module.exports = {
 function camundaStartProcessSchulungOrganisieren(req, res) {
 
     var msg = req.swagger.params.body.value;
-    console.log(msg.variable2);
     var body = {
         "variables": {
             "name": {
@@ -29,6 +28,10 @@ function camundaStartProcessSchulungOrganisieren(req, res) {
             },
             "room": {
                 "value": msg.room,
+                "type": "String"
+            },
+            "process": {
+                "value": "schulungOrganisieren",
                 "type": "String"
             }
         },
