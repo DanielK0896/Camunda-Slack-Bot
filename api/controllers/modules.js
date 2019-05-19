@@ -21,7 +21,6 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
             'Transfer-Encoding': 'chunked'
         }
     }, function (error, response, body) {
-        console.log("Code: " + response.statusCode);
         response.on('data', function (data) {
             body += data;
         });
