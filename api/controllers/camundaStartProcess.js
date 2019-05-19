@@ -1,6 +1,7 @@
 var util = require('util');
 var request = require('request');
-var URL = "http://localhost:8080/engine-rest/process-definition/hr_schulung:1:11fd002b-79b7-11e9-b08d-b827eb154505/start";
+var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
+headers: { 'Content-Type': 'application/json' };
 
 
 
@@ -38,6 +39,6 @@ function camundaStartProcessSchulungOrganisieren(req, res) {
         "businessKey": msg.businessKey
     };
     console.log(body);
-    request.post({ url: URL, body: body, json: true });
+    request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
