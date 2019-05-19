@@ -21,7 +21,8 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
         'Transfer-Encoding': 'chunked'
     }
     }, function (response) {
-            console.log(response);
+            console.log(response.type);
+            console.log(response.message);
         });
     request.write(msg);
     request.end();
