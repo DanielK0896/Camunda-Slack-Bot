@@ -1,7 +1,7 @@
 var util = require('util');
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
-headers: { 'Content-Type': 'application/json' };
+var headers: { 'Content-Type': 'application/json' };
 
 
 
