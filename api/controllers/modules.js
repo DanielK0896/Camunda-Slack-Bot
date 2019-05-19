@@ -20,10 +20,21 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
         'Content-Type': 'application/json',
         'Transfer-Encoding': 'chunked'
     }
-    }, function (response) {
-            console.log(response.type);
-            console.log(response.message);
-        });
+    }, function (response) { });
+    request.on('response', function (response) {
+        if (response.statusCode === 200 && response.headers['content-type'] ===
+            'text/html') {
+            var body = '';
+            response.on('data', function (data) {
+                body += data;
+            });
+            response.on('end', function () {
+                console.log(body);
+            });
+        } else {
+            console.log('An error occured');
+        }
+    });
     request.write(msg);
     request.end();
 
