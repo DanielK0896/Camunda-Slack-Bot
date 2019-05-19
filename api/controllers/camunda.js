@@ -16,19 +16,19 @@ function camundaStartProcess(req, res) {
     var body = {
         "variables": {
             variable1: {
-                "value": msg.variable1,
+                "value": msg[0],
                 "type": "String"
             },
             variable2: {
-                "value": msg.variable2,
+                "value": msg[1],
                 "type": "String"
             },
             variable3: {
-                "value": msg.variable3,
+                "value": msg[2],
                 "type": "String"
             },
             variable4: {
-                "value": msg.variable4,
+                "value": msg[3],
                 "type": "date"
             }
         },
