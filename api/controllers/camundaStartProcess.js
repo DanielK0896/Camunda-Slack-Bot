@@ -24,7 +24,7 @@ function camundaStartProcessSchulungOrganisieren(req, res) {
             },
             "date": {
                 "value": msg.date,
-                "type": "date"
+                "type": "Date"
             },
             "room": {
                 "value": msg.room,
