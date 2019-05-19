@@ -48,16 +48,10 @@ function startDialogToGetRoomNumber(msg,taskid, res) {
   } else {console.log("dialog interrupted");}   
 }
 
-function processRegistration(msg,taskid, res) {      
+function evaluatePushedButton(msg, taskid, res) {      
     var pushedButton = msg.actions[0].value;      //evaluate pushed Button and react
-    var user = msg.user.name;
-    try {                                
-        var listOfUsers = taskid[3].split(',');       //check if user already registered
-        console.log(taskid[3]); console.log(listOfUsers);
-        var userIndex = listOfUsers.indexOf(user); 
-        console.log(userIndex);
-    } catch(e) {console.log("Keine Anmeldungen vermerkt");}
-    if(userIndex >= 0) {                       //when user is registered
+    var user = msg.user.id;
+                           //when user is registered
         if(pushedButton == "two") {                                   //button pushed: "abmelden"
             listOfUsers.splice(userIndex);
             var teilnehmer = listOfUsers.join(",");

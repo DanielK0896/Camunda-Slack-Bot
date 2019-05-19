@@ -846,6 +846,33 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
+  /camunda/SendMessage/twoVariables:
+    x-swagger-router-controller: camundaSendMessage
+    post:
+      operationId: camundaSendMessage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              variable1:
+                type: string
+              variable2:
+                type: string
+              message:
+                type: string  
+              correlationKey:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
 
 definitions:
   Message:
