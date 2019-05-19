@@ -18,10 +18,6 @@ function camundaStartProcess(req, res) {
             [msg.variable1]: {
                 "value": msg.variable1,
                 "type": "String"
-            },
-            [msg.variable2]: {
-                "value": msg.variable2,
-                "type": "String"
             }
         },
         "businessKey": msg.businessKey
