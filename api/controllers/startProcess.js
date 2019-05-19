@@ -7,5 +7,5 @@ var date = "2019-05-29T16:00:00";
 var businessKey = name + date;
 var path = "/camunda/startProcess";
 
-var payload = JSON.stringify({ variable1: name, variable2: "Daniel", variable3: date, businessKey: businessKey });
+var payload = JSON.stringify({ name: name, trainer: trainer, date: date, room: room, businessKey: businessKey });
 mod.postToSwaggerAPI(payload, path);

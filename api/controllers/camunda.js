@@ -5,22 +5,30 @@ var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/
 
 
 module.exports = {
-    camundaStartProcess: camundaStartProcess
+    camundaStartProcessSchulungOrganisieren: camundaStartProcessSchulungOrganisieren
 };
 
 
-function camundaStartProcess(req, res) {
+function camundaStartProcessSchulungOrganisieren(req, res) {
 
     var msg = req.swagger.params.body.value;
     console.log(msg.variable2);
     var body = {
         "variables": {
-            [msg.variable1]: {
-                "value": msg.variable1,
+            "name": {
+                "value": msg.name,
                 "type": "String"
             },
-            [msg.variable2]: {
-                "value": msg.variable2,
+            "trainer": {
+                "value": msg.trainer,
+                "type": "String" 
+            },
+            "date": {
+                "value": msg.date,
+                "type": "date"
+            },
+            "room": {
+                "value": msg.room,
                 "type": "String"
             }
         },

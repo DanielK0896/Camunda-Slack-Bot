@@ -819,10 +819,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /camunda/startProcess:
+  /camunda/startProcess/schulungOrganisieren:
     x-swagger-router-controller: camunda
     post:
-      operationId: camundaStartProcess
+      operationId: camundaStartProcessSchulungOrganisieren
       consumes:
         - application/json
       produces:
@@ -833,13 +833,13 @@ paths:
           required: false
           schema:
             properties:
-              variable1:
+              name:
                 type: string
-              variable2:
+              trainer:
                 type: string
-              variable3:
+              date:
                 type: string 
-              variable4:
+              room:
                 type: string
       responses:
         '200':
