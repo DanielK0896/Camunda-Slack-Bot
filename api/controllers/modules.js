@@ -20,17 +20,36 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
         'Content-Type': 'application/json',
         'Transfer-Encoding': 'chunked'
     }
-    }, function (response) {
+    }, function (response) { });
+    request.write(msg);
+    request.on('response', function (response) {
+        if (response.statusCode === 200) {
             var body = '';
-            console.log("Code: " + response.statusCode);
             response.on('data', function (data) {
                 body += data;
+                console.log("lol");
             });
             response.on('end', function () {
                 console.log(body);
             });
+        } else {
+            console.log('An error occured');
+            console.log(response.statusCode);
+            console.log(response.headers);
+        }    
     });
-    request.write(msg);
+    request.on('error', function (err) {
+        if (err.statusCode === 400) {
+            var body = '';
+            err.on('data', function (data) {
+                body += data;
+            });
+            err.on('end', function () {
+                console.log(body);
+            });
+        };
+    });
+
     request.end();
 
 }
