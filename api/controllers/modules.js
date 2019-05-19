@@ -33,10 +33,10 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
             });
         } else {
             console.log('An error occured:');
-            request.on('error', function (err) {
-                console.error(err);
-            });
         }
+    });
+    request.on('error', function (err) {
+        console.error(err);
     });
     request.write(msg);
     request.end();
