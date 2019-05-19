@@ -820,7 +820,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /camunda/startProcess/schulungOrganisieren:
-    x-swagger-router-controller: camunda
+    x-swagger-router-controller: camundaStartProcess
     post:
       operationId: camundaStartProcessSchulungOrganisieren
       consumes:
