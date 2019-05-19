@@ -45,6 +45,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
             err.on('end', function () {
                 console.log(body);
             });
+        };
     });
     request.write(msg);
     request.end();
