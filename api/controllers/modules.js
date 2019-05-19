@@ -22,8 +22,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
     }
     }, function (response) { });
     request.on('response', function (response) {
-        if (response.statusCode === 200 && response.headers['content-type'] ===
-            'application/json') {
+        if (response.statusCode === 200) {
             var body = '';
             response.on('data', function (data) {
                 body += data;
@@ -38,8 +37,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
         }
     });
     request.on('error', function (err) {
-        if (err.statusCode === 400 && err.headers['content-type'] ===
-            'application/json') {
+        if (err.statusCode === 400) {
             var body = '';
             err.on('data', function (data) {
                 body += data;
