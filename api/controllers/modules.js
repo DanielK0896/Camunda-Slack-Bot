@@ -26,6 +26,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
             var body = '';
             response.on('data', function (data) {
                 body += data;
+                console.log("lol";)
             });
             response.on('end', function () {
                 console.log(body);
