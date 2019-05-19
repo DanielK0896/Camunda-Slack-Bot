@@ -15,19 +15,19 @@ function camundaStartProcess(req, res) {
     console.log(msg);
     var body = {
         "variables": {
-            [variable1]: {
+            [msg.variable1]: {
                 "value": msg.variable1,
                 "type": "String"
             },
-            [variable2]: {
+            [msg.variable2]: {
                 "value": msg.variable2,
                 "type": "String"
             },
-            [variable3]: {
+            [msg.variable3]: {
                 "value": msg.variable3,
                 "type": "String"
             },
-            [variable4]: {
+            [msg.variable4]: {
                 "value": msg.variable4,
                 "type": "date"
             }
