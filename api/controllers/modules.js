@@ -20,14 +20,9 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
             'Content-Type': 'application/json',
             'Transfer-Encoding': 'chunked'
         }
-    }, function (error, response, body) {
-        response.on('data', function (data) {
-            body += data;
-        });
-        response.on('end', function () {
-            console.log(body);
-        });
-    });
+    }, function () { }
+    );
+
     request.write(msg);
     request.end();
 }
