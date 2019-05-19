@@ -32,7 +32,10 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
                 console.log(body);
             });
         } else {
-            console.log('An error occured');
+            console.log('An error occured:');
+            request.on('error', function (err) {
+                console.error(err);
+            });
         }
     });
     request.write(msg);
@@ -96,7 +99,7 @@ function preparePostMessage(task) {
         }
         if (user_index >= 0) {
             msg["user"] = variables[user_index];
-            path = path + '/ephemeral';
+            path += '/ephemeral';
         }
         if (postAt_index >= 0) {
             msg["postAt"] = variables[postAt_index];
@@ -117,10 +120,10 @@ function preparePostMessage(task) {
                     msg["textButton1"] = variables[textButton1_index];
                 }
                 msg["textButton2"] = variables[textButton2_index];
-                path = path + '/twoButtons';
+                path += '/twoButtons';
                 if (textConfirmation1_index >= 0) {
                     msg["textConfirmation1"] = variables[textConfirmation1_index];
-                    path = path + '/Confirm';
+                    path += '/Confirm';
                 }
                 if (textConfirmation2_index >= 0) {
                     msg["textConfirmation2"] = variables[textConfirmation2_index];
@@ -128,10 +131,10 @@ function preparePostMessage(task) {
             } else {
                 if (textButton1_index >= 0) {
                    msg["textButton1"] = variables[textButton1_index];
-                    path = path + '/oneButton';
+                    path += '/oneButton';
                     if (textConfirmation1_index >= 0) {
                         msg["textConfirmation1"] = variables[textConfirmation1_index];
-                        path = path + '/Confirm';
+                        path += '/Confirm';
                     }
                 }
             }
