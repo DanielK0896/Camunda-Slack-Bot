@@ -16,42 +16,23 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
     port: 10010,
     method: 'POST',
     path: path,
-    headers: {
-        'Content-Type': 'application/json',
-        'Transfer-Encoding': 'chunked'
-    }
-    }, function (response) { });
+        headers: {
+            'Content-Type': 'application/json',
+            'Transfer-Encoding': 'chunked'
+        }
+    }, function (response) {
+            var body = '';
+        response.setEncoding('utf8') 
+        console.log("Code: " + response.statusCode);
+        response.on('data', function (data) {
+            body += data;
+        });
+        response.on('end', function () {
+            console.log(body);
+        });
+    });
     request.write(msg);
-    request.on('response', function (response) {
-        if (response.statusCode === 200) {
-            var body = '';
-            response.on('data', function (data) {
-                body += data;
-                console.log("lol");
-            });
-            response.on('end', function () {
-                console.log(body);
-            });
-        } else {
-            console.log('An error occured');
-            console.log(response.statusCode);
-            console.log(response.headers);
-        }    
-    });
-    request.on('error', function (err) {
-        if (err.statusCode === 400) {
-            var body = '';
-            err.on('data', function (data) {
-                body += data;
-            });
-            err.on('end', function () {
-                console.log(body);
-            });
-        };
-    });
-
     request.end();
-
 }
 
 function createPDF(template, fileName, variables) {
