@@ -31,7 +31,7 @@ function getRoomNumber(msg, taskid, res) {
         var payload = JSON.stringify({triggerId: msg.trigger_id, callbackId: callbackId, 
         title: "Veranstaltungsort", label1: "Raum", name1: "raum", placeholder1: "z. B. EB222"});
         var path = '/startDialog/oneTextElement'; 
-        mod.postJsonToLocalhost(payload, 10010, path);
+        mod.postToSwaggerAPI(msg, path);
     } else {console.log("ERROR (room)");} 
 }
 
@@ -44,7 +44,7 @@ function startDialogToGetRoomNumber(msg,taskid, res) {
         var text = "Raum " + room + " wurde erfolgreich hinterlegt."  
         payload = JSON.stringify({"channel": msg.channel.id, "text": text, "ts": taskid[3]});
         path = '/updateMsg'; 
-        mod.postJsonToLocalhost(payload, 10010, path);  //update message with response Text
+        mod.postToSwaggerAPI(msg, path);  //update message with response Text
   } else {console.log("dialog interrupted");}   
 }
 
@@ -98,7 +98,7 @@ function confirmExecution(msg, taskid, res) {
     title: "Anpassung der Teilnehmer", label1: "Zusätzlich anwesend", name1: "add", placeholder1: "Name1,Name2,...", 
     label2: "Nicht anwesend trotz anmeldung", name2: "delete", placeholder2: "Name1,Name2,..."});
     var path = '/startDialog/twoTextElements'; 
-    mod.postJsonToLocalhost(payload, 10010, path);
+    mod.postToSwaggerAPI(msg, path);
 }
 
 function startDialogToUpdateSubscriber(msg,taskid, res) {
@@ -110,10 +110,10 @@ function startDialogToUpdateSubscriber(msg,taskid, res) {
         var text = "Raum " + room + " wurde erfolgreich hinterlegt."
         var payload = JSON.stringify({"channel": msg.channel.id, "ts": taskid[3]});
         var path = '/deleteMsg'; 
-        mod.postJsonToLocalhost(payload, 10010, path);               //update message with response Text
+        mod.postToSwaggerAPI(msg, path);            //update message with response Text
         payload = JSON.stringify({"channel": msg.channel.id, "text": text});
         path = '/sendMsg'; 
-        mod.postJsonToLocalhost(payload, 10010, path); 
+        mod.postToSwaggerAPI(msg, path);
     } else {console.log("dialog interrupted");}   
 }
 
@@ -130,7 +130,7 @@ client.subscribe("room", async function({ task, taskService }) {
     textButton1: "Ja", textConfirmation1: "Wirklich gebucht?",
     textButton2: "Nein", textConfirmation2: "Nicht gebucht?"});
     var path = '/sendMsg/twoButtons/Confirm';
-    mod.postJsonToLocalhost(msg, 10010, path);
+    mod.postToSwaggerAPI(msg, 10010, path);
 });
 
 client.subscribe("invite", async function ({ task, taskService }) {
@@ -144,7 +144,7 @@ client.subscribe("update", async function({ task, taskService }) {
     var channel = "CH513FYHY";
     var msg = JSON.stringify({channel: channel, text: text});
     var path = '/sendMsg';
-    mod.postJsonToLocalhost(msg, 10010, path);
+    mod.postToSwaggerAPI(msg, path);
     await client.taskService.complete(task);
 });
 
@@ -155,7 +155,7 @@ client.subscribe("reminder", async function({ task, taskService }) {
     var text = `Reminder: Die Schulung ${variables[0]} findet am  ${variables[4]} um ${variables[5]} Uhr statt und wird von ${variables[1]} gehalten. Der Raum lautet ${variables[2]}.`;
     var msg = JSON.stringify({channel: channel, text: text});
     var path = '/sendMsg';
-    mod.postJsonToLocalhost(msg, 10010, path);
+    mod.postToSwaggerAPI(msg, path);
     await client.taskService.complete(task);
 });
 
@@ -168,7 +168,7 @@ client.subscribe("done", async function({ task, taskService }) {
     var msg = JSON.stringify({channel: channel, text: text, callbackId: callbackId, 
     ts: ts,textButton1: "Ja", textConfirmation1: "Bitte bestätigen"});
     var path = '/sendMsg/oneButtonConfirm';
-    mod.postJsonToLocalhost(msg, 10010, path);
+    mod.postToSwaggerAPI(msg, path);
 });
 
 client.subscribe("list", async function ({ task, taskService }) {
@@ -218,5 +218,5 @@ var dd = {
         channel: channel, fileName: fileName
     });
     var path = '/sendFile';
-    mod.postJsonToLocalhost(msg, 10010, path);
+    mod.postToSwaggerAPI(msg, path);
 });

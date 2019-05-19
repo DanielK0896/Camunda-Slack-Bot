@@ -3,17 +3,17 @@ var maxChannels = 100;
 
 
 module.exports = {
-    postJsonToLocalhost: postJsonToLocalhost,
+    postToSwaggerAPI: postToSwaggerAPI,
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
     getVariables: getVariables
 };
 
-function postJsonToLocalhost(msg, port, path){             //function to call Swagger API
+function postToSwaggerAPI(msg, path){             //function to call Swagger API
     var http = require('http');
     var request = http.request({
     host:'localhost',
-    port: port,
+    port: 10010,
     method: 'POST',
     path: path,
     headers: {
@@ -131,7 +131,7 @@ function preparePostMessage(task) {
         msg["channel"] = listOfChannels[i];
         console.log(msg);
         var payload = JSON.stringify(msg);
-        postJsonToLocalhost(payload, 10010, path);
+        postToSwaggerAPI(payload, 10010, path);
     }
     
 }

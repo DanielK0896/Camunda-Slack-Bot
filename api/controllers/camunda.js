@@ -13,24 +13,22 @@ function camundaStartProcess(req, res) {
 
     var msg = req.swagger.params.body.value;
     console.log(msg);
-    msg2 = Object.values(msg);
-    console.log(msg2);
     var body = {
         "variables": {
-            variable1: {
-                "value": msg2[0],
+            [variable1]: {
+                "value": msg.variable1,
                 "type": "String"
             },
-            variable2: {
-                "value": msg2[1],
+            [variable2]: {
+                "value": msg.variable2,
                 "type": "String"
             },
-            variable3: {
-                "value": msg2[2],
+            [variable3]: {
+                "value": msg.variable3,
                 "type": "String"
             },
-            variable4: {
-                "value": msg2[3],
+            [variable4]: {
+                "value": msg.variable4,
                 "type": "date"
             }
         },
