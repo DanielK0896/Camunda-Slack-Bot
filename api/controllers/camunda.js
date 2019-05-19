@@ -12,6 +12,7 @@ module.exports = {
 function camundaStartProcess(req, res) {
 
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var body = {
         "variables": {
             variable1: {
