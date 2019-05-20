@@ -1,7 +1,5 @@
 var maxChannels = 100;
 
-
-
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
     preparePostMessage: preparePostMessage,
@@ -131,8 +129,6 @@ function preparePostMessage(task) {
         postToSwaggerAPI(payload, path);
     }   
 }
-
-
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
     var arrayOfVariables = [];

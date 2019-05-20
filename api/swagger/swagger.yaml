@@ -873,6 +873,51 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
+  /camunda/instance/getId:
+    x-swagger-router-controller: camundaInstance
+    get:
+      operationId: camundaInstanceGetId
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              correlationKey:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /camunda/instance/deleteVariable:
+    x-swagger-router-controller: camundaInstance
+    get:
+      operationId: camundaInstanceDeleteVariable
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              instanceId:
+                type: string
+              variable:
+                type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+
 
 definitions:
   Message:

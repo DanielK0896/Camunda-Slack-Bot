@@ -1,17 +1,13 @@
-var util = require('util');
 var request = require('request');
 var URL = "https://slack.com/api/dialog.open";
 var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
-
-
 
 module.exports = {
     startDialogOneTextElement: startDialogOneTextElement,
     startDialogTwoTextElements: startDialogTwoTextElements,
     startDialogSelectMenus: startDialogSelectMenus
 };
-
 
 function startDialogOneTextElement(req, res) {
 

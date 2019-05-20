@@ -1,6 +1,3 @@
-var util = require('util');
-var request = require('request');
-
 module.exports = {
     slackReceive: slackReceive
 };

@@ -1,10 +1,7 @@
-var util = require('util');
 var request = require('request');
 var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
-
-
 
 module.exports = {
     sendMsg: sendMsg,
@@ -13,7 +10,6 @@ module.exports = {
     sendMsgTwoButtons: sendMsgTwoButtons,
     sendMsgTwoButtonsConfirm: sendMsgTwoButtonsConfirm
 };
-
 
 function sendMsg(req, res) {
   

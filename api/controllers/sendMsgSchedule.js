@@ -1,10 +1,7 @@
-var util = require('util');
 var request = require('request');
 var URL = "https://slack.com/api/chat.scheduleMessage";
 var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
-
-
 
 module.exports = {
     sendMsgSchedule: sendMsgSchedule,
@@ -13,7 +10,6 @@ module.exports = {
     sendMsgScheduleTwoButtons: sendMsgScheduleTwoButtons,
     sendMsgScheduleTwoButtonsConfirm: sendMsgScheduleTwoButtonsConfirm
 };
-
 
 function sendMsgSchedule(req, res) {
     var msg = req.swagger.params.body.value;

@@ -3,8 +3,9 @@
     "",
     "\\api",
     "\\api\\controllers",
-    "\\api\\swagger"
+    "\\api\\swagger",
+    "\\config"
   ],
-  "SelectedNode": "\\api\\controllers\\startProcess.js",
+  "SelectedNode": "\\api\\controllers\\camundaGetInstanceId.js",
   "PreviewInSolutionExplorer": false
 }

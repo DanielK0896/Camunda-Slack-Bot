@@ -1,17 +1,11 @@
-var util = require('util');
 var request = require('request');
-var FormData = require('form-data');
 var fs = require('fs');
 var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'content-type': 'multipart/form-data'};
 
-
-
 module.exports = {
     sendFile: sendFile
 };
-
-
  
 function sendFile(req, res) {
 

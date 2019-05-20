@@ -1,10 +1,7 @@
-var util = require('util');
 var request = require('request');
 var URL = "https://slack.com/api/chat.postEphemeral";
 var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
-
-
 
 module.exports = {
     sendMsgEphemeral: sendMsgEphemeral,
@@ -13,7 +10,6 @@ module.exports = {
     sendMsgEphemeralTwoButtons: sendMsgEphemeralTwoButtons,
     sendMsgEphemeralTwoButtonsConfirm: sendMsgEphemeralTwoButtonsConfirm
 };
-
 
 function sendMsgEphemeral(req, res) {
   

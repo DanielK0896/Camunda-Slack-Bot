@@ -1,14 +1,10 @@
-var util = require('util');
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
 var headers = { 'Content-Type': 'application/json' };
 
-
-
 module.exports = {
     camundaStartProcessSchulungOrganisieren: camundaStartProcessSchulungOrganisieren
 };
-
 
 function camundaStartProcessSchulungOrganisieren(req, res) {
 
