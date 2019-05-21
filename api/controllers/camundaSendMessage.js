@@ -31,7 +31,7 @@ function camundaSendMessageOneVariables(req, res) {
     res.status(200).type('application/json').end();
 }
 
-function camundaSendMessageOneVariables(req, res) {
+function camundaSendMessageTwoVariables(req, res) {
 
     var msg = req.swagger.params.body.value;
     var correlationKeys = msg.correlationKey.split(',');
