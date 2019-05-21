@@ -18,8 +18,8 @@ function camundaSendMessageOneVariable(req, res) {
     var body = {
         "messageName": msg.message,
         "correlationKeys": {
-            [correlationKeys[0]]: { "value": correlationKeys[2], "type": correlationKeys[4] },
-            [correlationKeys[1]]: { "value": correlationKeys[3], "type": correlationKeys[5] }
+            [correlationKeys[0]]: { "value": correlationKeys[2], "type": "String" },
+            [correlationKeys[1]]: { "value": correlationKeys[3], "type": "String" }
         },
         "processVariables": {
             [nameVariable1]: { "value": msg.variable1, "type": "String"  }
