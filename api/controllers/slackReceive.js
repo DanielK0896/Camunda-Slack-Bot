@@ -1,3 +1,5 @@
+var mod = require('./modules');
+
 module.exports = {
     slackReceive: slackReceive
 };
@@ -6,7 +8,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
     var taskid = msg.callback_id.split(' ');
-    var callFunction = require('./schulungOrganisieren');
+
 
     if (taskid[0] == "message") {                        //call function depending on callback_id
         var arrayOfVariables = [];
@@ -27,8 +29,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         arrayOfVariables["correlationKey"] = taskid[1];
         arrayOfVariables["message"] = taskid[2];
         var payload = JSON.stringifiy(arrayOfVariables);
-        postToSwaggerAPI(payload, path);
-    }
-
-    else if (topic == "startDialogToGetRoomNumber") { callFunction.startDialogToGetRoomNumber(msg, taskid, res); }    
+        mod.postToSwaggerAPI(payload, path);
+    } 
 }
