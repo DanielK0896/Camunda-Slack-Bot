@@ -7,12 +7,12 @@ var headers = { 'Content-Type': 'application/json' };
 
 
 module.exports = {
-    camundaSendMessageOneVariable: camundaSendMessageOneVariable,
-    camundaSendMessageTwoVariable: camundaSendMessageTwoVariable
+    camundaSendMessageOneVariables: camundaSendMessageOneVariables,
+    camundaSendMessageTwoVariables: camundaSendMessageTwoVariables
 };
 
 
-function camundaSendMessageOneVariable(req, res) {
+function camundaSendMessageOneVariables(req, res) {
 
     var msg = req.swagger.params.body.value;
     var correlationKeys = msg.correlationKey.split(',');
@@ -31,7 +31,7 @@ function camundaSendMessageOneVariable(req, res) {
     res.status(200).type('application/json').end();
 }
 
-function camundaSendMessageOneVariable(req, res) {
+function camundaSendMessageOneVariables(req, res) {
 
     var msg = req.swagger.params.body.value;
     var correlationKeys = msg.correlationKey.split(',');
