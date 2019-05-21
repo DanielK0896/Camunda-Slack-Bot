@@ -5,7 +5,7 @@ module.exports = {
 };
 
 function slackReceive(req, res) {                  //receive Slack POSTs after invoked action                                
-
+    var pushedButton = msg.actions[0].value;
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
     var taskid = msg.callback_id.split(' ');
     console.log(taskid);
@@ -20,9 +20,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             arrayOfVariables[numberNameVariable] = variableInformation[i];
             var variablesToPost = variableInformation[i].split('.');
             if (variablesToPost.length == 2) {
-                arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]];
+                arrayOfVariables[numberVariable] = pushedButton + "," + msg[variablesToPost[0]][variablesToPost[1]];
             } else {
-                arrayOfVariables[numberVariable] = msg[variablesToPost[0]];
+                arrayOfVariables[numberVariable] = pushedButton + "," + msg[variablesToPost[0]];
             }
             
         }
