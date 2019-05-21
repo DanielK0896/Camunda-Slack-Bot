@@ -849,7 +849,7 @@ paths:
   /camunda/SendMessage/twoVariables:
     x-swagger-router-controller: camundaSendMessage
     post:
-      operationId: camundaSendMessage
+      operationId: camundaSendMessageOneVariable
       consumes:
         - application/json
       produces:
@@ -863,10 +863,6 @@ paths:
               nameVariable1:
                 type: string
               variable1:
-                type: string
-              nameVariable2:
-                type: string
-              variable2:
                 type: string
               message:
                 type: string  

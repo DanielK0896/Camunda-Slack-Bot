@@ -7,23 +7,22 @@ var headers = { 'Content-Type': 'application/json' };
 
 
 module.exports = {
-    camundaSendMessage: camundaSendMessage
+    camundaSendMessageOneVariable: camundaSendMessageOneVariable
 };
 
 
-function camundaSendMessage(req, res) {
+function camundaSendMessageOneVariable(req, res) {
 
     var msg = req.swagger.params.body.value;
     var correlationKeys = msg.correlationKey.split(',');
     var body = {
         "messageName": msg.message,
         "correlationKeys": {
-            [correlationKeys[0]]: { "value": correlationKeys[2], "type": "String" },
-            [correlationKeys[1]]: { "value": correlationKeys[3], "type": "String" }
+            [correlationKeys[0]]: { "value": correlationKeys[2], "type": correlationKeys[4] },
+            [correlationKeys[1]]: { "value": correlationKeys[3], "type": correlationKeys[5] }
         },
         "processVariables": {
-            [nameVariable1]: { "value": msg.variable1, "type": "String"  },
-            [nameVariable2]: { "value": msg.variable2, "type": "String" }
+            [nameVariable1]: { "value": msg.variable1, "type": "String"  }
         }
     };
     request.post({ headers: headers, url: URL, body: body, json: true });
