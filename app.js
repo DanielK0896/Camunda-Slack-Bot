@@ -1,5 +1,11 @@
 'use strict';
 
+const { Client, logger } = require("camunda-external-task-client-js");
+const config = { baseUrl: "http://localhost:8080/engine-rest", use: logger };
+const client = new Client(config);
+const { Variables } = require("camunda-external-task-client-js");
+const mod = require('./api/controllers/modules');
+
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
 module.exports = app; // for testing
@@ -20,4 +26,9 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   if (swaggerExpress.runner.swagger.paths['/hello']) {
     console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
   }
+});
+
+client.subscribe("invite", async function ({ task, taskService }) {
+    mod.preparePostMessage(task);
+    await client.taskService.complete(task);
 });

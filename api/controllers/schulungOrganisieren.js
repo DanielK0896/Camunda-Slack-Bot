@@ -7,8 +7,6 @@ const config = { baseUrl: "http://localhost:8080/engine-rest", use: logger };
 const client = new Client(config);
 const { Variables } = require("camunda-external-task-client-js");
 const mod = require('./modules');
-const process = "schulungOrganisieren"
-const arrayOfVariables = ['process', 'name', 'trainer', 'room', 'slack_channel', 'date'];
 
 
 module.exports = {
