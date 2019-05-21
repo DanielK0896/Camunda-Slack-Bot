@@ -22,9 +22,10 @@ function camundaSendMessageOneVariable(req, res) {
             [correlationKeys[1]]: { "value": correlationKeys[3], "type": "String" }
         },
         "processVariables": {
-            [nameVariable1]: { "value": msg.variable1, "type": "String"  }
+            [msg.nameVariable1]: { "value": msg.variable1, "type": "String"  }
         }
     };
+    console.log(body);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
