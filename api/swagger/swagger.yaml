@@ -846,7 +846,7 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-/camunda/sendMessage/oneVariables:
+  /camunda/sendMessage/oneVariables:
     x-swagger-router-controller: camundaSendMessage
     post:
       operationId: camundaSendMessageOneVariable
