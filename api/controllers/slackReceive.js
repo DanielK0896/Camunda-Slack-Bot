@@ -11,7 +11,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     console.log(taskid);
 
     if (taskid[0] == "message") {                        //call function depending on callback_id
-        var arrayOfVariables = [];
+        var arrayOfVariables = {};
         var variableInformation = taskid[3].split(',');
         var path = "/camunda/SendMessage/" + variableInformation[0] + "Variables"
         for (var i = 1; i < variableInformation.length; i++) {
