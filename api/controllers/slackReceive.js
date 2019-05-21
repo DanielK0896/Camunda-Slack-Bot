@@ -8,7 +8,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
     var taskid = msg.callback_id.split(' ');
-
+    console.log(taskid);
 
     if (taskid[0] == "message") {                        //call function depending on callback_id
         var arrayOfVariables = [];
@@ -31,5 +31,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         console.log(arrayOfVariables);
         var payload = JSON.stringifiy(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
+        res.json({
+            "response_type": "ephemeral", "replace_original": false,
+            "text": "Deine Nachricht ist angekommen!"
+        });
     } 
 }
