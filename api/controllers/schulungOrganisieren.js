@@ -62,8 +62,7 @@ function evaluatePushedButton(msg, taskid, res) {
         } else if(pushedButton == "one") {                           //button pushed: "anmelden"
             res.json({"response_type": "ephemeral", "replace_original": false,
             "text": "Du bist bereits angemeldet."});
-        } else {console.log("Error (invite_defined)");}    
-    } else {                                                        //when user is not registered
+        } else {console.log("Error (invite_defined)");}                                                        //when user is not registered
         if(pushedButton == "two") {                           //button pushed: "abmelden"
             res.json({"response_type": "ephemeral", "replace_original": false,
             "text": "Du bist bereits abgemeldet."}); 
@@ -82,7 +81,6 @@ function evaluatePushedButton(msg, taskid, res) {
             res.json({"response_type": "ephemeral", "replace_original": false,
             "text": "Danke für deine Anmeldung!"});
         } else {console.log("Error (invite_undefined)");}    
-    } 
 }
 
 function confirmExecution(msg, taskid, res) {                      
