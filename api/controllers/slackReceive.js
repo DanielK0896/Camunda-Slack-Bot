@@ -26,6 +26,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             
         }
+        console.log("path: " + path);
         arrayOfVariables["correlationKey"] = taskid[1];
         arrayOfVariables["message"] = taskid[2];
         console.log(arrayOfVariables);
