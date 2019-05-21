@@ -6,6 +6,6 @@
     "\\api\\swagger",
     "\\config"
   ],
-  "SelectedNode": "\\api\\controllers\\camundaGetInstanceId.js",
+  "SelectedNode": "\\api\\controllers\\camundaInstance.js",
   "PreviewInSolutionExplorer": false
 }

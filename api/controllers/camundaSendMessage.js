@@ -22,8 +22,8 @@ function camundaSendMessage(req, res) {
             [correlationKeys[1]]: { "value": correlationKeys[3], "type": "String" }
         },
         "processVariables": {
-            "aVariable": { "value": "aNewValue", "type": msg.userId },
-            "anotherVariable": { "value": true, "type": "String" }
+            [nameVariable1]: { "value": msg.variable1, "type": "String"  },
+            [nameVariable2]: { "value": msg.variable2, "type": "String" }
         }
     };
     request.post({ headers: headers, url: URL, body: body, json: true });
