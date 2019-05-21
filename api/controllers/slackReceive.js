@@ -28,6 +28,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         }
         arrayOfVariables["correlationKey"] = taskid[1];
         arrayOfVariables["message"] = taskid[2];
+        console.log(arrayOfVariables);
         var payload = JSON.stringifiy(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
     } 
