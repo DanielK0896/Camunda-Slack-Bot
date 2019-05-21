@@ -14,7 +14,6 @@ const arrayOfVariables = ['process', 'name', 'trainer', 'room', 'slack_channel',
 module.exports = {
     getRoomNumber: getRoomNumber,
     startDialogToGetRoomNumber: startDialogToGetRoomNumber,
-    processRegistration: processRegistration,
     confirmExecution: confirmExecution,
     startDialogToUpdateSubscriber: startDialogToUpdateSubscriber
 };
