@@ -27,7 +27,6 @@ function camundaSendMessageOneVariables(req, res) {
             [msg.nameVariable1]: { "value": msg.variable1, "type": "String"  }
         }
     };
-    console.log(body);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
@@ -47,7 +46,6 @@ function camundaSendMessageTwoVariables(req, res) {
             [msg.nameVariable2]: { "value": msg.variable2, "type": "String" }
         }
     };
-    console.log(body);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }

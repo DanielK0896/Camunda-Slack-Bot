@@ -2,48 +2,6 @@ var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
 var fs = require('fs');
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-const { Client, logger } = require("camunda-external-task-client-js");
-const config = { baseUrl: "http://localhost:8080/engine-rest", use: logger };
-const client = new Client(config);
-const { Variables } = require("camunda-external-task-client-js");
-const mod = require('./modules');
-
-
-module.exports = {
-    getRoomNumber: getRoomNumber,
-    startDialogToGetRoomNumber: startDialogToGetRoomNumber,
-    confirmExecution: confirmExecution,
-    startDialogToUpdateSubscriber: startDialogToUpdateSubscriber
-};
-
-function getRoomNumber(msg, taskid, res) {                      
-    var pushedButton = msg.actions[0].value;      //evaluate pushed Button and react
-    if(pushedButton == "two") {                    //Button not pushed so respond and complete task
-        res.json({"response_type": "ephemeral", "replace_original": true,           
-        "text": "Danke für dein Feedback! Ich erinnere dich morgen noch einmal."});  
-        client.taskService.complete(taskid[2]);                                      
-    } else if(pushedButton == "one") {                   //Button pushed so start dialog
-        res.status(200).type('application/json').end();
-        var callbackId = taskid[0] + " startDialogToGetRoomNumber " + taskid[2] + " " + msg.original_message.ts;
-        var payload = JSON.stringify({triggerId: msg.trigger_id, callbackId: callbackId, 
-        title: "Veranstaltungsort", label1: "Raum", name1: "raum", placeholder1: "z. B. EB222"});
-        var path = '/startDialog/oneTextElement'; 
-        mod.postToSwaggerAPI(msg, path);
-    } else {console.log("ERROR (room)");} 
-}
-
-function startDialogToGetRoomNumber(msg,taskid, res) {
-    if(msg.type == "dialog_submission") {      //if dialog not interrupted: get input value, set variable and complete task
-        var room = msg.submission.raum;
-        res.status(200).type('application/json').end();
-        const pvariables = new Variables().set("room", room);
-        client.taskService.complete(taskid[2], pvariables);   
-        var text = "Raum " + room + " wurde erfolgreich hinterlegt."  
-        payload = JSON.stringify({"channel": msg.channel.id, "text": text, "ts": taskid[3]});
-        path = '/updateMsg'; 
-        mod.postToSwaggerAPI(msg, path);  //update message with response Text
-  } else {console.log("dialog interrupted");}   
-}
 
 function evaluatePushedButton(msg, taskid, res) {      
     var pushedButton = msg.actions[0].value;      //evaluate pushed Button and react
@@ -110,17 +68,7 @@ function startDialogToUpdateSubscriber(msg,taskid, res) {
 
 
 
-client.subscribe("room", async function({ task, taskService }) {
-    var name = task.variables.get("name");
-    var channel = "CH513FYHY";
-    var text = `Wurde der Raum für die Schulung ${name} bereits gebucht?`;
-    var callbackId = `${process} getRoomNumber ${task.id}`;
-    var msg = JSON.stringify({channel: channel, text: text, callbackId: callbackId,
-    textButton1: "Ja", textConfirmation1: "Wirklich gebucht?",
-    textButton2: "Nein", textConfirmation2: "Nicht gebucht?"});
-    var path = '/sendMsg/twoButtons/Confirm';
-    mod.postToSwaggerAPI(msg, 10010, path);
-});
+
 
 client.subscribe("invite", async function ({ task, taskService }) {
     mod.preparePostMessage(task);

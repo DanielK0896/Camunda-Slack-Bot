@@ -29,6 +29,11 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 });
 
 client.subscribe("invite", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
+    mod.preparePostMessage(task, "variablesToGet");
+    await client.taskService.complete(task);
+});
+
+client.subscribe("room", async function ({ task, taskService }) {
+    mod.preparePostMessage(task, "variablesToGet");
     await client.taskService.complete(task);
 });

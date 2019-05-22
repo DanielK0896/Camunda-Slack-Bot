@@ -42,13 +42,10 @@ function createPDF(template, fileName, variables) {
     pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
     pdfDoc.end();
 }
-function preparePostMessage(task) {
+function preparePostMessage(task, str) {
 
-    var variablesToGet = task.variables.get("variablesToGet").split(',');
-    console.log(variablesToGet);
+    var variablesToGet = task.variables.get(str).split(',');
     var variables = getVariables(task, variablesToGet);
-    console.log("variablesToGet: " + variablesToGet);
-    console.log("variables: " + variables);
 
     var channel_index = variablesToGet.indexOf("slack_channel");
     var text_index = variablesToGet.indexOf("text");
