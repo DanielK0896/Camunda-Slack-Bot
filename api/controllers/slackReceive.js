@@ -11,11 +11,13 @@ module.exports = {
 function slackReceive(req, res) {                  //receive Slack POSTs after invoked action                                
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
-    var pushedButton = msg.actions[0].value;
+    try {
+        var pushedButton = msg.actions[0].value;
+    } catch (e) { }
     var taskid = msg.callback_id.split(' ');
     var arrayOfVariables = {};
     //call function depending on callback_id
-    if (taskid[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
+    if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         var variableInformation = taskid[3].split(','); // callbackId[3] = "NumberOfVariables,variable1,variable2,..." e.g. "three,user,user.name"
         var i;
         for (i = 1; i <= variableInformation.length; i++) {
@@ -43,7 +45,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         //callbackId[1] = open Dialog when pushed Button = xy e.g. "one"
         var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "textelement"
         arrayOfVariables["triggerId"] = msg.trigger_id;
-        arrayOfVariables["callbackId"] = taskid[3];                     //callbackId[3] = new Callback ID
+        arrayOfVariables["callbackId"] = taskid[3].split(',').join(' ');                     //callbackId[3] = new Callback ID
         arrayOfVariables["title"] = variablesForDialog[1];              //then necessary variables
         var path;
         var i;
