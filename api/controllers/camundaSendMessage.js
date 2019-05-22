@@ -28,6 +28,7 @@ function camundaSendMessageOneVariables(req, res) {
         }
     };
     request.post({ headers: headers, url: URL, body: body, json: true });
+    console.log(body);
     res.status(200).type('application/json').end();
 }
 
