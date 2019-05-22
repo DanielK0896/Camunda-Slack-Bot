@@ -46,7 +46,16 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         //callbackId[1] = open Dialog when pushed Button = xy e.g. "one"
         var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "textelement"
         arrayOfVariables["triggerId"] = msg.trigger_id;
-        arrayOfVariables["callbackId"] = taskid[3].split(',').join(' ');                     //callbackId[3] = new Callback ID
+        var callbackId = taskid[3].split(',');
+        if (callbackId[0] == "message") {
+            callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
+            callbackId[2] = callbackId[5];
+            callbackId[3] = callbackId[6];
+            console.log(callbackId)
+        }
+        
+        arrayOfVariables["callbackId"] = callbackId.splice(4, 3).join(' ');                     //callbackId[3] = new Callback ID
+        console.log(arrayOfVariables["callbackId"]);
         arrayOfVariables["title"] = variablesForDialog[1];              //then necessary variables
         var path;
         var i;
