@@ -31,6 +31,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             } else {
                 arrayOfVariables[numberVariable] = msg[variablesToPost[0]];
             }
+            if (typeof arrayOfVariables[numberVariable] === "number") {
+                arrayOfVariables[numberVariable] = arrayOfVariables[numberVariable].toString();
+            }
             if (typeof pushedButton != "undefined") {
                 arrayOfVariables[numberVariable] = pushedButton + "," + arrayOfVariables[numberVariable];
             }
