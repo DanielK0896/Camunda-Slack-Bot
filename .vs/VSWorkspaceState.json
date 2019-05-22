@@ -6,6 +6,6 @@
     "\\api\\swagger",
     "\\config"
   ],
-  "SelectedNode": "\\api\\controllers\\sendOverflow.js",
+  "SelectedNode": "\\api\\controllers\\slackReceive.js",
   "PreviewInSolutionExplorer": false
 }

@@ -88,13 +88,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         var payload = JSON.stringify(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
         res.json(basicResponse);
-    } else if (msg.type == "dialog_submission") {
-        var value = msg.submission[taskid[0]];
-        arrayOfVariables[taskid[0]] = value;
-        mod.postToSwaggerAPI(msg, path);
-        mod.preparePostMessage(task, "variablesToGet2");
-        res.status(200).type('application/json').end();
-    } else {
+    }  else {
         console.log("ERROR SlackReceive.js");
     }
+
+    //if (msg.type == "dialog_submission") {
+    //    mod.preparePostMessage(task, "variablesToGet2");
+     //   res.status(200).type('application/json').end();
+    //}
 }
