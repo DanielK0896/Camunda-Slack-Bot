@@ -21,6 +21,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         var variableInformation = taskid[3].split(','); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
         var i;
+        console.log(msg.submission.raum);
         for (i = 1; i <= variableInformation.length; i++) {
             var numberNameVariable = "nameVariable" + i;
             var numberVariable = "variable" + i;
@@ -56,7 +57,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         }
         
         arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
-        console.log(arrayOfVariables["callbackId"]);
         arrayOfVariables["title"] = variablesForDialog[1];              //then necessary variables
         var path;
         var i;
@@ -100,7 +100,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         }
         var payload = JSON.stringify(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
-        res.json(basicResponse);
+        res.status(200).type('application/json').end();
     }  else {
         console.log("ERROR SlackReceive.js");
     }
