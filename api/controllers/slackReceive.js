@@ -25,11 +25,14 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var numberNameVariable = "nameVariable" + i;
             var numberVariable = "variable" + i;
             arrayOfVariables[numberNameVariable] = variableInformation[i-1];
-            var variablesToPost = variableInformation[i-1].split('.');
+            var variablesToPost = variableInformation[i - 1].split('.');
             if (variablesToPost.length == 2) {
-                arrayOfVariables[numberVariable] = pushedButton + "," + msg[variablesToPost[0]][variablesToPost[1]];
+                arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]];
             } else {
-                arrayOfVariables[numberVariable] = pushedButton + "," + msg[variablesToPost[0]];
+                arrayOfVariables[numberVariable] = msg[variablesToPost[0]];
+            }
+            if (pushedButton.typeof != "undefined";) {
+                arrayOfVariables[numberVariable] = pushedButton + "," + arrayOfVariables[numberVariable];
             }
 
         }
