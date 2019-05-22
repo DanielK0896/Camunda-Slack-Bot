@@ -11,6 +11,7 @@ module.exports = {
 function slackReceive(req, res) {                  //receive Slack POSTs after invoked action                                
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
+    console.log(msg);
     try {
         var pushedButton = msg.actions[0].value;
     } catch (e) { }
