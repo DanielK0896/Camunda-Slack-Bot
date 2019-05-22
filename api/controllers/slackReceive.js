@@ -21,7 +21,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         var variableInformation = taskid[3].split(','); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
         var i;
-        console.log(msg.submission.raum);
         for (i = 1; i <= variableInformation.length; i++) {
             var numberNameVariable = "nameVariable" + i;
             var numberVariable = "variable" + i;
@@ -37,6 +36,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         var path = "/camunda/SendMessage/" + numbers[i - 1] + "Variables"
         arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
         arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
+        console.log(arrayOfVariables);
+        console.log(path);
         var payload = JSON.stringify(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
         res.json(basicResponse);
