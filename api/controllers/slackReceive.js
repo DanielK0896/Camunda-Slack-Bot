@@ -51,10 +51,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
             callbackId[2] = callbackId[5];
             callbackId[3] = callbackId[6];
-            console.log(callbackId)
+            console.log(callbackId);
+            callbackId.splice(4, 3);
         }
         
-        arrayOfVariables["callbackId"] = callbackId.splice(4, 3).join(' ');                     //callbackId[3] = new Callback ID
+        arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
         console.log(arrayOfVariables["callbackId"]);
         arrayOfVariables["title"] = variablesForDialog[1];              //then necessary variables
         var path;
