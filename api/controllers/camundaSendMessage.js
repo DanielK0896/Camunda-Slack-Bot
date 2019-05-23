@@ -27,7 +27,7 @@ function camundaSendMessageOneVariables(req, res) {
             [msg.nameVariable1]: { "value": msg.variable1, "type": "String"  }
         }
     };
-    request.post({ headers: headers, url: URL, body: body});
+    request.post({ headers: headers, url: URL, body: body, json: true });
     console.log(body);
     res.status(200).type('application/json').end();
 }
