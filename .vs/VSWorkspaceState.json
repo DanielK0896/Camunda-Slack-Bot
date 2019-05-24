@@ -6,6 +6,6 @@
     "\\api\\swagger",
     "\\config"
   ],
-  "SelectedNode": "\\api\\controllers\\slackReceive.js",
+  "SelectedNode": "\\api\\controllers\\camundaSendMessage.js",
   "PreviewInSolutionExplorer": false
 }
