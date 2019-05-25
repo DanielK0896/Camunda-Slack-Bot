@@ -55,10 +55,9 @@ function sendOverflowStatic(req, res) {
                     "emoji": true
                 },
                 "value": "value-0"
-            };
+            });
         }
     }
-}
 
 body.blocks.push({
     "type": "actions",
