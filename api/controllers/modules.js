@@ -60,7 +60,7 @@ function preparePostMessage(task) {
     var style_index = variablesToGet.indexOf("style");
     var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
     var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
-    
+    console.log(variables);
     var msg = {};
     var path;
 
@@ -124,6 +124,7 @@ function preparePostMessage(task) {
             msg["buttonValue"] = variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();         
         }
     }
+    console.log(path);
     var listOfChannels = variables[channel_index].split(',');
     for (var i = 0; i < listOfChannels.length; i++) {
         msg["channel"] = listOfChannels[i];
