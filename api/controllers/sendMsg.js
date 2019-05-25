@@ -57,8 +57,6 @@ function sendMsgButton(req, res) {
             "value": numbers[i + 1]
         });
     }
-    console.log(msg.textConfirmation);
-    console.log(typeof msg.textConfirmation[1]);
     if (typeof msg.textConfirmation != "undefined") {
         for (var i = 0; i < msg.textConfirmation.length; i++) {
             if (msg.textConfirmation[i] != "") {
@@ -72,7 +70,7 @@ function sendMsgButton(req, res) {
         }
     }
     
-    console.log(body);
+    console.log(body.attachments[0].actions);
     request.post({headers: headers, url:URL, body: body, json:true});
     res.status(200).type('application/json').end();
 }
