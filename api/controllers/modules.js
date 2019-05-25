@@ -60,6 +60,7 @@ function preparePostMessage(task) {
     var style_index = variablesToGet.indexOf("style");
     var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
     var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
+    var buttonValue_index = variablesToGet.indexOf("buttonValue");
     console.log(variables);
     var msg = {};
     var path;
@@ -109,7 +110,7 @@ function preparePostMessage(task) {
         }
         if (boldHeadline_index >= 0) {
             path = "/sendOverflow/static"
-            var fieldInformation = variables[callbackId_index].split(" ");
+            var fieldInformation = variables[buttonValue_index].split(" ");
             var headlineLeftFieldSplitted = fieldInformation[0].split(",");
             var headlineRightFieldSplitted = fieldInformation[1].split(",");
             var buttonNameSplitted = fieldInformation[3].split(",");
