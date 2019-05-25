@@ -56,10 +56,8 @@ function preparePostMessage(task) {
     var ts_index = variablesToGet.indexOf("ts");
     var scheduledMessageId_index = variablesToGet.indexOf("scheduledMessageId");
     var messageTs_index = variablesToGet.indexOf("messageTs");
-    var textButton1_index = variablesToGet.indexOf("textButton1");
-    var textButton2_index = variablesToGet.indexOf("textButton2");
-    var textConfirmation1_index = variablesToGet.indexOf("textConfirmation1");
-    var textConfirmation2_index = variablesToGet.indexOf("textConfirmation2");
+    var textButtons_index = variablesToGet.indexOf("textButtons");
+    var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
     var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
     
     var msg = {};
@@ -97,29 +95,12 @@ function preparePostMessage(task) {
         }
         if (callbackId_index >= 0) {
             msg["callbackId"] = variables[callbackId_index];
-            if (textButton2_index >= 0) {
-                if (textButton1_index >= 0) {
-                    msg["textButton1"] = variables[textButton1_index];
+            if (textButtons_index >= 0) {
+                msg["textButtons"] = variables[textButtons_index].split(",");
+                path += '/Button';
+                if (textConfirmation_index >= 0) {
+                    msg["textConfirmation"] = variables[textConfirmation_index].split(",");
                 }
-                msg["textButton2"] = variables[textButton2_index];
-                path += '/twoButtons';
-                if (textConfirmation1_index >= 0) {
-                    msg["textConfirmation1"] = variables[textConfirmation1_index];
-                    path += '/Confirm';
-                }
-                if (textConfirmation2_index >= 0) {
-                    msg["textConfirmation2"] = variables[textConfirmation2_index];
-                }
-            } else {
-                if (textButton1_index >= 0) {
-                   msg["textButton1"] = variables[textButton1_index];
-                    path += '/oneButton';
-                    if (textConfirmation1_index >= 0) {
-                        msg["textConfirmation1"] = variables[textConfirmation1_index];
-                        path += '/Confirm';
-                    }
-                }
-            }
         }
         if (boldHeadline_index >= 0) {
             path = "/sendOverflow/static"

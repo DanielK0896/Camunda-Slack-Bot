@@ -100,10 +100,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendMsg/oneButton:
+  /sendMsg/Button:
     x-swagger-router-controller: sendMsg
     post:
-      operationId: sendMsgOneButton
+      operationId: sendMsgButton
       consumes:
         - application/json
       produces:
@@ -120,100 +120,15 @@ paths:
                 type: string
               callbackId:
                 type: string 
-              textButton1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/oneButton/confirm:
-    x-swagger-router-controller: sendMsg
-    post:
-      operationId: sendMsgOneButtonConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textConfirmation1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/twoButtons:
-    x-swagger-router-controller: sendMsg
-    post:
-      operationId: sendMsgTwoButtons
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
+              textButtons:
+                type: array
+                items:
+                  type: string
+              textConfirmation:
+                type: array
+                items:
+                  type: string
 
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/twoButtons/Confirm:
-    x-swagger-router-controller: sendMsg
-    post:
-      operationId: sendMsgTwoButtonsConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-              textConfirmation1:
-                type: string
-              textConfirmation2:
-                type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector

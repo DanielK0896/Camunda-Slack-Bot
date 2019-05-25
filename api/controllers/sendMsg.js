@@ -1,11 +1,13 @@
 var request = require('request');
 var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
-var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
+var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
+var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixten", "seventeen", "eighteen", "nineteen", "twenty"];
+
 
 module.exports = {
     sendMsg: sendMsg,
-    sendMsgOneButton: sendMsgOneButton,
+    sendMsgButton: sendMsgButton,
     sendMsgOneButtonConfirm: sendMsgOneButtonConfirm,
     sendMsgTwoButtons: sendMsgTwoButtons,
     sendMsgTwoButtonsConfirm: sendMsgTwoButtonsConfirm
@@ -22,7 +24,7 @@ function sendMsg(req, res) {
     res.status(200).type('application/json').end();
 }
  
-function sendMsgOneButton(req, res) {
+function sendMsgButton(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
@@ -45,6 +47,28 @@ function sendMsgOneButton(req, res) {
             }
         ]
     };
+    for (var i = 0; i < msg.textButtons.length; i++) {
+        var action = "Action" + i
+        body.attachments[0].actions.push({
+            "name": action,
+            "text": msg.textButtons[i],
+            "style": "#75FD2C",
+            "type": "button",
+            "value": numbers[i]
+        });
+    }
+    console.log(msg.textConfirmation)
+    for (var i = 0; i < msg.textConfirmation.length; i++) {
+        if (msg.textConfirmation[i] != "") {
+            body.attachments[0].actions[i].confirm = {
+                "title": "Bestätigen",
+                "text": msg.textConfirmation[i],
+                "dismiss_text": "Abbrechen",
+                "ok_text": "Ja"
+            };
+        }
+    }
+
     request.post({headers: headers, url:URL, body: body, json:true});
     res.status(200).type('application/json').end();
 }
