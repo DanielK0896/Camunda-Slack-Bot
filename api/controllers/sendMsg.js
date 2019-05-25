@@ -36,13 +36,6 @@ function sendMsgButton(req, res) {
                 "color": "#3AA3E3",
                 "attachment_type": "default",
                 "actions": [
-                    {
-                        "name": "Action1",
-                        "text": msg.textButton1,
-                        "style": "#75FD2C",
-                        "type": "button",
-                        "value": "one"
-                    }
                 ]
             }
         ]
