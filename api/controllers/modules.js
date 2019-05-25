@@ -59,6 +59,8 @@ function preparePostMessage(task) {
     var textButton2_index = variablesToGet.indexOf("textButton2");
     var textConfirmation1_index = variablesToGet.indexOf("textConfirmation1");
     var textConfirmation2_index = variablesToGet.indexOf("textConfirmation2");
+    var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
+    
     var msg = {};
     var path;
 
@@ -116,6 +118,24 @@ function preparePostMessage(task) {
                         path += '/Confirm';
                     }
                 }
+            }
+        }
+        if (boldHeadline_index >= 0) {
+            msg["boldHeadline"] = variables[boldHeadline_index];
+            var fieldInformation = variables[callbackId_index].split(" ");
+            var headlineLeftField = fieldInformation[1].split(",");
+            var headlineRightField = fieldInformation[2].split(",");
+            var textOptions = fieldInformation[3].split(",");
+            if (headlineLeftField.length != headlineRightField.length) {
+                console.log("Amount of given fields not equal")
+            } else {
+                for (i = 1; i <= headlineLeftField.length; i++) {
+                    var numberHeadlineLeftField = "headlineLeftField" + i;
+                    var numberHeadlineRightField = "headlineRightField" + i;
+                    msg[numberHeadlineLeftField] = headlineLeftField[i];
+                    msg[numberHeadlineRightField] = headlineRightField[i];
+                }
+                if (textOptions.length < headlineLeftField.length)
             }
         }
     }

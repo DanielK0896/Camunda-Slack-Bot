@@ -8,8 +8,7 @@ module.exports = {
     sendOverflowStaticOneField: sendOverflowStaticOneField,
     sendOverflowStaticTwoFields: sendOverflowStaticTwoFields,
     sendOverflowStaticThreeFields: sendOverflowStaticThreeFields,
-    sendOverflowStaticFourFields: sendOverflowStaticFourFields,
-    sendOverflowStaticFiveFields: sendOverflowStaticFiveFields
+    sendOverflowStaticFourFields: sendOverflowStaticFourFields
 };
 
 function sendOverflowStaticOneField(req, res) {
@@ -29,6 +28,7 @@ function sendOverflowStaticOneField(req, res) {
             },
             {
                 "type": "section",
+                "block_id": msg.headlineLeftField1,
                 "fields": [
                     {
                         "type": "mrkdwn",
@@ -38,7 +38,7 @@ function sendOverflowStaticOneField(req, res) {
                         "text": msg.headlineRightField1
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -58,6 +58,20 @@ function sendOverflowStaticOneField(req, res) {
                         }
                     ]
                 }
+            },
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "emoji": true,
+                            "text": msg.buttonName
+                        },
+                        "value": "one"
+                    }
+                ]
             }
         ]
     };
@@ -82,6 +96,7 @@ function sendOverflowStaticTwoFields(req, res) {
             },
             {
                 "type": "section",
+                "block_id": msg.headlineLeftField1,
                 "fields": [
                     {
                         "type": "mrkdwn",
@@ -91,7 +106,7 @@ function sendOverflowStaticTwoFields(req, res) {
                         "text": msg.headlineRightField1
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -113,7 +128,11 @@ function sendOverflowStaticTwoFields(req, res) {
                 }
             },
             {
+                "type": "divider"
+            },
+            {
                 "type": "section",
+                "block_id": msg.headlineLeftField2,
                 "fields": [
                     {
                         "type": "mrkdwn",
@@ -123,7 +142,7 @@ function sendOverflowStaticTwoFields(req, res) {
                         "text": msg.headlineRightField2
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -143,6 +162,20 @@ function sendOverflowStaticTwoFields(req, res) {
                         }
                     ]
                 }
+            },
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "emoji": true,
+                            "text": msg.buttonName
+                        },
+                        "value": "one"
+                    }
+                ]
             }
         ]
     };
@@ -167,6 +200,7 @@ function sendOverflowStaticThreeFields(req, res) {
             },
             {
                 "type": "section",
+                "block_id": msg.headlineLeftField1,
                 "fields": [
                     {
                         "type": "mrkdwn",
@@ -176,7 +210,7 @@ function sendOverflowStaticThreeFields(req, res) {
                         "text": msg.headlineRightField1
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -198,7 +232,11 @@ function sendOverflowStaticThreeFields(req, res) {
                 }
             },
             {
+                "type": "divider"
+            },
+            {
                 "type": "section",
+                "block_id": msg.headlineLeftField2,
                 "fields": [
                     {
                         "type": "mrkdwn",
@@ -208,7 +246,7 @@ function sendOverflowStaticThreeFields(req, res) {
                         "text": msg.headlineRightField2
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -230,7 +268,11 @@ function sendOverflowStaticThreeFields(req, res) {
                 }
             },
             {
+                "type": "divider"
+            },
+            {
                 "type": "section",
+                "block_id": msg.headlineLeftField3,
                 "fields": [
                     {
                         "type": "mrkdwn",
@@ -240,7 +282,7 @@ function sendOverflowStaticThreeFields(req, res) {
                         "text": msg.headlineRightField3
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -260,6 +302,20 @@ function sendOverflowStaticThreeFields(req, res) {
                         }
                     ]
                 }
+            },
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "emoji": true,
+                            "text": msg.buttonName
+                        },
+                        "value": "one"
+                    }
+                ]
             }
         ]
     };
@@ -293,7 +349,7 @@ function sendOverflowStaticFourFields(req, res) {
                         "text": msg.headlineRightField1
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -312,120 +368,6 @@ function sendOverflowStaticFourFields(req, res) {
                             "value": "value-1"
                         }
                     ]
-                }
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField2
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField2
-                    }],
-                "accessory": {
-                    "type": "static_select",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField3
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField3
-                    }],
-                "accessory": {
-                    "type": "static_select",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption3,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption3,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField4
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField4
-                    }],
-                "accessory": {
-                    "type": "static_select",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption4,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption4,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            }
-        ]
-    };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-function sendOverflowStaticFiveFields(req, res) {
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "channel": msg.channel,
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": msg.boldHeadline
                 }
             },
             {
@@ -436,45 +378,13 @@ function sendOverflowStaticFiveFields(req, res) {
                 "fields": [
                     {
                         "type": "mrkdwn",
-                        "text": msg.headlineLeftField1
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField1
-                    }],
-                "accessory": {
-                    "type": "static_select",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
                         "text": msg.headlineLeftField2
                     }, {
                         "type": "mrkdwn",
                         "text": msg.headlineRightField2
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -496,6 +406,9 @@ function sendOverflowStaticFiveFields(req, res) {
                 }
             },
             {
+                "type": "divider"
+            },
+            {
                 "type": "section",
                 "fields": [
                     {
@@ -506,7 +419,7 @@ function sendOverflowStaticFiveFields(req, res) {
                         "text": msg.headlineRightField3
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -528,6 +441,9 @@ function sendOverflowStaticFiveFields(req, res) {
                 }
             },
             {
+                "type": "divider"
+            },
+            {
                 "type": "section",
                 "fields": [
                     {
@@ -538,7 +454,7 @@ function sendOverflowStaticFiveFields(req, res) {
                         "text": msg.headlineRightField4
                     }],
                 "accessory": {
-                    "type": "static_select",
+                    "type": "overflow",
                     "options": [
                         {
                             "text": {
@@ -560,39 +476,21 @@ function sendOverflowStaticFiveFields(req, res) {
                 }
             },
             {
-                "type": "section",
-                "fields": [
+                "type": "actions",
+                "elements": [
                     {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField5
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField5
-                    }],
-                "accessory": {
-                    "type": "static_select",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption5,
-                                "emoji": true
-                            },
-                            "value": "value-0"
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "emoji": true,
+                            "text": msg.buttonName
                         },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption5,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
+                        "value": "one"
+                    }
+                ]
             }
-        ]};
+        ]
+    };
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
-

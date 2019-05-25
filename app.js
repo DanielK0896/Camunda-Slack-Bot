@@ -37,3 +37,8 @@ client.subscribe("room", async function ({ task, taskService }) {
     mod.preparePostMessage(task);
     await client.taskService.complete(task);
 });
+
+client.subscribe("update", async function ({ task, taskService }) {
+    mod.preparePostMessage(task);
+    await client.taskService.complete(task);
+});

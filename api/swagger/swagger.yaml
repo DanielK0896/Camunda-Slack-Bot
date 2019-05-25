@@ -699,6 +699,8 @@ paths:
                 type: string
               secondTextOption1:
                 type: string
+              buttonName:
+                type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector
@@ -737,6 +739,8 @@ paths:
               firstTextOption2:
                 type: string
               secondTextOption2:
+                type: string
+              buttonName:
                 type: string
       responses:
         '200':
@@ -784,6 +788,8 @@ paths:
               firstTextOption3:
                 type: string
               secondTextOption3:
+                type: string
+              buttonName:
                 type: string
       responses:
         '200':
@@ -840,68 +846,7 @@ paths:
                 type: string
               secondTextOption4:
                 type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendOverflow/static/fiveFields:
-    x-swagger-router-controller: sendOverflow
-    post:
-      operationId: sendOverflowStaticFiveFields
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              boldHeadline:
-                type: string
-              headlineLeftField1:
-                type: string
-              headlineRightField1:
-                type: string
-              firstTextOption1:
-                type: string
-              secondTextOption1:
-                type: string
-              headlineLeftField2:
-                type: string
-              headlineRightField2:
-                type: string
-              firstTextOption2:
-                type: string
-              secondTextOption2:
-                type: string
-              headlineLeftField3:
-                type: string
-              headlineRightField3:
-                type: string
-              firstTextOption3:
-                type: string
-              secondTextOption3:
-                type: string
-              headlineLeftField4:
-                type: string
-              headlineRightField4:
-                type: string
-              firstTextOption4:
-                type: string
-              secondTextOption4:
-                type: string
-              headlineLeftField5:
-                type: string
-              headlineRightField5:
-                type: string
-              firstTextOption5:
-                type: string
-              secondTextOption5:
+              buttonName:
                 type: string
       responses:
         '200':

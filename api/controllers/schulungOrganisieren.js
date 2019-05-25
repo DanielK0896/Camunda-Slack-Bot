@@ -75,15 +75,7 @@ client.subscribe("invite", async function ({ task, taskService }) {
     await client.taskService.complete(task);
 });
 
-client.subscribe("update", async function({ task, taskService }) {
-    var variables = mod.getVariables(task, ['name','room']);
-    var text = `Der Raum für die Schulung ${variables[0]} steht fest: ${variables[1]}.`;
-    var channel = "CH513FYHY";
-    var msg = JSON.stringify({channel: channel, text: text});
-    var path = '/sendMsg';
-    mod.postToSwaggerAPI(msg, path);
-    await client.taskService.complete(task);
-});
+
 
 client.subscribe("reminder", async function({ task, taskService }) {
 
