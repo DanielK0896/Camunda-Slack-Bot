@@ -115,12 +115,14 @@ function preparePostMessage(task) {
             var headlineRightFieldSplitted = fieldInformation[1].split(",");
             var buttonNameSplitted = fieldInformation[3].split(",");
             msg["boldHeadline"] = variables[boldHeadline_index];
-            msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4);
-            msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4);
+            msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
+            msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["textOptions"] = fieldInformation[2].split(",");
-            msg["buttonName"] = buttonNameSplitted[0];
+            
             if (headlineLeftFieldSplitted.length <= 4) {
-                buttonNameSplitted.splice(1, 1);
+                msg["buttonName"] = buttonNameSplitted[1];
+            } else {
+                msg["buttonName"] = buttonNameSplitted[1];
             }
             msg["buttonValue"] = variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();         
         }

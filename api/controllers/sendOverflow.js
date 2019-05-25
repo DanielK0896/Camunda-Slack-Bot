@@ -51,7 +51,7 @@ function sendOverflowStatic(req, res) {
             body.blocks[t].accessory.options.push({
                 "text": {
                     "type": "plain_text",
-                    "text": msg.textOptions[i],
+                    "text": msg.textOptions[s],
                     "emoji": true
                 },
                 "value": "value-0"
