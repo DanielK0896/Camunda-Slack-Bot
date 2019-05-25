@@ -73,7 +73,7 @@ body.blocks.push({
         }
     ]
 });
-
+    console.log(body.blocks[2].fields[1])
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
