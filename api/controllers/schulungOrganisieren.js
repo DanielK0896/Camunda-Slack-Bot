@@ -64,33 +64,6 @@ function startDialogToUpdateSubscriber(msg,taskid, res) {
     } else {console.log("dialog interrupted");}   
 }
 
-
-
-
-
-
-
-client.subscribe("invite", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
-});
-
-
-
-client.subscribe("reminder", async function({ task, taskService }) {
-
-    var variables = mod.getVariables(task, ['name', 'trainer', 'room', 'date']);
-    var channel = "CH513FYHY";
-    var text = `Reminder: Die Schulung ${variables[0]} findet am  ${variables[4]} um ${variables[5]} Uhr statt und wird von ${variables[1]} gehalten. Der Raum lautet ${variables[2]}.`;
-    var msg = JSON.stringify({channel: channel, text: text});
-    var path = '/sendMsg';
-    mod.postToSwaggerAPI(msg, path);
-    await client.taskService.complete(task);
-});
-
-
-
-
 client.subscribe("list", async function ({ task, taskService }) {
     var variables = mod.getVariables(task, );
     var listOfUsers = variables[2].split(','); 
