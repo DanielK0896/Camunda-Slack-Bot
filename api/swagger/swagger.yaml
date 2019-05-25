@@ -673,10 +673,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendOverflow/static/oneField:
+  /sendOverflow/static/twoOptions/oneField:
     x-swagger-router-controller: sendOverflow
     post:
-      operationId: sendOverflowStaticOneField
+      operationId: sendOverflowStaticTwoOptionsOneField
       consumes:
         - application/json
       produces:
@@ -747,10 +747,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendOverflow/static/threeFields:
+  /sendOverflow/static/twoOptions/threeFields:
     x-swagger-router-controller: sendOverflow
     post:
-      operationId: sendOverflowStaticThreeFields
+      operationId: sendOverflowStaticTwoOptionsThreeFields
       consumes:
         - application/json
       produces:
@@ -796,10 +796,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendOverflow/static/fourFields:
+  /sendOverflow/static/twoOptions/fourFields:
     x-swagger-router-controller: sendOverflow
     post:
-      operationId: sendOverflowStaticfourFields
+      operationId: sendOverflowStaticTwoOptionsfourFields
       consumes:
         - application/json
       produces:

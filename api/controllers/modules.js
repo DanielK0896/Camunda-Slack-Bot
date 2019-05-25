@@ -1,4 +1,5 @@
 var maxChannels = 100;
+var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixten", "seventeen", "eighteen", "nineteen", "twenty"];
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -121,21 +122,38 @@ function preparePostMessage(task) {
             }
         }
         if (boldHeadline_index >= 0) {
+            path = "/sendOverflow/static"
             msg["boldHeadline"] = variables[boldHeadline_index];
             var fieldInformation = variables[callbackId_index].split(" ");
             var headlineLeftField = fieldInformation[1].split(",");
             var headlineRightField = fieldInformation[2].split(",");
             var textOptions = fieldInformation[3].split(",");
+            var lengthOfFields;
+            if (headlineLeftField.length > 4) {
+                lengthOfFields = 4;
+            } else {
+                lengthOfFields = headlineLeftField.length;
+            }
             if (headlineLeftField.length != headlineRightField.length) {
                 console.log("Amount of given fields not equal")
             } else {
-                for (i = 1; i <= headlineLeftField.length; i++) {
+                var i;
+                for (i = 1; i <= lengthOfFields; i++) {
                     var numberHeadlineLeftField = "headlineLeftField" + i;
                     var numberHeadlineRightField = "headlineRightField" + i;
-                    msg[numberHeadlineLeftField] = headlineLeftField[i];
-                    msg[numberHeadlineRightField] = headlineRightField[i];
+                    msg[numberHeadlineLeftField] = headlineLeftField[i - 1];
+                    msg[numberHeadlineRightField] = headlineRightField[i - 1];
                 }
-                if (textOptions.length < headlineLeftField.length)
+                path += numbers[textOptions.length] + "Option";
+                if (textOptions.length > 1) {
+                    path += "s";
+                }
+                path += numbers[lengthOfFields] + "Field";
+                if (i > 2) {
+                    path += "s";
+                }
+                headlineLeftField.splice(0, lengthOfFields);
+                headlineRightField.splice(0, lengthOfFields);
             }
         }
     }

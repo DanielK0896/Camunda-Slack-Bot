@@ -5,13 +5,13 @@ var secrets = require('../../secrets');
 var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
 
 module.exports = {
-    sendOverflowStaticOneField: sendOverflowStaticOneField,
-    sendOverflowStaticTwoFields: sendOverflowStaticTwoFields,
-    sendOverflowStaticThreeFields: sendOverflowStaticThreeFields,
-    sendOverflowStaticFourFields: sendOverflowStaticFourFields
+    sendOverflowStaticTwoOptionsOneField: sendOverflowStaticTwoOptionsOneField,
+    sendOverflowStaticTwoOptionsTwoFields: sendOverflowStaticTwoOptionsTwoFields,
+    sendOverflowStaticTwoOptionsThreeFields: sendOverflowStaticTwoOptionsThreeFields,
+    sendOverflowStaticTwoOptionsFourFields: sendOverflowStaticTwoOptionsFourFields
 };
 
-function sendOverflowStaticOneField(req, res) {
+function sendOverflowStaticTwoOptionsOneField(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
@@ -79,7 +79,7 @@ function sendOverflowStaticOneField(req, res) {
     res.status(200).type('application/json').end();
 }
 
-function sendOverflowStaticTwoFields(req, res) {
+function sendOverflowStaticTwoOptionsTwoFields(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
@@ -183,7 +183,7 @@ function sendOverflowStaticTwoFields(req, res) {
     res.status(200).type('application/json').end();
 }
 
-function sendOverflowStaticThreeFields(req, res) {
+function sendOverflowStaticTwoOptionsThreeFields(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
@@ -323,7 +323,7 @@ function sendOverflowStaticThreeFields(req, res) {
     res.status(200).type('application/json').end();
 }
 
-function sendOverflowStaticFourFields(req, res) {
+function sendOverflowStaticTwoOptionsFourFields(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
