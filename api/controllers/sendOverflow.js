@@ -74,13 +74,6 @@ body.blocks.push({
     ]
 });
 
-    console.log(msg.headlineLeftField);
-    console.log(msg.headlineRightField);
-    console.log(body);
-    console.log(body.blocks);
-    console.log(body.blocks.accessory);
-    console.log(body.blocks.accessory.options);
-
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
