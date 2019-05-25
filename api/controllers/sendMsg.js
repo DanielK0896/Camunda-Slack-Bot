@@ -54,10 +54,11 @@ function sendMsgButton(req, res) {
             "text": msg.textButtons[i],
             "style": "#75FD2C",
             "type": "button",
-            "value": numbers[i]
+            "value": numbers[i + 1]
         });
     }
-    console.log(msg.textConfirmation)
+    console.log(msg.textConfirmation);
+    console.log(typeof msg.textConfirmation[1]);
     if (typeof msg.textConfirmation != "undefined") {
         for (var i = 0; i < msg.textConfirmation.length; i++) {
             if (msg.textConfirmation[i] != "") {
