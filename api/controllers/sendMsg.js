@@ -58,16 +58,19 @@ function sendMsgButton(req, res) {
         });
     }
     console.log(msg.textConfirmation)
-    for (var i = 0; i < msg.textConfirmation.length; i++) {
-        if (msg.textConfirmation[i] != "") {
-            body.attachments[0].actions[i].confirm = {
-                "title": "Bestätigen",
-                "text": msg.textConfirmation[i],
-                "dismiss_text": "Abbrechen",
-                "ok_text": "Ja"
-            };
+    if (typeof msg.textConfirmation != "undefined") {
+        for (var i = 0; i < msg.textConfirmation.length; i++) {
+            if (msg.textConfirmation[i] != "") {
+                body.attachments[0].actions[i].confirm = {
+                    "title": "Bestätigen",
+                    "text": msg.textConfirmation[i],
+                    "dismiss_text": "Abbrechen",
+                    "ok_text": "Ja"
+                };
+            }
         }
     }
+    
 
     request.post({headers: headers, url:URL, body: body, json:true});
     res.status(200).type('application/json').end();
