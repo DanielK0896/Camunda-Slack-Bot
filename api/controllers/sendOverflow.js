@@ -5,13 +5,10 @@ var secrets = require('../../secrets');
 var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
 
 module.exports = {
-    sendOverflowStaticTwoOptionsOneField: sendOverflowStaticTwoOptionsOneField,
-    sendOverflowStaticTwoOptionsTwoFields: sendOverflowStaticTwoOptionsTwoFields,
-    sendOverflowStaticTwoOptionsThreeFields: sendOverflowStaticTwoOptionsThreeFields,
-    sendOverflowStaticTwoOptionsFourFields: sendOverflowStaticTwoOptionsFourFields
+    sendOverflowStatic: sendOverflowStatic
 };
 
-function sendOverflowStaticTwoOptionsOneField(req, res) {
+function sendOverflowStatic(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
@@ -22,475 +19,64 @@ function sendOverflowStaticTwoOptionsOneField(req, res) {
                     "type": "mrkdwn",
                     "text": msg.boldHeadline
                 }
-            },
-            {
-                "type": "divider"
+            }
+        ]
+    };
+    var i;
+    for (i = 0; i < msg.headlineLeftField.length; i++) {
+        body.blocks.push({
+            "type": "divider"
             },
             {
                 "type": "section",
-                "block_id": msg.headlineLeftField1,
+                "block_id": msg.headlineLeftField[i],
                 "fields": [
                     {
                         "type": "mrkdwn",
-                        "text": msg.headlineLeftField1
+                        "text": msg.headlineLeftField[i]
                     }, {
                         "type": "mrkdwn",
-                        "text": msg.headlineRightField1
+                        "text": msg.headlineRightField[i]
                     }],
                 "accessory": {
                     "type": "overflow",
                     "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
                     ]
                 }
+            });
+    }
+
+    for (var t = 2; t <= i*2; t = t + 2) { 
+        for (var s = 0; s < msg.textOptions.length; s++) {
+            body.block[t].accessory.options.push({
+                "text": {
+                    "type": "plain_text",
+                    "text": msg.textOption[i],
+                    "emoji": true
+                },
+                "value": "value-0"
+            };
+        }
+    }
+}
+
+body.blocks.push({
+    "type": "actions",
+    "elements": [
+        {
+            "type": "button",
+            "text": {
+                "type": "plain_text",
+                "emoji": true,
+                "text": msg.buttonName
             },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "emoji": true,
-                            "text": msg.buttonName
-                        },
-                        "value": "one"
-                    }
-                ]
-            }
-        ]
-    };
+            "value": msg.buttonValue
+        }
+    ]
+});
+
+
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
 
-function sendOverflowStaticTwoOptionsTwoFields(req, res) {
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "channel": msg.channel,
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": msg.boldHeadline
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "block_id": msg.headlineLeftField1,
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField1
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField1
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "block_id": msg.headlineLeftField2,
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField2
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField2
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "emoji": true,
-                            "text": msg.buttonName
-                        },
-                        "value": "one"
-                    }
-                ]
-            }
-        ]
-    };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-function sendOverflowStaticTwoOptionsThreeFields(req, res) {
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "channel": msg.channel,
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": msg.boldHeadline
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "block_id": msg.headlineLeftField1,
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField1
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField1
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "block_id": msg.headlineLeftField2,
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField2
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField2
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "block_id": msg.headlineLeftField3,
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField3
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField3
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption3,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption3,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "emoji": true,
-                            "text": msg.buttonName
-                        },
-                        "value": "one"
-                    }
-                ]
-            }
-        ]
-    };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-function sendOverflowStaticTwoOptionsFourFields(req, res) {
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "channel": msg.channel,
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": msg.boldHeadline
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField1
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField1
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption1,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField2
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField2
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption2,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField3
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField3
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption3,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption3,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField4
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField4
-                    }],
-                "accessory": {
-                    "type": "overflow",
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.firstTextOption4,
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": msg.secondTextOption4,
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "emoji": true,
-                            "text": msg.buttonName
-                        },
-                        "value": "one"
-                    }
-                ]
-            }
-        ]
-    };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}

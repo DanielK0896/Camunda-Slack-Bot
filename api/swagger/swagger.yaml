@@ -124,6 +124,10 @@ paths:
                 type: array
                 items:
                   type: string
+              style:
+                type: array
+                items:
+                  type: string
               textConfirmation:
                 type: array
                 items:
@@ -588,10 +592,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendOverflow/static/twoOptions/oneField:
+  /sendOverflow/static:
     x-swagger-router-controller: sendOverflow
     post:
-      operationId: sendOverflowStaticTwoOptionsOneField
+      operationId: sendOverflowStatic
       consumes:
         - application/json
       produces:
@@ -606,163 +610,16 @@ paths:
                 type: string
               boldHeadline:
                 type: string
-              headlineLeftField1:
+              headlineLeftField:
                 type: string
-              headlineRightField1:
+              headlineRightField:
                 type: string
-              firstTextOption1:
-                type: string
-              secondTextOption1:
+              textOptions:
                 type: string
               buttonName:
                 type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendOverflow/static/twoFields:
-    x-swagger-router-controller: sendOverflow
-    post:
-      operationId: sendOverflowStaticTwoFields
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              boldHeadline:
-                type: string
-              headlineLeftField1:
-                type: string
-              headlineRightField1:
-                type: string
-              firstTextOption1:
-                type: string
-              secondTextOption1:
-                type: string
-              headlineLeftField2:
-                type: string
-              headlineRightField2:
-                type: string
-              firstTextOption2:
-                type: string
-              secondTextOption2:
-                type: string
-              buttonName:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendOverflow/static/twoOptions/threeFields:
-    x-swagger-router-controller: sendOverflow
-    post:
-      operationId: sendOverflowStaticTwoOptionsThreeFields
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              boldHeadline:
-                type: string
-              headlineLeftField1:
-                type: string
-              headlineRightField1:
-                type: string
-              firstTextOption1:
-                type: string
-              secondTextOption1:
-                type: string
-              headlineLeftField2:
-                type: string
-              headlineRightField2:
-                type: string
-              firstTextOption2:
-                type: string
-              secondTextOption2:
-                type: string
-              headlineLeftField3:
-                type: string
-              headlineRightField3:
-                type: string
-              firstTextOption3:
-                type: string
-              secondTextOption3:
-                type: string
-              buttonName:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendOverflow/static/twoOptions/fourFields:
-    x-swagger-router-controller: sendOverflow
-    post:
-      operationId: sendOverflowStaticTwoOptionsfourFields
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              boldHeadline:
-                type: string
-              headlineLeftField1:
-                type: string
-              headlineRightField1:
-                type: string
-              firstTextOption1:
-                type: string
-              secondTextOption1:
-                type: string
-              headlineLeftField2:
-                type: string
-              headlineRightField2:
-                type: string
-              firstTextOption2:
-                type: string
-              secondTextOption2:
-                type: string
-              headlineLeftField3:
-                type: string
-              headlineRightField3:
-                type: string
-              firstTextOption3:
-                type: string
-              secondTextOption3:
-                type: string
-              headlineLeftField4:
-                type: string
-              headlineRightField4:
-                type: string
-              firstTextOption4:
-                type: string
-              secondTextOption4:
-                type: string
-              buttonName:
-                type: string
+              buttonValue:
+                type:  string
       responses:
         '200':
           description: Definition generated from Swagger Inspector

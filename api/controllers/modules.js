@@ -57,6 +57,7 @@ function preparePostMessage(task) {
     var scheduledMessageId_index = variablesToGet.indexOf("scheduledMessageId");
     var messageTs_index = variablesToGet.indexOf("messageTs");
     var textButtons_index = variablesToGet.indexOf("textButtons");
+    var style_index = variablesToGet.indexOf("style");
     var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
     var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
     
@@ -101,42 +102,26 @@ function preparePostMessage(task) {
                 if (textConfirmation_index >= 0) {
                     msg["textConfirmation"] = variables[textConfirmation_index].split(",");
                 }
+                if (style_index >= 0) {
+                    msg["style"] = variables[style_index].split(",");
+                }
             }
         }
         if (boldHeadline_index >= 0) {
             path = "/sendOverflow/static"
-            msg["boldHeadline"] = variables[boldHeadline_index];
             var fieldInformation = variables[callbackId_index].split(" ");
-            var headlineLeftField = fieldInformation[1].split(",");
-            var headlineRightField = fieldInformation[2].split(",");
-            var textOptions = fieldInformation[3].split(",");
-            var lengthOfFields;
-            if (headlineLeftField.length > 4) {
-                lengthOfFields = 4;
-            } else {
-                lengthOfFields = headlineLeftField.length;
+            var headlineLeftFieldSplitted = fieldInformation[0].split(",");
+            var headlineRightFieldSplitted = fieldInformation[1].split(",");
+            var buttonNameSplitted = fieldInformation[3].split(",");
+            msg["boldHeadline"] = variables[boldHeadline_index];
+            msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4);
+            msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4);
+            msg["textOptions"] = fieldInformation[2].split(",");
+            msg["buttonName"] = buttonNameSplitted[0];
+            if (headlineLeftFieldSplitted.length <= 4) {
+                buttonNameSplitted.splice(1, 1);
             }
-            if (headlineLeftField.length != headlineRightField.length) {
-                console.log("Amount of given fields not equal")
-            } else {
-                var i;
-                for (i = 1; i <= lengthOfFields; i++) {
-                    var numberHeadlineLeftField = "headlineLeftField" + i;
-                    var numberHeadlineRightField = "headlineRightField" + i;
-                    msg[numberHeadlineLeftField] = headlineLeftField[i - 1];
-                    msg[numberHeadlineRightField] = headlineRightField[i - 1];
-                }
-                path += numbers[textOptions.length] + "Option";
-                if (textOptions.length > 1) {
-                    path += "s";
-                }
-                path += numbers[lengthOfFields] + "Field";
-                if (i > 2) {
-                    path += "s";
-                }
-                headlineLeftField.splice(0, lengthOfFields);
-                headlineRightField.splice(0, lengthOfFields);
-            }
+            msg["buttonValue"] = variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();         
         }
     }
     var listOfChannels = variables[channel_index].split(',');
