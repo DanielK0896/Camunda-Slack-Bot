@@ -48,7 +48,7 @@ function sendOverflowStatic(req, res) {
 
     for (var t = 2; t <= i*2; t = t + 2) { 
         for (var s = 0; s < msg.textOptions.length; s++) {
-            body.block[t].accessory.options.push({
+            body.blocks[t].accessory.options.push({
                 "text": {
                     "type": "plain_text",
                     "text": msg.textOption[i],
