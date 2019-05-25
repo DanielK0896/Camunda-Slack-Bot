@@ -611,13 +611,21 @@ paths:
               boldHeadline:
                 type: string
               headlineLeftField:
-                type: string
+                type: array
+                items:
+                  type: string
               headlineRightField:
-                type: string
+                type: array
+                items:
+                  type: string
               textOptions:
-                type: string
+                type: array
+                items:
+                  type: string
               buttonName:
-                type: string
+                type: array
+                items:
+                  type: string
               buttonValue:
                 type:  string
       responses:
