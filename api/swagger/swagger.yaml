@@ -623,9 +623,7 @@ paths:
                 items:
                   type: string
               buttonName:
-                type: array
-                items:
-                  type: string
+                type: string
               buttonValue:
                 type:  string
       responses:
