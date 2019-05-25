@@ -42,3 +42,17 @@ client.subscribe("update", async function ({ task, taskService }) {
     mod.preparePostMessage(task);
     await client.taskService.complete(task);
 });
+
+client.subscribe("list", async function ({ task, taskService }) {
+    await client.taskService.complete(task);
+});
+
+client.subscribe("reminder", async function ({ task, taskService }) {
+    mod.preparePostMessage(task);
+    await client.taskService.complete(task);
+});
+
+client.subscribe("done", async function ({ task, taskService }) {
+    mod.preparePostMessage(task);
+    await client.taskService.complete(task);
+});

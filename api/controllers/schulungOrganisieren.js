@@ -89,16 +89,7 @@ client.subscribe("reminder", async function({ task, taskService }) {
 });
 
 
-client.subscribe("done", async function({ task, taskService }) {
-    var channel = "CH513FYHY";
-    var callbackId = `${process} confirmExecution ${task.id} ${teilnehmer}`;
-    var text = `Wurde die Schulung ${task.variables.get("name")} erfolgreich durchgeführt?`;
 
-    var msg = JSON.stringify({channel: channel, text: text, callbackId: callbackId, 
-    ts: ts,textButton1: "Ja", textConfirmation1: "Bitte bestätigen"});
-    var path = '/sendMsg/oneButtonConfirm';
-    mod.postToSwaggerAPI(msg, path);
-});
 
 client.subscribe("list", async function ({ task, taskService }) {
     var variables = mod.getVariables(task, );
