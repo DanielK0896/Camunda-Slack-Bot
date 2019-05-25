@@ -59,18 +59,21 @@ function sendOverflowStatic(req, res) {
         }
     }
 
-body.blocks.push({
-    "type": "actions",
-    "elements": [
+    body.blocks.push({
+        "type": "divider"
+        },
         {
-            "type": "button",
-            "text": {
-                "type": "plain_text",
-                "emoji": true,
-                "text": msg.buttonName
-            },
-            "value": msg.buttonValue
-        }
+        "type": "actions",
+        "elements": [
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "emoji": true,
+                    "text": msg.buttonName
+                },
+                "value": msg.buttonValue
+            }
     ]
 });
     console.log(body.blocks[2].fields[1])
