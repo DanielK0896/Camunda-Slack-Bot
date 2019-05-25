@@ -101,6 +101,7 @@ function preparePostMessage(task) {
                 if (textConfirmation_index >= 0) {
                     msg["textConfirmation"] = variables[textConfirmation_index].split(",");
                 }
+            }
         }
         if (boldHeadline_index >= 0) {
             path = "/sendOverflow/static"
