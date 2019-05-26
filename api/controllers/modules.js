@@ -112,6 +112,7 @@ function preparePostMessage(task) {
         }
         if (boldHeadline_index >= 0) {
             path = "/sendOverflow/static"
+            console.log(variables);
             var fieldInformation = variables[buttonValue_index].split(" ");
             var listOfUsers = fieldInformation[0].split(",");
             var headlineLeftFieldSplitted = fieldInformation[1].split(",");
