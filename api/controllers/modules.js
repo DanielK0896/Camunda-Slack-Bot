@@ -126,7 +126,7 @@ function preparePostMessage(task) {
             msg["textOptions"] = fieldInformation[3].split(",");
             msg["listOfUsers"] = listOfUsers;
             console.log(msg["listOfUsers"]);
-            conole.log(headlineRightFieldSplitted);
+            console.log(headlineRightFieldSplitted);
             msg["changes"] = variables[changes_index]; 
             msg["message"] = variables[message_index];
             listOfUsers.splice(0, 4);
