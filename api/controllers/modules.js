@@ -125,6 +125,7 @@ function preparePostMessage(task) {
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["textOptions"] = fieldInformation[3].split(",");
             msg["listOfUsers"] = listOfUsers;
+            console.log(msg["listOfUsers"]);
             msg["changes"] = variables[changes_index]; 
             msg["message"] = variables[message_index];
             listOfUsers.splice(0, 4);
