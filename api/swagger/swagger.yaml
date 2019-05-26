@@ -539,14 +539,16 @@ paths:
                 type: array
                 items:
                   type: string
+              changes:
+                type: string
+              message:
+                type: string
               buttonName:
                 type: string
               buttonValue:
-                type:  string
-              message:
-                type:  string
-              changes:
-                type:  string
+                type: string
+             
+              
       responses:
         '200':
           description: Definition generated from Swagger Inspector

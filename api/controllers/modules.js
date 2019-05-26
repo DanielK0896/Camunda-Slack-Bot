@@ -115,6 +115,8 @@ function preparePostMessage(task) {
             console.log(variables);
             var fieldInformation = variables[buttonValue_index].split(" ");
             var listOfUsers = fieldInformation[0].split(",");
+            console.log(listOfUsers);
+            console.log(fieldInformation[0].split(","));
             var headlineLeftFieldSplitted = fieldInformation[1].split(",");
             var headlineRightFieldSplitted = fieldInformation[2].split(",");
             var buttonNameSplitted = fieldInformation[4].split(",");
