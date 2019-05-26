@@ -123,8 +123,8 @@ function preparePostMessage(task) {
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["textOptions"] = fieldInformation[3].split(",");
             msg["listOfUsers"] = listOfUsers;
-            msg["changes_index"] = variables[changes_index]; 
-            msg["message_index"] = variables[message_index];
+            msg["changes"] = variables[changes_index]; 
+            msg["message"] = variables[message_index];
             listOfUsers.splice(0, 4);
 
             if (headlineLeftFieldSplitted.length <= 4) {
