@@ -61,6 +61,8 @@ function preparePostMessage(task) {
     var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
     var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
     var buttonValue_index = variablesToGet.indexOf("buttonValue");
+    var message_index = variablesToGet.indexOf("message");
+    var changes_index = variablesToGet.indexOf("changes");
     console.log(variables);
     var msg = {};
     var path;
@@ -111,20 +113,25 @@ function preparePostMessage(task) {
         if (boldHeadline_index >= 0) {
             path = "/sendOverflow/static"
             var fieldInformation = variables[buttonValue_index].split(" ");
-            var headlineLeftFieldSplitted = fieldInformation[0].split(",");
-            var headlineRightFieldSplitted = fieldInformation[1].split(",");
-            var buttonNameSplitted = fieldInformation[3].split(",");
+            var listOfUsers = fieldInformation[0].split(",");
+            var headlineLeftFieldSplitted = fieldInformation[1].split(",");
+            var headlineRightFieldSplitted = fieldInformation[2].split(",");
+            var buttonNameSplitted = fieldInformation[4].split(",");
             msg["boldHeadline"] = variables[boldHeadline_index];
             msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
-            msg["textOptions"] = fieldInformation[2].split(",");
-            
+            msg["textOptions"] = fieldInformation[3].split(",");
+            msg["listOfUsers"] = listOfUsers;
+            msg["changes_index"] = variables[changes_index]; 
+            msg["message_index"] = variables[message_index];
+            listOfUsers.splice(0, 4);
+
             if (headlineLeftFieldSplitted.length <= 4) {
                 msg["buttonName"] = buttonNameSplitted[1];
             } else {
                 msg["buttonName"] = buttonNameSplitted[1];
             }
-            msg["buttonValue"] = variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();         
+            msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();         
         }
     }
     console.log(path);

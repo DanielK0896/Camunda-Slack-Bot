@@ -15,7 +15,14 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     try {
         var pushedButton = msg.actions[0].value;
     } catch (e) { }
-    var taskid = msg.callback_id.split(' ');
+    try {
+        var taskid = msg.callback_id.split(' ');
+    } catch (e) {
+        try {
+            var taskid = msg.blocks.block_id.split(' ');
+        } catch (e) { }
+    }
+    
     var arrayOfVariables = {};
     //call function depending on callback_id
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
@@ -24,10 +31,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         for (i = 1; i <= variableInformation.length; i++) {
             var numberNameVariable = "nameVariable" + i;
             var numberVariable = "variable" + i;
-            arrayOfVariables[numberNameVariable] = variableInformation[i-1];
+            arrayOfVariables[numberNameVariable] = variableInformation[i - 1];
             var variablesToPost = variableInformation[i - 1].split('.');
             if (variablesToPost.length == 2) {
                 arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]];
+            } else if (variablesToPost.length == 3) {
+                arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]][variablesToPost[2]];
             } else {
                 arrayOfVariables[numberVariable] = msg[variablesToPost[0]];
             }
@@ -59,7 +68,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             console.log(callbackId);
             callbackId.splice(4, 3);
         }
-        
+
         arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
         arrayOfVariables["title"] = variablesForDialog[1];              //then necessary variables
         var path;
@@ -105,9 +114,20 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         var payload = JSON.stringify(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
         res.status(200).type('application/json').end();
-    }  else {
+    } else {
         console.log("ERROR SlackReceive.js");
     }
+
+    if (msg.actions.type == "overflow") {
+        payload["channel"] = msg.container.channel_id;
+        payload["ts"] = msg.container.message_ts;
+        payload["blocks"] = msg.blocks;
+        var actionValue = msg.actions.selected_option.value;
+        var changes = taskid[4].split(',');
+        payload["blocks"][changes[actionValue]] = [changes[actionValue + changes.length/2]]
+        var path = "/updateOverflow";
+        mod.postToSwaggerAPI(JSON.stringify(payload), path);
+    } 
 
     //if (msg.type == "dialog_submission") {
     //    mod.preparePostMessage(task, "variablesToGet2");

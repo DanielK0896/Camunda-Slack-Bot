@@ -465,10 +465,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /updateMsg/oneButton:
+  /updateMsg/Button:
     x-swagger-router-controller: updateMsg
     post:
-      operationId: updateMsgOneButton
+      operationId: updateMsgButton
       consumes:
         - application/json
       produces:
@@ -483,110 +483,23 @@ paths:
                 type: string
               text:
                 type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
               ts:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /updateMsg/oneButton/confirm:
-    x-swagger-router-controller: updateMsg
-    post:
-      operationId: updateMsgOneButtonConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
                 type: string
               callbackId:
                 type: string 
-              textButton1:
-                type: string
-              textConfirmation1:
-                type: string
-              ts:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /updateMsg/twoButtons:
-    x-swagger-router-controller: updateMsg
-    post:
-      operationId: updateMsgTwoButtons
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-              ts:
-                type: string
+              textButtons:
+                type: array
+                items:
+                  type: string
+              style:
+                type: array
+                items:
+                  type: string
+              textConfirmation:
+                type: array
+                items:
+                  type: string
 
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /updateMsg/twoButtons/Confirm:
-    x-swagger-router-controller: updateMsg
-    post:
-      operationId: updateMsgTwoButtonsConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-              textConfirmation1:
-                type: string
-              textConfirmation2:
-                type: string
-              ts:
-                type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector
@@ -618,6 +531,10 @@ paths:
                 type: array
                 items:
                   type: string
+              listOfUsers:
+                type: array
+                items:
+                  type: string
               textOptions:
                 type: array
                 items:
@@ -626,6 +543,35 @@ paths:
                 type: string
               buttonValue:
                 type:  string
+              message:
+                type:  string
+              changes:
+                type:  string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
+  /updateOverflow:
+    x-swagger-router-controller: updateOverflow
+    post:
+      operationId: updateOverflow
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              ts:
+                type: string
+              blocks:
+                type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector
