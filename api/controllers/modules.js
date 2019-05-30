@@ -115,8 +115,6 @@ function preparePostMessage(task) {
             console.log(variables);
             var fieldInformation = variables[buttonValue_index].split(" ");
             var listOfUsers = fieldInformation[0].split(",");
-            console.log(listOfUsers);
-            console.log(fieldInformation[0].split(","));
             var headlineLeftFieldSplitted = fieldInformation[1].split(",");
             var headlineRightFieldSplitted = fieldInformation[2].split(",");
             var buttonNameSplitted = fieldInformation[4].split(",");
@@ -126,20 +124,22 @@ function preparePostMessage(task) {
             msg["textOptions"] = fieldInformation[3].split(",");
             msg["listOfUsers"] = listOfUsers;
             console.log(msg["listOfUsers"]);
-            console.log(headlineRightFieldSplitted);
             msg["changes"] = variables[changes_index]; 
             msg["message"] = variables[message_index];
             listOfUsers.splice(0, 4);
 
-            if (headlineLeftFieldSplitted.length <= 4) {
+            if (headlineLeftFieldSplitted.length == 0) {
                 msg["buttonName"] = buttonNameSplitted[1];
+                var lastMessage = variables[message_index].split(" ");
+                lastMessage.splice(2, 2, "endOfList", "blocks.elements.text.text");
+                msg["buttonValue"] = lastMessage
             } else {
-                msg["buttonName"] = buttonNameSplitted[1];
+                msg["buttonName"] = buttonNameSplitted[0];
+                msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();
             }
-            msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();         
+                     
         }
     }
-    console.log(path);
     var listOfChannels = variables[channel_index].split(',');
     for (var i = 0; i < listOfChannels.length; i++) {
         msg["channel"] = listOfChannels[i];
