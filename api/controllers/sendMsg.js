@@ -61,7 +61,6 @@ function sendMsgButton(req, res) {
         }
     }
     
-    console.log(body.attachments[0].actions);
     request.post({headers: headers, url:URL, body: body, json:true});
     res.status(200).type('application/json').end();
 }

@@ -12,6 +12,7 @@ function sendOverflowStatic(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
+        "text":"test",
         "blocks": [
             {
                 "type": "section",
@@ -78,6 +79,7 @@ function sendOverflowStatic(req, res) {
         ]
     }); 
     console.log(body);
+    console.log(blocks.text);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
