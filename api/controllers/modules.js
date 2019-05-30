@@ -122,12 +122,9 @@ function preparePostMessage(task) {
             msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["textOptions"] = fieldInformation[3].split(",");
-            msg["listOfUsers"] = listOfUsers;
-            console.log(msg["listOfUsers"]);
+            msg["listOfUsers"] = listOfUsers.splice(0, 4);
             msg["changes"] = variables[changes_index]; 
             msg["message"] = variables[message_index];
-            listOfUsers.splice(0, 4);
-            console.log(msg["listOfUsers"]);
 
             if (headlineLeftFieldSplitted.length == 0) {
                 msg["buttonName"] = buttonNameSplitted[1];
@@ -138,7 +135,6 @@ function preparePostMessage(task) {
                 msg["buttonName"] = buttonNameSplitted[0];
                 msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();
             }
-            console.log(msg["listOfUsers"]);
                      
         }
     }
