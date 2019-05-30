@@ -12,22 +12,25 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
     console.log(msg);
+    var taskid;
+    var pushedButton;
     try {
-        var pushedButton = msg.actions[0].value;
+        pushedButton = msg.actions[0].value;
     } catch (e) { }
     try {
-        var taskid = msg.callback_id.split(' ');
-    } catch (e) {
-        try {
-            var taskid = msg.blocks.block_id.split(' ');
-        } catch (e) { }
+        taskid = msg.callback_id.split(' ');
+    } catch (e) {}
+    if (msg.type == "block_actions") {
+        taskid = msg.message.blocks.block_id.split(' ');
     }
+        
+    } catch (e) { }
     console.log(taskid);
-    console.log(msg.blocks[0]);
-    console.log(msg.blocks[1]);
-    console.log(msg.blocks[2]);
-    console.log(msg.blocks[3]);
-    console.log(msg.blocks[4]);
+    console.log(msg.message.blocks[0]);
+    console.log(msg.message.blocks[1]);
+    console.log(msg.message.blocks[2]);
+    console.log(msg.message.blocks[3]);
+    console.log(msg.message.blocks[4]);
     var arrayOfVariables = {};
     //call function depending on callback_id
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
