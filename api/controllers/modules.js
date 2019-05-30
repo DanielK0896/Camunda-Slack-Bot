@@ -127,6 +127,7 @@ function preparePostMessage(task) {
             msg["changes"] = variables[changes_index]; 
             msg["message"] = variables[message_index];
             listOfUsers.splice(0, 4);
+            console.log(msg["listOfUsers"]);
 
             if (headlineLeftFieldSplitted.length == 0) {
                 msg["buttonName"] = buttonNameSplitted[1];
@@ -137,6 +138,7 @@ function preparePostMessage(task) {
                 msg["buttonName"] = buttonNameSplitted[0];
                 msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();
             }
+            console.log(msg["listOfUsers"]);
                      
         }
     }
