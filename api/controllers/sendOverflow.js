@@ -79,7 +79,10 @@ function sendOverflowStatic(req, res) {
         ]
     }); 
     console.log(body);
-    console.log(body.blocks.text);
+    console.log(body.blocks[0].text);
+    console.log(body.blocks[2].fields);
+    console.log(body.blocks[2].accessory);
+    console.log(body.blocks[4].elemts);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
