@@ -21,12 +21,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         } catch (e) { }
     }
     if (msg.type == "block_actions") {
-        console.log(msg.message.blocks[0]);
-        console.log(msg.message.blocks[1]);
-        console.log(msg.message.blocks[2]);
-        console.log(msg.message.blocks[3]);
-        console.log(msg.message.blocks[4]);
-        taskid = msg.message.blocks.block_id.split(' ');
+        taskid = msg.actions.block_id.split(' ');
     }
 
     console.log(taskid);
