@@ -132,7 +132,7 @@ function preparePostMessage(task) {
                 msg["buttonName"] = buttonNameSplitted[1];
                 var lastMessage = variables[message_index].split(" ");
                 lastMessage.splice(2, 2, "endOfList", "blocks.elements.text.text");
-                msg["buttonValue"] = lastMessage
+                msg["buttonValue"] = lastMessage.join(" ");
             } else {
                 msg["buttonName"] = buttonNameSplitted[0];
                 msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();
