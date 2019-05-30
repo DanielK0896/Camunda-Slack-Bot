@@ -56,7 +56,7 @@ function sendOverflowStatic(req, res) {
                     "text": msg.textOptions[s],
                     "emoji": true
                 },
-                "value": s
+                "value": s.toString()
             });
         }
     }
@@ -82,7 +82,9 @@ function sendOverflowStatic(req, res) {
     console.log(body.blocks[0].text);
     console.log(body.blocks[2].fields);
     console.log(body.blocks[2].accessory);
-    console.log(body.blocks[4].elemts);
+    console.log(body.blocks[2].accessory.options[0].text);
+    console.log(body.blocks[2].accessory.options[1].text);
+    console.log(body.blocks[4].elements);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
