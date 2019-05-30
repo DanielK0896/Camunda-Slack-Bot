@@ -5,7 +5,8 @@ module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
-    getVariables: getVariables
+    getVariables: getVariables,
+    pushSpecificVariables: pushSpecificVariables
 };
 
 function postToSwaggerAPI(msg, path){             //function to call Swagger API
@@ -122,18 +123,20 @@ function preparePostMessage(task) {
             msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["textOptions"] = fieldInformation[3].split(",");
-            msg["listOfUsers"] = listOfUsers.splice(0, 4);
+            msg["actionId"] = listOfUsers.splice(0, 4);
             msg["changes"] = variables[changes_index]; 
             msg["message"] = variables[message_index];
 
             if (headlineLeftFieldSplitted.length == 0) {
                 msg["buttonName"] = buttonNameSplitted[1];
-                var lastMessage = variables[message_index].split(" ");
-                lastMessage.splice(2, 2, "endOfList", "blocks.elements.text.text");
-                msg["buttonValue"] = lastMessage.join(" ");
+                msg["buttonMessage"] = variables[message_index];
+                msg["buttonActionId"] = "lastMessage";
+                msg["buttonValue"] = "lastMessage";
             } else {
                 msg["buttonName"] = buttonNameSplitted[0];
-                msg["buttonValue"] = listOfUsers + " " + variables[boldHeadline_index] + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + msg["textOptions"].join(',') + " " + buttonNameSplitted.toString();
+                msg["buttonMessage"] = "0 0 0 0"
+                msg["buttonActionId"] = "nextpage"
+                msg["buttonValue"] = listOfUsers + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + buttonNameSplitted.toString();
             }
                      
         }
@@ -213,4 +216,51 @@ var fonts = {
             italics: 'fonts/Roboto-Italic.ttf',
             bolditalics: 'fonts/Roboto-MediumItalic.ttf'
         }
-    };
+};
+
+function pushSpecificVariables(arrayOfVariables, variableName, variableValue) { //push given variables in given array with given property. Property length can be up to 4
+    var variableNameSplitted = variableName.split('.');
+    var variableValueSplitted = variableValue.split('.');
+    if (variableNameSplitted.length == 2) {
+        if (variablesToPost.length == 2) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
+        } else if (variablesToPost.length == 3) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
+        } else if (variablesToPost.length == 4) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
+        } else {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]];
+        }
+    } else if (variableNameSplitted.length == 3) {
+        if (variablesToPost.length == 2) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
+        } else if (variablesToPost.length == 3) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
+        } else if (variablesToPost.length == 4) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
+        } else {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]];
+        }
+    } else if (variableNameSplitted.length == 4) {
+        if (variablesToPost.length == 2) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
+        } else if (variablesToPost.length == 3) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
+        } else if (variablesToPost.length == 4) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
+        } else {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]];
+        }
+    } else {
+        if (variablesToPost.length == 2) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
+        } else if (variablesToPost.length == 3) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
+        } else if (variablesToPost.length == 4) {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
+        } else {
+            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]];
+        }
+    }
+    return arrayOfVariables;
+}

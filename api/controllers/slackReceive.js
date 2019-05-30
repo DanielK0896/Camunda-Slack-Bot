@@ -1,5 +1,4 @@
 var mod = require('./modules');
-var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixten", "seventeen", "eighteen", "nineteen", "twenty"];
 var basicResponse = {
     "response_type": "ephemeral", "replace_original": false,
     "text": "Deine Nachricht ist angekommen!"
@@ -22,39 +21,31 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }
     if (msg.type == "block_actions") {
         taskid = msg.actions[0].block_id.split(' ');
+        try {
+            pushedButton = msg.actions[0].selected_option.value;
+        } catch (e) {
+            pushedButton = msg.actions[0].value.split(" ");
+        }
     }
-
-    console.log(taskid);
 
     var arrayOfVariables = {};
     //call function depending on callback_id
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
-        var variableInformation = taskid[3].split(','); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
-        var i;
-        for (i = 1; i <= variableInformation.length; i++) {
+
+        var variableInformation = taskid[3].split(','),
+        for (i = 1; i <= variableName.length; i++) {      
             var numberNameVariable = "nameVariable" + i;
-            var numberVariable = "variable" + i;
+            var numberVariable = "variable" + i; 
             arrayOfVariables[numberNameVariable] = variableInformation[i - 1];
-            var variablesToPost = variableInformation[i - 1].split('.');
-            if (variablesToPost.length == 2) {
-                arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]];
-            } else if (variablesToPost.length == 3) {
-                arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]][variablesToPost[2]];
-            } else if (variablesToPost.length == 4) {
-                arrayOfVariables[numberVariable] = msg[variablesToPost[0]][variablesToPost[1]][variablesToPost[2]][variablesToPost[3]];
-            } else {
-                arrayOfVariables[numberVariable] = msg[variablesToPost[0]];
-            }
+            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, numberVariable, variableInformation[i])); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
             if (typeof pushedButton != "undefined") {
                 arrayOfVariables[numberVariable] = pushedButton + "," + arrayOfVariables[numberVariable];
             }
-
         }
-        var path = "/camunda/sendMessage/" + numbers[i - 1] + "Variables"
+        var path = "/camunda/sendMessage/"
         arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
         arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
         console.log(arrayOfVariables);
-        console.log(path);
         var payload = JSON.stringify(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
         res.json(basicResponse);
@@ -122,17 +113,61 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     } else {
         console.log("ERROR SlackReceive.js");
     }
-
-    if (msg.actions.type == "overflow") {
-        payload["channel"] = msg.container.channel_id;
-        payload["ts"] = msg.container.message_ts;
-        payload["blocks"] = msg.blocks;
-        var actionValue = msg.actions.selected_option.value;
-        var changes = taskid[4].split(',');
-        payload["blocks"][changes[actionValue]] = [changes[actionValue + changes.length/2]]
-        var path = "/updateOverflow";
-        mod.postToSwaggerAPI(JSON.stringify(payload), path);
-    } 
+    if (msg.type == "block_actions") {
+        if (msg.actions.type == "overflow") {
+            payload["channel"] = msg.container.channel_id;
+            payload["ts"] = msg.container.message_ts;
+            payload["blocks"] = msg.message.blocks;
+            var changes = taskid[4].split(',');
+            var actionValue = msg.actions.selected_option.value;
+            payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], changes[actionValue + changes.length / 2])
+            var path = "/updateOverflow";
+            mod.postToSwaggerAPI(JSON.stringify(payload), path);
+        } else if (msg.actions.type == "button" && actions[0].action_id != "lastMessage") {
+            payload["channel"] = msg.container.channel_id;
+            payload["ts"] = msg.container.message_ts;
+            payload["blocks"] = msg.message.blocks;
+            var headlineLeftFieldSplitted = pushedButton[1].splice(0, 4).join().split('_').join(" ").split(',');
+            var headlineRightFieldSplitted = pushedButton[2].splice(0, 4).join().split('_').join(" ").split(',');
+            var variableName = msg.actions[0].action_id.split(',');
+            var listOfUsers = pushedButton[0].split(',');
+            var lengthOfMissingOverflows = headlineLeftFieldSplitted.length;
+            var lastOverflowNumber = lengthOfMissingOverflows * 2 + 2;
+            if (lastOverflowNumber > 10) {
+                lastOverflowNumber = 10;
+            }
+            for (var i = 0; i < lengthOfMissingOverflows; i++) {
+                var s = (i + 1) * 2
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".fields.0.text", headlineLeftFieldSplitted[i]);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".fields.1.text", headlineRightFieldSplitted[i]);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".accessory.action_id", listOfUsers[i]); 
+                if (i = 3) {
+                    break;
+                }
+            }
+            listOfUsers.splice(0, 4);
+            if (listOfusers.length == 0) {
+                var buttonName = pushedButton[3].split(',')
+                var blockId = msg.message.blocks[2].block_id.split(' ');
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".fields.0.text", buttonName[1].toString());
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".block_id", blockId[0].toString());
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + lastOverflowNumber + ".elements.action_id", "lastMessage");
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + lastOverflowNumber + ".elements.value", "lastMessage");
+            } else {
+                var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.splice(0, 4) + " " + headlineRightFieldSplitted.splice(0, 4) + " " + pushedButton[3];
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", buttonValue);
+                if (lengthOfMissingOverflows == 3) {
+                    payload["blocks"].splice(7, 2);
+                } else if (lengthOfMissingOverflows = 2) {
+                    payload["blocks"].splice(5, 4);
+                } else if (lengthOfMissingOverflows = 1) {
+                    payload["blocks"].splice(3, 6);
+                }
+            }
+            var path = "/updateOverflow";
+            mod.postToSwaggerAPI(JSON.stringify(payload), path);
+        }
+    }
 
     //if (msg.type == "dialog_submission") {
     //    mod.preparePostMessage(task, "variablesToGet2");

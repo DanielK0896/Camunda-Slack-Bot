@@ -2,7 +2,7 @@
 var request = require('request');
 var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
-var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
+var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' }; #
 
 module.exports = {
     sendOverflowStatic: sendOverflowStatic,
@@ -41,7 +41,7 @@ function sendOverflowStatic(req, res) {
                     }],
                 "accessory": {
                     "type": "overflow",
-                    "action_id": msg.listOfUsers[i],
+                    "action_id": msg.actionId[i],
                     "options": [
                     ]
                 }
@@ -66,9 +66,12 @@ function sendOverflowStatic(req, res) {
     },
     {
         "type": "actions",
+        "block_id": msg.buttonMessage,
         "elements": [
             {
                 "type": "button",
+                
+                "action_id": msg.actionId,
                 "text": {
                     "type": "plain_text",
                     "emoji": true,

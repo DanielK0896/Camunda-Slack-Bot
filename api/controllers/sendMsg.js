@@ -2,8 +2,6 @@ var request = require('request');
 var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
 var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
-var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixten", "seventeen", "eighteen", "nineteen", "twenty"];
-
 
 module.exports = {
     sendMsg: sendMsg,
@@ -45,7 +43,7 @@ function sendMsgButton(req, res) {
             "text": msg.textButtons[i],
             "style": msg.style[i],
             "type": "button",
-            "value": numbers[i + 1]
+            "value": i.toString()
         });
     }
     if (typeof msg.textConfirmation != "undefined") {

@@ -531,7 +531,7 @@ paths:
                 type: array
                 items:
                   type: string
-              listOfUsers:
+              actionId:
                 type: array
                 items:
                   type: string
@@ -546,6 +546,10 @@ paths:
               buttonName:
                 type: string
               buttonValue:
+                type: string
+              buttonActionId:
+                type: string
+              buttonMessage:
                 type: string
              
               

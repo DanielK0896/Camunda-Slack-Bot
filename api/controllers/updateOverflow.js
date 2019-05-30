@@ -15,7 +15,7 @@ function updateOverflow(req, res) {
     var body = {
         "channel": msg.channel,
         "ts": msg.ts,
-        "blocks": ""
+        "blocks": msg.blocks
     };
     body.blocks = JSON.parse(msg.blocks);
     request.post({ headers: headers, url: URL, body: body, json: true });
