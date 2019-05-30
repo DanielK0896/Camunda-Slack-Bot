@@ -23,7 +23,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         } catch (e) { }
     }
     console.log(taskid);
-    console.log(msg.blocks.block_id);
+    console.log(msg.blocks[0]);
+    console.log(msg.blocks[1]);
+    console.log(msg.blocks[2]);
+    console.log(msg.blocks[3]);
+    console.log(msg.blocks[4]);
     var arrayOfVariables = {};
     //call function depending on callback_id
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
