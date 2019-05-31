@@ -253,6 +253,7 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
         }
     } else {
         if (variableValueSplitted.length == 2) {
+            console.log(variableNameSplitted[0] + variableNameSplitted[1] + variableValueSplitted[0] + variableValueSplitted[1]:
             arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
         } else if (variableValueSplitted.length == 3) {
             arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
