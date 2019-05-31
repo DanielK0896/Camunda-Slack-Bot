@@ -13,7 +13,6 @@ function sendOverflowStatic(req, res) {
     console.log(msg);
     var body = {
         "channel": msg.channel,
-        "text":"test",
         "blocks": [
             {
                 "type": "section",
