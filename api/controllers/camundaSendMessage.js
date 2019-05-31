@@ -24,7 +24,7 @@ function camundaSendMessage(req, res) {
         },
         "processVariables": {}
     };
-    for (var i = 0; i <= nameVariable.length; i++) {
+    for (var i = 0; i <= msg.nameVariable.length; i++) {
         body.processVariables[msg.nameVariable[i]] = { "value": msg.variable[i], "type": "String" }; 
     }    
     request.post({ headers: headers, url: URL, body: body, json: true });
