@@ -221,8 +221,6 @@ var fonts = {
 function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg) { //push given variables in given array with given property. Property length can be up to 4
     var variableNameSplitted = variableName.split('.');
     var variableValueSplitted = variableValue.split('.');
-    console.log(variableNameSplitted);
-    console.log(variableValueSplitted);
     if (variableNameSplitted.length == 2) {
         if (variableValueSplitted.length == 2) {
             arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
@@ -255,14 +253,13 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
         }
     } else {
         if (variableValueSplitted.length == 2) {
-            console.log(variableNameSplitted[0] + variableNameSplitted[1] + variableValueSplitted[0] + variableValueSplitted[1]);
-            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
+            arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
         } else if (variableValueSplitted.length == 3) {
-            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
+            arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
         } else if (variableValueSplitted.length == 4) {
-            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
+            arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
         } else {
-            arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]];
+            arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]];
         }
     }
     return arrayOfVariables;
