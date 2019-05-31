@@ -218,7 +218,7 @@ var fonts = {
         }
 };
 
-function pushSpecificVariables(arrayOfVariables, variableName, variableValue) { //push given variables in given array with given property. Property length can be up to 4
+function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg) { //push given variables in given array with given property. Property length can be up to 4
     var variableNameSplitted = variableName.split('.');
     var variableValueSplitted = variableValue.split('.');
     if (variableNameSplitted.length == 2) {
