@@ -37,7 +37,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var numberNameVariable = "nameVariable" + i;
             var numberVariable = "variable" + i; 
             arrayOfVariables[numberNameVariable] = variableInformation[i - 1];
-            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, numberVariable, variableInformation[i])); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, numberVariable, variableInformation[i - 1])); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
             if (typeof pushedButton != "undefined") {
                 arrayOfVariables[numberVariable] = pushedButton + "," + arrayOfVariables[numberVariable];
             }
