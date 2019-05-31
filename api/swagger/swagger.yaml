@@ -754,10 +754,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /camunda/sendMessage/oneVariables:
+  /camunda/sendMessage:
     x-swagger-router-controller: camundaSendMessage
     post:
-      operationId: camundaSendMessageOneVariables
+      operationId: camundaSendMessage
       consumes:
         - application/json
       produces:
@@ -768,41 +768,14 @@ paths:
           required: false
           schema:
             properties:
-              nameVariable1:
-                type: string
-              variable1:
-                type: string
-              message:
-                type: string  
-              correlationKey:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /camunda/sendMessage/twoVariables:
-    x-swagger-router-controller: camundaSendMessage
-    post:
-      operationId: camundaSendMessageTwoVariables
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              nameVariable1:
-                type: string
-              variable1:
-                type: string
-              nameVariable2:
-                type: string
-              variable2:
-                type: string
+              nameVariable:
+                type: array
+                items:
+                  type: string
+              variable:
+                type: array
+                items:
+                  type: string
               message:
                 type: string  
               correlationKey:
