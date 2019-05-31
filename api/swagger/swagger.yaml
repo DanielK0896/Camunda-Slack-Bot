@@ -550,9 +550,7 @@ paths:
               buttonActionId:
                 type: string
               buttonMessage:
-                type: string
-             
-              
+                type: string         
       responses:
         '200':
           description: Definition generated from Swagger Inspector

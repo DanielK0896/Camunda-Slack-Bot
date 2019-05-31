@@ -10,6 +10,7 @@ module.exports = {
 
 function sendOverflowStatic(req, res) {
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var body = {
         "channel": msg.channel,
         "text":"test",
@@ -69,8 +70,7 @@ function sendOverflowStatic(req, res) {
         "block_id": msg.buttonMessage,
         "elements": [
             {
-                "type": "button",
-                
+                "type": "button",          
                 "action_id": msg.actionId,
                 "text": {
                     "type": "plain_text",
@@ -81,6 +81,7 @@ function sendOverflowStatic(req, res) {
             }
         ]
     }); 
+    console.log(body);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
