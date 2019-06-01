@@ -70,7 +70,7 @@ function sendOverflowStatic(req, res) {
         "elements": [
             {
                 "type": "button",          
-                "action_id": msg.actionId,
+                "action_id": msg.buttonActionId,
                 "text": {
                     "type": "plain_text",
                     "emoji": true,
@@ -81,6 +81,9 @@ function sendOverflowStatic(req, res) {
         ]
     }); 
     console.log(body);
+    console.log(body.blocks[0].text);
+    console.log(body.blocks[2].fields);
+    console.log(body.blocks[2].accessory);
     console.log(body.blocks[4].elements);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
