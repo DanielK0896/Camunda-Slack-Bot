@@ -34,17 +34,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 
         var variableInformation = taskid[3].split(',');
         for (i = 1; i <= variableInformation.length; i++) {
-            var numberNameVariable = "nameVariable[" + (i - 1).toString() + "]";
-            var numberVariable = "variable[" + (i - 1).toString() + "]";
-            console.log(numberNameVariable);
-            console.log(numberVariable);
-            arrayOfVariables[numberNameVariable] = variableInformation[i - 1];
-            console.log(arrayOfVariables);
+            var numberNameVariable = "nameVariable." + (i - 1).toString();
+            var numberVariable = "variable." + (i - 1).toString();
+            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, numberNameVariable, variableInformation[i - 1], msg));
             arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, numberVariable, variableInformation[i - 1], msg)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
             if (typeof pushedButton != "undefined") {
                 arrayOfVariables[numberVariable] = pushedButton + "," + arrayOfVariables[numberVariable];
             }
-            console.log(arrayOfVariables);
         }
         var path = "/camunda/sendMessage/"
         arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
