@@ -37,7 +37,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             arrayOfVariables["nameVariable"[i]] = variableInformation[i - 1];
             arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
             if (typeof pushedButton != "undefined") {
-                arrayOfVariables[numberVariable] = pushedButton + "," + arrayOfVariables[numberVariable];
+                arrayOfVariables["variable"[i]] = pushedButton + "," + arrayOfVariables["variable"[i]];
             }
         }
         var path = "/camunda/sendMessage/"
