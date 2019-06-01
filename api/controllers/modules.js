@@ -218,10 +218,10 @@ var fonts = {
         }
 };
 
-function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg) { //push given variables in given array with given property. Property length can be up to 4
+function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg, array) { //push given variables in given array with given property. Property length can be up to 4
     var variableNameSplitted = variableName.split('.');
     var variableValueSplitted = variableValue.split('.');
-    try {
+    if(array != true) {
         if (variableNameSplitted.length == 2) {
             if (variableValueSplitted.length == 2) {
                 arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
@@ -263,7 +263,7 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
                 arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]];
             }
         }
-    } catch (e) {
+    } else {
         if (variableNameSplitted.length == 2) {
             if (variableValueSplitted.length == 2) {
                 arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
