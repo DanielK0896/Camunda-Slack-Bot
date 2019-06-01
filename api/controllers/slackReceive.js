@@ -34,6 +34,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 
         var variableInformation = taskid[3].split(',');
         for (i = 1; i <= variableInformation.length; i++) {
+            arrayOfVariables["nameVariable"] = [];
             arrayOfVariables["nameVariable"[i]] = variableInformation[i - 1];
             console.log(arrayOfVariables["nameVariable"[i]]);
             console.log(arrayOfVariables);
