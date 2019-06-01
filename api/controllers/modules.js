@@ -264,7 +264,6 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
             }
         }
     } catch (e) {
-        arrayOfVariables[variableNameSplitted] = [];
         if (variableNameSplitted.length == 2) {
             if (variableValueSplitted.length == 2) {
                 arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
