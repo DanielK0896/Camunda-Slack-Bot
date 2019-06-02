@@ -17,10 +17,10 @@ function updateOverflow(req, res) {
     console.log(JSON.parse(msg.blocks));
     var body = {
         "channel": msg.channel,
-        "ts": msg.ts
+        "ts": msg.ts,
+        "blocks": JSON.parse(msg.blocks)
         
     };
-    body.blocks.push(JSON.parse(msg.blocks));
     console.log(JSON.stringify(body));
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
