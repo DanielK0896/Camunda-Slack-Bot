@@ -17,7 +17,9 @@ function updateOverflow(req, res) {
         "ts": msg.ts,
         "blocks": msg.blocks
     };
+    console.log(body);
     body.blocks = JSON.parse(msg.blocks);
+    console.log(JSOn.stringify(msg.blocks));
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }

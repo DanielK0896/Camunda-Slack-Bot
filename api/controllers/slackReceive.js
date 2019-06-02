@@ -124,6 +124,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
             }
             var path = "/updateOverflow";
+            console.log(JSON.stringify(payload));
             mod.postToSwaggerAPI(JSON.stringify(payload), path);
         }
     }
@@ -150,7 +151,6 @@ function handleMessage(taskid, pushedButton, msg) {
     arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
     var payload = JSON.stringify(arrayOfVariables);
-    console.log(payload);
     mod.postToSwaggerAPI(payload, path);
 }
 
@@ -201,6 +201,5 @@ function handleDialog(taskid, msg) {
     } else if (arrayOfVariables["data_source"] == []) {
         
     }
-    console.log(arrayOfVariables);
     mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
 }

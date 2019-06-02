@@ -17,9 +17,9 @@ function updateMsg(req, res) {
     var body = {
         "channel": msg.channel,
         "text": msg.text,
-         "ts": msg.ts
+        "ts": msg.ts,
+        "attachments": []
     };
-    console.log(body);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
