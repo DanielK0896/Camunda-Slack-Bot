@@ -49,7 +49,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
                 callbackId.splice(4, 3 + (i - 7));
             }
-            console.log(callbackId.join(' '));
             handleMessage(callbackId.join(' '), pushedButton);
             res.status(200).type('application/json').end();
         } else {
@@ -116,6 +115,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 }
 
 function handleMessage(taskid, pushedButton, msg) {
+    console.log(taskid);
+    console.log(pushedButton);
     var arrayOfVariables = {};
     var variableInformation = taskid[3].split(',');
     arrayOfVariables["nameVariable"] = [];
@@ -148,7 +149,11 @@ function handleDialog(taskid, msg) {
         callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
         callbackId[2] = callbackId[5];
         callbackId[3] = callbackId[6];
-        callbackId.splice(4, 3);
+        var i;
+        for (i = 7; i < callbackId.length; i++) {
+            callbackId[3] += "," + callbackId[i];
+        }
+        callbackId.splice(4, 3 + (i - 7));
     }
     arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
