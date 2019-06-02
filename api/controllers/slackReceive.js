@@ -41,7 +41,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             for (x in msg.submission) {
                 updateMsg["text"] += " " + msg.submission[x];
             }
-            updateMsg["ts"] = msg.taskid[taskid.length - 1];
+            updateMsg["ts"] = taskid[taskid.length - 1];
             console.log(updateMsg);
             mod.postToSwaggerAPI(JSON.stringify(updateMsg), "/updateMsg");
         } else {
