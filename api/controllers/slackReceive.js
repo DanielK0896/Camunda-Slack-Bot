@@ -42,11 +42,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (callbackId[0] == "message") {
                 callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
                 callbackId[2] = callbackId[5];
-                callbackId[3] += callbackId[6];
+                callbackId[3] = callbackId[6];
                 var i;
                 for (i = 7; i < callbackId.length; i++) {
                     callbackId[3] += "," + callbackId[i];
                 }
+                console.log(i);
                 callbackId.splice(4, i - 5);
             }
             console.log(callbackId.join(' '));
