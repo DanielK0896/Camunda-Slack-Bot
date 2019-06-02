@@ -42,6 +42,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 updateMsg["text"] += " " + msg.submission[x];
             }
             updateMsg["ts"] = msg.taskid[taskid.length - 1];
+            console.log(updateMsg);
             mod.postToSwaggerAPI(JSON.stringify(updateMsg), "/updateMsg");
         } else {
             handleMessage(taskid, pushedButton, msg);

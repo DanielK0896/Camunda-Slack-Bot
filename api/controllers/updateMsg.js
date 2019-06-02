@@ -19,6 +19,7 @@ function updateMsg(req, res) {
         "text": msg.text,
          "ts": msg.ts
     };
+    console.log(body);
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
