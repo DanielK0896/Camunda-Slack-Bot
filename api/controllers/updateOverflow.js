@@ -13,12 +13,14 @@ function updateOverflow(req, res) {
 
     var msg = req.swagger.params.body.value;
     console.log(msg);
-    console.log(JSON.stringify(msg.blocks));
+    console.log(msg.blocks);
+    console.log(JSON.parse(msg.blocks));
     var body = {
         "channel": msg.channel,
-        "ts": msg.ts,
-        "blocks": msg.blocks
+        "ts": msg.ts
+        
     };
+    body.push("blocks": JSON.parse(msg.blocks));
     console.log(JSON.stringify(body));
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
