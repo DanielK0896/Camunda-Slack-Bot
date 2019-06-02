@@ -13,7 +13,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     console.log(msg);
     var taskid;
     var pushedButton; 
-    if (msg.type == "interactive_message") {
+    if (msg.type == "interactive_message" || msg.type == "dialog_submission") {
         taskid = msg.callback_id.split(' ');
         try {
             pushedButton = msg.actions[0].value;
