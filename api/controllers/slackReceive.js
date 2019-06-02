@@ -35,7 +35,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         res.json(basicResponse);
     } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
-            handleDialog(taskid, pushedButton, msg);
+            handleDialog(taskid, msg);
             res.status(200).type('application/json').end();
         } else if (pushedButton != taskid[1]) {
             var callbackId = taskid[3].split(',');
