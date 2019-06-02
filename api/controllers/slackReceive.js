@@ -77,14 +77,15 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         if (msg.actions[0].type == "overflow") {
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
+            payload["blocks"] = msg.message.blocks;
             var changes = taskid[4].split(',');
             var actionValue = msg.actions[0].selected_option.value;
             var recentChanges = changes[actionValue].split('.');
             if (recentChanges[0] == "blocks") {
                 for (var i = 0; i < 15; i++) {
                     if (msg.message.blocks[i].block_id == msg.actions[0].block_id) {
-                        payload["blocks"] = msg.message.blocks[i];
-                        recentChanges.splice(0, 1);
+                        
+                        recentChanges[0] = "." + i;
                         changes[actionValue] = recentChanges.join('.');
                         break;
                     }
