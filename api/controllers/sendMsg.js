@@ -1,7 +1,4 @@
-/* This file can be reached by calling swagger API endpoint. Pass as many textButtons and textConfirmations as you want to 
- * be added to the message*/
-
-
+jm<
 var request = require('request');
 var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');

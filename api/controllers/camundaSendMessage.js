@@ -14,7 +14,6 @@ module.exports = {
 
 function camundaSendMessage(req, res) {
     var msg = req.swagger.params.body.value;
-    console.log(msg);
     var correlationKeys = msg.correlationKey.split(',');
     var body = {
         "messageName": msg.message,

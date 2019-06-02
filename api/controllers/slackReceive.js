@@ -49,7 +49,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
                 callbackId.splice(4, 3 + (i - 7));
             }
-            handleMessage(callbackId.join(' '), pushedButton);
+            handleMessage(callbackId, pushedButton);
             res.status(200).type('application/json').end();
         } else {
             console.log("ERROR Dialog");
