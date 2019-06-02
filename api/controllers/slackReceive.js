@@ -32,9 +32,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     //call function depending on callback_id
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         handleMessage(taskid);
+        res.json(basicResponse);
     } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
             handleDialog(taskid);
+            res.status(200).type('application/json').end();
         } else if (pushedButton != taskid[1]) {          
             taskid = taskid[3].split(',').join(' ');
             handleMessage(taskid);
@@ -124,7 +126,6 @@ function handleMessage(taskid, msg) {
     arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
     var payload = JSON.stringify(arrayOfVariables);
     mod.postToSwaggerAPI(payload, path);
-    res.json(basicResponse);
 }
 
 function handleDialog(taskid) {
@@ -164,5 +165,4 @@ function handleDialog(taskid) {
         }
     }
     mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
-    res.status(200).type('application/json').end();
 }
