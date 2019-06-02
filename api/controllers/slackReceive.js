@@ -92,7 +92,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (parseInt(actionValue, 10) + changes.length / 2).toString(), changes)
-            console.log(payload.toString());
+            payload["blocks"] = payload["blocks"].toString();
             console.log(JSON.stringify(payload));
             mod.postToSwaggerAPI(JSON.stringify(payload), "/updateOverflow");
         } else if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {
