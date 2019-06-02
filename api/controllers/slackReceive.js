@@ -152,18 +152,17 @@ function handleDialog(taskid, msg) {
         arrayOfVariables["name"].push(variablesForDialog[i + 1]);
         arrayOfVariables["type"].push(variablesForDialog[i + 2]);
         arrayOfVariables["placeholder"].push(variablesForDialog[i + 3]);
-        if (variablesForDialog[i + 2] == "select") {
-            if (variablesForDialog[i + 4] == "options") {
-                arrayOfVariables["options"].push(variablesForDialog[i + 5]);
-            } else {
-                arrayOfVariables["options"].push("undefined");
-            }
-            if (variablesForDialog[i + 4] == "data_source") {
-                arrayOfVariables["data_source"].push(variablesForDialog[i + 5]);
-            } else {
-                arrayOfVariables["data_source"].push("undefined");
-            }
+        if (variablesForDialog[i + 4] == "options" && variablesForDialog[i + 2] == "select") {
+            arrayOfVariables["options"].push(variablesForDialog[i + 5]);
             i = i + 2
+        } else {
+            arrayOfVariables["options"].push("undefined");
+        }
+        if (variablesForDialog[i + 4] == "data_source" && variablesForDialog[i + 2] == "select") {
+            arrayOfVariables["data_source"].push(variablesForDialog[i + 5]);
+            i = i + 2
+        } else {
+            arrayOfVariables["data_source"].push("undefined");
         } 
     }
     if (arrayOfVariables["options"] == []) {
