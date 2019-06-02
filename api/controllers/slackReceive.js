@@ -28,64 +28,20 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         }
     }
 
-    var arrayOfVariables = {};
+    
     //call function depending on callback_id
     if (taskid[0] == "message" && msg.type != "dialog_cancellation") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
-
-        var variableInformation = taskid[3].split(',');
-        for (i = 1; i <= variableInformation.length; i++) {
-            arrayOfVariables["nameVariable"] = [];
-            arrayOfVariables["variable"] = [];
-            arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
-            if (typeof pushedButton != "undefined") {
-                arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
-            }
-        }
-        var path = "/camunda/sendMessage/"
-        arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
-        arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
-        var payload = JSON.stringify(arrayOfVariables);
-        mod.postToSwaggerAPI(payload, path);
-        res.json(basicResponse);
-    } else if (taskid[0] == "dialog" && pushedButton == taskid[1]) {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
-        //callbackId[1] = open Dialog when pushed Button = xy e.g. "one"
-        var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "textelement"
-        arrayOfVariables["triggerId"] = msg.trigger_id;
-        var callbackId = taskid[3].split(',');
-        if (callbackId[0] == "message") {
-            callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
-            callbackId[2] = callbackId[5];
-            callbackId[3] = callbackId[6];
-            console.log(callbackId);
-            callbackId.splice(4, 3);
-        }
-        arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
-        arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
-        var lengthOfVariableArray = variablesForDialog.length;
-        arrayOfVariables["label"] = [];
-        arrayOfVariables["name"] = [];
-        arrayOfVariables["type"] = [];
-        arrayOfVariables["placeholder"] = []; 
-        arrayOfVariables["options"] = [];
-        arrayOfVariables["data_source"] = [];
-        for (var i = 1; i <= lengthOfVariableArray; i = i + 4) {
-            arrayOfVariables["label"].push(variablesForDialog[i]);
-            arrayOfVariables["name"].push(variablesForDialog[i + 1]);
-            arrayOfVariables["type"].push(variablesForDialog[i + 2]);
-            arrayOfVariables["placeholder"].push(variablesForDialog[i + 3]);   
-            if (variablesForDialog[i + 2] == "select") {
-                if (variablesForDialog[i + 4] == "options") {
-                    arrayOfVariables["options"] = variablesForDialog[i + 5];
-                } else if (variablesForDialog[i + 4] == "data_source") {
-                    arrayOfVariables["data_source"] = variablesForDialog[i + 5];
-                }
-                i = i + 2
-
-            }        
-        }
-        mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
-        res.status(200).type('application/json').end();
+        handleMessage(taskid);
+    } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
+        if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
+            handleDialog(taskid);
+        } else if (pushedButton != taskid[1]) {          
+            taskid = taskid[3].split(',').join(' ');
+            handleMessage(taskid);
+            res.status(200).type('application/json').end();
+        } else {
+            console.log("ERROR Dialog");
+        } 
     } else {
         console.log("ERROR SlackReceive.js");
     }
@@ -144,9 +100,68 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             mod.postToSwaggerAPI(JSON.stringify(payload), path);
         }
     }
+}
 
-    //if (msg.type == "dialog_submission") {
-    //    mod.preparePostMessage(task, "variablesToGet2");
-     //   res.status(200).type('application/json').end();
-    //}
+function handleMessage(taskid, msg) {
+    var arrayOfVariables = {};
+    var variableInformation = taskid[3].split(',');
+    arrayOfVariables["nameVariable"] = [];
+    arrayOfVariables["variable"] = [];
+    arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
+    if (msg != undefined) {
+        for (i = 1; i <= variableInformation.length; i++) {                  
+            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+            if (typeof pushedButton != "undefined") {
+                arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
+            }
+        }
+    } else {
+        arrayOfVariables["nameVariable"].push("NoVariable");
+    }
+    var path = "/camunda/sendMessage/"
+    arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
+    arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
+    var payload = JSON.stringify(arrayOfVariables);
+    mod.postToSwaggerAPI(payload, path);
+    res.json(basicResponse);
+}
+
+function handleDialog(taskid) {
+    var arrayOfVariables = {};
+    var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "textelement"
+    arrayOfVariables["triggerId"] = msg.trigger_id;
+    var callbackId = taskid[3].split(',');
+    if (callbackId[0] == "message") {
+        callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
+        callbackId[2] = callbackId[5];
+        callbackId[3] = callbackId[6];
+        console.log(callbackId);
+        callbackId.splice(4, 3);
+    }
+    arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
+    arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
+    var lengthOfVariableArray = variablesForDialog.length;
+    arrayOfVariables["label"] = [];
+    arrayOfVariables["name"] = [];
+    arrayOfVariables["type"] = [];
+    arrayOfVariables["placeholder"] = [];
+    arrayOfVariables["options"] = [];
+    arrayOfVariables["data_source"] = [];
+    for (var i = 1; i <= lengthOfVariableArray; i = i + 4) {
+        arrayOfVariables["label"].push(variablesForDialog[i]);
+        arrayOfVariables["name"].push(variablesForDialog[i + 1]);
+        arrayOfVariables["type"].push(variablesForDialog[i + 2]);
+        arrayOfVariables["placeholder"].push(variablesForDialog[i + 3]);
+        if (variablesForDialog[i + 2] == "select") {
+            if (variablesForDialog[i + 4] == "options") {
+                arrayOfVariables["options"] = variablesForDialog[i + 5];
+            } else if (variablesForDialog[i + 4] == "data_source") {
+                arrayOfVariables["data_source"] = variablesForDialog[i + 5];
+            }
+            i = i + 2
+
+        }
+    }
+    mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
+    res.status(200).type('application/json').end();
 }
