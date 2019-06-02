@@ -82,7 +82,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var changes = taskid[4].split(',');
             var actionValue = msg.actions[0].selected_option.value;
             var recentChanges = changes[actionValue].split('.');
-            if (recentChanges[0] == blocks) {
+            if (recentChanges[0] == "blocks") {
                 for (var i = 0; i < 15; i++) {
                     if (msg.blocks[i].block_id == msg.actions[0].block_id) {
                         recentChanges[0] += "[" + i + "]"
