@@ -13,6 +13,7 @@ function updateOverflow(req, res) {
 
     var msg = req.swagger.params.body.value;
     console.log(msg);
+    console.log(msg.blocks);
     var body = {
         "channel": msg.channel,
         "ts": msg.ts,
