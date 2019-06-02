@@ -107,16 +107,17 @@ function handleMessage(taskid, msg) {
     var variableInformation = taskid[3].split(',');
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
-    arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
     if (msg != undefined) {
         for (i = 1; i <= variableInformation.length; i++) {                  
             arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+            arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
             if (typeof pushedButton != "undefined") {
                 arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
             }
         }
     } else {
-        arrayOfVariables["nameVariable"].push("NoVariable");
+        arrayOfVariables["variable"].push("NoVariable");
+        arrayOfVariables["nameVariable"].push(variableInformation[0]);
     }
     var path = "/camunda/sendMessage/"
     arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
