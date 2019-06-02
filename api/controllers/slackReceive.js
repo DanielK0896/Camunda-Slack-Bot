@@ -18,14 +18,15 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         try {
             pushedButton = msg.actions[0].value;
         } catch (e) { }
-    }
-    if (msg.type == "block_actions") {
+    } else if (msg.type == "block_actions") {
         taskid = msg.actions[0].block_id.split(' ');
         try {
             pushedButton = msg.actions[0].selected_option.value;
         } catch (e) {
             pushedButton = msg.actions[0].value.split(" ");
         }
+    } else {
+        taskid[0] = "noAction";
     }
 
     
