@@ -117,6 +117,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 function handleMessage(taskid, pushedButton, msg) {
     var arrayOfVariables = {};
     var variableInformation = taskid[3].split(',');
+    console.log(taskid);
+    console.log(variableInformation);
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
     if (msg != undefined) {
