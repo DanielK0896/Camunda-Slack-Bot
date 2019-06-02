@@ -34,8 +34,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         handleMessage(taskid);
         res.json(basicResponse);
     } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
-        console.log(taskid[1]);
-        console.log(pushedButton)
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
             handleDialog(taskid, msg);
             res.status(200).type('application/json').end();
@@ -165,5 +163,6 @@ function handleDialog(taskid, msg) {
 
         }
     }
+    console.log(arrayOfVariables);
     mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
 }

@@ -11,8 +11,8 @@ module.exports = {
 };
 
 function startDialog(req, res) {
-
     var msg = req.swagger.params.body.value;
+    console.log("Dialog" + msg);
     var body = {
         "trigger_id": msg.triggerId,
         "dialog": {
