@@ -34,11 +34,19 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     if (taskid[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
             handleMessage(taskid, pushedButton, msg);
+            res.status(200).type('application/json').end();
+            var updateMsg = {};
+            updateMsg["channel"] = msg.channel.id;
+            updateMsg["text"] = "Deine Nachricht ist angekommen:";
+            for (x in msg.submission) {
+                updateMsg["text"] += " " + msg.submission[x];
+            }
+            updateMsg["ts"] = msg.taskid[taskid.length - 1];
+            mod.postToSwaggerAPI(JSON.stringify(updateMsg), "/updateMsg");
         } else {
             handleMessage(taskid, pushedButton, msg);
+            res.json(basicResponse);
         }
-        res.json(basicResponse);
-        res.status(200).type('application/json').end();
     } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
             handleDialog(taskid, msg);
@@ -159,6 +167,7 @@ function handleDialog(taskid, msg) {
             callbackId[3] += "," + callbackId[i];
         }
         callbackId.splice(4, 3 + (i - 7));
+        callbackId.push(msg.message_ts);
     }
     arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables

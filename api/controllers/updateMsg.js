@@ -16,7 +16,8 @@ function updateMsg(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
-        "text": msg.text
+        "text": msg.text,
+         "ts": msg.ts
     };
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
