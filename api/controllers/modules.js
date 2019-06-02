@@ -219,8 +219,6 @@ var fonts = {
 };
 
 function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg, array) { //push given variables in given array with given property. Property length can be up to 4
-    console.log(variableName);
-    console.log(variableValue);
     var variableNameSplitted = variableName.split('.');
     var variableValueSplitted = variableValue.split('.');
     if(array != true) {
