@@ -129,7 +129,7 @@ function handleMessage(taskid, pushedButton, msg) {
             arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
             arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
             console.log("TYPEOF" + typeof pushedButton)
-            if (typeof pushedButton === undefined) {
+            if (typeof pushedButton === "undefined") {
             } else {
                 arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
             }
