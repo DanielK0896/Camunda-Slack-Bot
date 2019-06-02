@@ -79,7 +79,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
             var changes = taskid[4].split(',');
-            var actionValue = msg.actions.selected_option.value;
+            var actionValue = msg.actions[0].selected_option.value;
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], "0", changes[actionValue + changes.length / 2])
             var path = "/updateOverflow";
             console.log(JSON.stringify(payload));
