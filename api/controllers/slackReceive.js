@@ -84,8 +84,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (recentChanges[0] == "blocks") {
                 for (var i = 0; i < 15; i++) {
                     if (msg.message.blocks[i].block_id == msg.actions[0].block_id) {
-                        
-                        recentChanges[0] = "." + i;
+                        recentChanges[0] = i;
                         changes[actionValue] = recentChanges.join('.');
                         break;
                     }
