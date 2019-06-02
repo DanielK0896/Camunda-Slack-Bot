@@ -90,7 +90,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                     }
                 }    
             }
-            changes[parseInt(actionValue, 10) + changes.length / 2] = changes[parseInt(actionValue, 10) + changes.length / 2].split('_').join(" ");
+            changes[parseInt(actionValue, 10) + changes.length / 2] = changes[parseInt(actionValue, 10) + changes.length / 2].split('%$%').join(" ");
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (parseInt(actionValue, 10) + changes.length / 2).toString(), changes)
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             console.log(JSON.stringify(payload));
