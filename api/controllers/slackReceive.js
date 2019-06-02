@@ -11,7 +11,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
     console.log(msg);
-    var taskid;
+    var taskid = [];
     var pushedButton; 
     if (msg.type == "interactive_message" || msg.type == "dialog_submission") {
         taskid = msg.callback_id.split(' ');
