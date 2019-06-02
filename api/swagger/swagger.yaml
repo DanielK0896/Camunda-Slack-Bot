@@ -228,7 +228,7 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-    /sendMsg/schedule/Button:
+  /sendMsg/schedule/Button:
     x-swagger-router-controller: sendMsgschedule
     post:
       operationId: sendMsgScheduleButton
