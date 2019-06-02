@@ -37,11 +37,20 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
             handleDialog(taskid, pushedButton, msg);
             res.status(200).type('application/json').end();
-        } else if (pushedButton != taskid[1]) {    
-            console.log(taskid);
-            taskid = taskid[3].split(',').join(' ');
-            console.log(taskid);
-            handleMessage(taskid, pushedButton);
+        } else if (pushedButton != taskid[1]) {
+            var callbackId = taskid[3].split(',');
+            if (callbackId[0] == "message") {
+                callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
+                callbackId[2] = callbackId[5];
+                callbackId[3] += callbackId[6];
+                var i;
+                for (i = 7; i < callbackId.length; i++) {
+                    callbackId[3] += "," + callbackId[i];
+                }
+                callbackId.splice(4, i - 5);
+            }
+            console.log(callbackId.join(' '));
+            handleMessage(callbackId.join(' '), pushedButton);
             res.status(200).type('application/json').end();
         } else {
             console.log("ERROR Dialog");
