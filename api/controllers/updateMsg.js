@@ -1,3 +1,6 @@
+/* This file can be reached by calling swagger API endpoint. Pass as many textButtons and textConfirmations as you want to
+ * be added to the message*/
+
 var request = require('request');
 var URL = "https://slack.com/api/chat.update";
 var secrets = require('../../secrets');
@@ -8,7 +11,7 @@ module.exports = {
     updateMsgButton: updateMsgButton,
 };
 
-function updateOverflow(req, res) {
+function updateMsg(req, res) {
 
     var msg = req.swagger.params.body.value;
     var body = {

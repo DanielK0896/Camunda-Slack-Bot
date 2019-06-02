@@ -36,26 +36,18 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         for (i = 1; i <= variableInformation.length; i++) {
             arrayOfVariables["nameVariable"] = [];
             arrayOfVariables["variable"] = [];
-            console.log(arrayOfVariables);
             arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-            console.log(arrayOfVariables);
             arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
-            console.log(arrayOfVariables);
             if (typeof pushedButton != "undefined") {
-                arrayOfVariables["variable"].splice(i-1, 1, pushedButton + "," + arrayOfVariables["variable"]);
+                arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
             }
         }
-        console.log(arrayOfVariables);
         var path = "/camunda/sendMessage/"
         arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
         arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
-        console.log(arrayOfVariables);
         var payload = JSON.stringify(arrayOfVariables);
         mod.postToSwaggerAPI(payload, path);
         res.json(basicResponse);
-
-
-
     } else if (taskid[0] == "dialog" && pushedButton == taskid[1]) {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         //callbackId[1] = open Dialog when pushed Button = xy e.g. "one"
         var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "textelement"
@@ -68,51 +60,31 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             console.log(callbackId);
             callbackId.splice(4, 3);
         }
-
         arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
-        arrayOfVariables["title"] = variablesForDialog[1];              //then necessary variables
-        var path;
-        var i;
-        if (variablesForDialog[0] == "textelement") {
-            for (i = 1; i <= ((variablesForDialog.length - 2) / 3); i++) {
-                var numberLabel = "label" + i;
-                var numberName = "name" + i;
-                var numberPlaceholder = "placeholder" + i;
-                arrayOfVariables[numberLabel] = variablesForDialog[i * 3 - 1];
-                arrayOfVariables[numberName] = variablesForDialog[i * 3];
-                arrayOfVariables[numberPlaceholder] = variablesForDialog[i * 3 + 1];
-            }
-            path = "/startDialog/" + numbers[i - 1] + "TextElement";
-        } else if (variablesForDialog[0] == "textarea") {
-            for (i = 1; i <= ((variablesForDialog.length - 2) / 4); i++) {
-                var numberLabel = "label" + i;
-                var numberName = "name" + i;
-                var numberPlaceholder = "placeholder" + i;
-                arrayOfVariables[numberLabel] = variablesForDialog[i * 3 - 1];
-                arrayOfVariables[numberName] = variablesForDialog[i * 3];
-                arrayOfVariables[numberPlaceholder] = variablesForDialog[i * 3 + 1];
-            }
-            path = "/startDialog/" + numbers[i - 1] + "Textarea";
-        } else if (variablesForDialog[0] == "selectelement") {
-            for (i = 1; i <= ((variablesForDialog.length - 2) / 3); i++) {
-                var numberLabel = "label" + i;
-                var numberName = "name" + i;
-                var numberData_source = "data_source" + i;
-                var numberPlaceholder = "placeholder" + i;
-                arrayOfVariables[numberLabel] = variablesForDialog[i * 4 - 2];
-                arrayOfVariables[numberName] = variablesForDialog[i * 4 - 1];
-                arrayOfVariables[numberData_source] = variablesForDialog[i * 4];
-                arrayOfVariables[numberPlaceholder] = variablesForDialog[i * 4 + 1];
-            }
-            path = "/startDialog/" + numbers[i - 1] + "SelectElement";
-        } else {
-            console.log("ERROR Dialog Type");
+        arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
+        var lengthOfVariableArray = variablesForDialog.length;
+        arrayOfVariables["label"] = [];
+        arrayOfVariables["name"] = [];
+        arrayOfVariables["type"] = [];
+        arrayOfVariables["placeholder"] = []; 
+        arrayOfVariables["options"] = [];
+        arrayOfVariables["data_source"] = [];
+        for (var i = 1; i <= lengthOfVariableArray; i = i + 4) {
+            arrayOfVariables["label"].push(variablesForDialog[i]);
+            arrayOfVariables["name"].push(variablesForDialog[i + 1]);
+            arrayOfVariables["type"].push(variablesForDialog[i + 2]);
+            arrayOfVariables["placeholder"].push(variablesForDialog[i + 3]);   
+            if (variablesForDialog[i + 2] == "select") {
+                if (variablesForDialog[i + 4] == "options") {
+                    arrayOfVariables["options"] = variablesForDialog[i + 5];
+                } else if (variablesForDialog[i + 4] == "data_source") {
+                    arrayOfVariables["data_source"] = variablesForDialog[i + 5];
+                }
+                i = i + 2
+
+            }        
         }
-        if (i > 2) {
-            path += "s";
-        }
-        var payload = JSON.stringify(arrayOfVariables);
-        mod.postToSwaggerAPI(payload, path);
+        mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
         res.status(200).type('application/json').end();
     } else {
         console.log("ERROR SlackReceive.js");

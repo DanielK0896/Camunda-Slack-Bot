@@ -1,3 +1,6 @@
+/* Pass channel and ts and delete specific message in Slack*/
+
+
 var request = require('request');
 var URL = "https://slack.com/api/chat.delete";
 var secrets = require('../../secrets');

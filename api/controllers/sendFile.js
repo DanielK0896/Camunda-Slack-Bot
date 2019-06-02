@@ -1,3 +1,5 @@
+/* Pass channel and filename and send saved files (/.../.../PDFs/)*/
+
 var request = require('request');
 var fs = require('fs');
 var secrets = require('../../secrets');

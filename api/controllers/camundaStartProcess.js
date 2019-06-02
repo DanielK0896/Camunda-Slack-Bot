@@ -1,3 +1,7 @@
+/* Example for starting a Camunda process via API passing required variables*/
+
+
+
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
 var headers = { 'Content-Type': 'application/json' };

@@ -1,15 +1,16 @@
+/* This file can be reached by calling swagger API endpoint.Pass as many textElements and selectMenus as you want to
+    * be added to the message */
+
 var request = require('request');
 var URL = "https://slack.com/api/dialog.open";
 var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
 
 module.exports = {
-    startDialogOneTextElement: startDialogOneTextElement,
-    startDialogTwoTextElements: startDialogTwoTextElements,
-    startDialogSelectMenus: startDialogSelectMenus
+    startDialog: startDialog
 };
 
-function startDialogOneTextElement(req, res) {
+function startDialog(req, res) {
 
     var msg = req.swagger.params.body.value;
     var body = {
@@ -20,74 +21,23 @@ function startDialogOneTextElement(req, res) {
             "submit_label": "Absenden",
             "notify_on_cancel": true,
             "state": "default",
-            "elements": [
-                {
-                    "label": msg.label1,
-                    "name": msg.name1,
-                    "type": "text",
-                    "placeholder": msg.placeholder1
-                }
-            ]
+            "elements": []
         }
     };
+    for (var i = 0; i < msg.label.length; i++) {
+        body.dialog.elements.push({
+            "label": msg.label[i],
+            "name": msg.name[i],
+            "type": msg.type[i],
+            "placeholder": msg.placeholder[i]
+        });
+        if (msg.data_source[i] != undefined) {
+            body.dialog.elements.push({ "data_source": msg.data_source[i] });
+        }
+        if (msg.options[i] != undefined) {
+            body.dialog.elements.push({ "options": msg.options[i] });
+        }
+    }
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
-
-function startDialogTwoTextElements(req, res) {
-
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "trigger_id": msg.triggerId,
-        "dialog": {
-            "callback_id": msg.callbackId,
-            "title": msg.title,
-            "submit_label": "Absenden",
-            "notify_on_cancel": true,
-            "state": "default",
-            "elements": [
-                {
-                    "label": msg.label1,
-                    "name": msg.name1,
-                    "type": "text",
-                    "placeholder": msg.placeholder1
-                },
-                {
-                    "label": msg.label2,
-                    "name": msg.name2,
-                    "type": "text",
-                    "placeholder": msg.placeholder2
-                }
-            ]
-        }
-    };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-function startDialogSelectMenus(req, res) {
-
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "trigger_id": msg.triggerId,
-        "dialog": {
-            "callback_id": msg.callbackId,
-            "title": msg.title,
-            "submit_label": "Absenden",
-            "notify_on_cancel": true,
-            "state": "default",
-            "elements": [
-                {
-                    "label": msg.label1,
-                    "name": msg.name1,
-                    "type": "select",
-                    "data_source": "users"
-                }
-            ]
-        }
-    };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-

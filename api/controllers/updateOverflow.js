@@ -1,9 +1,9 @@
+/* Updates existing message with overflow menus*/
+
 var request = require('request');
 var URL = "https://slack.com/api/chat.update";
 var secrets = require('../../secrets');
 var headers = { 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
-var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixten", "seventeen", "eighteen", "nineteen", "twenty"];
-
 
 module.exports = {
     updateOverflow: updateOverflow

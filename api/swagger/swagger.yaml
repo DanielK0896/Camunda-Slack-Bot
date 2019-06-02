@@ -163,10 +163,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendMsg/ephemeral/oneButton/:
+  /sendMsg/ephemeral/Button:
     x-swagger-router-controller: sendMsgEphemeral
     post:
-      operationId: sendMsgEphemeralOneButton
+      operationId: sendMsgEphemeralButton
       consumes:
         - application/json
       produces:
@@ -179,111 +179,25 @@ paths:
             properties:
               channel:
                 type: string
-              user:
-                type: string
               text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/ephemeral/oneButton/confirm:
-    x-swagger-router-controller: sendMsgEphemeral
-    post:
-      operationId: sendMsgEphemeralOneButtonConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
                 type: string
               user:
                 type: string
-              text:
-                type: string
               callbackId:
                 type: string 
-              textButton1:
-                type: string
-              textConfirmation1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/ephemeral/twoButtons:
-    x-swagger-router-controller: sendMsgEphemeral
-    post:
-      operationId: sendMsgEphemeralTwoButtons
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              user:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/ephemeral/twoButtons/confirm:
-    x-swagger-router-controller: sendMsgEphemeral
-    post:
-      operationId: sendMsgEphemeralTwoButtonsConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              user:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-              textConfirmation1:
-                type: string
-              textConfirmation2:
-                type: string
+              textButtons:
+                type: array
+                items:
+                  type: string
+              style:
+                type: array
+                items:
+                  type: string
+              textConfirmation:
+                type: array
+                items:
+                  type: string
+
       responses:
         '200':
           description: Definition generated from Swagger Inspector
@@ -314,10 +228,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /sendMsg/schedule/oneButton/:
-    x-swagger-router-controller: sendMsgScheduleOneButton
+    /sendMsg/schedule/Button:
+    x-swagger-router-controller: sendMsgschedule
     post:
-      operationId: sendMsgScheduleOneButton
+      operationId: sendMsgScheduleButton
       consumes:
         - application/json
       produces:
@@ -336,105 +250,18 @@ paths:
                 type: string
               callbackId:
                 type: string 
-              textButton1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/schedule/oneButton/confirm:
-    x-swagger-router-controller: sendMsgScheduleOneButtonConfirm
-    post:
-      operationId: sendMsgScheduleOneButtonConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              postAt:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textConfirmation1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/schedule/twoButtons:
-    x-swagger-router-controller: sendMsgScheduleTwoButtons
-    post:
-      operationId: sendMsgScheduleTwoButtons
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              postAt:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /sendMsg/schedule/twoButtons/confirm:
-    x-swagger-router-controller: sendMsgScheduleTwoButtonsConfirm
-    post:
-      operationId: sendMsgScheduleTwoButtonsConfirm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              postAt:
-                type: string
-              text:
-                type: string
-              callbackId:
-                type: string 
-              textButton1:
-                type: string
-              textButton2:
-                type: string
-              textConfirmation1:
-                type: string
-              textConfirmation2:
-                type: string
+              textButtons:
+                type: array
+                items:
+                  type: string
+              style:
+                type: array
+                items:
+                  type: string
+              textConfirmation:
+                type: array
+                items:
+                  type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector
@@ -581,10 +408,10 @@ paths:
           description: Definition generated from Swagger Inspector
           schema:
             type: string
-  /startDialog/oneTextElement:
+  /startDialog:
     x-swagger-router-controller: startDialog
     post:
-      operationId: startDialogOneTextElement
+      operationId: startDialog
       consumes:
         - application/json
       produces:
@@ -601,79 +428,26 @@ paths:
                 type: string
               title:
                 type: string
-              label1:
-                type: string
-              name1:
-                type: string
-              placeholder1:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-  /startDialog/twoTextElements:
-    x-swagger-router-controller: startDialog
-    post:
-      operationId: startDialogTwoTextElements
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              triggerid:
-                type: string
-              callbackId:
-                type: string
-              title:
-                type: string
-              label1:
-                type: string
-              name1:
-                type: string
-              placeholder1:
-                type: string
-              label2:
-                type: string
-              name2:
-                type: string
-              placeholder2:
-                type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
-          schema:
-            type: string
-
-  /startDialog/selectMenus:
-    x-swagger-router-controller: startDialog
-    post:
-      operationId: startDialogSelectMenus
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              triggerid:
-                type: string
-              callbackId:
-                type: string
-              title:
-                type: string
-              label1:
-                type: string
-              name1:
-                type: string
+              label:
+                type: array
+                items:
+                  type: string
+              name:
+                type: array
+                items:
+                  type: string
+              placeholder:
+                type: array
+                items:
+                  type: string
+              data_source:
+                type: array
+                items:
+                  type: string
+              options:
+                type: array
+                items:
+                  type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector

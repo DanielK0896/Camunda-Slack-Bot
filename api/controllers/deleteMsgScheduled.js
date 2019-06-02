@@ -1,3 +1,5 @@
+/* Pass channel and scheduledMessageId and delete specific scheduled message in Slack*/
+
 var request = require('request');
 var URL = "https://slack.com/api/chat.deleteScheduledMessage";
 var secrets = require('../../secrets');

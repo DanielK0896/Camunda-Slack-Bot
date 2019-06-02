@@ -1,3 +1,8 @@
+/* This file can be reached by calling swagger API endpoint. 
+ * camundaInstanceGetId: Pass correlationKeys (process variables in your Camunda process (name, value and type))
+                         and get the Instance Id. 
+ camundaInstanceDeleteVariable: With the instance id you can delete process variables via API*/
+
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/process-instance";
 

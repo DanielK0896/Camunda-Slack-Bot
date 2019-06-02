@@ -1,3 +1,5 @@
+/* Pass channel and messageTs and get a permalink for a specific message in Slack*/
+
 var request = require('request');
 var URL = "https://slack.com/api/chat.getPermalink";
 var secrets = require('../../secrets');
@@ -9,12 +11,9 @@ module.exports = {
 
 function getPermalink(req, res) {
     var msg = req.swagger.params.body.value;
-
-    var channel = msg.channel;
-    var messageTs = msg.messageTs;
     var body = {
-        "channel": channel,
-        "messageTs": messageTs,
+        "channel": channmsg.channelel,
+        "messageTs": msg.messageTs,
     };
 
     request.post({ headers: headers, url: URL, body: body, json: true });
