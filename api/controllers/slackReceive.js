@@ -128,7 +128,7 @@ function handleMessage(taskid, msg) {
     mod.postToSwaggerAPI(payload, path);
 }
 
-function handleDialog(taskid) {
+function handleDialog(taskid, msg) {
     var arrayOfVariables = {};
     var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "textelement"
     arrayOfVariables["triggerId"] = msg.trigger_id;
