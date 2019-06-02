@@ -115,8 +115,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
 }
 
 function handleMessage(taskid, pushedButton, msg) {
-    console.log(taskid);
-    console.log(pushedButton);
     var arrayOfVariables = {};
     var variableInformation = taskid[3].split(',');
     arrayOfVariables["nameVariable"] = [];
@@ -137,6 +135,7 @@ function handleMessage(taskid, pushedButton, msg) {
     arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
     var payload = JSON.stringify(arrayOfVariables);
+    console.log(payload);
     mod.postToSwaggerAPI(payload, path);
 }
 
