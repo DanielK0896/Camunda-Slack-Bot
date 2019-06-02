@@ -38,6 +38,7 @@ function startDialog(req, res) {
             body.dialog.elements.push({ "options": msg.options[i] });
         }
     }
+    console.log(JSON.stringify{ body });
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }
