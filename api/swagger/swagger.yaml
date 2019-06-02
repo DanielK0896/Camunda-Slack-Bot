@@ -429,9 +429,26 @@ paths:
                                 type: string
                           value:
                             type: string
+                          text:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                              text:
+                                type: string
+                              emoji:
+                                type: string
+                          value:
+                            type: string
                   fields:
                     type: object
                     properties:
+                      type:
+                        type: string
+                      text:
+                        type: string
+                      verbatim:
+                        type: string
                       type:
                         type: string
                       text:
