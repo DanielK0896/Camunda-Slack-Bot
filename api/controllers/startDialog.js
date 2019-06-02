@@ -31,10 +31,10 @@ function startDialog(req, res) {
             "type": msg.type[i],
             "placeholder": msg.placeholder[i]
         });
-        if (msg.data_source[i] != undefined) {
+        if (msg.data_source[i] != "undefined") {
             body.dialog.elements.push({ "data_source": msg.data_source[i] });
         }
-        if (msg.options[i] != undefined) {
+        if (msg.options[i] != "undefined") {
             body.dialog.elements.push({ "options": msg.options[i] });
         }
     }

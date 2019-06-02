@@ -141,27 +141,35 @@ function handleDialog(taskid, msg) {
     }
     arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
-    var lengthOfVariableArray = variablesForDialog.length;
     arrayOfVariables["label"] = [];
     arrayOfVariables["name"] = [];
     arrayOfVariables["type"] = [];
     arrayOfVariables["placeholder"] = [];
     arrayOfVariables["options"] = [];
     arrayOfVariables["data_source"] = [];
-    for (var i = 1; i <= lengthOfVariableArray; i = i + 4) {
+    for (var i = 1; i < variablesForDialog.length; i = i + 4) {
         arrayOfVariables["label"].push(variablesForDialog[i]);
         arrayOfVariables["name"].push(variablesForDialog[i + 1]);
         arrayOfVariables["type"].push(variablesForDialog[i + 2]);
         arrayOfVariables["placeholder"].push(variablesForDialog[i + 3]);
         if (variablesForDialog[i + 2] == "select") {
             if (variablesForDialog[i + 4] == "options") {
-                arrayOfVariables["options"] = variablesForDialog[i + 5];
-            } else if (variablesForDialog[i + 4] == "data_source") {
-                arrayOfVariables["data_source"] = variablesForDialog[i + 5];
+                arrayOfVariables["options"].push(variablesForDialog[i + 5]);
+            } else {
+                arrayOfVariables["options"].push("undefined");
+            }
+            if (variablesForDialog[i + 4] == "data_source") {
+                arrayOfVariables["data_source"].push(variablesForDialog[i + 5]);
+            } else {
+                arrayOfVariables["data_source"].push("undefined");
             }
             i = i + 2
-
-        }
+        } 
+    }
+    if (arrayOfVariables["options"] == []) {
+        
+    } else if (arrayOfVariables["data_source"] == []) {
+        
     }
     console.log(arrayOfVariables);
     mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
