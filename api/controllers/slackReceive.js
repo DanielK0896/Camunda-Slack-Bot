@@ -73,6 +73,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         console.log("ERROR SlackReceive.js");
     }
     if (msg.type == "block_actions") {
+        var payload = {};
         if (msg.actions[0].type == "overflow") {
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
@@ -81,6 +82,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var actionValue = msg.actions.selected_option.value;
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], "0", changes[actionValue + changes.length / 2])
             var path = "/updateOverflow";
+            console.log(JSON.stringify(payload));
             mod.postToSwaggerAPI(JSON.stringify(payload), path);
         } else if (msg.actions[0].type == "button" && actions[0].action_id != "lastMessage") {
             payload["channel"] = msg.container.channel_id;
