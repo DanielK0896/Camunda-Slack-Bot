@@ -12,6 +12,7 @@ module.exports = {
 function updateOverflow(req, res) {
 
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var body = {
         "channel": msg.channel,
         "ts": msg.ts,
@@ -19,7 +20,7 @@ function updateOverflow(req, res) {
     };
     console.log(body);
     body.blocks = JSON.parse(msg.blocks);
-    console.log(JSOn.stringify(msg.blocks));
+    console.log(JSON.stringify(msg.blocks));
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
 }

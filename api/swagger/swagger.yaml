@@ -402,7 +402,9 @@ paths:
               ts:
                 type: string
               blocks:
-                type: string
+                type: object
+                items:
+                  type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector
