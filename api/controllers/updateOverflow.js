@@ -20,7 +20,7 @@ function updateOverflow(req, res) {
         "ts": msg.ts
         
     };
-    body.push("blocks": JSON.parse(msg.blocks));
+    body.blocks.push(JSON.parse(msg.blocks));
     console.log(JSON.stringify(body));
     request.post({ headers: headers, url: URL, body: body, json: true });
     res.status(200).type('application/json').end();
