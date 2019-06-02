@@ -402,59 +402,7 @@ paths:
               ts:
                 type: string
               blocks:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  block_id:
-                    type: string
-                  accessory:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      action_id:
-                        type: string
-                      options:
-                        type: object
-                        properties:
-                          text:
-                            type: object
-                            properties:
-                              type:
-                                type: string
-                              text:
-                                type: string
-                              emoji:
-                                type: string
-                          value:
-                            type: string
-                          text:
-                            type: object
-                            properties:
-                              type:
-                                type: string
-                              text:
-                                type: string
-                              emoji:
-                                type: string
-                          value:
-                            type: string
-                  fields:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      text:
-                        type: string
-                      verbatim:
-                        type: string
-                      type:
-                        type: string
-                      text:
-                        type: string
-                      verbatim:
-                        type: string
+                type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector
