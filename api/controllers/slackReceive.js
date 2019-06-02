@@ -31,7 +31,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     
     //call function depending on callback_id
     if (taskid[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
-        handleMessage(taskid, pushedButton, msg);
+        if (msg.type == "dialog_submission") {
+            handleMessage(taskid, pushedButton, msg);
+        } else {
+            handleMessage(taskid, pushedButton, msg);
+        }
         res.json(basicResponse);
     } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
@@ -123,6 +127,7 @@ function handleMessage(taskid, pushedButton, msg) {
         for (i = 1; i <= variableInformation.length; i++) {                  
             arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
             arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
+            console.log("TYPEOF" + typeof pushedButton)
             if (typeof pushedButton != undefined) {
                 arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
             }
