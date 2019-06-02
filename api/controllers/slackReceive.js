@@ -47,8 +47,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 for (i = 7; i < callbackId.length; i++) {
                     callbackId[3] += "," + callbackId[i];
                 }
-                console.log(i);
-                callbackId.splice(4, i - 5);
+                callbackId.splice(4, 3 + (i - 7));
             }
             console.log(callbackId.join(' '));
             handleMessage(callbackId.join(' '), pushedButton);
