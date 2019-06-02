@@ -81,8 +81,17 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["blocks"] = msg.message.blocks;
             var changes = taskid[4].split(',');
             var actionValue = msg.actions[0].selected_option.value;
-            console.log((parseInt(actionValue, 10) + changes.length / 2).toString());
-            console.log(JSON.stringify(payload["blocks"]));
+            var recentChanges = changes[actionValue].split('.');
+            if (recentChanges[0] == blocks) {
+                for (var i = 0; i < 15; i++) {
+                    if (msg.blocks[i].block_id == msg.actions[0].block_id) {
+                        recentChanges[0] += "[" + i + "]"
+                        changes[actionValue] = recentChanges.join('.');
+                        break;
+                    }
+                }    
+            }
+            console.log(changes[actionValue]);
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (parseInt(actionValue, 10) + changes.length / 2).toString(), changes)
             var path = "/updateOverflow";
             console.log(JSON.stringify(payload));
