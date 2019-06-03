@@ -12,13 +12,11 @@ module.exports = {
 function updateOverflow(req, res) {
 
     var msg = req.swagger.params.body.value;
-    console.log(msg);
-    console.log(msg.blocks);
-    console.log(JSON.parse(msg.blocks));
+    var blocks = JSON.parse(msg.blocks).replace(/\\n/g, "\n");
     var body = {
         "channel": msg.channel,
         "ts": msg.ts,
-        "blocks": JSON.parse(msg.blocks)
+        "blocks": blocks
         
     };
     console.log(JSON.stringify(body));
