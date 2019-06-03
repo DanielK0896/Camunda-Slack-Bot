@@ -120,6 +120,14 @@ function preparePostMessage(task) {
             var headlineRightFieldSplitted = fieldInformation[2].split(",");
             var buttonNameSplitted = fieldInformation[4].split(",");
             msg["boldHeadline"] = variables[boldHeadline_index];
+            var lengthOfFields = headlineLeftFieldSplitted.length;
+            if (lengthOfFields > 8) {
+                lengthOfFields = 8;
+            }
+            msg["type"] = [];
+            for (var i = 0; i < lengthOfFields; i += 2) {            
+                msg["type"].push(headlineLeftFieldSplitted[i]);              
+            }       
             msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["textOptions"] = fieldInformation[3].split(",");

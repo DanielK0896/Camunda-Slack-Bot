@@ -23,7 +23,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         try {
             pushedButton = msg.actions[0].selected_option.value;
         } catch (e) {
-            pushedButton = msg.actions[0].value.split(" ");
+            try {
+                pushedButton = msg.actions[0].value.split(" ");
+            } catch (e) {
+                try {
+
+                } catch (e) {}
+            }
         }
     } else {
         taskid[0] = "noAction";
@@ -99,6 +105,14 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
+            var lengthOfFields = pushedButton[1].length;
+            if (lengthOfFields > 8) {
+                lengthOfFields = 8;
+            }
+            var types = [];
+            for (var i = 0; i < lengthOfFields; i += 2) {
+                types.push(pushedButton[1][i]);
+            }       
             var headlineLeftFieldSplitted = pushedButton[1].splice(0, 4).join().split('_').join(" ").split(',');
             var headlineRightFieldSplitted = pushedButton[2].splice(0, 4).join().split('_').join(" ").split(',');
             var variableName = msg.actions[0].action_id.split(',');
@@ -112,7 +126,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var s = (i + 1) * 2
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".fields.0.text", "0", headlineLeftFieldSplitted[i]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".fields.1.text", "0", headlineRightFieldSplitted[i]);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".accessory.action_id", "0", listOfUsers[i]); 
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".accessory.action_id", "0", listOfUsers[i]);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".accessory.type", "0", types[i]); 
                 if (i = 3) {
                     break;
                 }

@@ -377,7 +377,11 @@ paths:
               buttonActionId:
                 type: string
               buttonMessage:
-                type: string         
+                type: string    
+              type:
+                type: array
+                items:
+                  type: string
       responses:
         '200':
           description: Definition generated from Swagger Inspector

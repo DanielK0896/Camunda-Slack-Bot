@@ -44,7 +44,7 @@ function sendOverflowStatic(req, res) {
                         "text": msg.headlineRightField[i]
                     }],
                 "accessory": {
-                    "type": "overflow",
+                    "type": msg.type[i],
                     "action_id": msg.actionId[i],
                     "options": [
                     ]
