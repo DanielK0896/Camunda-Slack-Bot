@@ -120,9 +120,9 @@ function preparePostMessage(task) {
             var headlineRightFieldSplitted = fieldInformation[2].split(",");
             var buttonNameSplitted = fieldInformation[4].split(",");
             msg["boldHeadline"] = variables[boldHeadline_index];
-            var lengthOfFields = headlineLeftFieldSplitted.length;
-            if (lengthOfFields > 8) {
-                lengthOfFields = 8;
+            var lengthOfFields = headlineLeftFieldSplitted.length / 2;
+            if (lengthOfFields > 4) {
+                lengthOfFields = 4;
             }
             msg["type"] = [];
             for (var i = 0; i < lengthOfFields; i++) {            

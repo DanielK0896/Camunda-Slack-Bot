@@ -34,7 +34,7 @@ function sendOverflowStatic(req, res) {
             },
             {
                 "type": "section",
-                "block_id": msg.message + " " + msg.changes,
+                "block_id": msg.message + " " + msg.changes + " " + i,
                 "fields": [
                     {
                         "type": "mrkdwn",

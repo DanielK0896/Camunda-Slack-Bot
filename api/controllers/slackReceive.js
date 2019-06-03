@@ -105,19 +105,20 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
-            var lengthOfFields = pushedButton[1].length;
-            if (lengthOfFields > 8) {
-                lengthOfFields = 8;
+            var lengthOfFields = headlineLeftFieldSplitted.length / 2;
+            if (lengthOfFields > 4) {
+                lengthOfFields = 4;
             }
             var types = [];
-            for (var i = 0; i < lengthOfFields; i += 2) {
-                types.push(pushedButton[1][i]);
-            }       
+            for (var i = 0; i < lengthOfFields; i++) {            
+                types.push(headlineLeftFieldSplitted[i]);       
+                headlineLeftFieldSplitted.splice(i, 1);
+            }          
             var headlineLeftFieldSplitted = pushedButton[1].splice(0, 4).join().split('_').join(" ").split(',');
             var headlineRightFieldSplitted = pushedButton[2].splice(0, 4).join().split('_').join(" ").split(',');
             var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
-            var lengthOfMissingOverflows = headlineLeftFieldSplitted.length;
+            var lengthOfMissingOverflows = listOfUsers.length;
             var lastOverflowNumber = lengthOfMissingOverflows * 2 + 2;
             if (lastOverflowNumber > 10) {
                 lastOverflowNumber = 10;
