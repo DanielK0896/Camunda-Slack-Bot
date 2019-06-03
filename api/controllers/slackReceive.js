@@ -105,19 +105,19 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
-            console.log(pushedButton);
-            console.log(pushedButton[1]);
-            var lengthOfFields = pushedButton[1].length / 2;
+            var headlineLeftField = pushedButton[1];
+            var headlineRightField = 
+            var lengthOfFields = headlineLeftField.length / 2;
             if (lengthOfFields > 4) {
                 lengthOfFields = 4;
             }
             var types = [];
             for (var i = 0; i < lengthOfFields; i++) {            
-                types.push(pushedButton[1][i]);       
-                pushedButton[1].splice(i, 1);
+                types.push(headlineLeftField[i]);       
+                headlineLeftField.splice(i, 1);
             }          
-            var headlineLeftFieldSplitted = pushedButton[1].splice(0, 4).join().split('_').join(" ").split(',');
-            var headlineRightFieldSplitted = pushedButton[2].splice(0, 4).join().split('_').join(" ").split(',');
+            var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ").split(',');
+            var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
             var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
             var lengthOfMissingOverflows = listOfUsers.length;
