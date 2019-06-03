@@ -126,7 +126,8 @@ function preparePostMessage(task) {
             }
             msg["type"] = [];
             for (var i = 0; i < lengthOfFields; i += 2) {            
-                msg["type"].push(headlineLeftFieldSplitted[i]);              
+                msg["type"].push(headlineLeftFieldSplitted[i]);       
+                headlineLeftFieldSplitted.splice(i, 1);
             }       
             msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
             msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
