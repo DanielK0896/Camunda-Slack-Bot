@@ -76,7 +76,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             console.log("ERROR Dialog");
         } 
     } else {
-        console.log("ERROR SlackReceive.js");
+        console.log("Weder Nachricht noch Dialog");
     }
     if (msg.type == "block_actions") {
         var payload = {};
@@ -105,7 +105,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
-            var lengthOfFields = headlineLeftFieldSplitted.length / 2;
+            var lengthOfFields = pushedButton[1].length / 2;
             if (lengthOfFields > 4) {
                 lengthOfFields = 4;
             }
