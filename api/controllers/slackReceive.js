@@ -111,8 +111,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             var types = [];
             for (var i = 0; i < lengthOfFields; i++) {            
-                types.push(headlineLeftFieldSplitted[i]);       
-                headlineLeftFieldSplitted.splice(i, 1);
+                types.push(pushedButton[1][i]);       
+                pushedButton[1].splice(i, 1);
             }          
             var headlineLeftFieldSplitted = pushedButton[1].splice(0, 4).join().split('_').join(" ").split(',');
             var headlineRightFieldSplitted = pushedButton[2].splice(0, 4).join().split('_').join(" ").split(',');
