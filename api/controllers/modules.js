@@ -125,7 +125,7 @@ function preparePostMessage(task) {
                 lengthOfFields = 8;
             }
             msg["type"] = [];
-            for (var i = 0; i < lengthOfFields; i += 2) {            
+            for (var i = 0; i < lengthOfFields; i++) {            
                 msg["type"].push(headlineLeftFieldSplitted[i]);       
                 headlineLeftFieldSplitted.splice(i, 1);
             }       
