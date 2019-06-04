@@ -17,8 +17,7 @@ function slackGetConversations(req, res) {
         {   'cache-control': 'no-cache',
             'Authorization': secrets.Authorization,
             'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        form: { undefined: undefined }
+        }
     };
     console.log(options);
     request(options, function (error, response, body) {
