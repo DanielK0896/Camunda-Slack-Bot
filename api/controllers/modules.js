@@ -30,7 +30,7 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
     request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
         if (error) throw new Error(error);
-        callback;
+        callback(body);
     });
     
 }
