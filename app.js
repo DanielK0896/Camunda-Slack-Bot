@@ -36,6 +36,7 @@ setTimeout(function () {
 
     client.subscribe("room", async function ({ task, taskService }) {
         var processVariables = mod.preparePostMessage(task);
+        console.log("PROZESSVARIABLE" + processVariables);
         await client.taskService.complete(task, processVariables)
     });
 
@@ -62,7 +63,10 @@ setTimeout(function () {
     client.subscribe("sendParticipants", async function ({ task, taskService }) {
         var processVariables = mod.preparePostMessage(task);
         await client.taskService.complete(task, processVariables)
-
+    });
+    client.subscribe("delete", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
     });
 
 }, 10000);
