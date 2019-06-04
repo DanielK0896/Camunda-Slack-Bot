@@ -116,7 +116,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 types.push(headlineLeftField[i]);       
                 headlineLeftField.splice(i, 1);
             }
-            var actionsLeft = headlineLeftField.length;
+            var actionsLeft = parseInt(headlineLeftField.length);
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
