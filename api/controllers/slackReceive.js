@@ -155,7 +155,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                         payload["blocks"][s].accessory.confirm = {
                             "title": {
                                 "type": "plain_text",
-                                "text": "Bestätigung"
+                                "text": "Bestaetigung"
                             },
                             "text": {
                                 "type": "mrkdwn",
@@ -193,6 +193,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.splice(0, 4) + " " + headlineRightFieldSplitted.splice(0, 4) + " " + pushedButton[3];
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
             }
+            payload["blocks"] = JSON.stringify(payload["blocks"]);
             console.log(JSON.stringify(payload));
             mod.postToSwaggerAPI(JSON.stringify(payload), "/updateOverflow");
         }
