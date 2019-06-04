@@ -149,7 +149,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                     }
                 } else {
                     try {
-                        console.log(JSON.stringify(payload["blocks"]));
                         delete payload["blocks"][s].accessory.options;
                         delete payload["blocks"][s].fields;
                         payload["blocks"][s].text = { "type": "mrkdwn", "text": headlineLeftFieldSplitted[i] };
