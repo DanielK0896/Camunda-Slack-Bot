@@ -1,5 +1,6 @@
 var maxChannels = 100;
 var request = require("request");
+import { listOfAllChannels } from '../../app.js';
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -372,8 +373,8 @@ function getChannels() {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
         for (var i = 0; i < bodyParsed.channels.length; i++) {
-            listOfChannels = pushSpecificVariables(listOfChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
-            console.log(listOfChannels);
+            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
+            console.log(listOfAllChannels);
         }
         console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
     });
