@@ -63,7 +63,7 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
     await client.taskService.complete(task);
 });
 setTimeout(function () {
-    mod.getFromSwaggerAPI("/slackGet/channels", function (body) {
+    mod.getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
         for (var i = 0; i < bodyParsed.channels.length; i++) {

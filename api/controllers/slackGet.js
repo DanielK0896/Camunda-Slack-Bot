@@ -2,14 +2,14 @@
  * slackGetChannels: Get all Channels */
 
 var request = require('request');
-var URL = "https://slack.com/api/channels.list";
+var URL = "https://slack.com/api/conversations.list";
 var secrets = require('../../secrets');
 
 module.exports = {
-    slackGetChannels: slackGetChannels
+    slackGetConversations: slackGetConversations
 };
 
-function slackGetChannels(req, res) {
+function slackGetConversations(req, res) {
     var options = {
         method: 'GET',
         url: URL,

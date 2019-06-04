@@ -504,10 +504,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /slackGet/channels:
+  /slackGet/conversations:
     x-swagger-router-controller: slackGet
     get:
-      operationId: slackGetChannels
+      operationId: slackGetConversations
       consumes:
         - application/x-www-form-urlencoded
       parameters: []
