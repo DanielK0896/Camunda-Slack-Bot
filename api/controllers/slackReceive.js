@@ -120,14 +120,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
-            console.log(actionsLeft);
             var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ").split(',');
             var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
-            console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted);
-            console.log("headlineRightFieldSplitted: " + headlineRightFieldSplitted);
-            console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted[0]);
-            console.log("headlineRightFieldSplitted: " + headlineRightFieldSplitted[0]);
-            var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
             var lastBlock = actionsLeft * 2 + 2;
             if (actionsLeft == 3) {
@@ -137,8 +131,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             } else if (actionsLeft = 1) {
                 payload["blocks"].splice(3, 6);
             }
-            console.log(types);
-            console.log(actionsLeft);
             for (var i = 0; i < actionsLeft; i++) {
                 var s = (i + 1) * 2;
                 console.log(i.toString());
@@ -148,7 +140,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i.toString(), headlineRightFieldSplitted);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", i.toString(), listOfUsers);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.type", i.toString(), types); 
-                if (i = 3) {
+                if (i == 3) {
                     break;
                 }
             }
