@@ -21,6 +21,7 @@ function sendMsg(req, res) {
  
 function sendMsgButton(req, res) {
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var body = {
         "channel": msg.channel,
         "text": msg.text,

@@ -116,7 +116,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /sendMsg/Button:
+  /sendMsg/button:
     x-swagger-router-controller: sendMsg
     post:
       operationId: sendMsgButton

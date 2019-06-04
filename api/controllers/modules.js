@@ -25,9 +25,9 @@ function postToSwaggerAPI(msg, path, variable, callback) {             //functio
         'Content-Type': 'application/json',
         'Transfer-Encoding': 'chunked'
     };
-    request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg }, function (error, response, body) {
+    request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
-        callback(body);
+        callback(body, variable);
     });
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
@@ -112,7 +112,7 @@ function preparePostMessage(task) {
             msg["callbackId"] = variables[callbackId_index];
             if (textButtons_index >= 0) {
                 msg["textButtons"] = variables[textButtons_index].split(",");
-                path += '/Button';
+                path += '/button';
                 if (textConfirmation_index >= 0) {
                     msg["textConfirmation"] = variables[textConfirmation_index].split(",");
                 }
