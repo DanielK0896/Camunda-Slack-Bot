@@ -26,7 +26,10 @@ function camundaSendMessage(req, res) {
     for (var i = 0; i < msg.nameVariable.length; i++) {
         body.processVariables[msg.nameVariable[i]] = { "value": msg.variable[i], "type": "String" }; 
     }    
-    request.post({ headers: headers, url: URL, body: body, json: true });
+        request({method: 'POST', url: URL, headers: headers, body: body, json: true, function (error, response, body) {
+        if (error) throw new Error(error);
+        console.log(body);
+    });
     console.log(body);
     res.status(200).type('application/json').end();
 }

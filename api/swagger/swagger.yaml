@@ -509,6 +509,11 @@ paths:
     x-swagger-router-controller: slackGet
     get:
       operationId: slackGetChannels
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters: []
       responses:
         '200':
           description: Definition generated from Swagger Inspector
