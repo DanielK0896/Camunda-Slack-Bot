@@ -69,11 +69,7 @@ function sendMsgButton(req, res) {
             "api",
             "chat.postMessage"
         ],
-        "headers": {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer xoxb-32097757266-466413737428-HmVtoz47xbZCmy5EGTdX11zR",
-            "cache-control": "no-cache"
-        }
+        "headers": headers
     };
 
     var req = http.request(options, function (res) {
