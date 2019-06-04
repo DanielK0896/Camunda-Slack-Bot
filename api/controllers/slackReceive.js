@@ -120,8 +120,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
             var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
-            for (var i = 0; i < listOfUsers.length; i++) {
-                var s = (i + 1) * 2
+            var amountOfUsers = listOfUsers.length;
+            for (var i = 0; i < amountOfUsers; i++) {
+                var s = (i + 1) * 2;
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", "0", headlineLeftFieldSplitted[i]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", "0", headlineRightFieldSplitted[i]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", "0", listOfUsers[i]);
@@ -141,17 +142,16 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             } else {
                 var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.splice(0, 4) + " " + headlineRightFieldSplitted.splice(0, 4) + " " + pushedButton[3];
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
-                if (lengthOfMissingOverflows == 3) {
-                    payload["blocks"].splice(7, 2);
-                } else if (lengthOfMissingOverflows = 2) {
-                    payload["blocks"].splice(5, 4);
-                } else if (lengthOfMissingOverflows = 1) {
-                    payload["blocks"].splice(3, 6);
-                }
             }
-            var path = "/updateOverflow";
+            if (amountOfUsers == 3) {
+                payload["blocks"].splice(7, 2);
+            } else if (amountOfUsers = 2) {
+                payload["blocks"].splice(5, 4);
+            } else if (amountOfUsers = 1) {
+                payload["blocks"].splice(3, 6);
+            }
             console.log(JSON.stringify(payload));
-            mod.postToSwaggerAPI(JSON.stringify(payload), path);
+            mod.postToSwaggerAPI(JSON.stringify(payload), "/updateOverflow");
         }
     }
 }
