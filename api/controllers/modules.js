@@ -229,7 +229,6 @@ var fonts = {
 
 function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg, array) { //push given variables in given array with given property. Property length can be up to 4
     var variableNameSplitted = variableName.split('.');
-    console.log(variableNameSplitted);
     var variableValueSplitted = variableValue.split('.');
     if(array != true) {
         if (variableNameSplitted.length == 2) {
@@ -270,15 +269,15 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
             }
         } else if (variableNameSplitted.length == 5) {
             if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
+                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
             } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
+                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
             } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
+                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
             } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
+                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]];
+                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]];
             }
         } else {
             if (variableValueSplitted.length == 2) {
