@@ -1,6 +1,7 @@
 var maxChannels = 100;
 var request = require("request");
-var mainApp = require('../../app.js');
+var listOfAllLDAPUsers = {};
+var listOfAllChannels = {};
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -10,7 +11,13 @@ module.exports = {
     getVariables: getVariables,
     pushSpecificVariables: pushSpecificVariables,
     getChannels: getChannels,
-    getUsers: getUsers
+    getUsers: getUsers,
+    exportVariables: exportVariables
+};
+
+function exportVariables() {
+    var array = [listOfAllLDAPUsers, listOfAllChannels];
+    return array;
 };
 
 function postToSwaggerAPI(msg, path, variable, callback) {             //function to call Swagger API
@@ -156,8 +163,7 @@ function preparePostMessage(task) {
     }
     var listOfChannels = variables[channel_index].split(',');
     for (var i = 0; i < listOfChannels.length; i++) {
-        var mainVariables = mainApp.exportVariables();
-        listOfChannels[i] = mainVariables[0][listOfAllChannels[i]];
+        listOfChannels[i] = listOfAllChannels[listOfAllChannels[i]];
         msg["channel"] = listOfChannels[i];
         console.log(msg);
         var payload = JSON.stringify(msg);
@@ -372,7 +378,6 @@ function getChannels() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
-        var listOfAllChannels = {};
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
@@ -385,7 +390,6 @@ function getUsers() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
-        var listOfAllLDAPUsers = {};
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllLDAPUsers = pushSpecificVariables(listOfAllLDAPUsers, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
         }
