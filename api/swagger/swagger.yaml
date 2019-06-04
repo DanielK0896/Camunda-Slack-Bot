@@ -505,6 +505,15 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /slackGet/channels:
+    x-swagger-router-controller: slackGet
+    get:
+      operationId: slackGetChannels
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          schema:
+            type: string
   /camunda/startProcess/schulungOrganisieren:
     x-swagger-router-controller: camundaStartProcess
     post:

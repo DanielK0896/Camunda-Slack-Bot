@@ -62,4 +62,4 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
     mod.preparePostMessage(task);
     await client.taskService.complete(task);
 });
-setInterval(function () { listOfChannels  }, 3000);
+//setInterval(function () { listOfChannels  }, 3000);
