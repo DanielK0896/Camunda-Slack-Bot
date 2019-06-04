@@ -25,7 +25,7 @@ function slackGetChannels(req, res) {
         if (error) throw new Error(error);
         console.log(body);
     });
-    res.status(200).end();
+    res.json({ "status": "done" });
 }
 
 

@@ -515,10 +515,15 @@ paths:
         - application/json
       parameters: []
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"       
+
   /camunda/startProcess/schulungOrganisieren:
     x-swagger-router-controller: camundaStartProcess
     post:
@@ -624,7 +629,9 @@ paths:
 
 
 definitions:
-  Message:
+  jsonResponse:
+    required:
+      - message
     properties:
       message:
         type: string
@@ -634,6 +641,9 @@ definitions:
     properties:
       message:
         type: string
+
+
+
       
 
 
