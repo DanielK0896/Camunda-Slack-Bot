@@ -170,6 +170,7 @@ function preparePostMessage(task) {
         console.log(msg);
         var payload = JSON.stringify(msg);
         console.log(payload);
+        console.log(path);
         return postToSwaggerAPI(payload, path, task, function (body, variable) {
             console.log(body);
             var bodyParsed = JSON.parse(body);
