@@ -136,7 +136,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
             }
             listOfUsers.splice(0, 4);
-            if (listOfusers.length == 0) {
+            if (listOfUsers.length == 0) {
                 var buttonName = pushedButton[3].split(',')
                 var blockId = msg.message.blocks[2].block_id.split(' ');
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", "0", buttonName[1].toString());
