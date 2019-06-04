@@ -46,7 +46,7 @@ setTimeout(function () {
 
     client.subscribe("list", async function ({ task, taskService }) {
         //var processVariables = mod.preparePostMessage(task);
-        await client.taskService.complete(task, processVariables)
+        await client.taskService.complete(task)
     });
 
     client.subscribe("reminder", async function ({ task, taskService }) {
