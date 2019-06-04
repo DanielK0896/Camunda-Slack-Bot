@@ -62,4 +62,4 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
     mod.preparePostMessage(task);
     await client.taskService.complete(task);
 });
-setTimeout(function () { console.log("In der APP.js angekommen" + mod.getFromSwaggerAPI("/slackGet/channels"); }, 3000);
+setTimeout(function () { console.log("In der APP.js angekommen" + mod.getFromSwaggerAPI("/slackGet/channels")); }, 3000);
