@@ -1,5 +1,5 @@
 var request = require('request');
-var URL = "https://slack.com/api/chat.postMessage";
+var URL = 'https://slack.com/api/chat.postMessage';
 var secrets = require('../../secrets');
 var headers = { 'cache-control': 'no-cache', 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
 
@@ -21,7 +21,6 @@ function sendMsg(req, res) {
  
 function sendMsgButton(req, res) {
     var msg = req.swagger.params.body.value;
-    console.log(msg);
     var body = {
         "channel": msg.channel,
         "text": msg.text,
@@ -61,6 +60,7 @@ function sendMsgButton(req, res) {
     request({
         method: 'POST', url: URL, headers: headers, body: body, json: true, function(error, response, body) {
             if (error) throw new Error(error);
+            console.log("ERROR   " + ERROR);
             console.log("BODY   " + body);
             console.log("RESPONSE   " + response);
             res.json(body);
