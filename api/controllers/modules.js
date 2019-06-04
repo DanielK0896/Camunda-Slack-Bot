@@ -49,7 +49,7 @@ function createPDF(template, fileName, variables) {
     pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
     pdfDoc.end();
 }
-function preparePostMessage(task, callback) {
+function preparePostMessage(task) {
 
     var variablesToGet = task.variables.get("variablesToGet").split(',');
     var variables = getVariables(task, variablesToGet);
@@ -166,7 +166,8 @@ function preparePostMessage(task, callback) {
             var bodyParsed = JSON.parse(JSON.parse(body));
             const processVariables = new Variables();
             return processVariables.set(variable.name, bodyParsed.ts);
-        });  
+        });
+    }
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
@@ -372,10 +373,10 @@ function getChannels() {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
         for (var i = 0; i < bodyParsed.channels.length; i++) {
-            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
-            console.log(listOfAllChannels);
+            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
-        console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
+        return listOfAllChannels;
+        console.log("In der APP.js angekommen" + listOfChannels);
     });
 }
 
@@ -384,9 +385,9 @@ function getUsers() {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
         for (var i = 0; i < bodyParsed.channels.length; i++) {
-            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
-            console.log(listOfAllChannels);
+            listOfAllLDAPUsers = pushSpecificVariables(listOfAllLDAPUsers, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
         }
-        console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
+        return listOfAllLDAPUsers;
+        console.log("In der APP.js angekommen" + listOfChannels);
     });
 }

@@ -5,8 +5,7 @@ const configCamunda = { baseUrl: "http://localhost:8080/engine-rest", use: logge
 const client = new Client(configCamunda);
 const { Variables } = require("camunda-external-task-client-js");
 const mod = require('./api/controllers/modules');
-export var listOfAllChannels = {};
-export var listOfAllLDAPUsers = {};
+
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
@@ -66,7 +65,8 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
     await client.taskService.complete(task, processVariables)
     
 });
-setTimeout(mod.getChannels, 500);
-setInterval(mod.getChannels, 300000);
+var listOfAllChannels = setTimeout(mod.getChannels, 500);
+var listOfAllLDAPUsers = setInterval(mod.getChannels, 300000);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
+export { listOfAllLDAPUsers, listOfAllChannels };
