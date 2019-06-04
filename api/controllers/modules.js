@@ -167,7 +167,6 @@ function preparePostMessage(task) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
         return postToSwaggerAPI(msg, path, task, function (body, variable) {
-            console.log(body);
             var bodyParsed = JSON.parse(body);
             console.log(bodyParsed);
             const processVariables = new Variables();
