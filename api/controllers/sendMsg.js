@@ -63,7 +63,6 @@ function sendMsgButton(req, res) {
             console.log("ERROR   " + ERROR);
             console.log("BODY   " + body);
             console.log("RESPONSE   " + response);
-            res.json(body);
             
         }
     });
