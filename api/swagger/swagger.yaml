@@ -500,7 +500,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Message"
+            $ref: "#/definitions/jsonResponse"
         default:
           description: Error
           schema:
