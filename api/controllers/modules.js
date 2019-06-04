@@ -277,6 +277,7 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
             } else if (variableValueSplitted.length == 5) {
                 arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
             } else {
+                console.log([variableNameSplitted[0]] + [variableNameSplitted[1]] + [variableNameSplitted[2]] + [variableNameSplitted[3]] + [variableValueSplitted[4]]);
                 arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableValueSplitted[4]] = msg[variableValueSplitted[0]];
             }
         } else {
