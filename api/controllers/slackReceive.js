@@ -150,8 +150,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 } else {
                     try {
                         console.log(JSON.stringify(payload["blocks"]));
-                        delete payload["blocks"][s][accessory][options];
-                        delete payload["blocks"][s][fields];
+                        delete payload["blocks"][s].accessory.options;
+                        delete payload["blocks"][s].fields;
                         payload["blocks"][s].push({ "type": "mrkdwn", "text": headlineLeftFieldSplitted[i] });
                     } catch (e) { console.log(e);}                
                     payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".text.text", i.toString(), headlineLeftFieldSplitted);
