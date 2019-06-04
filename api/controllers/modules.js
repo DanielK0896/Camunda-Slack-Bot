@@ -7,7 +7,8 @@ module.exports = {
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
     getVariables: getVariables,
-    pushSpecificVariables: pushSpecificVariables
+    pushSpecificVariables: pushSpecificVariables,
+    getChannels: getChannels
 };
 
 function postToSwaggerAPI(msg, path){             //function to call Swagger API
@@ -364,4 +365,16 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
         }
     }
     return arrayOfVariables;
+}
+
+function getChannels() {
+    getFromSwaggerAPI("/slackGet/conversations", function (body) {
+        var bodyParsed = JSON.parse(JSON.parse(body));
+        console.log(bodyParsed);
+        for (var i = 0; i < bodyParsed.channels.length; i++) {
+            listOfChannels = pushSpecificVariables(listOfChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
+            console.log(listOfChannels);
+        }
+        console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
+    };
 }

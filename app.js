@@ -62,15 +62,6 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
     mod.preparePostMessage(task);
     await client.taskService.complete(task);
 });
-setTimeout(function () {
-    mod.getFromSwaggerAPI("/slackGet/conversations", function (body) {
-        var bodyParsed = JSON.parse(JSON.parse(body));
-        console.log(bodyParsed);
-        for (var i = 0; i < bodyParsed.channels.length; i++) {
-            listOfChannels = mod.pushSpecificVariables(listOfChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
-            console.log(listOfChannels);
-        }
-    console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
-    });
-    
-}, 3000);
+setTimeout(mod.getChannels, 500);
+setInterval(mod.getChannels, 300000);
+
