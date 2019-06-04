@@ -120,8 +120,10 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
-            var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ").split(',');
-            var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
+            var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ");
+            var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ");
+            headlineLeftFieldSplitted = headlineLeftFieldSplitted.split(',');
+            headlineRightFieldSplitted = headlineRightFieldSplitted.split(',');
             console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted);
             console.log("headlineRightFieldSplitted: " + headlineRightFieldSplitted);
             console.log("headlineLeftField: " + headlineLeftField);
