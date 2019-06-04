@@ -6,6 +6,6 @@
     "\\api\\swagger",
     "\\config"
   ],
-  "SelectedNode": "\\api\\controllers\\camundaSendMessage.js",
+  "SelectedNode": "\\app.js",
   "PreviewInSolutionExplorer": false
 }
