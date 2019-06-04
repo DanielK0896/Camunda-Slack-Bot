@@ -125,6 +125,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (lastOverflowNumber > 10) {
                 lastOverflowNumber = 10;
             }
+            console.log(JSON.stringify(payload["blocks"]));
             for (var i = 0; i < lengthOfMissingOverflows; i++) {
                 var s = (i + 1) * 2
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".fields.0.text", "0", headlineLeftFieldSplitted[i]);
