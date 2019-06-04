@@ -163,7 +163,7 @@ function preparePostMessage(task) {
     }
     var listOfChannels = variables[channel_index].split(',');
     for (var i = 0; i < listOfChannels.length; i++) {
-        listOfChannels[i] = listOfAllChannels[listOfAllChannels[i]];
+        listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
         console.log(msg);
         var payload = JSON.stringify(msg);
