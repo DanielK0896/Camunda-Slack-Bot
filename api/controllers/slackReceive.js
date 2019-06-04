@@ -138,10 +138,10 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             for (var i = 0; i < actionsLeft; i++) {
                 var s = (i + 1) * 2;
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", i, headlineLeftFieldSplitted);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i, headlineRightFieldSplitted);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", i, listOfUsers);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.type", i, types); 
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", i.toString(), headlineLeftFieldSplitted);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i.toString(), headlineRightFieldSplitted);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", i.toString(), listOfUsers);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.type", i.toString(), types); 
                 if (i = 3) {
                     break;
                 }
