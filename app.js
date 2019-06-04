@@ -68,5 +68,5 @@ setTimeout(function () {
         listOfChannels = mod.pushSpecificVariables(listOfChannels, "response.channels." + prop + ".id", "response.channels." + prop + ".name", response);
         console.log(listOfChannels);
     }
-    console.log("In der APP.js angekommen" + listOfChannels);
+    console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
 }, 3000);
