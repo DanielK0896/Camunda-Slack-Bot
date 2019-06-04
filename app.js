@@ -65,6 +65,7 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
 setTimeout(function () {
     mod.getFromSwaggerAPI("/slackGet/channels", function (body) {
         var bodyParsed = JSON.parse(body);
+        console.log(bodyParsed.channels);
         for (var prop in bodyParsed) {
             console.log(prop);
             listOfChannels = mod.pushSpecificVariables(listOfChannels, bodyParsed.channels[prop].id, "channels." + prop + ".name", bodyParsed);
