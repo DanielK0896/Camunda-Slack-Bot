@@ -1,5 +1,7 @@
 var mod = require('./modules');
 import { listOfAllChannels } from '../../app.js';
+import { listOfAllLDAPUsers } from '../../app.js';
+
 var basicResponse = {
     "response_type": "ephemeral", "replace_original": false,
     "text": "Deine Nachricht ist angekommen!"

@@ -15,9 +15,12 @@ function getPermalink(req, res) {
         "channel": channmsg.channelel,
         "messageTs": msg.messageTs,
     };
-
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
+    request({
+        method: 'POST', url: URL, headers: headers, body: body, json: true, function(error, response, body) {
+            if (error) throw new Error(error);
+            res.json(body);
+        }
+    });
 }
 
 

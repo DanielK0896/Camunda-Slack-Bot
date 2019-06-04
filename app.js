@@ -6,6 +6,7 @@ const client = new Client(configCamunda);
 const { Variables } = require("camunda-external-task-client-js");
 const mod = require('./api/controllers/modules');
 export var listOfAllChannels = {};
+export var listOfAllLDAPUsers = {};
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
@@ -30,38 +31,41 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 });
 
 client.subscribe("invite", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
 });
 
 client.subscribe("room", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
 });
 
 client.subscribe("update", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
 });
 
 client.subscribe("list", async function ({ task, taskService }) {
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
 });
 
 client.subscribe("reminder", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
 });
 
 client.subscribe("done", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
 });
 
 client.subscribe("sendParticipants", async function ({ task, taskService }) {
-    mod.preparePostMessage(task);
-    await client.taskService.complete(task);
+    processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+    
 });
 setTimeout(mod.getChannels, 500);
 setInterval(mod.getChannels, 300000);
-
+//setTimeout(mod.getUsers, 500);
+//setInterval(mod.getUsers, 300000);

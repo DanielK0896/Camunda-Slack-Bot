@@ -1,6 +1,7 @@
 var maxChannels = 100;
 var request = require("request");
 import { listOfAllChannels } from '../../app.js';
+import { listOfAllLDAPUsers } from '../../app.js';
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -9,25 +10,19 @@ module.exports = {
     createPDF: createPDF,
     getVariables: getVariables,
     pushSpecificVariables: pushSpecificVariables,
-    getChannels: getChannels
+    getChannels: getChannels,
+    getUsers: getUsers
 };
 
-function postToSwaggerAPI(msg, path){             //function to call Swagger API
-    var http = require('http');
-    var request = http.request({
-    host:'localhost',
-    port: 10010,
-    method: 'POST',
-    path: path,
-        headers: {
-            'Content-Type': 'application/json',
-            'Transfer-Encoding': 'chunked'
-        }
-    }, function () { }
-    );
-
-    request.write(msg);
-    request.end();
+function postToSwaggerAPI(msg, path, variable, callback) {             //function to call Swagger API
+    var headers = {
+        'Content-Type': 'application/json',
+        'Transfer-Encoding': 'chunked'
+    };
+    request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg }, function (error, response, body) {
+        if (error) throw new Error(error);
+        callback(body);
+    });
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
     request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
@@ -54,7 +49,7 @@ function createPDF(template, fileName, variables) {
     pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
     pdfDoc.end();
 }
-function preparePostMessage(task) {
+function preparePostMessage(task, callback) {
 
     var variablesToGet = task.variables.get("variablesToGet").split(',');
     var variables = getVariables(task, variablesToGet);
@@ -162,12 +157,16 @@ function preparePostMessage(task) {
     }
     var listOfChannels = variables[channel_index].split(',');
     for (var i = 0; i < listOfChannels.length; i++) {
+        listOfChannels[i] = listOfAllChannels[listOfAllChannels[i]];
         msg["channel"] = listOfChannels[i];
         console.log(msg);
         var payload = JSON.stringify(msg);
         console.log(payload);
-        postToSwaggerAPI(payload, path);
-    }   
+        return postToSwaggerAPI(payload, path, task, function (body, variable) {
+            var bodyParsed = JSON.parse(JSON.parse(body));
+            const processVariables = new Variables();
+            return processVariables.set(variable.name, bodyParsed.ts);
+        });  
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
@@ -369,6 +368,18 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
 }
 
 function getChannels() {
+    getFromSwaggerAPI("/slackGet/conversations", function (body) {
+        var bodyParsed = JSON.parse(JSON.parse(body));
+        console.log(bodyParsed);
+        for (var i = 0; i < bodyParsed.channels.length; i++) {
+            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
+            console.log(listOfAllChannels);
+        }
+        console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
+    });
+}
+
+function getUsers() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);

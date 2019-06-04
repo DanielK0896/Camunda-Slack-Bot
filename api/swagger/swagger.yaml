@@ -26,11 +26,15 @@ paths:
                 type: string
               ts:
                 type: string
-      responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+     responses:
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /deleteMsg/scheduled:
     x-swagger-router-controller: deleteMsgScheduled
     post:
@@ -50,10 +54,14 @@ paths:
               scheduledMessageId:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /getPermalink:
     x-swagger-router-controller: getPermalink
     post:
@@ -73,10 +81,14 @@ paths:
               messageTs:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendMsg:
     x-swagger-router-controller: sendMsg
     post:
@@ -96,10 +108,14 @@ paths:
               text:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendMsg/Button:
     x-swagger-router-controller: sendMsg
     post:
@@ -132,12 +148,15 @@ paths:
                 type: array
                 items:
                   type: string
-
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendMsg/ephemeral:
     x-swagger-router-controller: sendMsgEphemeral
     post:
@@ -159,10 +178,14 @@ paths:
               text:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendMsg/ephemeral/Button:
     x-swagger-router-controller: sendMsgEphemeral
     post:
@@ -197,12 +220,15 @@ paths:
                 type: array
                 items:
                   type: string
-
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendMsg/schedule:
     x-swagger-router-controller: sendMsgSchedule
     post:
@@ -224,10 +250,14 @@ paths:
               text:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendMsg/schedule/Button:
     x-swagger-router-controller: sendMsgschedule
     post:
@@ -263,10 +293,14 @@ paths:
                 items:
                   type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /updateMsg:
     x-swagger-router-controller: updateMsg
     post:
@@ -288,10 +322,14 @@ paths:
               ts:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /updateMsg/Button:
     x-swagger-router-controller: updateMsg
     post:
@@ -326,12 +364,15 @@ paths:
                 type: array
                 items:
                   type: string
-
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendOverflow/static:
     x-swagger-router-controller: sendOverflow
     post:
@@ -383,10 +424,14 @@ paths:
                 items:
                   type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /updateOverflow:
     x-swagger-router-controller: updateOverflow
     post:
@@ -408,10 +453,14 @@ paths:
               blocks:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /startDialog:
     x-swagger-router-controller: startDialog
     post:
@@ -453,10 +502,14 @@ paths:
                 items:
                   type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /sendFile:
     x-swagger-router-controller: sendFile
     post:
@@ -476,10 +529,14 @@ paths:
               fileName:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /slackreceive:
     x-swagger-router-controller: slackReceive
     post:
@@ -520,7 +577,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"       
-
   /camunda/startProcess/schulungOrganisieren:
     x-swagger-router-controller: camundaStartProcess
     post:
@@ -544,10 +600,14 @@ paths:
               room:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /camunda/sendMessage:
     x-swagger-router-controller: camundaSendMessage
     post:
@@ -575,10 +635,14 @@ paths:
               correlationKey:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /camunda/instance/getId:
     x-swagger-router-controller: camundaInstance
     get:
@@ -596,10 +660,14 @@ paths:
               correlationKey:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
   /camunda/instance/deleteVariable:
     x-swagger-router-controller: camundaInstance
     get:
@@ -619,10 +687,14 @@ paths:
               variable:
                 type: string
       responses:
-        '200':
-          description: Definition generated from Swagger Inspector
+        "200":
+          description: Success
           schema:
-            type: string
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
 
 
 definitions:

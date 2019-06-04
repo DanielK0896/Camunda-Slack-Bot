@@ -18,12 +18,7 @@ function sendFile(req, res) {
         file: fs.createReadStream(__dirname + "/../../PDFs/" + msg.fileName),
     };
     request.post({url: 'https://slack.com/api/files.upload', headers: headers, formData: formData }, function optionalCallback(err, httpResponse, body) {
-        if (err) {
-            return console.error('upload failed:', err);
-        }
-        console.log('Upload successful!  Server responded with:', body);
+        if (error) throw new Error(error);
+        res.json(body);
     });
-
-
-
 }
