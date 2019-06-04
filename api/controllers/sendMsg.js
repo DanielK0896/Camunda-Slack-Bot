@@ -2,6 +2,7 @@ var request = require('request');
 var URL = 'https://slack.com/api/chat.postMessage';
 var secrets = require('../../secrets');
 var headers = { 'cache-control': 'no-cache', 'Authorization': secrets.Authorization, 'Content-Type': 'application/json' };
+var http = require("https");
 
 module.exports = {
     sendMsg: sendMsg,
@@ -57,14 +58,37 @@ function sendMsgButton(req, res) {
             }
         }
     }
-    request({
-        method: 'POST', url: URL, headers: headers, json: body, function(error, response, body) {
-            if (error) throw new Error(error);
-            console.log("ERROR   " + ERROR);
-            console.log("BODY   " + body);
-            console.log("RESPONSE   " + response);
-            res.json(body);
-            
+
+    var options = {
+        "method": "POST",
+        "hostname": [
+            "slack",
+            "com"
+        ],
+        "path": [
+            "api",
+            "chat.postMessage"
+        ],
+        "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer xoxb-32097757266-466413737428-HmVtoz47xbZCmy5EGTdX11zR",
+            "cache-control": "no-cache"
         }
+    };
+
+    var req = http.request(options, function (res) {
+        var chunks = [];
+
+        res.on("data", function (chunk) {
+            chunks.push(chunk);
+        });
+
+        res.on("end", function () {
+            var body = Buffer.concat(chunks);
+            console.log(body.toString());
+        });
     });
+
+    req.write(JSON.stringify(body));
+    req.end();
 }
