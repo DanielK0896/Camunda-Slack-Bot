@@ -29,29 +29,36 @@ function sendOverflowStatic(req, res) {
     };
     var i;
     for (i = 0; i < msg.headlineLeftField.length; i++) {
-        body.blocks.push({
+        var objectToPush = {
             "type": "divider"
-            },
-            {
-                "type": "section",
-                "block_id": msg.message + " " + msg.changes + " " + i,
-                "fields": [
-                    {
-                        "type": "mrkdwn",
-                        "text": msg.headlineLeftField[i]
-                    }, {
-                        "type": "mrkdwn",
-                        "text": msg.headlineRightField[i]
-                    }],
-                "accessory": {
-                    "type": msg.type[i],
-                    "action_id": msg.actionId[i],
-                    "options": [
-                    ]
-                }
-            });
+        };
+        var objectToPush2 = {
+            "type": "section",
+            "block_id": msg.message + " " + msg.changes + " " + i,
+            "accessory": {
+                "type": msg.type[i],
+                "action_id": msg.actionId[i]
+            }
+        };   
+        if (msg.type[i] == "overflow") {
+            objectToPush2.accessory.options = [];
+            objectToPush2.fields = [
+                {
+                    "type": "mrkdwn",
+                    "text": msg.headlineLeftField[i]
+                }, {
+                    "type": "mrkdwn",
+                    "text": msg.headlineRightField[i]
+                }];
+        } else {
+            objectToPush2.text = {
+                "type": "mrkdwn",
+                "text": msg.headlineLeftField[i]
+            };
+        }   
+        body.blocks.push(objectToPush);
+        body.blocks.push(objectToPush2);
     }
-
     for (var t = 2; t <= i*2; t = t + 2) { 
         for (var s = 0; s < msg.textOptions.length; s++) {
             body.blocks[t].accessory.options.push({

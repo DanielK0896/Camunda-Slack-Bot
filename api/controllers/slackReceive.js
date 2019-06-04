@@ -133,11 +133,28 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             for (var i = 0; i < actionsLeft; i++) {
                 var s = (i + 1) * 2;
-                console.log(i.toString());
-                console.log(s);
-                console.log(i);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", i.toString(), headlineLeftFieldSplitted);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i.toString(), headlineRightFieldSplitted);
+                if (types[i] == "overflow") {
+                    try {
+                        payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", i.toString(), headlineLeftFieldSplitted);
+                        payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i.toString(), headlineRightFieldSplitted);
+                    } catch (e) {
+                        payload["blocks"][s].fields = [
+                            {
+                                "type": "mrkdwn",
+                                "text": headlineLeftFieldSplitted[i]
+                            }, {
+                                "type": "mrkdwn",
+                                "text": headlineRightFieldSplitted[i]
+                            }];
+                    }
+                } else {
+                    try {
+                        delete payload["blocks"][s][fields];
+                        payload["blocks"][s].push({ "type": "mrkdwn", "text": "empty" });
+                    } catch (e) { }                   
+                    payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".text.1", i.toString(), headlineLeftFieldSplitted);
+                }
+                
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", i.toString(), listOfUsers);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.type", i.toString(), types); 
                 if (i == 3) {
@@ -149,7 +166,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var buttonName = pushedButton[3].split(',');
                 var blockId = msg.message.blocks[2].block_id.split(' ');
                 blockId = [blockId[0] + " " + blockId[1] + " " + blockId[2] + " " + blockId[3]];
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.text.text", "1", buttonName);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.text.1", "1", buttonName);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".block_id", "0", blockId);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.action_id", "0", ["lastMessage"]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.value", "0", ["lastMessage"]);
