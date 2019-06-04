@@ -5,7 +5,7 @@ const configCamunda = { baseUrl: "http://localhost:8080/engine-rest", use: logge
 const client = new Client(configCamunda);
 const { Variables } = require("camunda-external-task-client-js");
 const mod = require('./api/controllers/modules');
-var listOfChannels = {};
+listOfChannels = {};
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
