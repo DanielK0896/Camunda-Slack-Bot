@@ -26,6 +26,7 @@ function postToSwaggerAPI(msg, path, variable, callback) {             //functio
     };
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
+        console.log(body);
         callback(body, variable);
     });
 }
