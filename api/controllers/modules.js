@@ -161,14 +161,11 @@ function preparePostMessage(task) {
         }
     }
     var listOfChannels = variables[channel_index].split(',');
-    console.log(listOfChannels);
-    console.log(listOfAllChannels);
     for (var i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
         return postToSwaggerAPI(msg, path, task, function (body, variable) {
             var bodyParsed = JSON.parse(body);
-            console.log(bodyParsed);
             const processVariables = new Variables();
             return processVariables.set(variable.activityId, bodyParsed.ts);
         });
