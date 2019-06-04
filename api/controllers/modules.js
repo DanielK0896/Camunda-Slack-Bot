@@ -22,7 +22,8 @@ function exportVariables() {
 
 function postToSwaggerAPI(msg, path, variable, callback) {             //function to call Swagger API
     var headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'cache-control': 'no-cache'
     };
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
