@@ -116,10 +116,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 types.push(headlineLeftField[i]);       
                 headlineLeftField.splice(i, 1);
             }
-            var actionsLeft = parseInt(headlineLeftField.length, 10);
+            var actionsLeft = headlineLeftField.length;
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
+            console.log(actionsLeft);
             var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ").split(',');
             var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
             console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted);
@@ -137,7 +138,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 payload["blocks"].splice(3, 6);
             }
             console.log(types);
-            
+            console.log(actionsLeft);
             for (var i = 0; i < actionsLeft; i++) {
                 var s = (i + 1) * 2;
                 console.log(i.toString());
