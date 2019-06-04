@@ -75,7 +75,6 @@ function preparePostMessage(task) {
     var buttonValue_index = variablesToGet.indexOf("buttonValue");
     var message_index = variablesToGet.indexOf("message");
     var changes_index = variablesToGet.indexOf("changes");
-    console.log(variables);
     var msg = {};
     var path;
 
@@ -172,7 +171,7 @@ function preparePostMessage(task) {
         var payload = JSON.stringify(msg);
         console.log(payload);
         return postToSwaggerAPI(payload, path, task, function (body, variable) {
-            var bodyParsed = JSON.parse(JSON.parse(body));
+            var bodyParsed = JSON.parse(body);
             const processVariables = new Variables();
             return processVariables.set(variable.activityId, bodyParsed.ts);
         });
@@ -378,7 +377,6 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
 }
 
 function getChannels() {
-    console.log("getchannels!!!");
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);

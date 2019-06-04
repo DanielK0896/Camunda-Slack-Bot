@@ -24,7 +24,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   app.listen(port);
 });
 
-setTimeout(mod.getChannels, 2000);
+setTimeout(mod.getChannels, 1000);
 setInterval(mod.getChannels, 300000);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
@@ -45,7 +45,7 @@ setTimeout(function () {
     });
 
     client.subscribe("list", async function ({ task, taskService }) {
-        var processVariables = mod.preparePostMessage(task);
+        //var processVariables = mod.preparePostMessage(task);
         await client.taskService.complete(task, processVariables)
     });
 
@@ -65,5 +65,5 @@ setTimeout(function () {
 
     });
 
-}, 5000);
+}, 10000);
 
