@@ -28,13 +28,11 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
     request.end();
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
-    var response;
     request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
         if (error) throw new Error(error);
-        response = body;
-        console.log(body);
+        callback;
     });
-    callback;
+    
 }
 
 function createPDF(template, fileName, variables) {
