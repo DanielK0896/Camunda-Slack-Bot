@@ -1,5 +1,5 @@
 var maxChannels = 100;
-var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixten", "seventeen", "eighteen", "nineteen", "twenty"];
+var request = require("request");
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -25,6 +25,19 @@ function postToSwaggerAPI(msg, path){             //function to call Swagger API
 
     request.write(msg);
     request.end();
+}
+function getFromSwaggerAPI(path) {             //function to call Swagger API
+    var options = http.request({
+        method: 'GET',
+        url: 'localhost:10010' + path
+    });
+    var msg;
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        msg = body;
+        console.log(body);
+    });
+    return msg;
 }
 
 function createPDF(template, fileName, variables) {

@@ -63,3 +63,5 @@ client.subscribe("sendParticipants", async function ({ task, taskService }) {
     await client.taskService.complete(task);
 });
 //setInterval(function () { listOfChannels  }, 3000);
+
+console.log("In der APP.js angekommen" + mod.getFromSwaggerAPI("/slackGet/channels"));
