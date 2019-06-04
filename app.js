@@ -31,6 +31,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 });
 
 client.subscribe("invite", async function ({ task, taskService }) {
+    console.log(task);
     processVariables = mod.preparePostMessage(task);
     await client.taskService.complete(task, processVariables)
 });
