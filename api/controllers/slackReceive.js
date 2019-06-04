@@ -105,8 +105,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
-            var headlineLeftField = pushedButton[1];
-            var headlineRightField = pushedButton[2];
+            var headlineLeftField = pushedButton[1].split(',');
+            var headlineRightField = pushedButton[2].split(',');
             var lengthOfFields = headlineLeftField.length / 2;
             if (lengthOfFields > 4) {
                 lengthOfFields = 4;
