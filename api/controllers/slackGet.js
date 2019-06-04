@@ -14,8 +14,7 @@ function slackGetChannels(req, res) {
         method: 'GET',
         url: URL,
         headers:
-        {
-            'cache-control': 'no-cache',
+        {   'cache-control': 'no-cache',
             Authorization: secrets.Authorization,
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -26,7 +25,7 @@ function slackGetChannels(req, res) {
         if (error) throw new Error(error);
         console.log(body);
     });
-    res.status(200).type('application/json').end();
+    res.status(200).end();
 }
 
 

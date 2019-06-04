@@ -13,7 +13,6 @@ module.exports = {
 
 function updateMsg(req, res) {
 
-    var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
         "text": msg.text,
