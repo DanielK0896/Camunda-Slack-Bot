@@ -376,5 +376,5 @@ function getChannels() {
             console.log(listOfChannels);
         }
         console.log("In der APP.js angekommen" + JSON.stringify(listOfChannels));
-    };
+    });
 }
