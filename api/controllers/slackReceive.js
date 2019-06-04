@@ -127,8 +127,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             
             
             console.log(actionsLeft);
-            console.log(lastBlock);
+            
             var lastBlock = actionsLeft * 2 + 2;
+            console.log(lastBlock);
             if (actionsLeft == 3) {
                 payload["blocks"].splice(7, 2);
             } else if (actionsLeft = 2) {
