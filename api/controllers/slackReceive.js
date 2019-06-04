@@ -120,14 +120,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
-            var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ");
-            var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ");
-            headlineLeftFieldSplitted = headlineLeftFieldSplitted.split(',');
-            headlineRightFieldSplitted = headlineRightFieldSplitted.split(',');
+            var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ").split(',');
+            var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
             console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted);
             console.log("headlineRightFieldSplitted: " + headlineRightFieldSplitted);
-            console.log("headlineLeftField: " + headlineLeftField);
-            console.log("headlineRightField: " + headlineRightField);
+            console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted[0]);
+            console.log("headlineRightFieldSplitted: " + headlineRightFieldSplitted[0]);
             var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
             var lastBlock = actionsLeft * 2 + 2;
