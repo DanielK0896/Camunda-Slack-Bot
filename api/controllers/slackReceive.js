@@ -50,7 +50,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             updateMsg["ts"] = taskid[taskid.length - 1];
             console.log(updateMsg);
-            mod.postToSwaggerAPI(JSON.stringify(updateMsg), "/updateMsg");
+            mod.postToSwaggerAPI(updateMsg, "/updateMsg");
         } else {
             handleMessage(taskid, pushedButton, msg);
             res.json(basicResponse);
@@ -100,8 +100,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             changes[parseInt(actionValue, 10) + changes.length / 2] = changes[parseInt(actionValue, 10) + changes.length / 2].split('%$%').join(" ");
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (parseInt(actionValue, 10) + changes.length / 2).toString(), changes)
             payload["blocks"] = JSON.stringify(payload["blocks"]);
-            console.log(JSON.stringify(payload));
-            mod.postToSwaggerAPI(JSON.stringify(payload), "/updateOverflow");
+            mod.postToSwaggerAPI(payload, "/updateOverflow");
         } else if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
@@ -196,7 +195,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             console.log(JSON.stringify(payload));
-            mod.postToSwaggerAPI(JSON.stringify(payload), "/updateOverflow");
+            mod.postToSwaggerAPI(payload, "/updateOverflow");
         }
     }
 }
@@ -221,8 +220,7 @@ function handleMessage(taskid, pushedButton, msg) {
     var path = "/camunda/sendMessage/"
     arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
-    var payload = JSON.stringify(arrayOfVariables);
-    mod.postToSwaggerAPI(payload, path);
+    mod.postToSwaggerAPI(arrayOfVariables, path);
 }
 
 function handleDialog(taskid, msg) {
@@ -272,5 +270,5 @@ function handleDialog(taskid, msg) {
     } else if (arrayOfVariables["data_source"] == []) {
         
     }
-    mod.postToSwaggerAPI(JSON.stringify(arrayOfVariables), "/startDialog");
+    mod.postToSwaggerAPI(arrayOfVariables, "/startDialog");
 }
