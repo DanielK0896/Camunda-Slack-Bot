@@ -15,7 +15,7 @@ function slackGetConversations(req, res) {
         url: URL,
         headers:
         {   'cache-control': 'no-cache',
-            Authorization: secrets.Authorization,
+            'Authorization': secrets.Authorization,
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         form: { undefined: undefined }
