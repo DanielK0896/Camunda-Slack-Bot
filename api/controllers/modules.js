@@ -3,6 +3,7 @@ var request = require("request");
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
+    getFromSwaggerAPI: getFromSwaggerAPI,
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
     getVariables: getVariables,
