@@ -28,7 +28,6 @@ function postToSwaggerAPI(msg, path, variable, callback) {             //functio
         if (error) throw new Error(error);
         callback(body, variable);
     });
-    console.log("IST WOHL ABGESENDET");
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
     request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
@@ -166,12 +165,7 @@ function preparePostMessage(task) {
     for (var i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
-        console.log(listOfChannels);
-        console.log(msg);
-        var payload = JSON.stringify(msg);
-        console.log(payload);
-        console.log(path);
-        return postToSwaggerAPI(payload, path, task, function (body, variable) {
+        return postToSwaggerAPI(msg, path, task, function (body, variable) {
             console.log(body);
             var bodyParsed = JSON.parse(body);
             console.log(bodyParsed);
