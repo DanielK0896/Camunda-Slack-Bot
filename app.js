@@ -28,41 +28,42 @@ mod.getChannels;
 setInterval(mod.getChannels, 300000);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
+setTimeout(function () {
+    client.subscribe("invite", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
+    });
 
-client.subscribe("invite", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
+    client.subscribe("room", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
+    });
 
-client.subscribe("room", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
+    client.subscribe("update", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
+    });
 
-client.subscribe("update", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
+    client.subscribe("list", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
+    });
 
-client.subscribe("list", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
+    client.subscribe("reminder", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
+    });
 
-client.subscribe("reminder", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
+    client.subscribe("done", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
+    });
 
-client.subscribe("done", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
+    client.subscribe("sendParticipants", async function ({ task, taskService }) {
+        var processVariables = mod.preparePostMessage(task);
+        await client.taskService.complete(task, processVariables)
 
-client.subscribe("sendParticipants", async function ({ task, taskService }) {
-    var processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-    
-});
+    });
 
+}, 1000);
 
