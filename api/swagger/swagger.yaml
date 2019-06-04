@@ -495,7 +495,6 @@ paths:
           description: payload
           required: true
           type: string
-
       responses:
         "200":
           description: Success
@@ -511,8 +510,6 @@ paths:
       operationId: slackGetChannels
       consumes:
         - application/x-www-form-urlencoded
-      produces:
-        - application/json
       parameters: []
       responses:
         "200":
