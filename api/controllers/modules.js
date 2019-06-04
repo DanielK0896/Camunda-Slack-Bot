@@ -27,7 +27,8 @@ function postToSwaggerAPI(msg, path, variable, callback) {             //functio
     };
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
-        console.log(body);
+        console.log("BODY MODULES    " + body);
+        console.log("response MODULES    " + response);
         callback(body, variable);
     });
 }
@@ -385,7 +386,6 @@ function getChannels() {
 function getUsers() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
-        console.log(bodyParsed);
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllLDAPUsers = pushSpecificVariables(listOfAllLDAPUsers, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
         }
