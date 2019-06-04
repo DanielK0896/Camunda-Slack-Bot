@@ -152,6 +152,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                         delete payload["blocks"][s].accessory.options;
                         delete payload["blocks"][s].fields;
                         payload["blocks"][s].text = { "type": "mrkdwn", "text": headlineLeftFieldSplitted[i] };
+                        payload["blocks"][s].accessory.confirm = {
+                            "title": "confirm",
+                            "text": "Bitte bestätigen",
+                            "ok_text": "Ja",
+                            "dismiss_text": "Abbrechen"                   
+                        };
                     } catch (e) { console.log(e);}                
                     payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".text.text", i.toString(), headlineLeftFieldSplitted);
                 }
