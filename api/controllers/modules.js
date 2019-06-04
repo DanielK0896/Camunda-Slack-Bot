@@ -34,7 +34,7 @@ function getFromSwaggerAPI(path) {             //function to call Swagger API
         msg = body;
         console.log(body);
     });
-    return msg;
+    return JSON.parse(msg);
 }
 
 function createPDF(template, fileName, variables) {
