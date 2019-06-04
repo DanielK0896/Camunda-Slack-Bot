@@ -61,7 +61,8 @@ function sendMsgButton(req, res) {
     request({
         method: 'POST', url: URL, headers: headers, body: body, json: true, function(error, response, body) {
             if (error) throw new Error(error);
-            console.log(body);
+            console.log("BODY   " + body);
+            console.log("RESPONSE   " + response);
             res.json(body);
             
         }
