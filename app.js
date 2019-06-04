@@ -65,5 +65,5 @@ setTimeout(function () {
 
     });
 
-}, 1000);
+}, 5000);
 
