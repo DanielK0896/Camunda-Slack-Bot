@@ -372,9 +372,8 @@ function getChannels() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
-        var listOfAllChannels;
+        var listOfAllChannels = {};
         for (var i = 0; i < bodyParsed.channels.length; i++) {
-            console.log(bodyParsed.channels[i].name);
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
         return listOfAllChannels;
@@ -386,7 +385,7 @@ function getUsers() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
-        var listOfAllLDAPUsers;
+        var listOfAllLDAPUsers = {};
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllLDAPUsers = pushSpecificVariables(listOfAllLDAPUsers, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
         }
