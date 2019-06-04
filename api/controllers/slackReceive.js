@@ -122,14 +122,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4).join().split('_').join(" ").split(',');
             var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
+            console.log("headlineLeftFieldSplitted: " + headlineLeftFieldSplitted);
+            console.log("headlineRightFieldSplitted: " + headlineRightFieldSplitted);
+            console.log("headlineLeftField: " + headlineLeftField);
+            console.log("headlineRightField: " + headlineRightField);
             var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
-            
-            
-            console.log(actionsLeft);
-            
             var lastBlock = actionsLeft * 2 + 2;
-            console.log(lastBlock);
             if (actionsLeft == 3) {
                 payload["blocks"].splice(7, 2);
             } else if (actionsLeft = 2) {
