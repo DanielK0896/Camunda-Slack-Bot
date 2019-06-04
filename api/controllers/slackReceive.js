@@ -136,8 +136,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             } else if (actionsLeft = 1) {
                 payload["blocks"].splice(3, 6);
             }
+            console.log(types);
+            
             for (var i = 0; i < actionsLeft; i++) {
                 var s = (i + 1) * 2;
+                console.log(i.toString());
+                console.log(s);
+                console.log(i);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", i.toString(), headlineLeftFieldSplitted);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i.toString(), headlineRightFieldSplitted);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", i.toString(), listOfUsers);
@@ -148,12 +153,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             listOfUsers.splice(0, 4);
             if (listOfUsers.length == 0) {
-                var buttonName = pushedButton[3].split(',')
+                var buttonName = pushedButton[3].split(',');
                 var blockId = msg.message.blocks[2].block_id.split(' ');
+                blockId = [blockId[0] + " " + blockId[1] + " " + blockId[2] + " " + blockId[3]];
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.text.text", "1", buttonName);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".block_id", "0", blockId);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.action_id", "0", ["lastMessage"]);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.value", "0", ["lastMessage"]);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.action_id", "0", ["lastMessage"]);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.value", "0", ["lastMessage"]);
             } else {
                 var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.splice(0, 4) + " " + headlineRightFieldSplitted.splice(0, 4) + " " + pushedButton[3];
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
