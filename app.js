@@ -73,5 +73,6 @@ var listOfAllLDAPUsers = setInterval(mod.getChannels, 300000);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
 function exportVariables() {
-    return var array = [listOfAllLDAPUsers, listOfAllChannels];
+    var array = [listOfAllLDAPUsers, listOfAllChannels];
+    return array;
 };
