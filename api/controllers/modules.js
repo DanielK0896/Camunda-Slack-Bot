@@ -374,6 +374,7 @@ function getChannels() {
         console.log(bodyParsed);
         var listOfAllChannels;
         for (var i = 0; i < bodyParsed.channels.length; i++) {
+            console.log(bodyParsed.channels[i].name);
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
         return listOfAllChannels;
