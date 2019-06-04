@@ -120,12 +120,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var headlineRightFieldSplitted = headlineRightField.splice(0, 4).join().split('_').join(" ").split(',');
             var variableName = msg.actions[0].action_id.split(',');
             var listOfUsers = pushedButton[0].split(',');
-            var lengthOfMissingOverflows = listOfUsers.length;
-            var lastOverflowNumber = lengthOfMissingOverflows * 2 + 2;
-            if (lastOverflowNumber > 10) {
-                lastOverflowNumber = 10;
-            }
-            for (var i = 0; i < lengthOfMissingOverflows; i++) {
+            for (var i = 0; i < listOfUsers.length; i++) {
                 var s = (i + 1) * 2
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", "0", headlineLeftFieldSplitted[i]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", "0", headlineRightFieldSplitted[i]);
@@ -141,8 +136,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var blockId = msg.message.blocks[2].block_id.split(' ');
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", "0", buttonName[1].toString());
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".block_id", "0", blockId[0].toString());
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastOverflowNumber + ".elements.action_id", "0", "lastMessage");
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastOverflowNumber + ".elements.value", "0", "lastMessage");
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "10.elements.action_id", "0", ["lastMessage"]);
+                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "10.elements.value", "0", ["lastMessage"]);
             } else {
                 var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.splice(0, 4) + " " + headlineRightFieldSplitted.splice(0, 4) + " " + pushedButton[3];
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
