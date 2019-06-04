@@ -22,50 +22,47 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
   var port = process.env.PORT || 10010;
   app.listen(port);
-
-  if (swaggerExpress.runner.swagger.paths['/hello']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
-  }
 });
 
-client.subscribe("invite", async function ({ task, taskService }) {
-    console.log(task);
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
-
-client.subscribe("room", async function ({ task, taskService }) {
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
-
-client.subscribe("update", async function ({ task, taskService }) {
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
-
-client.subscribe("list", async function ({ task, taskService }) {
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
-
-client.subscribe("reminder", async function ({ task, taskService }) {
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
-
-client.subscribe("done", async function ({ task, taskService }) {
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-});
-
-client.subscribe("sendParticipants", async function ({ task, taskService }) {
-    processVariables = mod.preparePostMessage(task);
-    await client.taskService.complete(task, processVariables)
-    
-});
 setTimeout(mod.getChannels, 500);
 setInterval(mod.getChannels, 300000);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
+
+client.subscribe("invite", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+});
+
+client.subscribe("room", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+});
+
+client.subscribe("update", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+});
+
+client.subscribe("list", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+});
+
+client.subscribe("reminder", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+});
+
+client.subscribe("done", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+});
+
+client.subscribe("sendParticipants", async function ({ task, taskService }) {
+    var processVariables = mod.preparePostMessage(task);
+    await client.taskService.complete(task, processVariables)
+    
+});
+
 
