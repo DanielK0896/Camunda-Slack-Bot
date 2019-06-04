@@ -6,6 +6,9 @@ const client = new Client(configCamunda);
 const { Variables } = require("camunda-external-task-client-js");
 const mod = require('./api/controllers/modules');
 
+module.exports = {
+    exportVariables: exportVariables
+};
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
@@ -69,4 +72,6 @@ var listOfAllChannels = setTimeout(mod.getChannels, 500);
 var listOfAllLDAPUsers = setInterval(mod.getChannels, 300000);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
-export { listOfAllLDAPUsers, listOfAllChannels };
+function exportVariables() {
+    return var array = [listOfAllLDAPUsers, listOfAllChannels];
+};

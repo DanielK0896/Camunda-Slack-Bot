@@ -1,7 +1,6 @@
 var maxChannels = 100;
 var request = require("request");
-import { listOfAllChannels } from '../../app.js';
-import { listOfAllLDAPUsers } from '../../app.js';
+var mainApp = require('../../app.js');
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -157,7 +156,8 @@ function preparePostMessage(task) {
     }
     var listOfChannels = variables[channel_index].split(',');
     for (var i = 0; i < listOfChannels.length; i++) {
-        listOfChannels[i] = listOfAllChannels[listOfAllChannels[i]];
+        var mainVariables = mainApp.exportVariables();
+        listOfChannels[i] = mainVariables[0][listOfAllChannels[i]];
         msg["channel"] = listOfChannels[i];
         console.log(msg);
         var payload = JSON.stringify(msg);
