@@ -27,7 +27,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 pushedButton = msg.actions[0].value.split(" ");
             } catch (e) {
                 try {
-
+                    pushedButton = msg.actions[0].selected_user;
                 } catch (e) {}
             }
         }
@@ -190,7 +190,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.action_id", "0", ["lastMessage"]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.value", "0", ["lastMessage"]);
             } else {
-                var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.splice(0, 4) + " " + headlineRightFieldSplitted.splice(0, 4) + " " + pushedButton[3];
+                var buttonValue = listOfUsers + " " + headlineLeftFieldSplitted.toString() + " " + headlineRightFieldSplitted.toString() + " " + pushedButton[3];
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);
