@@ -66,11 +66,6 @@ setTimeout(function () {
     mod.getFromSwaggerAPI("/slackGet/channels", function (body) {
         var bodyParsed = JSON.parse(JSON.parse(body));
         console.log(bodyParsed);
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        console.log(bodyParsed.channels);
-        console.log(bodyParsed[channels]);
-        console.log(bodyParsed.ok);
-        console.log(bodyParsed[ok]);
         for (var prop in bodyParsed) {
             console.log(prop);
             listOfChannels = mod.pushSpecificVariables(listOfChannels, bodyParsed.channels[prop].id, "channels." + prop + ".name", bodyParsed);
