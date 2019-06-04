@@ -23,6 +23,7 @@ function slackGetConversations(req, res) {
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
+        console.log(body);
         res.json(body);
     });
 }
