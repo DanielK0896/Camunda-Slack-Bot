@@ -22,13 +22,13 @@ function exportVariables() {
 
 function postToSwaggerAPI(msg, path, variable, callback) {             //function to call Swagger API
     var headers = {
-        'Content-Type': 'application/json',
-        'Transfer-Encoding': 'chunked'
+        'Content-Type': 'application/json'
     };
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
         callback(body, variable);
     });
+    console.log("IST WOHL ABGESENDET");
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
     request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
