@@ -162,12 +162,12 @@ function preparePostMessage(task) {
         }
     }
     var listOfChannels = variables[channel_index].split(',');
-    console.log("listOfChannels");
-    console.log("listOfAllChannels");
+    console.log(listOfChannels);
+    console.log(listOfAllChannels);
     for (var i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
-        console.log("listOfChannels");
+        console.log(listOfChannels);
         console.log(msg);
         var payload = JSON.stringify(msg);
         console.log(payload);
