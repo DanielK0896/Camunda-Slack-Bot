@@ -6,6 +6,6 @@
     "\\api\\swagger",
     "\\config"
   ],
-  "SelectedNode": "\\app.js",
+  "SelectedNode": "\\api\\controllers\\slackGet.js",
   "PreviewInSolutionExplorer": false
 }
