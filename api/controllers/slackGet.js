@@ -1,6 +1,5 @@
 /* This file can be reached by calling swagger API endpoint. 
  * slackGetChannels: Get all Channels */
-
 var request = require('request');
 var URL = "https://slack.com/api/conversations.list";
 var secrets = require('../../secrets');
@@ -10,22 +9,24 @@ module.exports = {
 };
 
 function slackGetConversations(req, res) {
-    var options = {
+     var options = {
         method: 'GET',
-        url: URL,
+        url: 'https://slack.com/api/conversations.list',
         headers:
         {
-            'Content-Type': 'application/x-www-form-urlencoded',
-             Authorization: secrets.Authorization,
-            'cache-control': 'no-cache'          
-        }
+            'cache-control': 'no-cache',
+            Authorization: secrets.Authorization,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form: { undefined: undefined }
     };
-    console.log(options);
+
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
+
         console.log(body);
-        res.json(body);
     });
+
 }
 
 
