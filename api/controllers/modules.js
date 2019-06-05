@@ -24,7 +24,7 @@ function postToSwaggerAPI(msg, path, variable, callback) {             //functio
     var headers = {
         'Content-Type': 'application/json',
         'cache-control': 'no-cache'
-    };
+    }; console.log("POSTREQUEST");
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
         console.log("BODY MODULES    " + body);
