@@ -36,10 +36,11 @@ setTimeout(function () {
 
     client.subscribe("room", async function ({ task, taskService }) {
         var ts = mod.preparePostMessage(task);
-        console.log(ts);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        await client.taskService.complete(task, processVariables);
+        ts.then(ts => {
+            const processVariables = new Variables();
+            processVariables.set(task.activityId, ts);
+            await client.taskService.complete(task, processVariables);
+        })
     });
 
     client.subscribe("update", async function ({ task, taskService }) {
