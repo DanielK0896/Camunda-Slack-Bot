@@ -169,9 +169,9 @@ async function preparePostMessage(task) {
         await postToSwaggerAPI(msg, path, function (body) {
             var bodyParsed = JSON.parse(body);
             arrayOfTimeStamps[i] = bodyParsed.message.ts; 
-            console.log(arrayOfTimeStamps[i]);
         });
     }
+    console.log(arrayOfTimeStamps);
     return arrayOfTimeStamps.toString();
 }
 
