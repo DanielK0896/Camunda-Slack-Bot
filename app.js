@@ -35,12 +35,7 @@ setTimeout(function () {
     });
 
     client.subscribe("room", async function ({ task, taskService }) {
-        var promise = new Promise(function (resolve, reject) {
-            resolve(await mod.preparePostMessage(task));
-            
-        });
-
-        promise.then((arrayOfTimeStamps) => {
+            await mod.preparePostMessage(task).then((arrayOfTimeStamps) => {
                 console.log(arrayOfTimeStamps);
                 const processVariables = new Variables();
                 processVariables.set(task.activityId, arrayOfTimeStamps);
