@@ -74,13 +74,13 @@ function sendMsgButton(req, res) {
         if (error) throw new Error(error);
 
         console.log("ERROR   " + error);
-        console.log("BODY   " + body.toString());
-        console.log("RESPONSE   " + response.toString());
+        console.log("BODY   " + body);
+        console.log("RESPONSE   " + response);
         res.json(body);
     };
 
     request(options, callback);
     console.log(request);
-    console.log(request.post);
+
 }
 
