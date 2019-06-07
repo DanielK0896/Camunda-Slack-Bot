@@ -166,17 +166,16 @@ async function preparePostMessage(task) {
     for (i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
-        arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body) {
+        await postToSwaggerAPI(msg, path, function (body) {
             var bodyParsed = JSON.parse(body);
-            return bodyParsed.message.ts; 
+            arrayOfTimeStamps[i] = bodyParsed.message.ts; 
         });
     }
-    console.log(i);
     setTimeout(function (arrayOfTimeStamps) {
         console.log("TS ZURÜCKGESENDET" + arrayOfTimeStamps)
         return Promise.resolve(arrayOfTimeStamps);
         
-    }, 2000 + (2000 * i));
+    }, 2000 * i);
 
 }
 
