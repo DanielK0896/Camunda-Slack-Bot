@@ -39,7 +39,7 @@ setTimeout(function () {
         ts.then(ts => {
             const processVariables = new Variables();
             processVariables.set(task.activityId, ts);
-            await client.taskService.complete(task, processVariables);
+            client.taskService.complete(task, processVariables);
         })
     });
 
