@@ -72,11 +72,9 @@ function sendMsgButton(req, res) {
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
-
-        console.log("ERROR   " + error);
-        console.log("BODY   " + JSON.stringify(body));
-        console.log("RESPONSE   " + JSON.stringify(response));
-        res.json(body);
+        var bodyStringified = JSON.stringify(body);
+        res.json(bodyStringified);
+        console.log(JSON.parse(bodyStringified))
     });
     console.log(request);
 
