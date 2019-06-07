@@ -34,9 +34,9 @@ setTimeout(function () {
     });
 
     client.subscribe("room", async function ({ task, taskService }) {
-        mod.preparePostMessage(task) 
+        mod.preparePostMessage(task, ) 
             .then((processVariables) => {
-                await client.taskService.complete(task, processVariables)
+                client.taskService.complete(task, processVariables)
             })     
     });
 
