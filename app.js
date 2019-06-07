@@ -3,7 +3,6 @@
 const { Client, logger } = require("camunda-external-task-client-js");
 const configCamunda = { baseUrl: "http://localhost:8080/engine-rest", use: logger };
 const client = new Client(configCamunda);
-const { Variables } = require("camunda-external-task-client-js");
 const mod = require('./api/controllers/modules');
 
 var SwaggerExpress = require('swagger-express-mw');

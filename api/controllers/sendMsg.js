@@ -76,7 +76,5 @@ function sendMsgButton(req, res) {
         res.json(bodyStringified);
         console.log(JSON.parse(bodyStringified))
     });
-    console.log(request);
-
 }
 

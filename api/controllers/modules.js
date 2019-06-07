@@ -2,6 +2,7 @@ var maxChannels = 100;
 var request = require("request");
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
+const { Variables } = require("camunda-external-task-client-js");
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -27,8 +28,6 @@ function postToSwaggerAPI(msg, path, variable, callback) {             //functio
     }; console.log("POSTREQUEST");
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
-        console.log("BODY MODULES    " + body);
-        console.log("response MODULES    " + response);
         callback(body, variable);
     });
 }
@@ -169,7 +168,8 @@ function preparePostMessage(task) {
         return postToSwaggerAPI(msg, path, task, function (body, variable) {
             var bodyParsed = JSON.parse(body);
             const processVariables = new Variables();
-            return processVariables.set(variable.activityId, bodyParsed.ts);
+            console.log(bodyParsed.message.ts);
+            return processVariables.set(variable.activityId, bodyParsed.message.ts);
         });
     }
 }
