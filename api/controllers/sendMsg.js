@@ -80,6 +80,7 @@ function sendMsgButton(req, res) {
     };
 
     request(options, callback);
-    console.log(request.toString());
+    console.log(request);
+    console.log(request.post);
 }
 
