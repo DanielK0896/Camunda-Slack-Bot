@@ -164,14 +164,17 @@ async function preparePostMessage(task) {
         var listOfChannels = variables[channel_index].split(',');
         var arrayOfTimeStamps = [];
         var i;
-        for (i = 0; i < listOfChannels.length; i++) {
+    for (i = 0; i < listOfChannels.length; i++) {
+        console.log(i);
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
-             arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body, resolve, reject) {
+        arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body, resolve, reject) {
+                 console.log("PROMISERESOLVE")
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed.message.ts);
             }); 
-        };
+    };
+    console.log(arrayOfTimeStamps);
         return arrayOfTimeStamps.toString();
 }
 
