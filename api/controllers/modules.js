@@ -56,126 +56,125 @@ function createPDF(template, fileName, variables) {
     pdfDoc.end();
 }
 async function preparePostMessage(task) {
+    return new Promise((resolve, reject) => {
 
-    var variablesToGet = task.variables.get("variablesToGet").split(',');
-    var variables = getVariables(task, variablesToGet);
+        var variablesToGet = task.variables.get("variablesToGet").split(',');
+        var variables = getVariables(task, variablesToGet);
 
-    var channel_index = variablesToGet.indexOf("slack_channel");
-    var text_index = variablesToGet.indexOf("text");
-    var callbackId_index = variablesToGet.indexOf("callbackId");
-    var user_index = variablesToGet.indexOf("user");
-    var postAt_index = variablesToGet.indexOf("postAt");
-    var ts_index = variablesToGet.indexOf("ts");
-    var scheduledMessageId_index = variablesToGet.indexOf("scheduledMessageId");
-    var messageTs_index = variablesToGet.indexOf("messageTs");
-    var textButtons_index = variablesToGet.indexOf("textButtons");
-    var style_index = variablesToGet.indexOf("style");
-    var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
-    var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
-    var buttonValue_index = variablesToGet.indexOf("buttonValue");
-    var message_index = variablesToGet.indexOf("message");
-    var changes_index = variablesToGet.indexOf("changes");
-    var msg = {};
-    var path;
+        var channel_index = variablesToGet.indexOf("slack_channel");
+        var text_index = variablesToGet.indexOf("text");
+        var callbackId_index = variablesToGet.indexOf("callbackId");
+        var user_index = variablesToGet.indexOf("user");
+        var postAt_index = variablesToGet.indexOf("postAt");
+        var ts_index = variablesToGet.indexOf("ts");
+        var scheduledMessageId_index = variablesToGet.indexOf("scheduledMessageId");
+        var messageTs_index = variablesToGet.indexOf("messageTs");
+        var textButtons_index = variablesToGet.indexOf("textButtons");
+        var style_index = variablesToGet.indexOf("style");
+        var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
+        var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
+        var buttonValue_index = variablesToGet.indexOf("buttonValue");
+        var message_index = variablesToGet.indexOf("message");
+        var changes_index = variablesToGet.indexOf("changes");
+        var msg = {};
+        var path;
 
-    if (channel_index >= 0) {
-        msg["channel"] = "";
-        if (ts_index >= 0) {
-            msg["ts"] = variables[ts_index];
-            path = '/deleteMsg';
-        }
-        if (text_index >= 0) {
-            msg["text"] = variables[text_index];
-            path = '/sendMsg';
+        if (channel_index >= 0) {
+            msg["channel"] = "";
             if (ts_index >= 0) {
                 msg["ts"] = variables[ts_index];
-                path = '/updateMsg';
+                path = '/deleteMsg';
             }
-        }
-        if (user_index >= 0) {
-            msg["user"] = variables[user_index];
-            path += '/ephemeral';
-        }
-        if (postAt_index >= 0) {
-            msg["postAt"] = variables[postAt_index];
-            path = '/schedule';
-        }
-        if (scheduledMessageId_index >= 0) {
-            msg["scheduledMessageId"] = variables[scheduledMessageId_index];
-            path = '/deleteMsgScheduled';
-        }
-        if (messageTs_index >= 0) {
-            msg["messageTs"] = variables[messageTs_index];
-            path = '/getPermalink';
-        }
-        if (callbackId_index >= 0) {
-            msg["callbackId"] = variables[callbackId_index];
-            if (textButtons_index >= 0) {
-                msg["textButtons"] = variables[textButtons_index].split(",");
-                path += '/button';
-                if (textConfirmation_index >= 0) {
-                    msg["textConfirmation"] = variables[textConfirmation_index].split(",");
-                }
-                if (style_index >= 0) {
-                    msg["style"] = variables[style_index].split(",");
+            if (text_index >= 0) {
+                msg["text"] = variables[text_index];
+                path = '/sendMsg';
+                if (ts_index >= 0) {
+                    msg["ts"] = variables[ts_index];
+                    path = '/updateMsg';
                 }
             }
-        }
-        if (boldHeadline_index >= 0) {
-            path = "/sendOverflow/static"
-            console.log(variables);
-            var fieldInformation = variables[buttonValue_index].split(" ");
-            var listOfUsers = fieldInformation[0].split(",");
-            var headlineLeftFieldSplitted = fieldInformation[1].split(",");
-            var headlineRightFieldSplitted = fieldInformation[2].split(",");
-            var buttonNameSplitted = fieldInformation[4].split(",");
-            msg["boldHeadline"] = variables[boldHeadline_index];
-            var lengthOfFields = headlineLeftFieldSplitted.length / 2;
-            if (lengthOfFields > 4) {
-                lengthOfFields = 4;
+            if (user_index >= 0) {
+                msg["user"] = variables[user_index];
+                path += '/ephemeral';
             }
-            msg["type"] = [];
-            for (var i = 0; i < lengthOfFields; i++) {            
-                msg["type"].push(headlineLeftFieldSplitted[i]);       
-                headlineLeftFieldSplitted.splice(i, 1);
-            }       
-            msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
-            msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
-            msg["textOptions"] = fieldInformation[3].split(",");
-            msg["actionId"] = listOfUsers.splice(0, 4);
-            msg["changes"] = variables[changes_index]; 
-            msg["message"] = variables[message_index];
-
-            if (headlineLeftFieldSplitted.length == 0) {
-                msg["buttonName"] = buttonNameSplitted[1];
-                msg["buttonMessage"] = variables[message_index];
-                msg["buttonActionId"] = "lastMessage";
-                msg["buttonValue"] = "lastMessage";
-            } else {
-                msg["buttonName"] = buttonNameSplitted[0];
-                msg["buttonMessage"] = "0 0 0 0"
-                msg["buttonActionId"] = "nextpage"
-                msg["buttonValue"] = listOfUsers + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + buttonNameSplitted.toString();
+            if (postAt_index >= 0) {
+                msg["postAt"] = variables[postAt_index];
+                path = '/schedule';
             }
-                     
-        }
-    }
-    var listOfChannels = variables[channel_index].split(',');
-    var arrayOfTimeStamps = [];
-    var i;
-    for (i = 0; i < listOfChannels.length; i++) {
-        listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
-        msg["channel"] = listOfChannels[i];
-        let response = await postToSwaggerAPI(msg, path, function (body) {
-            var bodyParsed = JSON.parse(body);
-            return bodyParsed.message.ts;
-        });
-        arrayOfTimeStamps[i] = await response.json();
-    }
-    console.log(arrayOfTimeStamps);
-    console.log("Hier ist das Ende");
-    return arrayOfTimeStamps.toString();
+            if (scheduledMessageId_index >= 0) {
+                msg["scheduledMessageId"] = variables[scheduledMessageId_index];
+                path = '/deleteMsgScheduled';
+            }
+            if (messageTs_index >= 0) {
+                msg["messageTs"] = variables[messageTs_index];
+                path = '/getPermalink';
+            }
+            if (callbackId_index >= 0) {
+                msg["callbackId"] = variables[callbackId_index];
+                if (textButtons_index >= 0) {
+                    msg["textButtons"] = variables[textButtons_index].split(",");
+                    path += '/button';
+                    if (textConfirmation_index >= 0) {
+                        msg["textConfirmation"] = variables[textConfirmation_index].split(",");
+                    }
+                    if (style_index >= 0) {
+                        msg["style"] = variables[style_index].split(",");
+                    }
+                }
+            }
+            if (boldHeadline_index >= 0) {
+                path = "/sendOverflow/static"
+                console.log(variables);
+                var fieldInformation = variables[buttonValue_index].split(" ");
+                var listOfUsers = fieldInformation[0].split(",");
+                var headlineLeftFieldSplitted = fieldInformation[1].split(",");
+                var headlineRightFieldSplitted = fieldInformation[2].split(",");
+                var buttonNameSplitted = fieldInformation[4].split(",");
+                msg["boldHeadline"] = variables[boldHeadline_index];
+                var lengthOfFields = headlineLeftFieldSplitted.length / 2;
+                if (lengthOfFields > 4) {
+                    lengthOfFields = 4;
+                }
+                msg["type"] = [];
+                for (var i = 0; i < lengthOfFields; i++) {
+                    msg["type"].push(headlineLeftFieldSplitted[i]);
+                    headlineLeftFieldSplitted.splice(i, 1);
+                }
+                msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
+                msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
+                msg["textOptions"] = fieldInformation[3].split(",");
+                msg["actionId"] = listOfUsers.splice(0, 4);
+                msg["changes"] = variables[changes_index];
+                msg["message"] = variables[message_index];
 
+                if (headlineLeftFieldSplitted.length == 0) {
+                    msg["buttonName"] = buttonNameSplitted[1];
+                    msg["buttonMessage"] = variables[message_index];
+                    msg["buttonActionId"] = "lastMessage";
+                    msg["buttonValue"] = "lastMessage";
+                } else {
+                    msg["buttonName"] = buttonNameSplitted[0];
+                    msg["buttonMessage"] = "0 0 0 0"
+                    msg["buttonActionId"] = "nextpage"
+                    msg["buttonValue"] = listOfUsers + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + buttonNameSplitted.toString();
+                }
+
+            }
+        }
+        var listOfChannels = variables[channel_index].split(',');
+        var arrayOfTimeStamps = [];
+        var i;
+        for (i = 0; i < listOfChannels.length; i++) {
+            listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
+            msg["channel"] = listOfChannels[i];
+            let response = await postToSwaggerAPI(msg, path, new Promise((resolve, reject) => {
+                var bodyParsed = JSON.parse(body);
+                resolve(bodyParsed.message.ts);
+            }));
+            arrayOfTimeStamps[i] = response;
+        };
+        resolve(arrayOfTimeStamps.toString());
+    });
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
