@@ -173,7 +173,7 @@ async function preparePostMessage(task) {
     }
     console.log(arrayOfTimeStamps);
     return arrayOfTimeStamps.toString();
-    console.log("Hier ist das Ende;
+    console.log("Hier ist das Ende");
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
