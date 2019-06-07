@@ -167,8 +167,8 @@ async function preparePostMessage(task) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
         await postToSwaggerAPI(msg, path, function (body) {
-            console.log("AWAIT FUNCTION" + bodyParsed);
             var bodyParsed = JSON.parse(body);
+            console.log("AWAIT FUNCTION" + bodyParsed);
             arrayOfTimeStamps[i] = bodyParsed.message.ts; 
         });
     }
