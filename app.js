@@ -36,13 +36,9 @@ setTimeout(function () {
 
     client.subscribe("room", async function ({ task, taskService }) {
         var ts = mod.preparePostMessage(task);
-        console.log(ts);
-        ts.then(ts => {
-            console.log("then");
-            const processVariables = new Variables();
-            processVariables.set(task.activityId, ts);
-            client.taskService.complete(task, processVariables);
-        })
+        const processVariables = new Variables();
+        processVariables.set(task.activityId, ts);
+        client.taskService.complete(task, processVariables);
     });
 
     client.subscribe("update", async function ({ task, taskService }) {
@@ -70,8 +66,8 @@ setTimeout(function () {
         await client.taskService.complete(task, processVariables)
     });
     client.subscribe("delete", async function ({ task, taskService }) {
-        var processVariables = mod.preparePostMessage(task);
-        await client.taskService.complete(task, processVariables)
+        mod.preparePostMessage(task);
+        await client.taskService.complete(task)
     });
 
 }, 10000);

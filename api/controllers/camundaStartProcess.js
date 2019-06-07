@@ -4,7 +4,6 @@
 
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/process-definition/key/hr_schulung/start";
-var headers = { 'Content-Type': 'application/json' };
 
 module.exports = {
     camundaStartProcessSchulungOrganisieren: camundaStartProcessSchulungOrganisieren
@@ -46,10 +45,24 @@ function camundaStartProcessSchulungOrganisieren(req, res) {
         },
         "businessKey": msg.businessKey
     };
-    request({
-        method: 'POST', url: URL, headers: headers, body: body, json: true, function(error, response, body) {
-            if (error) throw new Error(error);
-            res.json(body);
-        }
+    var options = {
+        method: 'POST',
+        url: URL,
+        headers:
+        {
+            'cache-control': 'no-cache',
+            Authorization: secrets.Authorization,
+            'Content-Type': 'application/json'
+        },
+        body: body,
+        json: true
+    };
+
+    request(options, function (error, response, body) {
+        if (!error) {
+            var bodyStringified = JSON.stringify(body);
+            res.json(bodyStringified);
+            console.log(JSON.parse(bodyStringified))
+        } else { console.log("ERROR camundaStartProcess: " + error) }
     });
 }

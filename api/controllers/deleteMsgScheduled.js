@@ -3,7 +3,6 @@
 var request = require('request');
 var URL = "https://slack.com/api/chat.deleteScheduledMessage";
 var secrets = require('../../secrets');
-var headers = { 'cache-control': 'no-cache', 'Authorization': secrets.Authorization, 'Content-Type': 'application/json'};
 
 module.exports = {
     deleteMsgScheduled: deleteMsgScheduled
@@ -15,11 +14,25 @@ function deleteMsgScheduled(req, res) {
         "channel": msg.channel,
         "scheduledMessageId": msg.scheduledMessageId,
     };
-    request({
-        method: 'POST', url: URL, headers: headers, body: body, json: true, function(error, response, body) {
-            if (error) throw new Error(error);
-            res.json(body);
-        }
+    var options = {
+        method: 'POST',
+        url: URL,
+        headers:
+        {
+            'cache-control': 'no-cache',
+            Authorization: secrets.Authorization,
+            'Content-Type': 'application/json'
+        },
+        body: body,
+        json: true
+    };
+
+    request(options, function (error, response, body) {
+        if (!error) {
+            var bodyStringified = JSON.stringify(body);
+            res.json(bodyStringified);
+            console.log(JSON.parse(bodyStringified))
+        } else { console.log("ERROR deleteMsgScheduled: " + error); }
     });
 }
 

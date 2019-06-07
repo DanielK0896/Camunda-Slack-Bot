@@ -27,8 +27,7 @@ function postToSwaggerAPI(msg, path, callback) {             //function to call 
             'cache-control': 'no-cache'
         };
         request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json: true }, function (error, response, body) {
-            if (error) throw new Error(error);
-            callback(body, resolve, reject);
+            if (!error) callback(body, resolve, reject);
         });
     });
 }
@@ -165,17 +164,21 @@ async function preparePostMessage(task) {
         var arrayOfTimeStamps = [];
         var i;
     for (i = 0; i < listOfChannels.length; i++) {
-        console.log(i);
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
-        arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body, resolve, reject) {
-                 console.log("PROMISERESOLVE")
+            arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body, resolve, reject) {
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed.message.ts);
             }); 
     };
-    console.log(arrayOfTimeStamps);
         return arrayOfTimeStamps.toString();
+}
+
+var listOfChannels = variables[channel_index].split(',');
+for (var i = 0; i < listOfChannels.length; i++) {
+    msg["channel"] = listOfChannels[i];
+    var payload = JSON.stringify(msg);
+    postToSwaggerAPI(payload, path);
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
