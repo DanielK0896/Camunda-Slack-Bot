@@ -57,16 +57,27 @@ function sendMsgButton(req, res) {
             }
         }
     }
-    request({
-        method: 'POST', url: URL, headers: headers, body: body, json: true
-    }, function(error, response, body) {
-            if (error) throw new Error(error);
-            console.log("ERROR   " + ERROR);
-            console.log("BODY   " + body);
-            console.log("RESPONSE   " + response);
-            res.json(body);
-            
-        }
-    );
+    var options = {
+        method: 'POST',
+        url: URL,
+        headers:
+        {
+            'cache-control': 'no-cache',
+            Authorization: secrets.Authorization,
+            'Content-Type': 'application/json'
+        },
+        body: body,
+        json: true
+    };
+
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        console.log("ERROR   " + ERROR);
+        console.log("BODY   " + body);
+        console.log("RESPONSE   " + response);
+        res.json(body);
+    });
     console.log(request.toString());
 }
+
