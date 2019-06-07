@@ -28,7 +28,7 @@ function postToSwaggerAPI(msg, path, callback) {             //function to call 
         };
         request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json: true }, function (error, response, body) {
             if (error) throw new Error(error);
-            callback(body);
+            callback(body, resolve, reject);
         });
     });
 }
@@ -167,7 +167,7 @@ async function preparePostMessage(task) {
         for (i = 0; i < listOfChannels.length; i++) {
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
-             arrayOfTimeStamps[i] = postToSwaggerAPI(msg, path, function (body) {
+             arrayOfTimeStamps[i] = postToSwaggerAPI(msg, path, function (body, resolve, reject) {
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed.message.ts);
             }); 
