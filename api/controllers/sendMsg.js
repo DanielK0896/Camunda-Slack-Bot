@@ -67,5 +67,5 @@ function sendMsgButton(req, res) {
             
         }
     });
-    console.log(request);
+    console.log(request.toString());
 }
