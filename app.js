@@ -4,6 +4,7 @@ const { Client, logger } = require("camunda-external-task-client-js");
 const configCamunda = { baseUrl: "http://localhost:8080/engine-rest", use: logger };
 const client = new Client(configCamunda);
 const mod = require('./api/controllers/modules');
+const { Variables } = require("camunda-external-task-client-js");
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
@@ -34,8 +35,11 @@ setTimeout(function () {
     });
 
     client.subscribe("room", async function ({ task, taskService }) {
-        mod.preparePostMessage(task, ) 
-            .then((processVariables) => {
+        mod.preparePostMessage(task) 
+            .then((arrayOfTimeStamps) => {
+                console.log(arrayOfTimeStamps, task);
+                const processVariables = new Variables();
+                processVariables.set(task.activityId, arrayOfTimeStamps);
                 client.taskService.complete(task, processVariables)
             })     
     });

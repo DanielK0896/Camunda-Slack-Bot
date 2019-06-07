@@ -2,7 +2,6 @@ var maxChannels = 100;
 var request = require("request");
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
-const { Variables } = require("camunda-external-task-client-js");
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -21,14 +20,14 @@ function exportVariables() {
     return array;
 };
 
-function postToSwaggerAPI(msg, path, variable, callback) {             //function to call Swagger API
+function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
     var headers = {
         'Content-Type': 'application/json',
         'cache-control': 'no-cache'
     }; console.log("POSTREQUEST");
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
-        callback(body, variable);
+        callback(body);
     });
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
@@ -162,16 +161,19 @@ async function preparePostMessage(task) {
         }
     }
     var listOfChannels = variables[channel_index].split(',');
-    for (var i = 0; i < listOfChannels.length; i++) {
+    var arrayOfTimeStamps = [];
+    var i;
+    for (i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
-        return postToSwaggerAPI(msg, path, task, function (body, variable) {
+        arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body) {
             var bodyParsed = JSON.parse(body);
-            const processVariables = new Variables();
-            console.log(bodyParsed.message.ts);
-            return processVariables.set(variable.activityId, bodyParsed.message.ts);
+            return bodyParsed.message.ts; 
         });
     }
+    console.log(arrayOfTimeStamps);
+    setTimeout(function (arrayOfTimeStamps, task) { return arrayOfTimeStamps, task; }, 2000 * i);
+
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
