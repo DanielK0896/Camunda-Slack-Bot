@@ -21,13 +21,15 @@ function exportVariables() {
 };
 
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
-    var headers = {
-        'Content-Type': 'application/json',
-        'cache-control': 'no-cache'
-    };
-    request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
-        if (error) throw new Error(error);
-        callback(body);
+    new Promise((resolve, reject) => {
+        var headers = {
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+        };
+        request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json: true }, function (error, response, body) {
+            if (error) throw new Error(error);
+            callback(body);
+        });
     });
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
@@ -165,11 +167,10 @@ async function preparePostMessage(task) {
         for (i = 0; i < listOfChannels.length; i++) {
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
-            let response = await postToSwaggerAPI(msg, path, new Promise((resolve, reject) => {
+             arrayOfTimeStamps[i] = postToSwaggerAPI(msg, path, function (body) {
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed.message.ts);
-            }));
-            arrayOfTimeStamps[i] = response;
+            }); 
         };
         return arrayOfTimeStamps.toString();
 }
