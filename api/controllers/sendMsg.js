@@ -74,8 +74,8 @@ function sendMsgButton(req, res) {
         if (error) throw new Error(error);
 
         console.log("ERROR   " + error);
-        console.log("BODY   " + body);
-        console.log("RESPONSE   " + response);
+        console.log("BODY   " + JSON.stringifybody));
+        console.log("RESPONSE   " + JSON.stringifyresponse));
         res.json(body);
     });
     console.log(request);
