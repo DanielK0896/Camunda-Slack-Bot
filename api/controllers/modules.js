@@ -172,7 +172,11 @@ async function preparePostMessage(task) {
         });
     }
     console.log(i);
-    setTimeout(function (arrayOfTimeStamps, task) { return arrayOfTimeStamps, task; }, 2000 + (2000 * i));
+    setTimeout(function (arrayOfTimeStamps) {
+        console.log("TS ZURÜCKGESENDET" + arrayOfTimeStamps)
+        return Promise.resolve(arrayOfTimeStamps);
+        
+    }, 2000 + (2000 * i));
 
 }
 
