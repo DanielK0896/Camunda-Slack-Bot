@@ -169,8 +169,8 @@ async function preparePostMessage(task) {
         let response = await postToSwaggerAPI(msg, path, function (body) {
             var bodyParsed = JSON.parse(body);
             return bodyParsed.message.ts;
-            arrayOfTimeStamps[i] = await response.json();
         });
+        arrayOfTimeStamps[i] = await response.json();
     }
     console.log(arrayOfTimeStamps);
     console.log("Hier ist das Ende");
