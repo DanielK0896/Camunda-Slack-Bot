@@ -172,12 +172,7 @@ async function preparePostMessage(task) {
             console.log(arrayOfTimeStamps[i]);
         });
     }
-    setTimeout(function (arrayOfTimeStamps) {
-        console.log("TS ZURÜCKGESENDET" + arrayOfTimeStamps)
-        return Promise.resolve(arrayOfTimeStamps);
-        
-    }, 2000 * i);
-
+    return arrayOfTimeStamps;
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
