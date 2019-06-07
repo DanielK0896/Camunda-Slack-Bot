@@ -20,7 +20,7 @@ function exportVariables() {
     return array;
 };
 
-async function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
+function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
     var headers = {
         'Content-Type': 'application/json',
         'cache-control': 'no-cache'
@@ -166,9 +166,10 @@ async function preparePostMessage(task) {
     for (i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
-        arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body) {
+        let response = await postToSwaggerAPI(msg, path, function (body) {
             var bodyParsed = JSON.parse(body);
-             return bodyParsed.message.ts; 
+            return bodyParsed.message.ts;
+            arrayOfTimeStamps[i] = await response.json();
         });
     }
     console.log(arrayOfTimeStamps);
