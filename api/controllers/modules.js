@@ -171,8 +171,8 @@ async function preparePostMessage(task) {
             return bodyParsed.message.ts; 
         });
     }
-    console.log(arrayOfTimeStamps);
-    setTimeout(function (arrayOfTimeStamps, task) { return arrayOfTimeStamps, task; }, 2000 * i);
+    console.log(i);
+    setTimeout(function (arrayOfTimeStamps, task) { return arrayOfTimeStamps, task; }, 2000 + (2000 * i));
 
 }
 
