@@ -24,7 +24,7 @@ function postToSwaggerAPI(msg, path, callback) {             //function to call 
     var headers = {
         'Content-Type': 'application/json',
         'cache-control': 'no-cache'
-    }; console.log("POSTREQUEST");
+    };
     request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json:true }, function (error, response, body) {
         if (error) throw new Error(error);
         callback(body);
@@ -166,13 +166,14 @@ async function preparePostMessage(task) {
     for (i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
-        await postToSwaggerAPI(msg, path, function (body) {
+        arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body) {
             var bodyParsed = JSON.parse(body);
-            arrayOfTimeStamps[i] = bodyParsed.message.ts; 
+             return bodyParsed.message.ts; 
         });
     }
     console.log(arrayOfTimeStamps);
     return arrayOfTimeStamps.toString();
+    console.log("Hier ist das Ende;
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
