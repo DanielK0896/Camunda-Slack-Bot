@@ -70,16 +70,14 @@ function sendMsgButton(req, res) {
         json: true
     };
 
-    function callback (error, response, body) {
+    request(options, function (error, response, body) {
         if (error) throw new Error(error);
 
         console.log("ERROR   " + error);
         console.log("BODY   " + body);
         console.log("RESPONSE   " + response);
         res.json(body);
-    };
-
-    request(options, callback);
+    });
     console.log(request);
 
 }
