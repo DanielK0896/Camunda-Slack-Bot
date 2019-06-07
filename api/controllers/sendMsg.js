@@ -73,7 +73,7 @@ function sendMsgButton(req, res) {
     function callback (error, response, body) {
         if (error) throw new Error(error);
 
-        console.log("ERROR   " + ERROR);
+        console.log("ERROR   " + error);
         console.log("BODY   " + body);
         console.log("RESPONSE   " + response);
         res.json(body);
