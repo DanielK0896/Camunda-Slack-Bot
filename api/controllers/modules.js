@@ -172,8 +172,9 @@ async function preparePostMessage(task) {
         });
     }
     console.log(arrayOfTimeStamps);
-    return arrayOfTimeStamps.toString();
     console.log("Hier ist das Ende");
+    return arrayOfTimeStamps.toString();
+
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
