@@ -58,7 +58,8 @@ function sendMsgButton(req, res) {
         }
     }
     request({
-        method: 'POST', url: URL, headers: headers, body: body, json: true, function(error, response, body) {
+        method: 'POST', url: URL, headers: headers, body: body, json: true
+    }, function(error, response, body) {
             if (error) throw new Error(error);
             console.log("ERROR   " + ERROR);
             console.log("BODY   " + body);
@@ -66,6 +67,6 @@ function sendMsgButton(req, res) {
             res.json(body);
             
         }
-    });
+    );
     console.log(request.toString());
 }
