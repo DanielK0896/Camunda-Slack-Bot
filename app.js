@@ -35,10 +35,10 @@ setTimeout(function () {
     });
 
     client.subscribe("room", async function ({ task, taskService }) {
-        var arrayOfTimeStamps = await mod.preparePostMessage(task);
-        console.log(arrayOfTimeStamps);
+        var ts = mod.preparePostMessage(task);
+        console.log(ts);
         const processVariables = new Variables();
-        processVariables.set(task.activityId, arrayOfTimeStamps);
+        processVariables.set(task.activityId, ts);
         await client.taskService.complete(task, processVariables);
     });
 

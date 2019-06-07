@@ -56,8 +56,6 @@ function createPDF(template, fileName, variables) {
     pdfDoc.end();
 }
 async function preparePostMessage(task) {
-    return new Promise((resolve, reject) => {
-
         var variablesToGet = task.variables.get("variablesToGet").split(',');
         var variables = getVariables(task, variablesToGet);
 
@@ -173,8 +171,7 @@ async function preparePostMessage(task) {
             }));
             arrayOfTimeStamps[i] = response;
         };
-        resolve(arrayOfTimeStamps.toString());
-    });
+        return arrayOfTimeStamps.toString();
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
