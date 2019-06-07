@@ -56,7 +56,7 @@ function createPDF(template, fileName, variables) {
     pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
     pdfDoc.end();
 }
-function preparePostMessage(task) {
+async function preparePostMessage(task) {
 
     var variablesToGet = task.variables.get("variablesToGet").split(',');
     var variables = getVariables(task, variablesToGet);
