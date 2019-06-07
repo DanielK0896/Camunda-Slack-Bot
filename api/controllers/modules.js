@@ -21,7 +21,7 @@ function exportVariables() {
 };
 
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         var headers = {
             'Content-Type': 'application/json',
             'cache-control': 'no-cache'
