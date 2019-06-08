@@ -11,8 +11,13 @@ module.exports = {
 function camundaStartProcess(req, res) {
 
     var process = req.swagger.params.process.value;
-    var msg = JSON.parse(req.swagger.params.payload.value);
+    console.log(process);
+    var msg = JSON.parse(req.swagger.params.token.value);
     console.log(msg);
+    var msg1 = JSON.parse(req.swagger.params.channel_id.value);
+    console.log(msg1);
+    var msg2 = JSON.parse(req.swagger.params.user_id.value);
+    console.log(msg1);
     URL += process + "/start"
     var processIndex;
     body = {};
