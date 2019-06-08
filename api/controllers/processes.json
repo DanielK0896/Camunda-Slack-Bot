@@ -6,10 +6,6 @@
                     "value": "",
                     "type": "String"
                 },
-                "process": {
-                    "value": "schulungOrganisieren",
-                    "type": "String"
-                },
                 "correlationKey": {
                     "value": "name_string,date_string",
                     "type": "String"

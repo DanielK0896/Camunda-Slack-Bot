@@ -11,25 +11,14 @@ module.exports = {
 async function camundaStartProcess(req, res) {
 
     var process = req.swagger.params.process.value;
-    console.log(process);
-    var msg = req.swagger.params.token.value;
-    console.log(msg);
-    var msg1 = req.swagger.params.channel_id.value;
-    console.log(msg1);
-    var msg2 = req.swagger.params.user_id.value;
-    console.log(msg2);
-    var msg3 = req.swagger.params.text.value;
-    console.log(msg3);
+    var text = req.swagger.params.text.value;
     URL += process + "/start"
-    var processIndex;
-    console.log(processes.process);
-    console.log(processes);
     body = {};
-    for (processIndex in processes) {
-        console.log(processIndex);
-        console.log(processes);
-        if (typeof processes[processIndex][process] != "undefined") {
-            body.variables = processes[processIndex][process];
+    var x;
+    body.variables = processes.process[process];
+    for (x in processes.process[process]) {
+        if (processes[processIndex][process][x][value] == "") {
+            processes[processIndex][process][x][value] = text;
         }
     }
     console.log(body);
