@@ -567,37 +567,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /camunda/startProcess/schulungOrganisieren:
-    x-swagger-router-controller: camundaStartProcess
-    post:
-      operationId: camundaStartProcessSchulungOrganisieren
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              name:
-                type: string
-              trainer:
-                type: string
-              date:
-                type: string 
-              room:
-                type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/jsonResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse" 
   /camunda/startProcess/{process}:
     x-swagger-router-controller: camundaStartProcess
     post:
