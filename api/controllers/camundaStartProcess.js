@@ -22,10 +22,12 @@ async function camundaStartProcess(req, res) {
         console.log(processJSON[processIndex][process]);
         if (typeof processJSON[processIndex][process] != "undefined") {
             body.variables = processJSON[processIndex][process];
-            return processIndex;
+            console.log(body);
             break;
         }
+        return processIndex;
     }
+    console.log("CHECK");
     for (x in processJSON[process]) {
         if (processJSON[processIndex][process][x][value] == "") {
             processJSON[processIndex][process][x][value] = text;
