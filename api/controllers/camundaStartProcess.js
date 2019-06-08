@@ -8,7 +8,7 @@ module.exports = {
     camundaStartProcess: camundaStartProcess
 };
 
-function camundaStartProcess(req, res) {
+async function camundaStartProcess(req, res) {
 
     var process = req.swagger.params.process.value;
     console.log(process);
