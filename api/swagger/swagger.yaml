@@ -622,8 +622,8 @@ paths:
                 type: string
               lastName:
                 type: string
-       responses:
-         200:
+      responses:
+        200:
           description: Response message
           schema:
             type: object
