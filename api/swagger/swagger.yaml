@@ -598,7 +598,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /camunda/startProcess/{}:
+  /camunda/startProcess/{process}:
     x-swagger-router-controller: camundaStartProcess
     post:
       operationId: camundaStartProcess
