@@ -15,22 +15,17 @@ async function camundaStartProcess(req, res) {
     URL += process + "/start"
     body = {};
     var processIndex;
-    console.log(Object.keys(processJSON).length);
     for (processIndex = 0; processIndex < Object.keys(processJSON).length; processIndex++) {
-        console.log(processIndex);
-        console.log(processJSON[processIndex]);
-        console.log(processJSON[processIndex][process]);
         if (typeof processJSON[processIndex][process] != "undefined") {
             body.variables = processJSON[processIndex][process];
-            console.log(body);
             break;
         }
         return processIndex;
     }
-    console.log(text);
     for (var x in processJSON[processIndex][process]) {
-        if (processJSON[processIndex][process][x][value] == "") {
-            processJSON[processIndex][process][x][value] = text;
+        if (processJSON[processIndex][process][x].value == "") {
+            processJSON[processIndex][process][x].value = text;
+            break;
         }
     }
     console.log(body);
