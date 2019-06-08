@@ -1,6 +1,6 @@
     [
         {
-            "schulungOrganisieren": {
+            "Schulung-Organisieren": {
                 "name": {
                     "value": "",
                     "type": "String"

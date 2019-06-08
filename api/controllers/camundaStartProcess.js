@@ -20,6 +20,7 @@ async function camundaStartProcess(req, res) {
     console.log(msg2);
     URL += process + "/start"
     var processIndex;
+    console.log(processes);
     body = {};
     for (processIndex in processes) {
         console.log(processIndex);
@@ -43,7 +44,7 @@ async function camundaStartProcess(req, res) {
     var callback = function (error, response, body) {
         if (!error) {
             var bodyStringified = JSON.stringify(body);
-            res.json({ "text": "Prozess" + process + "gestartet!" });
+            res.json({ "text": "Prozess \"" + process + "\"gestartet!" });
             console.log(JSON.parse(bodyStringified))
         } else { console.log("ERROR camundaStartProcess: " + error) }
     };
