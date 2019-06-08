@@ -27,7 +27,7 @@ async function camundaStartProcess(req, res) {
         }
         return processIndex;
     }
-    console.log("CHECK");
+    console.log(processIndex);
     for (x in processJSON[process]) {
         if (processJSON[processIndex][process][x][value] == "") {
             processJSON[processIndex][process][x][value] = text;
