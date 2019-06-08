@@ -14,8 +14,8 @@ async function camundaStartProcess(req, res) {
     var text = req.swagger.params.text.value;
     URL += process + "/start"
     body = {};
-    var x;
     var processIndex;
+    console.log(Object.keys(processJSON).length);
     for (processIndex = 0; processIndex < Object.keys(processJSON).length; processIndex++) {
         console.log(processIndex);
         console.log(processJSON[processIndex]);
@@ -27,8 +27,8 @@ async function camundaStartProcess(req, res) {
         }
         return processIndex;
     }
-    console.log(processIndex);
-    for (x in processJSON[process]) {
+    console.log(text);
+    for (var x in processJSON[processIndex][process]) {
         if (processJSON[processIndex][process][x][value] == "") {
             processJSON[processIndex][process][x][value] = text;
         }
