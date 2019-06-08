@@ -80,7 +80,10 @@ async function preparePostMessage(task) {
         var changes_index = variablesToGet.indexOf("changes");
         var msg = {};
         var path;
-        var callback;
+        var callback = function postCallback(body, resolve, reject) {
+        var bodyParsed = JSON.parse(body);
+            resolve(bodyParsed);
+        };
 
         if (channel_index >= 0) {
             msg["channel"] = "";
@@ -91,10 +94,10 @@ async function preparePostMessage(task) {
             if (text_index >= 0) {
                 msg["text"] = variables[text_index];
                 path = '/chat/post';
-                callback = function postCallback (body, resolve, reject) {
+                callback = function postCallback(body, resolve, reject) {
                     var bodyParsed = JSON.parse(body);
                     resolve(bodyParsed.message.ts);
-                }
+                };
                 if (ts_index >= 0) {
                     msg["ts"] = variables[ts_index];
                     path = '/chat/update';
@@ -188,13 +191,6 @@ async function preparePostMessage(task) {
             arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, callback()); 
     };
         return arrayOfTimeStamps.toString();
-}
-
-var listOfChannels = variables[channel_index].split(',');
-for (var i = 0; i < listOfChannels.length; i++) {
-    msg["channel"] = listOfChannels[i];
-    var payload = JSON.stringify(msg);
-    postToSwaggerAPI(payload, path);
 }
 
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
