@@ -2,7 +2,7 @@
 
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/process-definition/key/";
-var processes = require('./processes');
+var processJSON = require('./processes');
 
 module.exports = {
     camundaStartProcess: camundaStartProcess
@@ -16,18 +16,18 @@ async function camundaStartProcess(req, res) {
     body = {};
     var x;
     var processIndex;
-    for (processIndex in processes) {
+    for (processIndex = 0; processIndex < Object.keys(processJSON.process).length; processIndex++) {
         console.log(processIndex);
-        console.log(processes.process[processIndex]);
-        if (typeof processes.process[processIndex][process] != "undefined") {
-            body.variables = processes[processIndex][process];
+        console.log(processJSON.process[processIndex]);
+        if (typeof processJSON.process[processIndex][process] != "undefined") {
+            body.variables = processJSON[processIndex][process];
             return processIndex;
             break;
         }
     }
-    for (x in processes.process[process]) {
-        if (processes[processIndex][process][x][value] == "") {
-            processes[processIndex][process][x][value] = text;
+    for (x in processJSON.process[process]) {
+        if (processJSON[processIndex][process][x][value] == "") {
+            processJSON[processIndex][process][x][value] = text;
         }
     }
     console.log(body);
