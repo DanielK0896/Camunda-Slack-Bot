@@ -25,6 +25,7 @@ async function camundaStartProcess(req, res) {
             break;
         }
     }
+    console.log(body);
     body = JSON.parse(body);
     body.variables.push({
         "name": {
@@ -32,6 +33,7 @@ async function camundaStartProcess(req, res) {
             "type": "String"
         }
     });
+    console.log(body);
     body = JSON.stringify(body);
     var options = { 
         method: 'POST',
