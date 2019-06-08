@@ -11,25 +11,28 @@ module.exports = {
 async function camundaStartProcess(req, res) {
 
     var process = req.swagger.params.process.value;
-    var text = req.swagger.params.text.value;
     URL += process + "/start"
     body = {};
-    var processIndex;
-    for (processIndex = 0; processIndex < Object.keys(processJSON).length; processIndex++) {
+    for (var processIndex = 0; processIndex < Object.keys(processJSON).length; processIndex++) {
         if (typeof processJSON[processIndex][process] != "undefined") {
             body.variables = processJSON[processIndex][process];
             break;
         }
-        return processIndex;
     }
-    for (var x in processJSON[processIndex][process]) {
-        if (processJSON[processIndex][process][x].value == "") {
-            processJSON[processIndex][process][x].value = text;
+    for (var x in body.variables) {
+        if (body.variables[x].value == "") {
+            body.variables[x].value = req.swagger.params.text.value;
             break;
         }
     }
+    body.variables.push({
+        "name": {
+            "value": req.swagger.params.user_id.value,
+            "type": "String"
+        }
+    });
     console.log(body);
-    var options = {
+    var options = { 
         method: 'POST',
         url: URL,
         headers:
