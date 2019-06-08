@@ -1,14 +1,12 @@
 /* This file can be reached by calling swagger API endpoint. Pass as many Overflow Menus as you want to (with a left and right field next to it)
  * be added to the message*/
 
-
-
 var request = require('request');
 var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
 
 module.exports = {
-    sendOverflowStatic: sendOverflowStatic,
+    chatPostOverflow: chatPostOverflow
 };
 
 function sendOverflowStatic(req, res) {

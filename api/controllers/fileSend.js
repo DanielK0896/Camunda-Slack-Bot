@@ -6,10 +6,10 @@ var secrets = require('../../secrets');
 var headers = {'Authorization': secrets.Authorization, 'content-type': 'multipart/form-data'};
 
 module.exports = {
-    sendFile: sendFile
+    fileSend: fileSend
 };
  
-function sendFile(req, res) {
+function fileSend(req, res) {
 
     msg = req.swagger.params.body.value;
     const formData = {

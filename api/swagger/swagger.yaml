@@ -8,10 +8,64 @@ basePath: /
 schemes:
   - https
 paths:
-  /deleteMsg:
-    x-swagger-router-controller: deleteMsg
+  /channel/invite:
+    x-swagger-router-controller: channelInvite
     post:
-      operationId: deleteMsg
+      operationId: channelInvite
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /channel/kick:
+    x-swagger-router-controller: channelKick
+    post:
+      operationId: channelKick
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              channel:
+                type: string
+              user:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /chat/delete:
+    x-swagger-router-controller: chatDelete
+    post:
+      operationId: chatDelete
       consumes:
         - application/json
       produces:
@@ -35,10 +89,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /deleteMsg/scheduled:
-    x-swagger-router-controller: deleteMsgScheduled
+  /chat/scheduled/delete:
+    x-swagger-router-controller: chatScheduledDelete
     post:
-      operationId: deleteMsgScheduled
+      operationId: chatScheduledDelete
       consumes:
         - application/json
       produces:
@@ -62,10 +116,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /getPermalink:
-    x-swagger-router-controller: getPermalink
+  /slackGet/permalink:
+    x-swagger-router-controller: slackGetPermalink
     post:
-      operationId: getPermalink
+      operationId: slackGetPermalink
       consumes:
         - application/json
       produces:
@@ -89,37 +143,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /sendMsg:
-    x-swagger-router-controller: sendMsg
+  /chat/post:
+    x-swagger-router-controller: chatPost
     post:
-      operationId: sendMsg
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/jsonResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse" 
-  /sendMsg/button:
-    x-swagger-router-controller: sendMsg
-    post:
-      operationId: sendMsgButton
+      operationId: chatPost
       consumes:
         - application/json
       produces:
@@ -157,10 +184,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /sendMsg/ephemeral:
-    x-swagger-router-controller: sendMsgEphemeral
+  /chat/post/ephemeral:
+    x-swagger-router-controller: chatPostEphemeral
     post:
-      operationId: sendMsgEphemeral
+      operationId: chatPostEphemeral
       consumes:
         - application/json
       produces:
@@ -176,35 +203,6 @@ paths:
               user:
                 type: string
               text:
-                type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/jsonResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse" 
-  /sendMsg/ephemeral/Button:
-    x-swagger-router-controller: sendMsgEphemeral
-    post:
-      operationId: sendMsgEphemeralButton
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              user:
                 type: string
               callbackId:
                 type: string 
@@ -229,39 +227,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /sendMsg/schedule:
-    x-swagger-router-controller: sendMsgSchedule
+  /chat/post/schedule:
+    x-swagger-router-controller: chatPostSchedule
     post:
-      operationId: sendMsgSchedule
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              postAt:
-                type: string
-              text:
-                type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/jsonResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse" 
-  /sendMsg/schedule/Button:
-    x-swagger-router-controller: sendMsgschedule
-    post:
-      operationId: sendMsgScheduleButton
+      operationId: chatPostSchedule
       consumes:
         - application/json
       produces:
@@ -300,11 +269,11 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse" 
-  /updateMsg:
-    x-swagger-router-controller: updateMsg
+            $ref: "#/definitions/ErrorResponse"  
+  /chat/update:
+    x-swagger-router-controller: chatUpdate
     post:
-      operationId: updateMsg
+      operationId: chatUpdate
       consumes:
         - application/json
       produces:
@@ -320,36 +289,7 @@ paths:
               text:
                 type: string
               ts:
-                type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/jsonResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse" 
-  /updateMsg/Button:
-    x-swagger-router-controller: updateMsg
-    post:
-      operationId: updateMsgButton
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          required: false
-          schema:
-            properties:
-              channel:
-                type: string
-              text:
-                type: string
-              ts:
-                type: string
+                type: 
               callbackId:
                 type: string 
               textButtons:
@@ -373,10 +313,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /sendOverflow/static:
-    x-swagger-router-controller: sendOverflow
+  /chat/post/overflow:
+    x-swagger-router-controller: chatPostOverflow
     post:
-      operationId: sendOverflowStatic
+      operationId: chatPostOverflow
       consumes:
         - application/json
       produces:
@@ -432,10 +372,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /updateOverflow:
-    x-swagger-router-controller: updateOverflow
+  /chat/update/overflow:
+    x-swagger-router-controller: chatUpdateOverflow
     post:
-      operationId: updateOverflow
+      operationId: chatUpdateOverflow
       consumes:
         - application/json
       produces:
@@ -461,10 +401,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /startDialog:
-    x-swagger-router-controller: startDialog
+  /dialog/open:
+    x-swagger-router-controller: dialogOpen
     post:
-      operationId: startDialog
+      operationId: dialogOpen
       consumes:
         - application/json
       produces:
@@ -510,10 +450,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /sendFile:
-    x-swagger-router-controller: sendFile
+  /file/send:
+    x-swagger-router-controller: fileSend
     post:
-      operationId: sendFile
+      operationId: fileSend
       consumes:
         - application/json
       produces:
@@ -527,6 +467,31 @@ paths:
               channel:
                 type: string
               fileName:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /file/delete:
+    x-swagger-router-controller: fileDelete
+    post:
+      operationId: fileDelete
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              file:
                 type: string
       responses:
         "200":
@@ -562,7 +527,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /slackGet/conversations:
-    x-swagger-router-controller: slackGet
+    x-swagger-router-controller: slackGetConversations
     get:
       operationId: slackGetConversations
       consumes:
@@ -577,6 +542,31 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"       
+  /slackGet/userProfile:
+    x-swagger-router-controller: slackGetUserProfile
+     post:
+      operationId: slackGetUserProfile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              user:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /camunda/startProcess/schulungOrganisieren:
     x-swagger-router-controller: camundaStartProcess
     post:

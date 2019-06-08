@@ -1,18 +1,19 @@
-/* Pass channel and scheduledMessageId and delete specific scheduled message in Slack*/
+/* Pass channel and user to invite the user*/
+
 
 var request = require('request');
-var URL = "https://slack.com/api/chat.deleteScheduledMessage";
+var URL = "https://slack.com/api/conversations.invite";
 var secrets = require('../../secrets');
 
 module.exports = {
-    deleteMsgScheduled: deleteMsgScheduled
+    channelInvite: channelInvite
 };
 
-function deleteMsgScheduled(req, res) {
+function channelInvite(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
-        "scheduledMessageId": msg.scheduledMessageId,
+        "user": msg.user
     };
     var options = {
         method: 'POST',
@@ -32,7 +33,7 @@ function deleteMsgScheduled(req, res) {
             var bodyStringified = JSON.stringify(body);
             res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
-        } else { console.log("ERROR deleteMsgScheduled: " + error); }
+        } else { console.log("ERROR channelInvite: " + error); }
     });
 }
 

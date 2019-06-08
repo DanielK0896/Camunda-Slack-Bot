@@ -1,19 +1,18 @@
-/* Pass channel and ts and delete specific message in Slack*/
-
+/* Pass channel and scheduledMessageId and delete specific scheduled message in Slack*/
 
 var request = require('request');
-var URL = "https://slack.com/api/chat.delete";
+var URL = "https://slack.com/api/chat.deleteScheduledMessage";
 var secrets = require('../../secrets');
 
 module.exports = {
-    chatDelete: chatDelete
+    chatScheduledDelete: chatScheduledDelete
 };
 
-function chatDelete(req, res) {
+function chatScheduledDelete(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
-        "ts": msg.ts,
+        "scheduledMessageId": msg.scheduledMessageId,
     };
     var options = {
         method: 'POST',
@@ -33,7 +32,7 @@ function chatDelete(req, res) {
             var bodyStringified = JSON.stringify(body);
             res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
-        } else { console.log("ERROR deleteMsg: " + error); }
+        } else { console.log("ERROR deleteMsgScheduled: " + error); }
     });
 }
 

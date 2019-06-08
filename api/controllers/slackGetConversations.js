@@ -11,7 +11,7 @@ module.exports = {
 function slackGetConversations(req, res) {
      var options = {
         method: 'GET',
-        url: 'https://slack.com/api/conversations.list',
+        url: URL,
         headers:
         {
             'cache-control': 'no-cache',

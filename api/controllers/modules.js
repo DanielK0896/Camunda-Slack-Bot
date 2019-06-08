@@ -64,6 +64,8 @@ async function preparePostMessage(task) {
         var text_index = variablesToGet.indexOf("text");
         var callbackId_index = variablesToGet.indexOf("callbackId");
         var user_index = variablesToGet.indexOf("user");
+        var kickUser_index = variablesToGet.indexOf("kickUser");
+        var inviteUser_index = variablesToGet.indexOf("inviteUser");
         var postAt_index = variablesToGet.indexOf("postAt");
         var ts_index = variablesToGet.indexOf("ts");
         var scheduledMessageId_index = variablesToGet.indexOf("scheduledMessageId");
@@ -74,45 +76,62 @@ async function preparePostMessage(task) {
         var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
         var buttonValue_index = variablesToGet.indexOf("buttonValue");
         var message_index = variablesToGet.indexOf("message");
+        var file_index = variablesToGet.indexOf("file");
         var changes_index = variablesToGet.indexOf("changes");
         var msg = {};
         var path;
+        var callback;
 
         if (channel_index >= 0) {
             msg["channel"] = "";
             if (ts_index >= 0) {
                 msg["ts"] = variables[ts_index];
-                path = '/deleteMsg';
+                path = '/chat/delete';
             }
             if (text_index >= 0) {
                 msg["text"] = variables[text_index];
-                path = '/sendMsg';
+                path = '/chat/post';
+                callback = function postCallback (body, resolve, reject) {
+                    var bodyParsed = JSON.parse(body);
+                    resolve(bodyParsed.message.ts);
+                }
                 if (ts_index >= 0) {
                     msg["ts"] = variables[ts_index];
-                    path = '/updateMsg';
+                    path = '/chat/update';
                 }
-            }
-            if (user_index >= 0) {
-                msg["user"] = variables[user_index];
-                path += '/ephemeral';
+                if (user_index >= 0) {
+                    msg["user"] = variables[user_index];
+                    path += '/ephemeral';
+                }
+            } else if (kickUser_index >= 0) {
+                msg["user"] = variables[kickUser_index];
+                path += '/channel/kick';
+            } else if (inviteUser_index >= 0) {
+                msg["user"] = variables[inviteUser_index];
+                path += '/channel/invite';
+            } else if (userProfile_index >= 0) {
+                msg["user"] = variables[userProfile_index];
+                path += '/slackGet/userProfile';
+            } else if (file_index >= 0) {
+                msg["file"] = variables[file_index];
+                path = '/file/delete';
             }
             if (postAt_index >= 0) {
                 msg["postAt"] = variables[postAt_index];
-                path = '/schedule';
+                path += '/schedule';
             }
             if (scheduledMessageId_index >= 0) {
                 msg["scheduledMessageId"] = variables[scheduledMessageId_index];
-                path = '/deleteMsgScheduled';
+                path = '/chat/scheduled/delete';
             }
             if (messageTs_index >= 0) {
                 msg["messageTs"] = variables[messageTs_index];
-                path = '/getPermalink';
+                path = '/slackGet/permalink';
             }
             if (callbackId_index >= 0) {
                 msg["callbackId"] = variables[callbackId_index];
                 if (textButtons_index >= 0) {
                     msg["textButtons"] = variables[textButtons_index].split(",");
-                    path += '/button';
                     if (textConfirmation_index >= 0) {
                         msg["textConfirmation"] = variables[textConfirmation_index].split(",");
                     }
@@ -122,7 +141,7 @@ async function preparePostMessage(task) {
                 }
             }
             if (boldHeadline_index >= 0) {
-                path = "/sendOverflow/static"
+                path = "/chat/post/overflow"
                 console.log(variables);
                 var fieldInformation = variables[buttonValue_index].split(" ");
                 var listOfUsers = fieldInformation[0].split(",");
@@ -166,10 +185,7 @@ async function preparePostMessage(task) {
     for (i = 0; i < listOfChannels.length; i++) {
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
-            arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, function (body, resolve, reject) {
-                var bodyParsed = JSON.parse(body);
-                resolve(bodyParsed.message.ts);
-            }); 
+            arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, callback()); 
     };
         return arrayOfTimeStamps.toString();
 }
@@ -184,31 +200,8 @@ for (var i = 0; i < listOfChannels.length; i++) {
 function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
     var arrayOfVariables = [];
     for (var i = 0; i < variablesToGet.length; i++) {
-        if (variablesToGet[i] == 'slack_channel') {
-            var stringWithChannels;
-            for (var j = 1; j <= maxChannels; j++) {
-                var slackChannel;
-                try {
-                    var channel = variablesToGet[i] + "_" + j;
-                    slackChannel = task.variables.get(channel);
-                    if (typeof slackChannel === "undefined") {
-                        throw ("Slack Channel(s) erfolgreich empfangen");
-                    }
-                } catch (e) {
-                    console.log(e);
-                    arrayOfVariables.push(stringWithChannels);
-                    break;
-                }
-                if (j == 1) {
-                    stringWithChannels = slackChannel;
-                } else {
-                    stringWithChannels = stringWithChannels + "_" + slackChannel;
-                }
-            }
-        } else {
             var variable = task.variables.get(variablesToGet[i])
             arrayOfVariables.push(variable);
-        }
     }
     return arrayOfVariables;
 } 

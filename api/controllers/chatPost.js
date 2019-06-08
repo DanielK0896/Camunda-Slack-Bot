@@ -1,35 +1,19 @@
-/* This file can be reached by calling swagger API endpoint. Pass as many textButtons and textConfirmations as you want to
- * be added to the message*/
-
-
 var request = require('request');
-var URL = "https://slack.com/api/chat.postMessage";
+var URL = 'https://slack.com/api/chat.postMessage';
 var secrets = require('../../secrets');
 
 module.exports = {
-    sendMsgSchedule: sendMsgSchedule,
-    sendMsgScheduleButton: sendMsgScheduleButton
+    chatPost: chatPost
 };
-
-function sendMsgSchedule(req, res) {
-
+ 
+function chatPost(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
-        "post_at": msg.postAt,
         "text": msg.text
     };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-function sendMsgScheduleButton(req, res) {
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "channel": msg.channel,
-        "post_at": msg.postAt,
-        "text": msg.text,
-        "attachments": [
+    if (typeof msg.callbackId != "undefined") {
+        body.push.attachments = [
             {
                 "fallback": "Two Buttons with Confirmation",
                 "callback_id": msg.callbackId,
@@ -38,17 +22,17 @@ function sendMsgScheduleButton(req, res) {
                 "actions": [
                 ]
             }
-        ]
-    };
-    for (var i = 0; i < msg.textButtons.length; i++) {
-        var action = "Action" + i
-        body.attachments[0].actions.push({
-            "name": action,
-            "text": msg.textButtons[i],
-            "style": msg.style[i],
-            "type": "button",
-            "value": i.toString()
-        });
+        ];
+        for (var i = 0; i < msg.textButtons.length; i++) {
+            var action = "Action" + i
+            body.attachments[0].actions.push({
+                "name": action,
+                "text": msg.textButtons[i],
+                "style": msg.style[i],
+                "type": "button",
+                "value": i.toString()
+            });
+        }
     }
     if (typeof msg.textConfirmation != "undefined") {
         for (var i = 0; i < msg.textConfirmation.length; i++) {
@@ -62,7 +46,6 @@ function sendMsgScheduleButton(req, res) {
             }
         }
     }
-
     var options = {
         method: 'POST',
         url: URL,
@@ -81,7 +64,7 @@ function sendMsgScheduleButton(req, res) {
             var bodyStringified = JSON.stringify(body);
             res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
-        } else { console.log("ERROR sendMsgScheduled: " + error); }
+        } else { console.log("ERROR sendMsg: " + error);}
     });
 }
 

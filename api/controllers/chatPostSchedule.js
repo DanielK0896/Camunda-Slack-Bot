@@ -7,29 +7,18 @@ var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
 
 module.exports = {
-    sendMsgEphemeral: sendMsgEphemeral,
-    sendMsgEphemeralButton: sendMsgEphemeralButton
+    chatPostSchedule: chatPostSchedule
 };
 
-function sendMsgEphemeral(req, res) {
-
+function chatPostSchedule(req, res) {
     var msg = req.swagger.params.body.value;
     var body = {
         "channel": msg.channel,
-        "text": msg.text,
-        "user": msg.user
+        "post_at": msg.postAt,
+        "text": msg.text
     };
-    request.post({ headers: headers, url: URL, body: body, json: true });
-    res.status(200).type('application/json').end();
-}
-
-function sendMsgEphemeralButton(req, res) {
-    var msg = req.swagger.params.body.value;
-    var body = {
-        "channel": msg.channel,
-        "text": msg.text,
-        "user": msg.user,
-        "attachments": [
+    if (typeof msg.callbackId != "undefined") {
+        body.push.attachments = [
             {
                 "fallback": "Two Buttons with Confirmation",
                 "callback_id": msg.callbackId,
@@ -38,17 +27,17 @@ function sendMsgEphemeralButton(req, res) {
                 "actions": [
                 ]
             }
-        ]
-    };
-    for (var i = 0; i < msg.textButtons.length; i++) {
-        var action = "Action" + i
-        body.attachments[0].actions.push({
-            "name": action,
-            "text": msg.textButtons[i],
-            "style": msg.style[i],
-            "type": "button",
-            "value": i.toString()
-        });
+        ];
+        for (var i = 0; i < msg.textButtons.length; i++) {
+            var action = "Action" + i
+            body.attachments[0].actions.push({
+                "name": action,
+                "text": msg.textButtons[i],
+                "style": msg.style[i],
+                "type": "button",
+                "value": i.toString()
+            });
+        }
     }
     if (typeof msg.textConfirmation != "undefined") {
         for (var i = 0; i < msg.textConfirmation.length; i++) {
@@ -81,6 +70,7 @@ function sendMsgEphemeralButton(req, res) {
             var bodyStringified = JSON.stringify(body);
             res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
-        } else { console.log("ERROR sendMsgEphemeral: " + error); }
+        } else { console.log("ERROR sendMsgScheduled: " + error); }
     });
 }
+
