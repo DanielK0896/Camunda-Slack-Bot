@@ -544,7 +544,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"       
   /slackGet/userProfile:
     x-swagger-router-controller: slackGetUserProfile
-     post:
+    post:
       operationId: slackGetUserProfile
       consumes:
         - application/json
