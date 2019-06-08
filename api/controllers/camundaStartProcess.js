@@ -40,14 +40,14 @@ async function camundaStartProcess(req, res) {
         body: body,
         json: true
     };
-
-    request(options, function (error, response, body) {
+    var callback = function (error, response, body) {
         if (!error) {
             var bodyStringified = JSON.stringify(body);
             res.json({ "text": "Prozess" + prozess + "gestartet!" });
             console.log(JSON.parse(bodyStringified))
         } else { console.log("ERROR camundaStartProcess: " + error) }
-    });
+    };
+    request(options, callback);
 }
 /*
 
