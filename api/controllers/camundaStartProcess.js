@@ -15,7 +15,7 @@ async function camundaStartProcess(req, res) {
     URL += process + "/start"
     body = {};
     var x;
-    body.variables = processes.process[Schulung - Organisieren];
+    body.variables = processes.process["Schulung-Organisieren"];
     for (x in processes.process[process]) {
         if (processes[processIndex][process][x][value] == "") {
             processes[processIndex][process][x][value] = text;
