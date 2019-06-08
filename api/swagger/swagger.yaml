@@ -576,11 +576,15 @@ paths:
       produces:
       - application/json
       parameters:
-        - in: formData
-          name: payload
-          description: payload
-          required: true
-          type: string
+        - $ref: "#/parameters/token"
+        - $ref: "#/parameters/command"
+        - $ref: "#/parameters/text"
+        - $ref: "#/parameters/team_id"
+        - $ref: "#/parameters/team_domain"
+        - $ref: "#/parameters/channel_id"
+        - $ref: "#/parameters/channel_name"
+        - $ref: "#/parameters/user_id"
+        - $ref: "#/parameters/user_name"
       responses:
         "200":
           description: Response message
@@ -697,7 +701,61 @@ definitions:
         type: string
 
 
-
+parameters:
+  token:
+    name: token
+    in: formData
+    description: grants permission to run the command
+    required: true
+    type: string
+  command: 
+    name: command
+    in: formData
+    description: What command to trigger?
+    required: false
+    type: string
+  text:
+    name: text
+    in: formData
+    description: The argument to the command
+    required: true
+    type: string
+  team_id:
+    name: team_id
+    in: formData
+    description: Identifies the team context for the command
+    required: false
+    type: string
+  team_domain:
+    name: team_domain
+    in: formData
+    description: The Slack domain context for the command
+    required: false
+    type: string
+  channel_id:
+    name: channel_id
+    in: formData
+    description: "Identifies the #channel where the command was triggered"
+    required: false
+    type: string
+  channel_name:
+    name: channel_name
+    in: formData
+    description: "The name of the #channel where the command was triggered"
+    required: false
+    type: string
+  user_id:
+    name: user_id
+    in: formData
+    description: Identifies the user who issued the command
+    required: false
+    type: string
+  user_name:
+    name: user_name
+    in: formData
+    description: Friendly handle of the user
+    required: false
+    type: string
       
 
 
