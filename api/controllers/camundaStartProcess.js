@@ -25,7 +25,7 @@ async function camundaStartProcess(req, res) {
             break;
         }
     }
-    for (x in processJSON.process[process]) {
+    for (x in processJSON[process]) {
         if (processJSON[processIndex][process][x][value] == "") {
             processJSON[processIndex][process][x][value] = text;
         }
