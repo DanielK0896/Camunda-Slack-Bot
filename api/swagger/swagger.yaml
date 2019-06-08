@@ -567,7 +567,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /camunda/startProcess/{process}:
+  /camunda/startProcess/schulungOrganisieren:
     x-swagger-router-controller: camundaStartProcess
     post:
       operationId: camundaStartProcess
@@ -576,11 +576,6 @@ paths:
       produces:
       - application/json
       parameters:
-        - in: path
-          name: process   
-          required: true
-          type: string
-          description: The name of the process to start.
         - in: formData
           name: payload
           description: payload
