@@ -22,6 +22,8 @@ async function camundaStartProcess(req, res) {
     var processIndex;
     body = {};
     for (processIndex in processes) {
+        console.log(processIndex);
+        console.log(processes);
         if (typeof processes[processIndex][process] != "undefined") {
             body.variables = processes[processIndex][process];
         }
@@ -47,7 +49,7 @@ async function camundaStartProcess(req, res) {
         } else { console.log("ERROR camundaStartProcess: " + error) }
     });
 }
-
+/*
 
 const mod = require('./modules');
 
@@ -60,3 +62,5 @@ var path = "/camunda/startProcess/schulungOrganisieren";
 
 var payload = JSON.stringify({ name: name, trainer: trainer, date: date, room: room, businessKey: businessKey });
 mod.postToSwaggerAPI(payload, path);
+
+*/
