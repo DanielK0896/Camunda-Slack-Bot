@@ -25,6 +25,7 @@ async function camundaStartProcess(req, res) {
             break;
         }
     }
+    console.log(body);
     body.variables.push({
         "name": {
             "value": req.swagger.params.user_id.value,
