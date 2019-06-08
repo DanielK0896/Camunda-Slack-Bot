@@ -571,26 +571,21 @@ paths:
     x-swagger-router-controller: camundaStartProcess
     post:
       operationId: camundaStartProcess
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
       parameters:
         - in: path
           name: process   
           required: true
           type: string
           description: The name of the process to start.
-        - in: body
-          name: body
-          description: Informations to start the process.
-          schema:
-            type: object
-            required:
-              - userName
-            properties:
-              userName:
-                type: string
-              firstName:
-                type: string
-              lastName:
-                type: string
+        - in: formData
+          name: payload
+          description: payload
+          required: true
+          type: string
       responses:
         "200":
           description: Response message
