@@ -598,6 +598,38 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
+  /camunda/startProcess/{}:
+     x-swagger-router-controller: camundaStartProcess
+    post:
+      operationId: camundaStartProcess
+      parameters:
+        - in: path
+          name: process   
+          required: true
+          type: string
+          description: The name of the process to start.
+        - in: body
+          name: body
+          description: Informations to start the process.
+          schema:
+            type: object
+            required:
+              - userName
+            properties:
+              userName:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+       responses:
+         200:
+          description: Response message
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
   /camunda/sendMessage:
     x-swagger-router-controller: camundaSendMessage
     post:
