@@ -18,9 +18,11 @@ async function camundaStartProcess(req, res) {
     console.log(msg1);
     var msg2 = req.swagger.params.user_id.value;
     console.log(msg2);
+    var msg3 = req.swagger.params.text.value;
+    console.log(msg3);
     URL += process + "/start"
     var processIndex;
-    console.log(processes);
+    console.log(processes[process]);
     body = {};
     for (processIndex in processes) {
         console.log(processIndex);
@@ -41,10 +43,7 @@ async function camundaStartProcess(req, res) {
         body: body,
         json: true
     };
-    var callback = function (error, response, body) {
-        if (!error) {
-            var bodyStringified = JSON.stringify(body);
-            res.json({ "text": "Prozess \"" + process + "\"gestartet!" });
+            res.json({ "text": "Prozess \"" + process + "\" wird gestartet!" });
             console.log(JSON.parse(bodyStringified))
         } else { console.log("ERROR camundaStartProcess: " + error) }
     };
