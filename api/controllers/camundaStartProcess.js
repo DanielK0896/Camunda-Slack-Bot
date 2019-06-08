@@ -17,6 +17,8 @@ async function camundaStartProcess(req, res) {
     var x;
     var processIndex;
     for (processIndex in processes) {
+        console.log(processIndex);
+        console.log(processes.process[processIndex]);
         if (typeof processes.process[processIndex][process] != "undefined") {
             body.variables = processes[processIndex][process];
             return processIndex;
