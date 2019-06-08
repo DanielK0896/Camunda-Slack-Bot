@@ -623,13 +623,17 @@ paths:
               lastName:
                 type: string
       responses:
-        200:
+        "200":
           description: Response message
           schema:
             type: object
             properties:
               text:
                 type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /camunda/sendMessage:
     x-swagger-router-controller: camundaSendMessage
     post:
