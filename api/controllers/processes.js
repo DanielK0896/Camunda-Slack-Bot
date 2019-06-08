@@ -1,4 +1,5 @@
-    [
+{
+    "process": [
         {
             "Schulung-Organisieren": {
                 "name": {
@@ -23,4 +24,5 @@
                 }
             }
         }
-    ]
+    ];
+}

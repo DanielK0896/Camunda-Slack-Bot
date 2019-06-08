@@ -22,7 +22,7 @@ async function camundaStartProcess(req, res) {
     console.log(msg3);
     URL += process + "/start"
     var processIndex;
-    console.log(processes[process]);
+    console.log(processes.process);
     body = {};
     for (processIndex in processes) {
         console.log(processIndex);
