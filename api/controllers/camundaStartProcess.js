@@ -45,7 +45,7 @@ async function camundaStartProcess(req, res) {
         if (!error) {
             var bodyStringified = JSON.stringify(body);
             res.json({ "text": "Prozess \"" + process + "\" wird gestartet!" });
-            console.log(JSON.parse(bodyStringified))
+            console.log(JSON.parse(bodyStringified));
         } else { console.log("ERROR camundaStartProcess: " + error) }
     });
 }
