@@ -183,7 +183,7 @@ async function preparePostMessage(task) {
 
                 if (headlineLeftFieldSplitted.length == 0) {
                     msg["buttonName"] = buttonNameSplitted[1];
-                    msg["buttonMessage"] = variables[message_index];
+                    msg["buttonMessage"] = fieldInformation[5];
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
