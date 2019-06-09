@@ -110,11 +110,9 @@ function chatPostBlock(req, res) {
     };
     console.log(body);
     request(options, function (error, response, body) {
-        if (!error) {
-            var bodyStringified = JSON.stringify(body);
-            res.json(bodyStringified);
+        var bodyStringified = JSON.stringify(body);
+        res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
-        } else { console.log("ERROR chatPostBlock: " + error); }
     });
 }
 
