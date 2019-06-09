@@ -30,7 +30,7 @@ setInterval(mod.getChannels, 300000);
 //setInterval(mod.getUsers, 300000);
 setTimeout(function () {
 
-    client.subscribe("startVariables", async function ({ task, taskService }) {
+    client.subscribe("addStartVariables", async function ({ task, taskService }) {
         var ts = mod.preparePostMessage(task);
         const processVariables = new Variables();
         processVariables.set(task.activityId, ts);
