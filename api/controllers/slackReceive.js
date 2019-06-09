@@ -14,24 +14,30 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     console.log(msg);
     var taskid = [];
     var pushedButton; 
+    var actionValue = 0;                          //amount of given select options
+
     if (msg.type == "interactive_message" || msg.type == "dialog_submission") {
         taskid = msg.callback_id.split('&%');
         try {
             pushedButton = msg.actions[0].value;
         } catch (e) { }
-    } else if (msg.type == "block_actions") {
-        taskid = msg.actions[0].block_id.split('&%');
-        try {
+    }  else if (msg.type == "block_actions") {                    //block element action
+        taskid = msg.actions[0].block_id.split('&%');          
+        var actionId = msg.actions[0].action_id.split('&%');  
+        if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
-        } catch (e) {
-            try {
-                pushedButton = msg.actions[0].value.split("&%");
-            } catch (e) {
-                try {
-                    pushedButton = msg.actions[0].selected_user;
-                } catch (e) {}
-            }
-        }
+            actionValue = parseInt(pushedButton, 10);
+        } else if (msg.actions[0].type == "button") {                                     // button
+            pushedButton = msg.actions[0].value.split("&%");
+        } else if (msg.actions[0].type == "users_select") {                              //select menu: user
+            pushedButton = msg.actions[0].selected_user;
+        } else if (msg.actions[0].type == "channels_select") {                           //select menu: channel
+            pushedButton = msg.actions[0].selected_channel;
+        } else if (msg.actions[0].type == "conversations_select") {                      //select menu: conversations
+            pushedButton = msg.actions[0].selected_conversation;
+        } else if (msg.actions[0].type == "datepicker") {                                //date picker
+            pushedButton = msg.actions[0].selected_date;
+        } else {throw ERROR}   
     } else {
         taskid[0] = "noAction";
     }
@@ -85,7 +91,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }
     if (msg.type == "block_actions") {
         var payload = {};
-        if (msg.actions[0].action_id == "dialog") {
+        if (taskid[0] == "dialog") {
             
 
 
@@ -93,24 +99,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
-            var changes = taskid[4].split('&');                         //split changes defined in camunda
-            try {
-                var actionValue = msg.actions[0].selected_option.value;            //selected_option is defined (action type = e. g. overflow)
-            } catch (e) {
-                var actionValue = "0";                                              //otherwise: e. g. datepicker
-            }
-            var recentChanges = changes[actionValue].split('.');                    //changes depending on selected_options
-            if (recentChanges[0] == "blocks") {
-                for (var i = 0; i < 15; i++) {
-                    if (msg.message.blocks[i].block_id == msg.actions[0].block_id) {    //check which block is affected
-                        recentChanges[0] = i;                                           //set block number
-                        changes[actionValue] = recentChanges.join('.');
-                        break;
-                    }
-                }
-            }
-            changes[parseInt(actionValue, 10) + changes.length / 2] = changes[parseInt(actionValue, 10) + changes.length / 2];
-            payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (parseInt(actionValue, 10) + changes.length / 2).toString(), changes)  //push changes in old message body
+                       //split changes defined in camunda and set in actionId
+            var changes = actionId;
+            changes.splice(0, 1);
+            changes[actionValue].split('.').unshift(taskid[taskid.length - 1]).join('.');   //changes depending on selected_options for activated block
+
+            payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/updateOverflow");
         }

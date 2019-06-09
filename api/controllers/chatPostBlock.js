@@ -31,10 +31,10 @@ function chatPostBlock(req, res) {
         };
         var objectToPush2 = {
             "type": "section",
-            "block_id": msg.message[i] + " " + msg.changes + " " + i,
+            "block_id": msg.message[i] + "&%" + i,
             "accessory": {
                 "type": msg.type[i],
-                "action_id": msg.actionId[i]
+                "action_id": msg.actionId[i] + "&%" + msg.changes
             }
         };   
         if (msg.type[i] == "overflow") {
