@@ -95,7 +95,7 @@ function chatPostBlock(req, res) {
             }
         ]
         }); 
-    console.log(body);
+    console.log(JSON.stringify(body));
     var options = {
         method: 'POST',
         url: URL,
