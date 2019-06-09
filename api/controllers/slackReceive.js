@@ -227,9 +227,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.action_id", "0", ["lastMessage"]);
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.value", "0", ["lastMessage"]);
             } else {
-                var buttonValue = stringForActionIdSplitted + "&%" + headlineLeftFieldSplitted.toString() + "&%" + headlineRightFieldSplitted.toString() + "&%" + pushedButton[3] + "&%" + pushedButton[4] + "&%" + pushedButton[5];
-                if (pushedButton[6] != "undefined") {
-                    buttonValue += pushedButton[6] + "&%" + pushedButton[7] + "&%" + pushedButton[8];
+                var buttonValue = stringForActionIdSplitted + "&%" + headlineLeftFieldSplitted.toString() + "&%" + headlineRightFieldSplitted.toString() + "&%" + pushedButton[3] + "&%" + pushedButton[4] + "&%" + pushedButton[5] + "&%" + pushedButton[6] + "&%" + pushedButton[7] + "&%" + pushedButton[8];
+                if (pushedButton[9] != "undefined") {
+                    buttonValue += pushedButton[9] + "&%" + pushedButton[10] + "&%" + pushedButton[11];
                 }
                 payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
             }

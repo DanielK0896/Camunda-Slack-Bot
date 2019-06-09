@@ -177,9 +177,10 @@ async function preparePostMessage(task) {
                     headlineLeftFieldSplitted.splice(i, 1);
                 }
                 msg["message"] = []
+                var message = fieldInformation[5] + "&%" + fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8];
                 for (var i = 0; i < lengthOfRightFields; i++) {
                     if (headlineRightFieldSplitted[i] == "true") {
-                        msg["message"].push(fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8] + "&%" + fieldInformation[5]);
+                        msg["message"].push(fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8] + "&%" + message);
                     } else {
                         msg["message"].push(fieldInformation[5]);
                     }
@@ -194,16 +195,16 @@ async function preparePostMessage(task) {
 
                 if (headlineLeftFieldSplitted.length == 0) {
                     msg["buttonName"] = buttonNameSplitted[buttonNameSplitted.length - 1];
-                    msg["buttonMessage"] = fieldInformation[5];
+                    msg["buttonMessage"] = message;
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
                     msg["buttonName"] = buttonNameSplitted[0];
                     msg["buttonMessage"] = "0&%0&%0&%0"
                     msg["buttonActionId"] = "nextpage"
-                    msg["buttonValue"] = stringForActionId + "&%" + headlineLeftFieldSplitted.join() + "&%" + headlineRightFieldSplitted.join() + "&%" + fieldInformation[3] + "&%" + buttonNameSplitted.toString() + "&%" + fieldInformation[5];
-                    if (fieldInformation[6] != "undefined") {
-                        msg["buttonValue"] += fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8];
+                    msg["buttonValue"] = stringForActionId + "&%" + headlineLeftFieldSplitted.join() + "&%" + headlineRightFieldSplitted.join() + "&%" + fieldInformation[3] + "&%" + buttonNameSplitted.toString() + "&%" + message;
+                    if (fieldInformation[9] != "undefined") {
+                        msg["buttonValue"] += fieldInformation[9] + "&%" + fieldInformation[10] + "&%" + fieldInformation[11];
                     }
                 }
 
