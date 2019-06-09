@@ -182,7 +182,7 @@ async function preparePostMessage(task) {
                     if (headlineRightFieldSplitted[i] == "true") {
                         msg["message"].push(fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8] + "&%" + message);
                     } else {
-                        msg["message"].push(fieldInformation[5]);
+                        msg["message"].push(message);
                     }
                     headlineRightFieldSplitted.splice(i, 1);
                 }
