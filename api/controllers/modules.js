@@ -60,7 +60,7 @@ async function preparePostMessage(task) {
         var variablesToGet = task.variables.get("variablesToGet").split(',');
         var variables = getVariables(task, variablesToGet);
 
-        var channel_index = variablesToGet.indexOf("slack_channel");
+        var channel_index = variablesToGet.indexOf("channel");
         var text_index = variablesToGet.indexOf("text");
         var callbackId_index = variablesToGet.indexOf("callbackId");
         var user_index = variablesToGet.indexOf("user");
