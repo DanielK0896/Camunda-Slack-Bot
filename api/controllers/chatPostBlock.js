@@ -108,7 +108,7 @@ function chatPostBlock(req, res) {
         body: body,
         json: true
     };
-
+    console.log(body);
     request(options, function (error, response, body) {
         if (!error) {
             var bodyStringified = JSON.stringify(body);
