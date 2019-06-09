@@ -114,7 +114,7 @@ function chatPostBlock(req, res) {
             var bodyStringified = JSON.stringify(body);
             res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
-        } else { console.log("ERROR sendOverflow: " + error); }
+        } else { console.log("ERROR chatPostBlock: " + error); }
     });
 }
 
