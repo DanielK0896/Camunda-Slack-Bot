@@ -29,7 +29,6 @@ function camundaSendMessage(req, res) {
         headers:
         {
             'cache-control': 'no-cache',
-            Authorization: secrets.Authorization,
             'Content-Type': 'application/json'
         },
         body: body,
