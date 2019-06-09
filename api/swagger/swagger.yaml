@@ -313,10 +313,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /chat/post/overflow:
-    x-swagger-router-controller: chatPostOverflow
+  /chat/post/block:
+    x-swagger-router-controller: chatPostBlock
     post:
-      operationId: chatPostOverflow
+      operationId: chatPostBlock
       consumes:
         - application/json
       produces:
@@ -350,7 +350,9 @@ paths:
               changes:
                 type: string
               message:
-                type: string
+                type: array
+                items:
+                  type: string
               buttonName:
                 type: string
               buttonValue:
@@ -372,10 +374,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /chat/update/overflow:
-    x-swagger-router-controller: chatUpdateOverflow
+  /chat/update/block:
+    x-swagger-router-controller: chatUpdateBlock
     post:
-      operationId: chatUpdateOverflow
+      operationId: chatUpdateBlock
       consumes:
         - application/json
       produces:
@@ -588,6 +590,7 @@ paths:
         - $ref: "#/parameters/channel_name"
         - $ref: "#/parameters/user_id"
         - $ref: "#/parameters/user_name"
+        - $ref: "#/parameters/trigger_id"
       responses:
         "200":
           description: Response message
@@ -757,6 +760,12 @@ parameters:
     name: user_name
     in: formData
     description: Friendly handle of the user
+    required: false
+    type: string
+  trigger_id:
+    name: trigger_id
+    in: formData
+    description: Trigger Id to start the dialog
     required: false
     type: string
       

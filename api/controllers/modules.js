@@ -75,7 +75,6 @@ async function preparePostMessage(task) {
         var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
         var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
         var buttonValue_index = variablesToGet.indexOf("buttonValue");
-        var message_index = variablesToGet.indexOf("message");
         var file_index = variablesToGet.indexOf("file");
         var changes_index = variablesToGet.indexOf("changes");
         var msg = {};
@@ -146,27 +145,40 @@ async function preparePostMessage(task) {
             if (boldHeadline_index >= 0) {
                 path = "/chat/post/overflow"
                 console.log(variables);
-                var fieldInformation = variables[buttonValue_index].split(" ");
-                var listOfUsers = fieldInformation[0].split(",");
+                var fieldInformation = variables[buttonValue_index].split("&%");
+                var stringForActionId = fieldInformation[0].split(",");
                 var headlineLeftFieldSplitted = fieldInformation[1].split(",");
                 var headlineRightFieldSplitted = fieldInformation[2].split(",");
                 var buttonNameSplitted = fieldInformation[4].split(",");
                 msg["boldHeadline"] = variables[boldHeadline_index];
-                var lengthOfFields = headlineLeftFieldSplitted.length / 2;
-                if (lengthOfFields > 4) {
-                    lengthOfFields = 4;
+                var lengthOfLeftFields = headlineLeftFieldSplitted.length / 2;
+                if (lengthOfLeftFields > 4) {
+                    lengthOfLeftFields = 4;
+                }
+                var lengthOfRightFields = headlineRightFieldSplitted.length / 2;
+                if (lengthOfRightFields > 4) {
+                    lengthOfRightFields = 4;
                 }
                 msg["type"] = [];
-                for (var i = 0; i < lengthOfFields; i++) {
+                for (var i = 0; i < lengthOfLeftFields; i++) {
                     msg["type"].push(headlineLeftFieldSplitted[i]);
                     headlineLeftFieldSplitted.splice(i, 1);
                 }
-                msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
-                msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4).join().split('_').join(" ").split(',');
+                msg["message"] = []
+                for (var i = 0; i < lengthOfRightFields; i++) {
+                    if (headlineRightFieldSplitted[i] == "true") {
+                        msg["message"].push(fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8] + "&%" + fieldInformation[5]);
+                    } else {
+                        msg["message"].push(fieldInformation[5]);
+                    }
+                    headlineRightFieldSplitted.splice(i, 1);
+                }
+                msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4);
+                msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4);
                 msg["textOptions"] = fieldInformation[3].split(",");
-                msg["actionId"] = listOfUsers.splice(0, 4);
+                msg["actionId"] = stringForActionId.splice(0, 4);
                 msg["changes"] = variables[changes_index];
-                msg["message"] = variables[message_index];
+                
 
                 if (headlineLeftFieldSplitted.length == 0) {
                     msg["buttonName"] = buttonNameSplitted[1];
@@ -175,9 +187,12 @@ async function preparePostMessage(task) {
                     msg["buttonValue"] = "lastMessage";
                 } else {
                     msg["buttonName"] = buttonNameSplitted[0];
-                    msg["buttonMessage"] = "0 0 0 0"
+                    msg["buttonMessage"] = "0&%0&%0&%0"
                     msg["buttonActionId"] = "nextpage"
-                    msg["buttonValue"] = listOfUsers + " " + headlineLeftFieldSplitted.join() + " " + headlineRightFieldSplitted.join() + " " + buttonNameSplitted.toString();
+                    msg["buttonValue"] = stringForActionId + "&%" + headlineLeftFieldSplitted.join() + "&%" + headlineRightFieldSplitted.join() + "&%" + fieldInformation[3] + "&%" + buttonNameSplitted.toString() + "&%" + fieldInformation[5];
+                    if (fieldInformation[6] != "undefined") {
+                        msg["buttonValue"] += fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8];
+                    }
                 }
 
             }

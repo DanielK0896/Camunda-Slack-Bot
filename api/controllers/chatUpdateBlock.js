@@ -5,10 +5,10 @@ var URL = "https://slack.com/api/chat.update";
 var secrets = require('../../secrets');
 
 module.exports = {
-    updateOverflow: updateOverflow
+    chatUpdateBlock: chatUpdateBlock
 };
 
-function updateOverflow(req, res) {
+function chatUpdateBlock(req, res) {
 
     var msg = req.swagger.params.body.value;
     var blocks = JSON.parse(msg.blocks);

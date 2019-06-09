@@ -6,10 +6,10 @@ var URL = "https://slack.com/api/chat.postMessage";
 var secrets = require('../../secrets');
 
 module.exports = {
-    chatPostOverflow: chatPostOverflow
+    chatPostBlock: chatPostBlock
 };
 
-function sendOverflowStatic(req, res) {
+function chatPostBlock(req, res) {
     var msg = req.swagger.params.body.value;
     console.log(msg);
     var body = {
@@ -31,7 +31,7 @@ function sendOverflowStatic(req, res) {
         };
         var objectToPush2 = {
             "type": "section",
-            "block_id": msg.message + " " + msg.changes + " " + i,
+            "block_id": msg.message[i] + " " + msg.changes + " " + i,
             "accessory": {
                 "type": msg.type[i],
                 "action_id": msg.actionId[i]
@@ -47,6 +47,14 @@ function sendOverflowStatic(req, res) {
                     "type": "mrkdwn",
                     "text": msg.headlineRightField[i]
                 }];
+        } else if (msg.type[i] == "button") {
+            objectToPush2.accessory = {
+                "text": {
+                    "type": "plain_text",
+                    "text": "Klick",
+                    "emoji": true
+                },
+                "value": "0"}
         } else {
             objectToPush2.text = {
                 "type": "mrkdwn",
