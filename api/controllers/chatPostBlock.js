@@ -47,6 +47,18 @@ function chatPostBlock(req, res) {
                     "type": "mrkdwn",
                     "text": msg.headlineRightField[i]
                 }];
+            for (var t = 2; t <= i * 2; t = t + 2) {
+                for (var s = 0; s < msg.textOptions.length; s++) {
+                    body.blocks[t].accessory.options.push({
+                        "text": {
+                            "type": "plain_text",
+                            "text": msg.textOptions[s],
+                            "emoji": true
+                        },
+                        "value": s.toString()
+                    });
+                }
+            }
         } else if (msg.type[i] == "button") {
             objectToPush2.accessory = {
                 "text": {
@@ -63,18 +75,6 @@ function chatPostBlock(req, res) {
         }   
         body.blocks.push(objectToPush);
         body.blocks.push(objectToPush2);
-    }
-    for (var t = 2; t <= i*2; t = t + 2) { 
-        for (var s = 0; s < msg.textOptions.length; s++) {
-            body.blocks[t].accessory.options.push({
-                "text": {
-                    "type": "plain_text",
-                    "text": msg.textOptions[s],
-                    "emoji": true
-                },
-                "value": s.toString()
-            });
-        }
     }
     body.blocks.push({
         "type": "divider"
