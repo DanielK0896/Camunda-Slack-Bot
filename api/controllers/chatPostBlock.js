@@ -59,18 +59,19 @@ function chatPostBlock(req, res) {
                     });
                 }
             }
-        } else if (msg.type[i] == "button") {
-            objectToPush2.accessory.text = {
-                "type": "plain_text",
-                "text": "Klick",
-                "emoji": true
-            };
-            objectToPush2.accessory.value = "0";
         } else {
             objectToPush2.text = {
                 "type": "mrkdwn",
                 "text": msg.headlineLeftField[i]
             };
+            if (msg.type[i] == "button") {
+                objectToPush2.accessory.text = {
+                    "type": "plain_text",
+                    "text": "Klick",
+                    "emoji": true
+                };
+                objectToPush2.accessory.value = "0";
+            } 
         }   
         body.blocks.push(objectToPush);
         body.blocks.push(objectToPush2);
