@@ -6,10 +6,10 @@ var URL = "https://slack.com/api/dialog.open";
 var secrets = require('../../secrets');
 
 module.exports = {
-    startDialog: startDialog
+    dialogOpen: dialogOpen
 };
 
-function startDialog(req, res) {
+function dialogOpen(req, res) {
     var msg = req.swagger.params.body.value;
     console.log("Dialog" + msg);
     var body = {

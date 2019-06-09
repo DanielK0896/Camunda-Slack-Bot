@@ -15,6 +15,15 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var taskid = [];
     var pushedButton; 
     var actionValue = 0;                          //amount of given select options
+    var callback = function postCallback(body, resolve, reject) {
+        try {
+            var bodyParsed = JSON.parse(body);
+            resolve(bodyParsed);
+        } catch (e) {
+            console.log("ERROR callback: " + e);
+            console.log("Body: " + body);
+        }
+    };
 
     if (msg.type == "interactive_message" || msg.type == "dialog_submission") {
         taskid = msg.callback_id.split(',');
@@ -57,7 +66,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
                 updateMsg["ts"] = taskid[taskid.length - 1];
                 console.log(updateMsg);
-                mod.postToSwaggerAPI(updateMsg, "/updateMsg");
+                mod.postToSwaggerAPI(updateMsg, "/chatUpdate", callback);
             } else {
                 res.json(basicResponse);
             }
@@ -111,7 +120,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             changes[actionValue] = recentChanges.join('.');
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             payload["blocks"] = JSON.stringify(payload["blocks"]);
-            mod.postToSwaggerAPI(payload, "/updateOverflow");
+            mod.postToSwaggerAPI(payload, "/chatUpdateBlock", callback);
         }
         if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {
             payload["channel"] = msg.container.channel_id;
@@ -226,7 +235,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             console.log(JSON.stringify(payload));
-            mod.postToSwaggerAPI(payload, "/updateOverflow");
+            mod.postToSwaggerAPI(payload, "/chatUpdateBlock", callback);
         }
     }
 }
@@ -251,7 +260,7 @@ function handleMessage(taskid, pushedButton, msg) {
     var path = "/camunda/sendMessage/"
     arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
-    mod.postToSwaggerAPI(arrayOfVariables, path);
+    mod.postToSwaggerAPI(arrayOfVariables, path, callback);
 }
 
 function handleDialog(taskid, msg) {
@@ -304,5 +313,5 @@ function handleDialog(taskid, msg) {
     } else if (arrayOfVariables["data_source"] == []) {
         
     }
-    mod.postToSwaggerAPI(arrayOfVariables, "/startDialog");
+    mod.postToSwaggerAPI(arrayOfVariables, "/dialogOpen", callback);
 }
