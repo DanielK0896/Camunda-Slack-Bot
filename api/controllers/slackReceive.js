@@ -66,7 +66,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
                 updateMsg["ts"] = taskid[taskid.length - 1];
                 console.log(updateMsg);
-                mod.postToSwaggerAPI(updateMsg, "/chatUpdate", callback);
+                mod.postToSwaggerAPI(updateMsg, "/chat/update", callback);
             } else {
                 res.json(basicResponse);
             }
@@ -120,7 +120,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             changes[actionValue] = recentChanges.join('.');
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             payload["blocks"] = JSON.stringify(payload["blocks"]);
-            mod.postToSwaggerAPI(payload, "/chatUpdateBlock", callback);
+            mod.postToSwaggerAPI(payload, "/chat/update/block", callback);
         }
         if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {
             payload["channel"] = msg.container.channel_id;
@@ -235,7 +235,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             console.log(JSON.stringify(payload));
-            mod.postToSwaggerAPI(payload, "/chatUpdateBlock", callback);
+            mod.postToSwaggerAPI(payload, "/chat/update/block", callback);
         }
     }
 }
@@ -313,5 +313,5 @@ function handleDialog(taskid, msg) {
     } else if (arrayOfVariables["data_source"] == []) {
         
     }
-    mod.postToSwaggerAPI(arrayOfVariables, "/dialogOpen", callback);
+    mod.postToSwaggerAPI(arrayOfVariables, "/dialog/open", callback);
 }
