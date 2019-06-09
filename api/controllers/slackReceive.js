@@ -106,8 +106,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             console.log(taskid[taskid.length - 1]);
             console.log(changes[actionValue]);
             console.log(changes[actionValue].split('.'));
-            changes[actionValue].split('.').unshift(taskid[taskid.length - 1]).join('.');   //changes depending on selected_options for activated block
-
+            var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
+            recentChanges.unshift(taskid[taskid.length - 1]);
+            changes[actionValue] = recentChanges.join('.');
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/updateOverflow");
