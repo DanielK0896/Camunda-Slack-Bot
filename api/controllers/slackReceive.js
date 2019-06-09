@@ -1,4 +1,13 @@
 var mod = require('./modules');
+var callback = function postCallback(body, resolve, reject) {
+    try {
+        var bodyParsed = JSON.parse(body);
+        resolve(bodyParsed);
+    } catch (e) {
+        console.log("ERROR callback: " + e);
+        console.log("Body: " + body);
+    }
+};
 
 var basicResponse = {
     "response_type": "ephemeral", "replace_original": false,
@@ -15,16 +24,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var taskid = [];
     var pushedButton; 
     var actionValue = 0;                          //amount of given select options
-    var callback = function postCallback(body, resolve, reject) {
-        try {
-            var bodyParsed = JSON.parse(body);
-            resolve(bodyParsed);
-        } catch (e) {
-            console.log("ERROR callback: " + e);
-            console.log("Body: " + body);
-        }
-    };
-
+    
     if (msg.type == "interactive_message" || msg.type == "dialog_submission") {
         taskid = msg.callback_id.split(',');
         try {
