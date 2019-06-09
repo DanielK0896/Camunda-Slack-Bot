@@ -102,6 +102,10 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                        //split changes defined in camunda and set in actionId
             var changes = actionId;
             changes.splice(0, 1);
+            console.log(taskid.length - 1);
+            console.log(taskid[taskid.length - 1]);
+            console.log(changes[actionValue]);
+            console.log(changes[actionValue].split('.'));
             changes[actionValue].split('.').unshift(taskid[taskid.length - 1]).join('.');   //changes depending on selected_options for activated block
 
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
