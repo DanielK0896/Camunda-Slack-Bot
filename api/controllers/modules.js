@@ -144,7 +144,7 @@ async function preparePostMessage(task) {
                 }
             }
             if (boldHeadline_index >= 0) {
-                path = "/chat/post/overflow"
+                path = "/chat/post/block"
                 console.log(variables);
                 var fieldInformation = variables[buttonValue_index].split("&%");
                 var stringForActionId = fieldInformation[0].split(",");
