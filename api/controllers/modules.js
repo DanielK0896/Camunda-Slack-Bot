@@ -87,7 +87,8 @@ async function preparePostMessage(task) {
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed);
             } catch (e) {
-                console.log(e);
+                console.log("ERROR callback: " + e);
+                console.log("Body: " + body);
             }
         };
 
