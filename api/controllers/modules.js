@@ -75,6 +75,7 @@ async function preparePostMessage(task) {
         var textConfirmation_index = variablesToGet.indexOf("textConfirmation");
         var boldHeadline_index = variablesToGet.indexOf("boldHeadline");
         var buttonValue_index = variablesToGet.indexOf("buttonValue");
+        var userProfile_index = variablesToGet.indexOf("userProfile");
         var file_index = variablesToGet.indexOf("file");
         var changes_index = variablesToGet.indexOf("changes");
         var msg = {};
