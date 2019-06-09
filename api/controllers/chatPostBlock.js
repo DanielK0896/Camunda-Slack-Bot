@@ -76,7 +76,7 @@ function chatPostBlock(req, res) {
             });
         }
     }
-
+    console.log(body);
     body.blocks.push({
         "type": "divider"
     },
@@ -95,7 +95,8 @@ function chatPostBlock(req, res) {
                 "value": msg.buttonValue
             }
         ]
-    }); 
+        }); 
+    console.log(body);
     var options = {
         method: 'POST',
         url: URL,
@@ -108,7 +109,7 @@ function chatPostBlock(req, res) {
         body: body,
         json: true
     };
-    console.log(body);
+
     request(options, function (error, response, body) {
         var bodyStringified = JSON.stringify(body);
         res.json(bodyStringified);
