@@ -76,7 +76,6 @@ function chatPostBlock(req, res) {
             });
         }
     }
-    console.log(body);
     body.blocks.push({
         "type": "divider"
     },

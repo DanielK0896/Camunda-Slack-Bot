@@ -83,8 +83,7 @@ async function preparePostMessage(task) {
         var msg = {};
         var path;
         var callback = function postCallback(body, resolve, reject) {
-            var bodyParsed = JSON.parse(body);
-            resolve(bodyParsed);
+            console.log(body);
         };
 
         if (channel_index >= 0) {
