@@ -60,13 +60,14 @@ function chatPostBlock(req, res) {
                 }
             }
         } else if (msg.type[i] == "button") {
-            objectToPush2.accessory = {
+            objectToPush2.accessory.push({
                 "text": {
                     "type": "plain_text",
                     "text": "Klick",
                     "emoji": true
                 },
-                "value": "0"}
+                "value": "0"
+            });
         } else {
             objectToPush2.text = {
                 "type": "mrkdwn",
