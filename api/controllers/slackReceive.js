@@ -17,12 +17,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var actionValue = 0;                          //amount of given select options
 
     if (msg.type == "interactive_message" || msg.type == "dialog_submission") {
-        taskid = msg.callback_id.split('&%');
+        taskid = msg.callback_id.split(',');
         try {
             pushedButton = msg.actions[0].value;
         } catch (e) { }
     }  else if (msg.type == "block_actions") {                    //block element action
-        taskid = msg.actions[0].block_id.split('&%');          
+        taskid = msg.actions[0].block_id.split(',');          
         var actionId = msg.actions[0].action_id.split('&%');  
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
