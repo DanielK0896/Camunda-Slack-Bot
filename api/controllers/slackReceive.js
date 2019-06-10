@@ -111,21 +111,19 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
             
             var changes = actionId;
-            console.log(changes);
             changes.splice(0, 1);
-            console.log(changes);
             for (var i = changes.length / 2; i < changes.length; i++) {
                 try {
                     changes[i] = JSON.parse(changes[i]);
                 } catch (e) {}
             }
-            console.log(changes);
-            console.log(actionValue);
             var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
             recentChanges.unshift(taskid[taskid.length - 1]);
             changes[actionValue] = recentChanges.join('.');
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
+            console.log(payload);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
+            console.log(payload);
             mod.postToSwaggerAPI(payload, "/chat/update/block", callback);
         }
         if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {

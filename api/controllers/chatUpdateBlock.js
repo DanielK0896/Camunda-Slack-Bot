@@ -11,6 +11,7 @@ module.exports = {
 function chatUpdateBlock(req, res) {
 
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var blocks = JSON.parse(msg.blocks);
     var body = {
         "channel": msg.channel,
