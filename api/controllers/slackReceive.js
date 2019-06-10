@@ -111,13 +111,14 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
             
             var changes = actionId;
-            console.log("1:  " + changes);
             var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
-            console.log("2:  " + recentChanges);
-            recentChanges.unshift(taskid[taskid.length - 1]);
-            console.log("3:  " + recentChanges);
+            if (recentChanges[0] == "") {
+                recentChanges[0] = taskid[taskid.length - 1]
+            } else {
+                recentChanges.unshift(taskid[taskid.length - 1]);
+            }
             changes[actionValue] = recentChanges.join('.');
-            console.log("4:  " + changes);
+            console.log(changes);
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
