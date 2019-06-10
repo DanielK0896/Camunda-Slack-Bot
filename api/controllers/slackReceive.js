@@ -124,6 +124,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 changes[(actionValue + changes.length / 2)] = JSON.parse((actionValue + changes.length / 2)[(actionValue + changes.length / 2)]);    //parses changes if possible
             } catch (e) {
                 changes[(actionValue + changes.length / 2)] = JSON.stringify((actionValue + changes.length / 2)[(actionValue + changes.length / 2)]); 
+                console.log(changes[(actionValue + changes.length / 2)]);
                 changes[(actionValue + changes.length / 2)] = JSON.parse((actionValue + changes.length / 2)[(actionValue + changes.length / 2)]); 
             }
             console.log(changes[(actionValue + changes.length / 2)]);
