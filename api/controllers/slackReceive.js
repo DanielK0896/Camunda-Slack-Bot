@@ -112,6 +112,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             
             var changes = actionId;
             changes.splice(0, 1);
+            console.log(taskid);
             var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
             recentChanges.unshift(taskid[taskid.length - 1]);
             changes[actionValue] = recentChanges.join('.');
