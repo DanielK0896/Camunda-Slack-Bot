@@ -31,7 +31,7 @@ setInterval(mod.getChannels, 300000);
 setTimeout(function () {
 
     client.subscribe("addStartVariables", async function ({ task, taskService }) {
-        var ts = mod.preparePostMessage(task);
+        var ts = await mod.preparePostMessage(task);
         console.log(ts);
         const processVariables = new Variables();
         processVariables.set(task.activityId, ts);
