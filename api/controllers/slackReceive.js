@@ -30,7 +30,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         pushedButton = msg.actions[0].value;
     } else if (msg.type == "dialog_submission") {
         taskid = msg.callback_id.split('&%');
-        pushedButton = msg.submission[0];  
+        for (var i = 0; i < 5; i++) {
+            try {
+                pushedButton = msg.submission[0];
+            catch {}
+        }
     } else if (msg.type == "block_actions") {                    //block element action
         taskid = msg.actions[0].block_id.split('&%');          
         var actionId = msg.actions[0].action_id.split('&%');  
@@ -283,24 +287,22 @@ function handleDialog(taskid, msg) {
     arrayOfVariables["callbackId"] = callbackId.join('&%');                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
     arrayOfVariables["label"] = [];
-    arrayOfVariables["name"] = [];
     arrayOfVariables["type"] = [];
     arrayOfVariables["placeholder"] = [];
     arrayOfVariables["options"] = [];
     arrayOfVariables["data_source"] = [];
     for (var i = 1; i < variablesForDialog.length; i = i + 4) {
         arrayOfVariables["label"].push(variablesForDialog[i]);
-        arrayOfVariables["name"].push(variablesForDialog[i + 1]);
-        arrayOfVariables["type"].push(variablesForDialog[i + 2]);
-        arrayOfVariables["placeholder"].push(variablesForDialog[i + 3]);
-        if (variablesForDialog[i + 4] == "options" && variablesForDialog[i + 2] == "select") {
-            arrayOfVariables["options"].push(variablesForDialog[i + 5]);
+        arrayOfVariables["type"].push(variablesForDialog[i + 1]);
+        arrayOfVariables["placeholder"].push(variablesForDialog[i + 2]);
+        if (variablesForDialog[i + 3] == "options" && variablesForDialog[i + 1] == "select") {
+            arrayOfVariables["options"].push(variablesForDialog[i + 4]);
             i = i + 2
         } else {
             arrayOfVariables["options"].push("undefined");
         }
-        if (variablesForDialog[i + 4] == "data_source" && variablesForDialog[i + 2] == "select") {
-            arrayOfVariables["data_source"].push(variablesForDialog[i + 5]);
+        if (variablesForDialog[i + 3] == "data_source" && variablesForDialog[i + 1] == "select") {
+            arrayOfVariables["data_source"].push(variablesForDialog[i + 4]);
             i = i + 2
         } else {
             arrayOfVariables["data_source"].push("undefined");
