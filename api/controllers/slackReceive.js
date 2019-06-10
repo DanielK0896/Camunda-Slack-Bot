@@ -64,7 +64,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     //call function depending on callback_id
     if (taskid[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
-            handleMessage(taskid, pushedButton, msg);
+            handleMessage(taskid, pushedButton, msg, dialogNumber);
             res.status(200).type('application/json').end();
             if (taskid[4] == "delete") {
                 var updateMsg = {};
@@ -253,7 +253,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }
 }
 
-function handleMessage(taskid, pushedButton, msg) {
+function handleMessage(taskid, pushedButton, msg, dialogNumber) {
     var arrayOfVariables = {};
     var variableInformation = taskid[3].split(',');
     arrayOfVariables["nameVariable"] = [];
