@@ -25,15 +25,17 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var taskid = [];
     var pushedButton; 
     var actionValue = 0;                          //amount of given select options
+    var dialogNumber;
     
     if (msg.type == "interactive_message") {
         taskid = msg.callback_id.split('&%');
         pushedButton = msg.actions[0].value;
     } else if (msg.type == "dialog_submission") {
         taskid = msg.callback_id.split('&%');
-        for (var i = 0; i < 5; i++) {
-            if (typeof msg.submission[i] != "undefined") {
-                pushedButton = msg.submission[i];          
+        for (dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
+            if (typeof msg.submission[dialogNumber] != "undefined") {
+                pushedButton = msg.submission[dialogNumber]; 
+                break;
             }      
         }
     } else if (msg.type == "block_actions") {                    //block element action
@@ -265,7 +267,7 @@ function handleMessage(taskid, pushedButton, msg) {
                     arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
                 }
             } catch (e) {
-                arrayOfVariables["variable"].push(pushedButton);
+                arrayOfVariables["variable"].push(pushedButton + "," + );
                 arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
             }
         }
