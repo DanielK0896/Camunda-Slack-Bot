@@ -117,6 +117,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             } else {
                 recentChanges.unshift(taskid[taskid.length - 1]);
             }
+            recentChanges[0] = parseInt(recentChanges[0], 10) * 2 + 2;
             changes[actionValue] = recentChanges.join('.');
             console.log(changes);
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
