@@ -274,9 +274,10 @@ function handleDialog(taskid, msg) {
     var arrayOfVariables = {};
     var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "text"
     arrayOfVariables["triggerId"] = msg.trigger_id;
+    console.log(taskid);
     var callbackId = taskid[3].split(',');
     callbackId.push(msg.message_ts);
-    arrayOfVariables["callbackId"] = callbackId.join(' ');                     //callbackId[3] = new Callback ID
+    arrayOfVariables["callbackId"] = callbackId.join('&%');                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
     arrayOfVariables["label"] = [];
     arrayOfVariables["name"] = [];
