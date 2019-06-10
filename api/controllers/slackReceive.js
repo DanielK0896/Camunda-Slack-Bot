@@ -119,7 +119,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             recentChanges[0] = parseInt(recentChanges[0], 10) * 2 + 2;
             changes[actionValue] = recentChanges.join('.');
-            console.log(changes);
+            try {
+                changes[(actionValue + changes.length / 2)] = JSON.parse((actionValue + changes.length / 2)[(actionValue + changes.length / 2)]);    //parses changes if possible
+            } catch (e) {}
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
