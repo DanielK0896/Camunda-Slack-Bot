@@ -37,9 +37,8 @@ function camundaSendMessage(req, res) {
     console.log(JSON.stringify(body));
     request(options, function (error, response, body) {
         if (!error) {
-            var bodyStringified = JSON.stringify(body);
-            res.json(bodyStringified);
-            console.log(JSON.parse(bodyStringified))
+            var responseStringified = JSON.stringify(response);
+            res.json(responseStringified);
         } else { console.log("ERROR camundaSendMessage: " + error); }
     });
 }
