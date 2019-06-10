@@ -180,7 +180,7 @@ async function preparePostMessage(task) {
                 var message = fieldInformation[5] + "&%" + fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8];
                 for (var i = 0; i < lengthOfRightFields; i++) {
                     if (headlineRightFieldSplitted[i] == "true") {
-                        msg["message"].push(fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8] + "&%" + message);
+                        msg["message"].push(fieldInformation[9] + "&%" + fieldInformation[10] + "&%" + fieldInformation[11] + "&%" + message);
                     } else {
                         msg["message"].push(message);
                     }
