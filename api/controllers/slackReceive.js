@@ -33,7 +33,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }  else if (msg.type == "block_actions") {                    //block element action
         taskid = msg.actions[0].block_id.split('&%');          
         var actionId = msg.actions[0].action_id.split('&%');  
-        console.log(actionId);
         msg.actions[0].action_id = actionId.splice(0, 1).toString();
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
@@ -113,14 +112,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             
             var changes = actionId;
             console.log("1:  " + changes);
-            changes.splice(0, 1);
-            console.log("2:  " + changes);
             var recentChages = changes[actionValue].split('.');    //changes depending on selected_options for activated block
-            console.log("3:  " + recentChages);
+            console.log("2:  " + recentChages);
             recentChanges.unshift(taskid[taskid.length - 1]);
-            console.log("4:  " + recentChages);
+            console.log("3:  " + recentChages);
             changes[actionValue] = recentChanges.join('.');
-            console.log("5:  " + changes);
+            console.log("4:  " + changes);
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
