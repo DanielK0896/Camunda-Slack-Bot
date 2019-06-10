@@ -259,10 +259,14 @@ function handleMessage(taskid, pushedButton, msg) {
     arrayOfVariables["variable"] = [];
     if (msg != undefined) {
         for (i = 1; i <= variableInformation.length; i++) {                  
-            arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
-            arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-            if (typeof pushedButton != "undefined") {
-                arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
+            try {
+                arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+                arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
+                if (typeof pushedButton != "undefined") {
+                    arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
+                }
+            } catch {
+                arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", pushedButton, msg, true));
             }
         }
     } else {
