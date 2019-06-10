@@ -63,8 +63,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     if (taskid[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
             handleMessage(taskid, pushedButton, msg);
-            if (taskid[4] == "delete") {             
-                res.status(200).type('application/json').end();
+            res.status(200).type('application/json').end();
+            if (taskid[4] == "delete") {
                 var updateMsg = {};
                 updateMsg["channel"] = msg.channel.id;
                 updateMsg["text"] = "Deine Nachricht ist angekommen:";
@@ -74,8 +74,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 updateMsg["ts"] = taskid[taskid.length - 1];
                 console.log(updateMsg);
                 mod.postToSwaggerAPI(updateMsg, "/chat/update", callback);
-            } else {
-                res.json(basicResponse);
             }
         } else {
             handleMessage(taskid, pushedButton, msg);
