@@ -128,8 +128,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/chat/update/block", callback);
-        }
-        if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {
+        } else if (msg.actions[0].type == "button" && msg.actions[0].action_id != "lastMessage") {
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
