@@ -33,6 +33,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }  else if (msg.type == "block_actions") {                    //block element action
         taskid = msg.actions[0].block_id.split('&%');          
         var actionId = msg.actions[0].action_id.split('&%');  
+        msg.actions[0].action_id = actionId.splice(0, 1).toString();
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
             actionValue = parseInt(pushedButton, 10);
@@ -111,10 +112,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                        //split changes defined in camunda and set in actionId
             var changes = actionId;
             changes.splice(0, 1);
-            console.log(taskid.length - 1);
-            console.log(taskid[taskid.length - 1]);
-            console.log(changes[actionValue]);
-            console.log(changes[actionValue].split('.'));
             var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
             recentChanges.unshift(taskid[taskid.length - 1]);
             changes[actionValue] = recentChanges.join('.');
