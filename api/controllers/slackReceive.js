@@ -275,6 +275,7 @@ function handleMessage(taskid, pushedButton, msg) {
     var path = "/camunda/sendMessage/"
     arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
+    console.log(arrayOfVariables);
     mod.postToSwaggerAPI(arrayOfVariables, path, callback);
 }
 
