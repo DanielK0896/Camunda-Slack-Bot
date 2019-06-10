@@ -33,7 +33,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         taskid = msg.callback_id.split('&%');
         for (var i = 0; i < 5; i++) {
             if (msg.submission[i] != "undefined") {
-                pushedButton = submission[i];
+                pushedButton = msg.submission[i];
             }
         }
     } else if (msg.type == "block_actions") {                    //block element action
