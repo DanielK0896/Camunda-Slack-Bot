@@ -33,6 +33,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }  else if (msg.type == "block_actions") {                    //block element action
         taskid = msg.actions[0].block_id.split('&%');          
         var actionId = msg.actions[0].action_id.split('&%');  
+        console.log(actionId);
         msg.actions[0].action_id = actionId.splice(0, 1).toString();
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
@@ -113,6 +114,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             var changes = actionId;
             changes.splice(0, 1);
             console.log(taskid);
+            console.log(changes);
             var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
             recentChanges.unshift(taskid[taskid.length - 1]);
             changes[actionValue] = recentChanges.join('.');
