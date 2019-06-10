@@ -26,7 +26,7 @@ function dialogOpen(req, res) {
     for (var i = 0; i < msg.label.length; i++) {
         body.dialog.elements.push({
             "label": msg.label[i],
-            "name": msg.name[i],
+            "name": i,
             "type": msg.type[i],
             "placeholder": msg.placeholder[i]
         });
