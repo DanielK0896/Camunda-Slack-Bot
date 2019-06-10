@@ -101,8 +101,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }
     if (msg.type == "block_actions") {
         var payload = {};
+        console.log(taskid[0]);
         if (taskid[0] == "dialog") {
-            
+            console.log(taskid[0]);
 
 
         } else if (msg.actions[0].type != "button") {                           //If action type != button
