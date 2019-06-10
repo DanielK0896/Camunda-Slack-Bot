@@ -267,7 +267,7 @@ function handleMessage(taskid, pushedButton, msg) {
                     arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + "," + arrayOfVariables["variable"]);
                 }
             } catch (e) {
-                arrayOfVariables["variable"].push(pushedButton + "," + );
+                arrayOfVariables["variable"].push(pushedButton + "," + dialogNumber);
                 arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
             }
         }
