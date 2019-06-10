@@ -32,8 +32,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     } else if (msg.type == "dialog_submission") {
         taskid = msg.callback_id.split('&%');
         for (var i = 0; i < 5; i++) {
-            var submission = msg.submission[i];
-            if (typeof submission[i] != "undefined") {
+            if (msg.submission[i] != "undefined") {
                 pushedButton = submission[i];
             }
         }
