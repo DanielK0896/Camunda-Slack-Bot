@@ -140,6 +140,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 "channel": msg.channel.id,
                 "ts": msg.message_ts
             };
+            console.log(payload);
             mod.postToSwaggerAPI(payload, "/chat/delete", callback);
         } else if (msg.actions[0].type == "button") {
             payload["channel"] = msg.container.channel_id;
