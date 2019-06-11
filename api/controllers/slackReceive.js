@@ -142,19 +142,20 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             };
             console.log(payload);
             mod.postToSwaggerAPI(payload, "/chat/delete", callback);
-        } else if (msg.actions[0].type == "button") {
+        }  else if (msg.actions[0].type == "button") {
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
             var headlineLeftField = pushedButton[1].split(',');
             var headlineRightField = pushedButton[2].split(',');
+            var message = pushedButton[5] + "&%" + pushedButton[6] + "&%" + pushedButton[7] + "&%" + pushedButton[8];
             var lengthOfFields = headlineLeftField.length / 2;
             if (lengthOfFields > 4) {
                 lengthOfFields = 4;
             }
             var lengthOfRightFields = headlineRightField.length / 2;
             if (lengthOfRightFields > 4) {
-                lengthOfRightFields = 4; dialog_index
+                lengthOfRightFields = 4;
             }
             var types = [];
             for (var i = 0; i < lengthOfFields; i++) {            
@@ -162,10 +163,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 headlineLeftField.splice(i, 1);
             }
             var ifDialog = [];
-            for (var i = 0; i < lengthOfRightFields; i++) {
-                if (headlineRightField[i] == "true") {
-                    ifDialog.push(headlineRightField[i]);
-                }
+            for (var i = 0; i < lengthOfRightFields; i+=2) {
+                ifDialog.push(headlineRightField[i]);
                 headlineRightField.splice(i, 1);
             }
 
@@ -226,13 +225,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                     };
                     payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".text.text", i.toString(), headlineLeftFieldSplitted);
                 }
-                if (ifDialog == "true") {
-                    payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".block_id", i.toString(), headlineLeftFieldSplitted);
+                if (ifDialog[i] != "false") {
+                    payload["blocks"][s][block_id] = ifDialog[i] + "&%" + message + "&%" + taskid[taskid.length - 1];
                 } else {
-                    payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".block_id", i.toString(), headlineLeftFieldSplitted);
+                    payload["blocks"][s][block_id] = message + "&%" + taskid[taskid.length - 1];
                 }
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.action_id", i.toString(), stringForActionIdSplitted);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".accessory.type", i.toString(), types); 
+                payload["blocks"][s].accessory.action_id = stringForActionIdSplitted[i];
+                payload["blocks"][s].accessory.type = types[i]); 
                 if (i == 3) {
                     break;
                 }
@@ -242,16 +241,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var buttonName = pushedButton[4].split(',');
                 var blockId = msg.message.blocks[2].block_id.split(' ');
                 blockId = [blockId[0] + "&%" + blockId[1] + "&%" + blockId[2] + "&%" + blockId[3]];
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.text.text", "1", buttonName);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".block_id", "0", blockId);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.action_id", "0", ["lastMessage"]);
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], lastBlock + ".elements.0.value", "0", ["lastMessage"]);
+                payload["blocks"][lastBlock].elements[0].text.text = buttonName[1];
+                payload["blocks"][lastBlock].block_id = blockId[0];
+                payload["blocks"][lastBlock].elements[0].action_id = "lastMessage";
+                payload["blocks"][lastBlock].elements[0].value = "lastMessage";
             } else {
-                var buttonValue = stringForActionIdSplitted + "&%" + headlineLeftFieldSplitted.toString() + "&%" + headlineRightFieldSplitted.toString() + "&%" + pushedButton[3] + "&%" + pushedButton[4] + "&%" + pushedButton[5] + "&%" + pushedButton[6] + "&%" + pushedButton[7] + "&%" + pushedButton[8];
-                if (pushedButton[9] != "undefined") {
-                    buttonValue += pushedButton[9] + "&%" + pushedButton[10] + "&%" + pushedButton[11];
-                }
-                payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], "blocks." + s + ".elements.value", "0", buttonValue);
+                var buttonValue = stringForActionIdSplitted + "&%" + headlineLeftFieldSplitted.toString() + "&%" + headlineRightFieldSplitted.toString() + "&%" + pushedButton[3] + "&%" + pushedButton[4] + "&%" + message;
+                payload["blocks"][s].elements.value = buttonValue[0];
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             console.log(JSON.stringify(payload));

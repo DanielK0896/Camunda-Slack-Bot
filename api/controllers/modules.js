@@ -179,8 +179,8 @@ async function preparePostMessage(task) {
                 msg["message"] = []
                 var message = fieldInformation[5] + "&%" + fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8];
                 for (var i = 0; i < lengthOfRightFields; i++) {
-                    if (headlineRightFieldSplitted[i] == "true") {
-                        msg["message"].push(fieldInformation[9] + "&%" + fieldInformation[10] + "&%" + fieldInformation[11] + "&%" + message);
+                    if (headlineRightFieldSplitted[i] != "false") {
+                        msg["message"].push(headlineRightFieldSplitted[i] + "&%" + message);
                     } else {
                         msg["message"].push(message);
                     }
@@ -203,9 +203,6 @@ async function preparePostMessage(task) {
                     msg["buttonMessage"] = "0&%0&%0&%0"
                     msg["buttonActionId"] = "nextpage"
                     msg["buttonValue"] = stringForActionId + "&%" + headlineLeftFieldSplitted.join() + "&%" + headlineRightFieldSplitted.join() + "&%" + fieldInformation[3] + "&%" + buttonNameSplitted.toString() + "&%" + message;
-                    if (fieldInformation[9] != "undefined") {
-                        msg["buttonValue"] += fieldInformation[9] + "&%" + fieldInformation[10] + "&%" + fieldInformation[11];
-                    }
                 }
 
             }

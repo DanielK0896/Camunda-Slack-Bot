@@ -350,9 +350,7 @@ paths:
               changes:
                 type: string
               message:
-                type: array
-                items:
-                  type: string
+                type: string
               buttonName:
                 type: string
               buttonValue:
