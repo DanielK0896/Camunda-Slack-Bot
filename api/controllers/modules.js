@@ -84,16 +84,14 @@ async function preparePostMessage(task) {
         var path;
         var callback = function postCallback(body, resolve, reject) {
             try {
-                console.log("Body1: " + body);
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed);
             } catch (e) {
                 try {
-                    console.log("Body2: " + body);
                     resolve(body);
                 } catch (e) {
                     console.log("ERROR callback: " + e);
-                    console.log("Body3: " + body);
+                    console.log("Body: " + body);
                 }
             }
         };
@@ -212,8 +210,9 @@ async function preparePostMessage(task) {
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
             arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, callback); 
+            arrayOfTimeStamps[i] = arrayOfTimeStamps[i]["ts"];
     };
-        console.log("TS return: " + arrayOfTimeStamps);
+
         return arrayOfTimeStamps.toString();
 }
 
