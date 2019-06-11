@@ -287,7 +287,7 @@ function handleMessage(taskid, pushedButton, msg, dialogNumber) {
 
 function handleDialog(taskid, msg) {
     var arrayOfVariables = {};
-    var variablesForDialog = taskid[2].split(',');                  //callbackId[2] = first dialog element e.g. "text"
+    var variablesForDialog = taskid[2].split('$%');                  //callbackId[2] = first dialog element e.g. "text"
     arrayOfVariables["triggerId"] = msg.trigger_id;
     var callbackId = [];
     for (var i = 0; i < 4; i++) {
