@@ -693,9 +693,9 @@ paths:
 definitions:
   jsonResponse:
     required:
-      - message
+      - body
     properties:
-      message:
+      body:
         type: string
   ErrorResponse:
     required:

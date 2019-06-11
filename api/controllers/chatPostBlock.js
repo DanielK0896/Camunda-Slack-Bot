@@ -112,7 +112,7 @@ function chatPostBlock(req, res) {
     request(options, function (error, response, body) {
         var bodyStringified = JSON.stringify(body);
         res.json(bodyStringified);
-            console.log(JSON.parse(bodyStringified))
+        console.log(JSON.parse(bodyStringified))
     });
 }
 
