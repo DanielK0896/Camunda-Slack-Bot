@@ -84,14 +84,16 @@ async function preparePostMessage(task) {
         var path;
         var callback = function postCallback(body, resolve, reject) {
             try {
+                console.log("Body1: " + body);
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed);
             } catch (e) {
                 try {
+                    console.log("Body2: " + body);
                     resolve(body);
                 } catch (e) {
                     console.log("ERROR callback: " + e);
-                    console.log("Body: " + body);
+                    console.log("Body3: " + body);
                 }
             }
         };
