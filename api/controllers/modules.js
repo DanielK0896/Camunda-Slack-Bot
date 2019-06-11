@@ -102,8 +102,13 @@ async function preparePostMessage(task) {
                 msg["text"] = variables[text_index];
                 path = '/chat/post';
                 callback = function postCallback(body, resolve, reject) {
-                    var bodyParsed = JSON.parse(body);
-                    resolve(bodyParsed.message.ts);
+                    try {
+                        var bodyParsed = JSON.parse(body);
+                        resolve(bodyParsed.message.ts);
+                    } catch (e) {
+                        console.log("ERROR callback: " + e);
+                        console.log("Body: " + body);
+                    }
                 };
                 if (ts_index >= 0) {
                     msg["ts"] = variables[ts_index];
@@ -152,8 +157,13 @@ async function preparePostMessage(task) {
             }
             if (boldHeadline_index >= 0) {
                 callback = function postCallback(body, resolve, reject) {
-                    var bodyParsed = JSON.parse(body);
-                    resolve(bodyParsed.message.ts);
+                    try {
+                        var bodyParsed = JSON.parse(body);
+                        resolve(bodyParsed.message.ts);
+                    } catch (e) {
+                        console.log("ERROR callback: " + e);
+                        console.log("Body: " + body);
+                    }
                 };
                 path = "/chat/post/block";
                 console.log(variables);
