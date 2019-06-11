@@ -87,8 +87,12 @@ async function preparePostMessage(task) {
                 var bodyParsed = JSON.parse(body);
                 resolve(bodyParsed);
             } catch (e) {
-                console.log("ERROR callback: " + e);
-                console.log("Body: " + body);
+                try {
+                    resolve(body);
+                } catch (e) {
+                    console.log("ERROR callback: " + e);
+                    console.log("Body: " + body);
+                }
             }
         };
 
@@ -101,15 +105,6 @@ async function preparePostMessage(task) {
             if (text_index >= 0) {
                 msg["text"] = variables[text_index];
                 path = '/chat/post';
-                callback = function postCallback(body, resolve, reject) {
-                    try {
-                        var bodyParsed = JSON.parse(body);
-                        resolve(bodyParsed.message.ts);
-                    } catch (e) {
-                        console.log("ERROR callback: " + e);
-                        console.log("Body: " + body);
-                    }
-                };
                 if (ts_index >= 0) {
                     msg["ts"] = variables[ts_index];
                     path = '/chat/update';
@@ -156,15 +151,6 @@ async function preparePostMessage(task) {
                 }
             }
             if (boldHeadline_index >= 0) {
-                callback = function postCallback(body, resolve, reject) {
-                    try {
-                        var bodyParsed = JSON.parse(body);
-                        resolve(bodyParsed.message.ts);
-                    } catch (e) {
-                        console.log("ERROR callback: " + e);
-                        console.log("Body: " + body);
-                    }
-                };
                 path = "/chat/post/block";
                 console.log(variables);
                 var fieldInformation = variables[buttonValue_index].split("&%");
