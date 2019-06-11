@@ -111,7 +111,7 @@ function chatPostBlock(req, res) {
 
     request(options, function (error, response, body) {
         res.json(body);
-        console.log(body)
+        console.log("responseBody chatPostBlock: " + body)
     });
 }
 

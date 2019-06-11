@@ -211,7 +211,7 @@ async function preparePostMessage(task) {
             msg["channel"] = listOfChannels[i];
             arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, callback); 
     };
-        console.log(arrayOfTimeStamps);
+        console.log("TS return: " + arrayOfTimeStamps);
         return arrayOfTimeStamps.toString();
 }
 
