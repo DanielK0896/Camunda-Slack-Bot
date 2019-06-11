@@ -32,6 +32,7 @@ setTimeout(function () {
 
     client.subscribe("addStartVariables", async function ({ task, taskService }) {
         var body = await mod.preparePostMessage(task);
+        console.log(body);
         const processVariables = new Variables();
         processVariables.set(task.activityId, body.message.ts);
         client.taskService.complete(task, processVariables);
