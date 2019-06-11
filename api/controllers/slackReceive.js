@@ -112,7 +112,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             console.log(taskid[0]);
 
 
-        } else if (msg.actions[0].type != "button") {                           //If action type != button
+        } else if (msg.actions[0].type != "button" && actionId[2] != "") {                           //If action type != button
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
@@ -231,7 +231,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                     payload["blocks"][s][block_id] = message + "&%" + taskid[taskid.length - 1];
                 }
                 payload["blocks"][s].accessory.action_id = stringForActionIdSplitted[i];
-                payload["blocks"][s].accessory.type = types[i]); 
+                payload["blocks"][s].accessory.type = types[i]; 
                 if (i == 3) {
                     break;
                 }
