@@ -43,9 +43,9 @@ async function camundaStartProcess(req, res) {
     };
     request(options, function (error, response, body) {
         if (!error) {
-            var bodyStringified = JSON.stringify(body);
+            var statusCode = JSON.stringify(response.statusCode);
             res.json({ "text": "Prozess \"" + process + "\" wird gestartet!" });
-            console.log(JSON.parse(bodyStringified));
+            console.log("Response Status: " + statusCode);
         } else { console.log("ERROR camundaStartProcess: " + error) }
     });
 }
