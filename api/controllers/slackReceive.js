@@ -187,8 +187,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var s = (i + 1) * 2;
                 if (types[i] == "overflow") {
                     try {
-                        payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.0.text", i.toString(), headlineLeftFieldSplitted);
-                        payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".fields.1.text", i.toString(), headlineRightFieldSplitted);
+                        payload["blocks"][s].fields[0].text = headlineLeftFieldSplitted[i];
+                        payload["blocks"][s].fields[1].text = headlineRightFieldSplitted[i];
                     } catch (e) {
                         payload["blocks"][s].fields = [
                             {
@@ -223,7 +223,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                             "text": "Nein"
                         }
                     };
-                    payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], s + ".text.text", i.toString(), headlineLeftFieldSplitted);
+                    payload["blocks"][s].text.text = headlineLeftFieldSplitted[i];
                 }
                 if (ifDialog[i] != "false") {
                     payload["blocks"][s][block_id] = ifDialog[i] + "&%" + message + "&%" + taskid[taskid.length - 1];
