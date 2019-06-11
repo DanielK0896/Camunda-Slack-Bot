@@ -208,7 +208,6 @@ async function preparePostMessage(task) {
         var listOfChannels = variables[channel_index].split(',');
         var arrayOfTimeStamps = [];
     var i;
-    console.log(msg);
     for (i = 0; i < listOfChannels.length; i++) {
             listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
             msg["channel"] = listOfChannels[i];
