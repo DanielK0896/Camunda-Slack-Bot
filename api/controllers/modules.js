@@ -1,5 +1,5 @@
-var maxChannels = 100;
 var request = require("request");
+var camunda_config = require('./camunda_config');
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
 
@@ -59,7 +59,7 @@ function createPDF(template, fileName, variables) {
     pdfDoc.end();
 }
 async function preparePostMessage(task) {
-        var variablesToGet = task.variables.get("variablesToGet").split(',');
+        var variablesToGet = task.variables.get("variablesToGet").split(camunda_config.variablesToGetSplit);
         var variables = getVariables(task, variablesToGet);
 
         var channel_index = variablesToGet.indexOf("channel");
@@ -141,7 +141,7 @@ async function preparePostMessage(task) {
             if (callbackId_index >= 0) {
                 msg["callbackId"] = variables[callbackId_index];
                 if (textButtons_index >= 0) {
-                    msg["textButtons"] = variables[textButtons_index].split(",");
+                    msg["textButtons"] = variables[textButtons_index].split(camunda_config.textButtonSplit);
                     if (textConfirmation_index >= 0) {
                         msg["textConfirmation"] = variables[textConfirmation_index].split(",");
                     }
@@ -155,41 +155,41 @@ async function preparePostMessage(task) {
                 console.log(variables);
                 var fieldInformation = variables[buttonValue_index].split("&%");
                 var stringForActionId = fieldInformation[0].split(",");
-                var headlineLeftFieldSplitted = fieldInformation[1].split(",");
-                var headlineRightFieldSplitted = fieldInformation[2].split(",");
+                var leftFieldSplitted = fieldInformation[1].split(",");
+                var rightFieldSplitted = fieldInformation[2].split(",");
                 var buttonNameSplitted = fieldInformation[4].split(",");
                 msg["boldHeadline"] = variables[boldHeadline_index];
-                var lengthOfLeftFields = headlineLeftFieldSplitted.length / 2;
+                var lengthOfLeftFields = leftFieldSplitted.length / 2;
                 if (lengthOfLeftFields > 4) {
                     lengthOfLeftFields = 4;
                 }
-                var lengthOfRightFields = headlineRightFieldSplitted.length / 2;
+                var lengthOfRightFields = rightFieldSplitted.length / 2;
                 if (lengthOfRightFields > 4) {
                     lengthOfRightFields = 4;
                 }
                 msg["type"] = [];
                 for (var i = 0; i < lengthOfLeftFields; i++) {
-                    msg["type"].push(headlineLeftFieldSplitted[i]);
-                    headlineLeftFieldSplitted.splice(i, 1);
+                    msg["type"].push(leftFieldSplitted[i]);
+                    leftFieldSplitted.splice(i, 1);
                 }
                 msg["message"] = []
                 var message = fieldInformation[5] + "&%" + fieldInformation[6] + "&%" + fieldInformation[7] + "&%" + fieldInformation[8];
                 for (var i = 0; i < lengthOfRightFields; i++) {
-                    if (headlineRightFieldSplitted[i] != "false") {
-                        msg["message"].push(headlineRightFieldSplitted[i] + "&%" + message);
+                    if (rightFieldSplitted[i] != "false") {
+                        msg["message"].push(rightFieldSplitted[i] + "&%" + message);
                     } else {
                         msg["message"].push(message);
                     }
-                    headlineRightFieldSplitted.splice(i, 1);
+                    rightFieldSplitted.splice(i, 1);
                 }
-                msg["headlineLeftField"] = headlineLeftFieldSplitted.splice(0, 4);
-                msg["headlineRightField"] = headlineRightFieldSplitted.splice(0, 4);
+                msg["leftField"] = leftFieldSplitted.splice(0, 4);
+                msg["rightField"] = rightFieldSplitted.splice(0, 4);
                 msg["textOptions"] = fieldInformation[3].split(",");
                 msg["actionId"] = stringForActionId.splice(0, 4);
                 msg["changes"] = variables[changes_index];
                 
 
-                if (headlineLeftFieldSplitted.length == 0) {
+                if (leftFieldSplitted.length == 0) {
                     msg["buttonName"] = buttonNameSplitted[buttonNameSplitted.length - 1];
                     msg["buttonMessage"] = message;
                     msg["buttonActionId"] = "lastMessage";
@@ -198,7 +198,8 @@ async function preparePostMessage(task) {
                     msg["buttonName"] = buttonNameSplitted[0];
                     msg["buttonMessage"] = "0&%0&%0&%0"
                     msg["buttonActionId"] = "nextpage"
-                    msg["buttonValue"] = stringForActionId + "&%" + headlineLeftFieldSplitted.join() + "&%" + headlineRightFieldSplitted.join() + "&%" + fieldInformation[3] + "&%" + buttonNameSplitted.toString() + "&%" + message;
+                    msg["buttonValue"] = stringForActionId + "&%" + leftFieldSplitted.join() + "&%" + rightFieldSplitted.join() + "&%" + fieldInformation[3] + "&%" + buttonNameSplitted.toString() + "&%" + message;
+                    buttonNameSplitted.splice(0, 1);
                 }
 
             }

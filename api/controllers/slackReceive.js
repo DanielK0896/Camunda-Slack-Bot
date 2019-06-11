@@ -1,4 +1,5 @@
 var mod = require('./modules');
+var camunda_config = require('./camunda_config');
 var callback = function postCallback(body, resolve, reject) {
     try {
         var bodyParsed = JSON.parse(body);
@@ -10,10 +11,6 @@ var callback = function postCallback(body, resolve, reject) {
     }
 };
 
-var basicResponse = {
-    "response_type": "ephemeral", "replace_original": false,
-    "text": "Deine Nachricht ist angekommen!"
-};
 module.exports = {
     slackReceive: slackReceive
 };
@@ -28,10 +25,10 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var dialogNumber;
     
     if (msg.type == "interactive_message") {
-        taskid = msg.callback_id.split('&%');
+        taskid = msg.callback_id.split(camunda_config.taskidSplit);
         pushedButton = msg.actions[0].value;
     } else if (msg.type == "dialog_submission") {
-        taskid = msg.callback_id.split('&%');
+        taskid = msg.callback_id.split(camunda_config.taskidSplit);
         for (dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
             if (typeof msg.submission[dialogNumber] != "undefined") {
                 pushedButton = msg.submission[dialogNumber]; 
@@ -39,14 +36,14 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }      
         }
     } else if (msg.type == "block_actions") {                    //block element action
-        taskid = msg.actions[0].block_id.split('&%');          
-        var actionId = msg.actions[0].action_id.split('&%');  
+        taskid = msg.actions[0].block_id.split(camunda_config.taskidSplit);          
+        var actionId = msg.actions[0].action_id.split(camunda_config.actionIdSplit);  
         msg.actions[0].action_id = actionId.splice(0, 1).toString();
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
             actionValue = parseInt(pushedButton, 10);
         } else if (msg.actions[0].type == "button") {                                     // button
-            pushedButton = msg.actions[0].value.split("&%");
+            pushedButton = msg.actions[0].value.split(camunda_config.pushButtonSplit);
         } else if (msg.actions[0].type == "users_select") {                              //select menu: user
             pushedButton = msg.actions[0].selected_user;
         } else if (msg.actions[0].type == "channels_select") {                           //select menu: channel
@@ -71,7 +68,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 updateMsg["channel"] = msg.channel.id;
                 updateMsg["text"] = "Deine Nachricht ist angekommen:";
                 for (x in msg.submission) {
-                    updateMsg["text"] += "&%" + msg.submission[x];
+                    updateMsg["text"] += " " + msg.submission[x];
                 }
                 updateMsg["ts"] = taskid[taskid.length - 1];
                 console.log(updateMsg);
@@ -79,23 +76,18 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
         } else {
             handleMessage(taskid, pushedButton, msg);
-            res.json(basicResponse);
+            res.json(camunda_config.basicResponse);
         }
     } else if (taskid[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskid[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
             handleDialog(taskid, msg);
             res.status(200).type('application/json').end();
         } else if (pushedButton != taskid[1]) {
-            var callbackId = taskid[3].split(',');
-            if (callbackId[0] == "message") {
-                callbackId[1] += "," + callbackId[2] + "," + callbackId[3] + "," + callbackId[4];
-                callbackId[2] = callbackId[5];
-                callbackId[3] = callbackId[6];
-                var i;
-                for (i = 7; i < callbackId.length; i++) {
-                    callbackId[3] += "," + callbackId[i];
-                }
-                callbackId.splice(4, 3 + (i - 7));
+            var callbackId = [];
+            for (var i = 0; i < 5; i++) {
+                if (taskid[3 + i] != "undefined") {
+                    callbackId.push(taskid[3 + i]);
+                }         
             }
             handleMessage(callbackId, pushedButton);
             res.status(200).type('application/json').end();
@@ -107,25 +99,22 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }
     if (msg.type == "block_actions") {
         var payload = {};
-        console.log(taskid[0]);
         if (taskid[0] == "dialog") {
-            console.log(taskid[0]);
-
-
-        } else if (msg.actions[0].type != "button" && actionId[2] != "") {                           //If action type != button
+            //empty
+        } else if (msg.actions[0].type != "button" && actionId[1] != "") {                           //If action type != button && actionId (=changes) != empty
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
 
             var changes = actionId;
-            var recentChanges = changes[actionValue].split('.');    //changes depending on selected_options for activated block
+            var recentChanges = changes[actionValue].split(camunda_config.propertiesSplit);    //changes depending on selected_options for activated block
             if (recentChanges[0] == "") {
                 recentChanges[0] = taskid[taskid.length - 1]
             } else {
                 recentChanges.unshift(taskid[taskid.length - 1]);
             }
             recentChanges[0] = parseInt(recentChanges[0], 10) * 2 + 2;
-            changes[actionValue] = recentChanges.join('.');
+            changes[actionValue] = recentChanges.join(camunda_config.propertiesSplit);
             changes[(actionValue + changes.length / 2)]
             try {
                 changes[(actionValue + changes.length / 2)] = JSON.parse(changes[(actionValue + changes.length / 2)]);    //parses changes if possible
@@ -146,34 +135,34 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
-            var headlineLeftField = pushedButton[1].split(',');
-            var headlineRightField = pushedButton[2].split(',');
-            var message = pushedButton[5] + "&%" + pushedButton[6] + "&%" + pushedButton[7] + "&%" + pushedButton[8];
-            var lengthOfFields = headlineLeftField.length / 2;
+            var leftField = pushedButton[1].split(camunda_config.leftField);
+            var rightField = pushedButton[2].split(camunda_config.rightField);
+            var message = pushedButton[5] + camunda_config.message + pushedButton[6] + camunda_config.message + pushedButton[7] + camunda_config.message + pushedButton[8];
+            var lengthOfFields = leftField.length / 2;
             if (lengthOfFields > 4) {
                 lengthOfFields = 4;
             }
-            var lengthOfRightFields = headlineRightField.length / 2;
+            var lengthOfRightFields = rightField.length / 2;
             if (lengthOfRightFields > 4) {
                 lengthOfRightFields = 4;
             }
             var types = [];
             for (var i = 0; i < lengthOfFields; i++) {            
-                types.push(headlineLeftField[i]);       
-                headlineLeftField.splice(i, 1);
+                types.push(leftField[i]);       
+                leftField.splice(i, 1);
             }
             var ifDialog = [];
             for (var i = 0; i < lengthOfRightFields; i+=2) {
-                ifDialog.push(headlineRightField[i]);
-                headlineRightField.splice(i, 1);
+                ifDialog.push(rightField[i]);
+                rightField.splice(i, 1);
             }
 
-            var actionsLeft = headlineLeftField.length;
+            var actionsLeft = leftField.length;
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
-            var headlineLeftFieldSplitted = headlineLeftField.splice(0, 4);
-            var headlineRightFieldSplitted = headlineRightField.splice(0, 4);
+            var leftFieldSplitted = leftField.splice(0, 4);
+            var rightFieldSplitted = rightField.splice(0, 4);
             var stringForActionIdSplitted = pushedButton[0].split(',');
             var lastBlock = actionsLeft * 2 + 2;
             if (actionsLeft == 3) {
@@ -187,16 +176,16 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 var s = (i + 1) * 2;
                 if (types[i] == "overflow") {
                     try {
-                        payload["blocks"][s].fields[0].text = headlineLeftFieldSplitted[i];
-                        payload["blocks"][s].fields[1].text = headlineRightFieldSplitted[i];
+                        payload["blocks"][s].fields[0].text = leftFieldSplitted[i];
+                        payload["blocks"][s].fields[1].text = rightFieldSplitted[i];
                     } catch (e) {
                         payload["blocks"][s].fields = [
                             {
                                 "type": "mrkdwn",
-                                "text": headlineLeftFieldSplitted[i]
+                                "text": leftFieldSplitted[i]
                             }, {
                                 "type": "mrkdwn",
-                                "text": headlineRightFieldSplitted[i]
+                                "text": rightFieldSplitted[i]
                             }];
                     }
                 } else {
@@ -204,7 +193,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                         delete payload["blocks"][s].accessory.options;
                         delete payload["blocks"][s].fields;
                     } catch (e) { console.log(e);}                
-                    payload["blocks"][s].text = { "type": "mrkdwn", "text": headlineLeftFieldSplitted[i] };
+                    payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldSplitted[i] };
                     payload["blocks"][s].accessory.confirm = {
                         "title": {
                             "type": "plain_text",
@@ -223,7 +212,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                             "text": "Nein"
                         }
                     };
-                    payload["blocks"][s].text.text = headlineLeftFieldSplitted[i];
+                    payload["blocks"][s].text.text = leftFieldSplitted[i];
                 }
                 if (ifDialog[i] != "false") {
                     payload["blocks"][s][block_id] = ifDialog[i] + "&%" + message + "&%" + taskid[taskid.length - 1];
@@ -237,7 +226,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
             }
             stringForActionIdSplitted.splice(0, 4);
-            if (headlineLeftFieldSplitted.length == 0) {
+            if (leftFieldSplitted.length == 0) {
                 var buttonName = pushedButton[4].split(',');
                 var blockId = msg.message.blocks[2].block_id.split(' ');
                 blockId = [blockId[0] + "&%" + blockId[1] + "&%" + blockId[2] + "&%" + blockId[3]];
@@ -246,7 +235,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 payload["blocks"][lastBlock].elements[0].action_id = "lastMessage";
                 payload["blocks"][lastBlock].elements[0].value = "lastMessage";
             } else {
-                var buttonValue = stringForActionIdSplitted + "&%" + headlineLeftFieldSplitted.toString() + "&%" + headlineRightFieldSplitted.toString() + "&%" + pushedButton[3] + "&%" + pushedButton[4] + "&%" + message;
+                var buttonValue = stringForActionIdSplitted + "&%" + leftFieldSplitted.toString() + "&%" + rightFieldSplitted.toString() + "&%" + pushedButton[3] + "&%" + pushedButton[4] + "&%" + message;
                 payload["blocks"][s].elements.value = buttonValue[0];
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);

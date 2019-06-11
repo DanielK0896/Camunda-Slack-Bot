@@ -1,0 +1,17 @@
+{
+
+  "basicResponse": {
+    "response_type": "ephemeral",
+    "replace_original": false,
+    "text": "Deine Nachricht ist angekommen!"
+  },
+  "taskidSplit": "&%",
+  "variablesToGetSplit": ",",
+  "textButtonSplit": ",",
+  "actionIdSplit": "&%",
+  "pushButtonSplit": "&%",
+  "propertiesSplit": ".",
+  "message": "&%",
+  "leftField": ",",
+  "rightField": ","
+}
