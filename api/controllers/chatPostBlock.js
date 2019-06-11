@@ -11,7 +11,6 @@ module.exports = {
 
 function chatPostBlock(req, res) {
     var msg = req.swagger.params.body.value;
-    console.log(msg);
     var body = {
         "channel": msg.channel,
         "blocks": [
@@ -110,8 +109,13 @@ function chatPostBlock(req, res) {
     };
 
     request(options, function (error, response, body) {
-        console.log("responseBody chatPostBlock: " + body)
-        res.json(body);
+        if (!error) {
+            var bodyStringified = JSON.stringify(body);
+            res.json(bodyStringified);
+            console.log(JSON.parse(bodyStringified));
+        } else {
+            console.log("responseBody chatPostBlock: " + body);
+        }
     });
 }
 
