@@ -3,6 +3,7 @@
  * variables, including name and value, trough one string named correlationKey. E.g.: name1,name2,value1,value2.*/
 var request = require('request');
 var URL = "http://localhost:8080/engine-rest/message";
+const CAMUNDA_CONFIG = require('./camundaConfig');
 
 module.exports = {
     camundaSendMessage: camundaSendMessage,
@@ -11,7 +12,7 @@ module.exports = {
 
 function camundaSendMessage(req, res) {
     var msg = req.swagger.params.body.value;
-    var correlationKeys = msg.correlationKey.split(',');
+    var correlationKeys = msg.correlationKey.split(CAMUNDA_CONFIG.correlationKeySplit);
     var body = {
         "messageName": msg.message,
         "correlationKeys": {
