@@ -64,6 +64,7 @@ function chatPost(req, res) {
             var bodyStringified = JSON.stringify(body);
             res.json(bodyStringified);
             console.log(JSON.parse(bodyStringified))
+            console.log(bodyStringified)
         } else { console.log("ERROR sendMsg: " + error);}
     });
 }
