@@ -211,7 +211,7 @@ async function preparePostMessage(task) {
                     msg["buttonName"] = "Nächste Seite"
                     msg["buttonMessage"] = "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0";
                     msg["buttonActionId"] = "nextpage";
-                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.actionIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.actionIdSplit + message;
+                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
 
                 }
 
