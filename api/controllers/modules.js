@@ -221,8 +221,8 @@ async function preparePostMessage(task) {
             }
             postToSwaggerAPI(msg, path, callback);
         } else {
-            arrayOfTimeStamps[i] = arrayOfTimeStamps[i]["ts"];
             arrayOfTimeStamps[i] = await postToSwaggerAPI(msg, path, callback);
+            arrayOfTimeStamps[i] = arrayOfTimeStamps[i]["ts"];
         }
 
     };
