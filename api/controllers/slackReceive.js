@@ -298,7 +298,7 @@ function handleDialog(taskid, msg) {
     for (var i = 0; i < 4; i++) {
         callbackId.push(taskid[3 + i]);
     }
-    callbackId.push(msg.message_ts);
+    callbackId.push(msg.container.message_ts);
     arrayOfVariables["callbackId"] = callbackId.join(CAMUNDA_CONFIG.taskIdSplit);                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
     arrayOfVariables["label"] = [];

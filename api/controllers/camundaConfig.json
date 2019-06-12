@@ -31,7 +31,7 @@
   "camundaMessageVariableSplit": ";",
 
   "dialogInTaskIdSplit": "&$$%",
-  "dialogVariablesSplit": ";",
+  "dialogVariablesSplit": "$%",
 
   "propertiesSplit": ".",
   "tsSplit": ";"
