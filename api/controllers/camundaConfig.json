@@ -5,36 +5,32 @@
     "replace_original": false,
     "text": "Deine Nachricht ist angekommen!"
   },
-  //camunda variables splits
+ 
   "variablesToGetSplit": ";",
   "channelSplit": ";",
   "textButtonSplit": ";",
   "textConfirmationSplit": ";",
   "styleSplit": ";",
   "buttonValueSplit": "&%",
-  //changes are part of the message id; text and boldHeadline don't need to be splitted
 
-  //part of buttonValue:
-  "leftFieldSplit": ";", // Split leftField in Block Actions
-  "rightFieldSplit": ";", // Split rightField in Block Actions
+  "leftFieldSplit": ";",
+  "rightFieldSplit": ";", 
   "buttonNameSplit": ";",
   "textOptionsSplit": ";",
-  "actionIdSplit": "&%", // actionId/buttonValue in Block Actions;
+  "actionIdSplit": "&%",
 
 
-  //slackReceive variables splits
-  "taskIdSplit": "&%", // = callbackId or block_id; relevant for message and dialog //dialog in Block_id
+ 
+  "taskIdSplit": "&%", 
 
-  // part of: message
-  "correlationKeySplit": ";", //correlationKeys for delivering a message to Camunda
-  "camundaMessageVariableSplit": ";", //variables to send to Camunda
+ 
+  "correlationKeySplit": ";", 
+  "camundaMessageVariableSplit": ";",
 
-  // part of: dialog
-  "dialogInTaskIdSplit": "$$", //dialogs in rightFields use an other seperator
-  "dialogVariablesSplit": ";", // dialogInformations[2] -> How To Split dailog variables
+  "dialogInTaskIdSplit": "$$",
+  "dialogVariablesSplit": ";",
 
-  //further splits
-  "propertiesSplit": ".", // how to split/join properties; "." is basic
+  "propertiesSplit": ".",
   "tsSplit":  ";"
 }
 
