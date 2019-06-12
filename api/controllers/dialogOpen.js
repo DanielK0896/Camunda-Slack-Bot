@@ -11,7 +11,7 @@ module.exports = {
 
 function dialogOpen(req, res) {
     var msg = req.swagger.params.body.value;
-    console.log("Dialog" + msg);
+    console.log("Dialog" + JSON.stringify(msg));
     var body = {
         "trigger_id": msg.triggerId,
         "dialog": {
@@ -49,7 +49,7 @@ function dialogOpen(req, res) {
         body: body,
         json: true
     };
-
+    console.log(JSON.stringify(body));
     request(options, function (error, response, body) {
         if (!error) {
             var bodyStringified = JSON.stringify(body);
