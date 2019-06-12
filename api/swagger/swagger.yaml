@@ -331,11 +331,11 @@ paths:
                 type: string
               boldHeadline:
                 type: string
-              headlineLeftField:
+              leftField:
                 type: array
                 items:
                   type: string
-              headlineRightField:
+              rightField:
                 type: array
                 items:
                   type: string

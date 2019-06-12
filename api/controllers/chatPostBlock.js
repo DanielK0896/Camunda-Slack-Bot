@@ -26,7 +26,7 @@ function chatPostBlock(req, res) {
         ]
     };
     var i;
-    for (i = 0; i < msg.headlineLeftField.length; i++) {
+    for (i = 0; i < msg.leftField.length; i++) {
         var objectToPush = {
             "type": "divider"
         };
@@ -64,16 +64,16 @@ function chatPostBlock(req, res) {
         if (rightField[i] == "") {
             objectToPush2.text = {
                 "type": "mrkdwn",
-                "text": msg.headlineLeftField[i]
+                "text": msg.leftField[i]
             };
         } else {
             objectToPush2.fields = [
                 {
                     "type": "mrkdwn",
-                    "text": msg.headlineLeftField[i]
+                    "text": msg.leftField[i]
                 }, {
                     "type": "mrkdwn",
-                    "text": msg.headlineRightField[i]
+                    "text": msg.rightField[i]
                 }];
         }
         body.blocks.push(objectToPush);
