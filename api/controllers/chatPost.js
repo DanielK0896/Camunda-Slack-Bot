@@ -58,7 +58,7 @@ function chatPost(req, res) {
         body: body,
         json: true
     };
-
+    console.log(JSON.stringify(body));
     request(options, function (error, response, body) {
         if (!error) {
             var bodyStringified = JSON.stringify(body);
