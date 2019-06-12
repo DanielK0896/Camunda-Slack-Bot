@@ -30,7 +30,7 @@
   "correlationKeySplit": ";",
   "camundaMessageVariableSplit": ";",
 
-  "dialogInTaskIdSplit": "$$",
+  "dialogInTaskIdSplit": "&$$%",
   "dialogVariablesSplit": ";",
 
   "propertiesSplit": ".",
