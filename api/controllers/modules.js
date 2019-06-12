@@ -11,8 +11,7 @@ module.exports = {
     getVariables: getVariables,
     pushSpecificVariables: pushSpecificVariables,
     getChannels: getChannels,
-    getUsers: getUsers,
-    exportVariables: exportVariables
+    getUsers: getUsers
 };
 
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
