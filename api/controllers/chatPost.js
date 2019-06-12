@@ -13,7 +13,7 @@ function chatPost(req, res) {
         "text": msg.text
     };
     if (typeof msg.callbackId != "undefined") {
-        body.attachments.push = [
+        body.attachments = [
             {
                 "fallback": "Two Buttons with Confirmation",
                 "callback_id": msg.callbackId,

@@ -17,7 +17,7 @@ function chatUpdate(req, res) {
         "ts": msg.ts
     };
     if (typeof msg.callbackId != "undefined") {
-        body.attachments.push = [
+        body.attachments = [
             {
                 "fallback": "Two Buttons with Confirmation",
                 "callback_id": msg.callbackId,
