@@ -47,7 +47,7 @@ async function camundaStartProcess(req, res) {
             if (statusCode == 200) {
                 res.json({ "text": "Prozess \"" + process + "\" wird gestartet!" });
             } else {
-                res.json({ "text": "Prozess \"" + process + "\" konnte nicht gestartet werden, bitte wende dich an IT!" });
+                res.json({ "text": "Prozess \"" + process + "\" konnte nicht gestartet werden, versuche es in ein paar Minuten erneut!" });
             }
             console.log("Response Status: " + statusCode);
         } else { console.log("ERROR camundaStartProcess: " + error) }
