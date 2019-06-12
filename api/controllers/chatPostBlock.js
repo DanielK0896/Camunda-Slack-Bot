@@ -106,7 +106,7 @@ function chatPostBlock(req, res) {
         {
             'cache-control': 'no-cache',
             Authorization: secrets.Authorization,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json; charset=utf-8'
         },
         body: body,
         json: true

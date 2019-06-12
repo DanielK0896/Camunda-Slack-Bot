@@ -17,7 +17,7 @@ module.exports = {
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
     return new Promise((resolve, reject) => {
         var headers = {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
             'cache-control': 'no-cache'
         };
         request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json: true }, function (error, response, body) {
