@@ -24,7 +24,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var actionValue = 0;                          //amount of given select options
  
     if (msg.type == "interactive_message") {
-        taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
+        callbackIdParsed = msg.callback_id.split('amp;').join('');
+        taskId = callbackIdParsed.split(CAMUNDA_CONFIG.taskIdSplit);
         pushedButton = msg.actions[0].value;
     } else if (msg.type == "dialog_submission") {
         taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
