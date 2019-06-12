@@ -33,7 +33,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         for (var dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
             if (typeof msg.submission[dialogNumber] != "undefined") {
                 pushedButton.push(msg.submission[dialogNumber]);
-                dialogNumberArray.push(dialogNumber); 
+                dialogNumberArray.push(dialogNumber.toString()); 
             } 
         }
     } else if (msg.type == "block_actions") {                    //block element action
