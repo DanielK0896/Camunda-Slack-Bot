@@ -261,13 +261,15 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
     if (msg != undefined) {
-        for (i = 1; i <= variableInformation.length; i++) {     
-            if (dialogNumberArray != "undefined" && dialogNumberArray.length > 0) {
-                arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
-                arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                for (var i = 0; i < pushedButton.length; i++) {
-                    arrayOfVariables["variable"].push(pushedButton[i]);
-                    arrayOfVariables["nameVariable"].push(dialogNumberArray[i]);
+        for (i = 1; i <= variableInformation.length; i++) {   
+            if (dialogNumberArray != "undefined") {
+                if (dialogNumberArray.length > 0) {
+                    arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
+                    arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
+                    for (var i = 0; i < pushedButton.length; i++) {
+                        arrayOfVariables["variable"].push(pushedButton[i]);
+                        arrayOfVariables["nameVariable"].push(dialogNumberArray[i]);
+                    }
                 }
             } else {
                 try {
