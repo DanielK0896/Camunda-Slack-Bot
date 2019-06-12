@@ -182,25 +182,26 @@ async function preparePostMessage(task) {
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = stringForActionId.splice(0, 4);
                 msg["changes"] = variables[changesIndex];
-                var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
-                for (var i = 0; i < leftFieldArray; i++) {
-                    if (msg["type"][i] == "overflow") {
-                        textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
-                        if (textOptionsArray[0] > 0) {
-                            msg["textOptions"].push(textOptionsArray[1]);
-                            textOptionsArray[0] -= 1;
-                            if (textOptionsArray[0] == 0) {
-                                textOptionsArray.splice(0, 2);
+                if (textOptionsIndex > 0) {
+                    var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
+                    for (var i = 0; i < leftFieldArray; i++) {
+                        if (msg["type"][i] == "overflow") {
+                            textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
+                            if (textOptionsArray[0] > 0) {
+                                msg["textOptions"].push(textOptionsArray[1]);
+                                textOptionsArray[0] -= 1;
+                                if (textOptionsArray[0] == 0) {
+                                    textOptionsArray.splice(0, 2);
+                                }
+                            } else if (textOptionsArray[0] == -1) {
+                                msg["textOptions"].push(textOptionsArray);
                             }
-                        } else if (textOptionsArray[0] == -1) {
-                            msg["textOptions"].push(textOptionsArray);
+                        } else {
+                            msg["textOptions"].push("undefined");
                         }
-                    } else {
-                        msg["textOptions"].push("undefined");
                     }
+                    textOptionsArray[0] = textOptionsArray[0].toString();
                 }
-                textOptionsArray[0] = textOptionsArray[0].toString();
-                    
                 if (leftFieldArray.length == 0) {
                     msg["buttonName"] = "Abschicken"
                     msg["buttonMessage"] = message;
