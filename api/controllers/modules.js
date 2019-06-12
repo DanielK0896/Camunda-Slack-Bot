@@ -150,7 +150,7 @@ async function preparePostMessage(task) {
             if (boldHeadlineIndex >= 0) {
                 path = "/chat/post/block";
                 console.log(variables);
-                var stringForActionId = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdSplit);
+                var actionIdArray = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdSplit);
                 var leftFieldArray = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
                 msg["boldHeadline"] = variables[boldHeadlineIndex];
@@ -180,7 +180,7 @@ async function preparePostMessage(task) {
                 }
                 msg["leftField"] = leftFieldArray.splice(0, 4);
                 msg["rightField"] = rightFieldArray.splice(0, 4);
-                msg["actionId"] = stringForActionId.splice(0, 4);
+                msg["actionId"] = actionIdArray.splice(0, 4);
                 msg["changes"] = variables[changesIndex];
                 if (textOptionsIndex >= 0) {
                     var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
@@ -211,7 +211,7 @@ async function preparePostMessage(task) {
                     msg["buttonName"] = "Nächste Seite"
                     msg["buttonMessage"] = "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0";
                     msg["buttonActionId"] = "nextpage";
-                    msg["buttonValue"] = stringForActionId + CAMUNDA_CONFIG.actionIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.actionIdSplit + message;
+                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.actionIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.actionIdSplit + message;
 
                 }
 

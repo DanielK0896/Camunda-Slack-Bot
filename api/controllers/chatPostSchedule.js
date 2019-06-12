@@ -18,7 +18,7 @@ function chatPostSchedule(req, res) {
         "text": msg.text
     };
     if (typeof msg.callbackId != "undefined") {
-        body.push.attachments = [
+        body.attachments.push = [
             {
                 "fallback": "Two Buttons with Confirmation",
                 "callback_id": msg.callbackId,
