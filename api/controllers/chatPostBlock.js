@@ -61,7 +61,7 @@ function chatPostBlock(req, res) {
                 };
                 objectToPush2.accessory.value = "0";
         } 
-        if (rightField[i] == "") {
+        if (msg.rightField[i] == "") {
             objectToPush2.text = {
                 "type": "mrkdwn",
                 "text": msg.leftField[i]
