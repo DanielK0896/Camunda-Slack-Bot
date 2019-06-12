@@ -34,11 +34,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (typeof msg.submission[dialogNumber] != "undefined") {
                 pushedButton.push(msg.submission[dialogNumber]);
                 dialogNumberArray.push(dialogNumber.toString()); 
-                console.log("innere");
             } 
-            console.log("auﬂen");
         }
-        console.log(dialogNumberArray);
     } else if (msg.type == "block_actions") {                    //block element action
         taskId = msg.actions[0].block_id.split(CAMUNDA_CONFIG.taskIdSplit);          
         var actionId = msg.actions[0].action_id.split(CAMUNDA_CONFIG.actionIdSplit);
@@ -65,7 +62,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     //call function depending on callback_id
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
-            handleMessage(taskId, pushedButton, msg, dialogNumber);
+            handleMessage(taskId, pushedButton, msg, dialogNumberArray);
             res.status(200).type('application/json').end();
             if (taskId[4] == "delete") {
                 var updateMsg = {};
