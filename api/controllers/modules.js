@@ -208,10 +208,10 @@ async function preparePostMessage(task) {
 
             }
         }
-        var listOfChannels = variables[channelIndex].split(CAMUNDA_CONFIG.channelSplit);
-        var arrayOfTimeStamps = [];
-    var i;
-    for (i = 0; i < listOfChannels.length; i++) {
+    var listOfChannels = variables[channelIndex].split(CAMUNDA_CONFIG.channelSplit);
+    var arrayOfTimeStamps = [];
+    console.log(JSON.stringify(msg));
+    for (var i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];
         if (path == '/chat/delete') {
@@ -412,7 +412,6 @@ function getChannels() {
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
         return listOfAllChannels;
-        console.log("In der APP.js angekommen" + listOfChannels);
     });
 }
 
@@ -423,6 +422,5 @@ function getUsers() {
             listOfAllLDAPUsers = pushSpecificVariables(listOfAllLDAPUsers, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
         }
         return listOfAllLDAPUsers;
-        console.log("In der APP.js angekommen" + listOfChannels);
     });
 }
