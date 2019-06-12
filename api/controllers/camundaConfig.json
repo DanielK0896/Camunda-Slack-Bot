@@ -5,7 +5,7 @@
     "replace_original": false,
     "text": "Deine Nachricht ist angekommen!"
   },
- 
+
   "variablesToGetSplit": ";",
   "channelSplit": ";",
   "textButtonSplit": ";",
@@ -14,23 +14,24 @@
   "buttonValueSplit": "&%",
 
   "leftFieldSplit": ";",
-  "rightFieldSplit": ";", 
+  "rightFieldSplit": ";",
   "buttonNameSplit": ";",
-  "textOptionsSplit": ";",
+  "textOptionsOuterSplit": "$$",
+  "textOptionsInnerSplit": ";",
   "actionIdSplit": "&%",
 
 
- 
-  "taskIdSplit": "&%", 
 
- 
-  "correlationKeySplit": ";", 
+  "taskIdSplit": "&%",
+
+
+  "correlationKeySplit": ";",
   "camundaMessageVariableSplit": ";",
 
   "dialogInTaskIdSplit": "$$",
   "dialogVariablesSplit": ";",
 
   "propertiesSplit": ".",
-  "tsSplit":  ";"
+  "tsSplit": ";"
 }
 

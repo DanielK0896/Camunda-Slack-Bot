@@ -15,11 +15,6 @@ module.exports = {
     exportVariables: exportVariables
 };
 
-function exportVariables() {
-    var array = [listOfAllLDAPUsers, listOfAllChannels];
-    return array;
-};
-
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
     return new Promise((resolve, reject) => {
         var headers = {
@@ -82,7 +77,6 @@ async function preparePostMessage(task) {
     var rightFieldIndex = variablesToGet.indexOf("rightField");
     var actionIdIndex = variablesToGet.indexOf("actionId");
     var textOptionsIndex = variablesToGet.indexOf("textOptions");
-    var buttonNameIndex = variablesToGet.indexOf("buttonName");
     var messageIndex = variablesToGet.indexOf("message");
         var msg = {};
         var path;
@@ -158,52 +152,67 @@ async function preparePostMessage(task) {
                 path = "/chat/post/block";
                 console.log(variables);
                 var stringForActionId = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdSplit);
-                var leftFieldSplitted = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
-                var rightFieldSplitted = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
-                var buttonNameSplitted = variables[buttonNameIndex].split(CAMUNDA_CONFIG.buttonNameSplit);
+                var leftFieldArray = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
+                var rightFieldArray = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
                 msg["boldHeadline"] = variables[boldHeadlineIndex];
-                var lengthOfLeftFields = leftFieldSplitted.length / 2;
+                var lengthOfLeftFields = leftFieldArray.length / 2;
                 if (lengthOfLeftFields > 4) {
                     lengthOfLeftFields = 4;
                 }
-                var lengthOfRightFields = rightFieldSplitted.length / 2;
+                var lengthOfRightFields = rightFieldArray.length / 2;
                 if (lengthOfRightFields > 4) {
                     lengthOfRightFields = 4;
                 }
                 msg["type"] = [];
                 for (var i = 0; i < lengthOfLeftFields; i++) {
-                    msg["type"].push(leftFieldSplitted[i]);
-                    leftFieldSplitted.splice(i, 1);
+                    msg["type"].push(leftFieldArray[i]);
+                    leftFieldArray.splice(i, 1);
                 }
                 msg["message"] = []
                 var message = variables[messageIndex];
                 for (var i = 0; i < lengthOfRightFields; i++) {
-                    if (rightFieldSplitted[i] != "false") {
-                        var dialog = rightFieldSplitted[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
+                    if (rightFieldArray[i] != "false") {
+                        var dialog = rightFieldArray[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
                         msg["message"].push(dialog + CAMUNDA_CONFIG.taskIdSplit + message);
                     } else {
                         msg["message"].push(message);
                     }
-                    rightFieldSplitted.splice(i, 1);
+                    rightFieldArray.splice(i, 1);
                 }
-                msg["leftField"] = leftFieldSplitted.splice(0, 4);
-                msg["rightField"] = rightFieldSplitted.splice(0, 4);
-                msg["textOptions"] = variables[textOptionsIndex];
+                msg["leftField"] = leftFieldArray.splice(0, 4);
+                msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = stringForActionId.splice(0, 4);
                 msg["changes"] = variables[changesIndex];
-                
-
-                if (leftFieldSplitted.length == 0) {
-                    msg["buttonName"] = buttonNameSplitted[buttonNameSplitted.length - 1];
+                var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
+                for (var i = 0; i < leftFieldArray; i++) {
+                    if (msg["type"][i] == "overflow") {
+                        textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
+                        if (textOptionsArray[0] > 0) {
+                            msg["textOptions"].push(textOptionsArray[1]);
+                            textOptionsArray[0] -= 1;
+                            if (textOptionsArray[0] == 0) {
+                                textOptionsArray.splice(0, 2);
+                            }
+                        } else if (textOptionsArray[0] == -1) {
+                            msg["textOptions"].push(textOptionsArray);
+                        }
+                    } else {
+                        msg["textOptions"].push("undefined");
+                    }
+                }
+                textOptionsArray[0] = textOptionsArray[0].toString();
+                    
+                if (leftFieldArray.length == 0) {
+                    msg["buttonName"] = "Abschicken"
                     msg["buttonMessage"] = message;
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    msg["buttonName"] = buttonNameSplitted[0];
+                    msg["buttonName"] = "Nächste Seite"
                     msg["buttonMessage"] = "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0";
                     msg["buttonActionId"] = "nextpage";
-                    msg["buttonValue"] = stringForActionId + CAMUNDA_CONFIG.actionIdSplit + leftFieldSplitted.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + rightFieldSplitted.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + variables[textOptionsIndex] + CAMUNDA_CONFIG.actionIdSplit + buttonNameSplitted.join(CAMUNDA_CONFIG.buttonNameSplit) + CAMUNDA_CONFIG.actionIdSplit + message;
-                    buttonNameSplitted.splice(0, 1);
+                    msg["buttonValue"] = stringForActionId + CAMUNDA_CONFIG.actionIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.actionIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.actionIdSplit + message;
+
                 }
 
             }
@@ -276,130 +285,130 @@ var fonts = {
 };
 
 function pushSpecificVariables(arrayOfVariables, variableName, variableValue, msg, array) { //push given variables in given array with given property. Property length can be up to 4
-    var variableNameSplitted = variableName.split('.');
-    var variableValueSplitted = variableValue.split('.');
+    var variableNameArray = variableName.split('.');
+    var variableValueArray = variableValue.split('.');
     if(array != true) {
-        if (variableNameSplitted.length == 2) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
+        if (variableNameArray.length == 2) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]] = msg[variableValueArray[0]][variableValueArray[1]];
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]];
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]];
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]];
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]] = msg[variableValueSplitted[0]];
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]] = msg[variableValueArray[0]];
             }
-        } else if (variableNameSplitted.length == 3) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
+        } else if (variableNameArray.length == 3) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]] = msg[variableValueArray[0]][variableValueArray[1]];
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]];
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]];
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]];
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]] = msg[variableValueSplitted[0]];
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]] = msg[variableValueArray[0]];
             }
-        } else if (variableNameSplitted.length == 4) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
+        } else if (variableNameArray.length == 4) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]] = msg[variableValueArray[0]][variableValueArray[1]];
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]];
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]];
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]];
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]] = msg[variableValueSplitted[0]];
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]] = msg[variableValueArray[0]];
             }
-        } else if (variableNameSplitted.length == 5) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
+        } else if (variableNameArray.length == 5) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]] = msg[variableValueArray[0]][variableValueArray[1]];
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]];
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]];
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]];
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]] = msg[variableValueSplitted[0]];
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]] = msg[variableValueArray[0]];
             }
         } else {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]];
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]];
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]];
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]];
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]] = msg[variableValueArray[0]][variableValueArray[1]];
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]];
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]];
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]] = msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]];
             } else {
-                arrayOfVariables[variableNameSplitted[0]] = msg[variableValueSplitted[0]];
+                arrayOfVariables[variableNameArray[0]] = msg[variableValueArray[0]];
             }
         }
     } else {
-        if (variableNameSplitted.length == 2) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]]);
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]]);
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]]);
+        if (variableNameArray.length == 2) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]].push(msg[variableValueArray[0]][variableValueArray[1]]);
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]]);
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]]);
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]]);
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]].push(msg[variableValueSplitted[0]]);
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]].push(msg[variableValueArray[0]]);
             }
-        } else if (variableNameSplitted.length == 3) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]]);
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]]);
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]].push([variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]]);
+        } else if (variableNameArray.length == 3) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]].push(msg[variableValueArray[0]][variableValueArray[1]]);
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]]);
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]]);
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]].push([variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]]);
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]].push(msg[variableValueSplitted[0]]);
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]].push(msg[variableValueArray[0]]);
             }
-        } else if (variableNameSplitted.length == 4) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]]);
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]]);
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]].push([variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]]);
+        } else if (variableNameArray.length == 4) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]].push(msg[variableValueArray[0]][variableValueArray[1]]);
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]]);
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]]);
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]].push([variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]]);
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]].push(msg[variableValueSplitted[0]]);
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]].push(msg[variableValueArray[0]]);
             }
-        } else if (variableNameSplitted.length == 5) {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]]);
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]]);
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]]);
+        } else if (variableNameArray.length == 5) {
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]].push(msg[variableValueArray[0]][variableValueArray[1]]);
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]]);
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]]);
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]]);
             } else {
-                arrayOfVariables[variableNameSplitted[0]][variableNameSplitted[1]][variableNameSplitted[2]][variableNameSplitted[3]][variableNameSplitted[4]].push(msg[variableValueSplitted[0]]);
+                arrayOfVariables[variableNameArray[0]][variableNameArray[1]][variableNameArray[2]][variableNameArray[3]][variableNameArray[4]].push(msg[variableValueArray[0]]);
             }
         } else {
-            if (variableValueSplitted.length == 2) {
-                arrayOfVariables[variableNameSplitted[0]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]]);
-            } else if (variableValueSplitted.length == 3) {
-                arrayOfVariables[variableNameSplitted[0]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]]);
-            } else if (variableValueSplitted.length == 4) {
-                arrayOfVariables[variableNameSplitted[0]].push(msg[variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]]);
-            } else if (variableValueSplitted.length == 5) {
-                arrayOfVariables[variableNameSplitted[0]].push([variableValueSplitted[0]][variableValueSplitted[1]][variableValueSplitted[2]][variableValueSplitted[3]][variableValueSplitted[4]]);
+            if (variableValueArray.length == 2) {
+                arrayOfVariables[variableNameArray[0]].push(msg[variableValueArray[0]][variableValueArray[1]]);
+            } else if (variableValueArray.length == 3) {
+                arrayOfVariables[variableNameArray[0]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]]);
+            } else if (variableValueArray.length == 4) {
+                arrayOfVariables[variableNameArray[0]].push(msg[variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]]);
+            } else if (variableValueArray.length == 5) {
+                arrayOfVariables[variableNameArray[0]].push([variableValueArray[0]][variableValueArray[1]][variableValueArray[2]][variableValueArray[3]][variableValueArray[4]]);
             } else {
-                arrayOfVariables[variableNameSplitted[0]].push(msg[variableValueSplitted[0]]);
+                arrayOfVariables[variableNameArray[0]].push(msg[variableValueArray[0]]);
             }
         }
     }

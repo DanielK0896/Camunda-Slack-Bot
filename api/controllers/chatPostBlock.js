@@ -40,6 +40,33 @@ function chatPostBlock(req, res) {
         };   
         if (msg.type[i] == "overflow") {
             objectToPush2.accessory.options = [];
+            for (var t = 2; t <= i * 2; t = t + 2) {
+                var textOptionsArray = msg.textOptions[i].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
+                for (var s = 0; s < textOptionsArray.length; s++) {
+                    body.blocks[t].accessory.options.push({
+                        "text": {
+                            "type": "plain_text",
+                            "text": textOptionsArray[s],
+                            "emoji": true
+                        },
+                        "value": s.toString()
+                    });
+                }
+            }
+        } else if (msg.type[i] == "button") {
+                objectToPush2.accessory.text = {
+                    "type": "plain_text",
+                    "text": "Klick",
+                    "emoji": true
+                };
+                objectToPush2.accessory.value = "0";
+        } 
+        if (rightField[i] == "") {
+            objectToPush2.text = {
+                "type": "mrkdwn",
+                "text": msg.headlineLeftField[i]
+            };
+        } else {
             objectToPush2.fields = [
                 {
                     "type": "mrkdwn",
@@ -48,32 +75,7 @@ function chatPostBlock(req, res) {
                     "type": "mrkdwn",
                     "text": msg.headlineRightField[i]
                 }];
-            for (var t = 2; t <= i * 2; t = t + 2) {
-                for (var s = 0; s < msg.textOptions.length; s++) {
-                    body.blocks[t].accessory.options.push({
-                        "text": {
-                            "type": "plain_text",
-                            "text": msg.textOptions[s],
-                            "emoji": true
-                        },
-                        "value": s.toString()
-                    });
-                }
-            }
-        } else {
-            objectToPush2.text = {
-                "type": "mrkdwn",
-                "text": msg.headlineLeftField[i]
-            };
-            if (msg.type[i] == "button") {
-                objectToPush2.accessory.text = {
-                    "type": "plain_text",
-                    "text": "Klick",
-                    "emoji": true
-                };
-                objectToPush2.accessory.value = "0";
-            } 
-        }   
+        }
         body.blocks.push(objectToPush);
         body.blocks.push(objectToPush2);
     }

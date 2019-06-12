@@ -131,13 +131,14 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             };
             console.log(payload);
             mod.postToSwaggerAPI(payload, "/chat/delete", callback);
-        }  else if (msg.actions[0].type == "button") {
+        } else if (msg.actions[0].type == "button") {
             payload["channel"] = msg.container.channel_id;
             payload["ts"] = msg.container.message_ts;
             payload["blocks"] = msg.message.blocks;
             var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
             var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
-            var message = pushedButton[5] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[6] + CAMUNDA_CONFIG.message + pushedButton[7] + CAMUNDA_CONFIG.message + pushedButton[8];
+            var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
+            var message = pushedButton[4] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[5] + CAMUNDA_CONFIG.message + pushedButton[6] + CAMUNDA_CONFIG.message + pushedButton[7];
             var lengthOfFields = leftField.length / 2;
             if (lengthOfFields > 4) {
                 lengthOfFields = 4;
@@ -147,8 +148,8 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 lengthOfRightFields = 4;
             }
             var types = [];
-            for (var i = 0; i < lengthOfFields; i++) {            
-                types.push(leftField[i]);       
+            for (var i = 0; i < lengthOfFields; i++) {
+                types.push(leftField[i]);
                 leftField.splice(i, 1);
             }
             var ifDialog = [];
@@ -162,9 +163,9 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (actionsLeft > 4) {
                 actionsLeft = 4;
             }
-            var leftFieldSplitted = leftField.splice(0, 4);
-            var rightFieldSplitted = rightField.splice(0, 4);
-            var stringForActionIdSplitted = pushedButton[0].split(CAMUNDA_CONFIG.actionIdSplit);
+            var leftFieldArray = leftField.splice(0, 4);
+            var rightFieldArray = rightField.splice(0, 4);
+            var stringForActionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdSplit);
             var lastBlock = actionsLeft * 2 + 2;
             if (actionsLeft == 3) {
                 payload["blocks"].splice(7, 2);
@@ -176,25 +177,37 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             for (var i = 0; i < actionsLeft; i++) {
                 var s = (i + 1) * 2;
                 if (types[i] == "overflow") {
+                    textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
+                    if (textOptionsArray[0] > 0) {
+                        payload["blocks"][s].accessory.options = textOptionsArray[1];
+                        textOptionsArray[0] -= 1;
+                        if (textOptionsArray[0] == 0) {
+                            textOptionsArray.splice(0, 2);
+                        }
+                    } else if (textOptionsArray[0] == -1) {
+                        payload["blocks"][s].accessory.options = textOptionsArray[1];
+                    }
+                    textOptionsArray[0] = textOptionsArray[0].toString();
                     try {
-                        payload["blocks"][s].fields[0].text = leftFieldSplitted[i];
-                        payload["blocks"][s].fields[1].text = rightFieldSplitted[i];
+                        payload["blocks"][s].fields[0].text = leftFieldArray[i];
+                        payload["blocks"][s].fields[1].text = rightFieldArray[i];
                     } catch (e) {
                         payload["blocks"][s].fields = [
                             {
                                 "type": "mrkdwn",
-                                "text": leftFieldSplitted[i]
+                                "text": leftFieldArray[i]
                             }, {
                                 "type": "mrkdwn",
-                                "text": rightFieldSplitted[i]
+                                "text": rightFieldArray[i]
                             }];
                     }
                 } else {
                     try {
+                        msg["textOptions"].push("undefined");
                         delete payload["blocks"][s].accessory.options;
                         delete payload["blocks"][s].fields;
-                    } catch (e) { console.log(e);}                
-                    payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldSplitted[i] };
+                    } catch (e) { console.log(e); }
+                    payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
                     payload["blocks"][s].accessory.confirm = {
                         "title": {
                             "type": "plain_text",
@@ -213,27 +226,26 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                             "text": "Nein"
                         }
                     };
-                    payload["blocks"][s].text.text = leftFieldSplitted[i];
+                    payload["blocks"][s].text.text = leftFieldArray[i];
                 }
                 if (ifDialog[i] != "false") {
                     payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
                 } else {
                     payload["blocks"][s][block_id] = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
                 }
-                payload["blocks"][s].accessory.action_id = stringForActionIdSplitted[i];
+                payload["blocks"][s].accessory.action_id = stringForActionIdArray[i];
                 payload["blocks"][s].accessory.type = types[i]; 
                 if (i == 3) {
                     break;
                 }
             }
-            stringForActionIdSplitted.splice(0, 4);
-            if (leftFieldSplitted.length == 0) {
-                var buttonName = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
-                payload["blocks"][lastBlock].elements[0].text.text = buttonName[buttonName.length - 1];
+            stringForActionIdArray.splice(0, 4);
+            if (leftFieldArray.length == 0) {
+                payload["blocks"][lastBlock].elements[0].text.text = "Abschicken";
                 payload["blocks"][lastBlock].elements[0].action_id = "lastMessage";
                 payload["blocks"][lastBlock].elements[0].value = "lastMessage";
             } else {
-                var buttonValue = stringForActionIdSplitted + CAMUNDA_CONFIG.taskIdSplit + leftFieldSplitted.toString() + CAMUNDA_CONFIG.taskIdSplit + rightFieldSplitted.toString() + CAMUNDA_CONFIG.taskIdSplit + pushedButton[3] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[4] + CAMUNDA_CONFIG.taskIdSplit + message;
+                var buttonValue = stringForActionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(CAMUNDA_CONFIG.textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
                 payload["blocks"][s].elements.value = buttonValue[0];
             }
             payload["blocks"] = JSON.stringify(payload["blocks"]);
