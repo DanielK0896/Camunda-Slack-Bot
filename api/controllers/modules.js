@@ -182,7 +182,7 @@ async function preparePostMessage(task) {
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = stringForActionId.splice(0, 4);
                 msg["changes"] = variables[changesIndex];
-                if (textOptionsIndex > 0) {
+                if (textOptionsIndex >= 0) {
                     var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
                     for (var i = 0; i < leftFieldArray; i++) {
                         if (msg["type"][i] == "overflow") {
