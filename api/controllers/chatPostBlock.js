@@ -32,7 +32,7 @@ function chatPostBlock(req, res) {
         };
         var objectToPush2 = {
             "type": "section",
-            "block_id": msg.message + CAMUNDA_CONFIG.taskIdSplit + i,
+            "block_id": msg.message[i] + CAMUNDA_CONFIG.taskIdSplit + i,
             "accessory": {
                 "type": msg.type[i],
                 "action_id": msg.actionId[i] + CAMUNDA_CONFIG.actionIdSplit + msg.changes
