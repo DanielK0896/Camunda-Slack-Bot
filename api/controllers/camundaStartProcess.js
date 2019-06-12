@@ -1,7 +1,7 @@
 /* Example for starting a Camunda process via API passing required variables*/
 
 var request = require('request');
-var URL = "http://localhost:8080/engine-rest/process-definition/key/";
+
 var processJSON = require('./processes');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
 async function camundaStartProcess(req, res) {
 
     var process = req.swagger.params.process.value;
-    URL = URL + process + "/start"
+    var URL = "http://localhost:8080/engine-rest/process-definition/key/" + process + "/start"
     body = {};
     for (var processIndex = 0; processIndex < Object.keys(processJSON).length; processIndex++) {
         if (typeof processJSON[processIndex][process] != "undefined") {
