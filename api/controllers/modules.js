@@ -211,6 +211,7 @@ async function preparePostMessage(task) {
     var listOfChannels = variables[channelIndex].split(CAMUNDA_CONFIG.channelSplit);
     var arrayOfTimeStamps = [];
     console.log(JSON.stringify(msg));
+    console.log(path);
     for (var i = 0; i < listOfChannels.length; i++) {
         listOfChannels[i] = listOfAllChannels[listOfChannels[i]];
         msg["channel"] = listOfChannels[i];

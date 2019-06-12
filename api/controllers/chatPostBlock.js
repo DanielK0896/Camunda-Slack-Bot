@@ -12,6 +12,7 @@ module.exports = {
 
 function chatPostBlock(req, res) {
     var msg = req.swagger.params.body.value;
+    console.log("Message arrived");
     var body = {
         "channel": msg.channel,
         "blocks": [
