@@ -181,7 +181,11 @@ async function preparePostMessage(task) {
                 msg["leftField"] = leftFieldArray.splice(0, 4);
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = actionIdArray.splice(0, 4);
-                msg["changes"] = variables[changesIndex];
+                if (changesIndex == -1) {
+                    msg["changes"] = ";";
+                } else {
+                    msg["changes"] = variables[changesIndex];
+                }
                 if (textOptionsIndex >= 0) {
                     var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
                     for (var i = 0; i < leftFieldArray; i++) {
