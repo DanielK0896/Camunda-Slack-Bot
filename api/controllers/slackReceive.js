@@ -85,7 +85,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         } else if (pushedButton != taskId[1]) {
             var callbackId = [];
             for (var i = 0; i < 5; i++) {
-                if (taskId[3 + i] != "undefined") {
+                if (typeof taskId[3 + i] != "undefined") {
                     callbackId.push(taskId[3 + i]);
                 }         
             }
@@ -262,7 +262,7 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
     arrayOfVariables["variable"] = [];
     if (msg != undefined) {
         for (i = 1; i <= variableInformation.length; i++) {   
-            if (dialogNumberArray != "undefined") {
+            if (typeof dialogNumberArray != "undefined") {
                 if (dialogNumberArray.length > 0) {
                     arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
@@ -304,7 +304,7 @@ function handleDialog(taskid, msg, actionId) {
         callbackId.push(taskid[3 + i]);
     }
     callbackId.push(msg.container.message_ts);
-    if (actionId != "undefined") {
+    if (typeof actionId != "undefined") {
         callbackId.push(actionId);
     }
     arrayOfVariables["callbackId"] = callbackId.join(CAMUNDA_CONFIG.taskIdSplit);                     //callbackId[3] = new Callback ID
