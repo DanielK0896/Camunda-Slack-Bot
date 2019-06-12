@@ -22,24 +22,23 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var taskId = [];
     var pushedButton; 
     var actionValue = 0;                          //amount of given select options
-    var dialogNumber;
-    
+    var dialogNumberArray;
+ 
     if (msg.type == "interactive_message") {
         taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
         pushedButton = msg.actions[0].value;
     } else if (msg.type == "dialog_submission") {
         taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
-        for (dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
+        for (var dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
             if (typeof msg.submission[dialogNumber] != "undefined") {
-                pushedButton = msg.submission[dialogNumber]; 
-                break;
-            }      
+                pushedButton.push(msg.submission[dialogNumber]);
+                dialogNumberArray.push(dialogNumber); 
+            } 
         }
     } else if (msg.type == "block_actions") {                    //block element action
         taskId = msg.actions[0].block_id.split(CAMUNDA_CONFIG.taskIdSplit);          
         var actionId = msg.actions[0].action_id.split(CAMUNDA_CONFIG.actionIdSplit);
         msg.actions[0].action_id = actionId.splice(0, 1).toString();
-        console.log("msg.actions[0].action_id" + msg.actions[0].action_id);
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.value;
             actionValue = parseInt(pushedButton, 10);
@@ -81,7 +80,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         }
     } else if (taskId[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskId[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
-            handleDialog(taskId, msg);
+            handleDialog(taskId, msg, msg.actions[0].action_id);
             res.status(200).type('application/json').end();
         } else if (pushedButton != taskId[1]) {
             var callbackId = [];
@@ -256,27 +255,31 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     }
 }
 
-function handleMessage(taskid, pushedButton, msg, dialogNumber) {
+function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
     var arrayOfVariables = {};
     var variableInformation = taskid[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
     if (msg != undefined) {
-        for (i = 1; i <= variableInformation.length; i++) {                  
-            try {
-                arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+        for (i = 1; i <= variableInformation.length; i++) {     
+            if (dialogNumberArray != "undefined" && dialogNumberArray.length > 0) {
+                arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
                 arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                if (typeof pushedButton != "undefined") {
-                    arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit + arrayOfVariables["variable"]);
+                for (var i = 0; i < pushedButton.length; i++) {
+                    arrayOfVariables["variable"].push(pushedButton[i]);
+                    arrayOfVariables["nameVariable"].push(dialogNumberArray[i]);
                 }
-            } catch (e) {
-                if (dialogNumber != "undefined") {
-                    arrayOfVariables["variable"].push(pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumber);
+            } else {
+                try {
+                    arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                } else {
+                    if (typeof pushedButton != "undefined") {
+                        arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit + arrayOfVariables["variable"]);
+                    }
+                } catch (e) {
                     arrayOfVariables["variable"].push(pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit);
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                }
+                }           
             }
         }
     } else {
@@ -290,7 +293,7 @@ function handleMessage(taskid, pushedButton, msg, dialogNumber) {
     mod.postToSwaggerAPI(arrayOfVariables, path, callback);
 }
 
-function handleDialog(taskid, msg) {
+function handleDialog(taskid, msg, actionId) {
     var arrayOfVariables = {};
     var variablesForDialog = taskid[2].split(CAMUNDA_CONFIG.dialogVariablesSplit);                  //callbackId[2] = first dialog element e.g. "text"
     arrayOfVariables["triggerId"] = msg.trigger_id;
@@ -299,6 +302,9 @@ function handleDialog(taskid, msg) {
         callbackId.push(taskid[3 + i]);
     }
     callbackId.push(msg.container.message_ts);
+    if (actionId != "undefined") {
+        callbackId.push(actionId);
+    }
     arrayOfVariables["callbackId"] = callbackId.join(CAMUNDA_CONFIG.taskIdSplit);                     //callbackId[3] = new Callback ID
     arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
     arrayOfVariables["label"] = [];
