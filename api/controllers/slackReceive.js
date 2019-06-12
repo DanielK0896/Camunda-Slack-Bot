@@ -22,7 +22,6 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     var taskId = [];
     var pushedButton; 
     var actionValue = 0;                          //amount of given select options
-    var dialogNumberArray;
  
     if (msg.type == "interactive_message") {
         taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
@@ -30,6 +29,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
     } else if (msg.type == "dialog_submission") {
         taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
         var pushedButton = [];
+        var dialogNumberArray = [];
         for (var dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
             if (typeof msg.submission[dialogNumber] != "undefined") {
                 pushedButton.push(msg.submission[dialogNumber]);
