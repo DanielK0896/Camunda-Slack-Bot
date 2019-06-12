@@ -29,6 +29,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         pushedButton = msg.actions[0].value;
     } else if (msg.type == "dialog_submission") {
         taskId = msg.callback_id.split(CAMUNDA_CONFIG.taskIdSplit);
+        var pushedButton = [];
         for (var dialogNumber = 0; dialogNumber < 5; dialogNumber++) {
             if (typeof msg.submission[dialogNumber] != "undefined") {
                 pushedButton.push(msg.submission[dialogNumber]);
