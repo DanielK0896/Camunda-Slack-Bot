@@ -34,8 +34,11 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             if (typeof msg.submission[dialogNumber] != "undefined") {
                 pushedButton.push(msg.submission[dialogNumber]);
                 dialogNumberArray.push(dialogNumber.toString()); 
+                console.log("innere");
             } 
+            console.log("auﬂen");
         }
+        console.log(dialogNumberArray);
     } else if (msg.type == "block_actions") {                    //block element action
         taskId = msg.actions[0].block_id.split(CAMUNDA_CONFIG.taskIdSplit);          
         var actionId = msg.actions[0].action_id.split(CAMUNDA_CONFIG.actionIdSplit);
