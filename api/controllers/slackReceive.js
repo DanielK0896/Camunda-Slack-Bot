@@ -305,7 +305,11 @@ function handleDialog(taskid, msg, actionId) {
     for (var i = 0; i < 4; i++) {
         callbackId.push(taskid[3 + i]);
     }
-    callbackId.push(msg.container.message_ts);
+    try {
+        callbackId.push(msg.container.message_ts);
+    } catch (e) {
+        callbackId.push(msg.message_ts);
+    }
     if (typeof actionId != "undefined") {
         callbackId.push(actionId);
     }
