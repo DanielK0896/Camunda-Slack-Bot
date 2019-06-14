@@ -150,7 +150,7 @@ async function preparePostMessage(task) {
             if (boldHeadlineIndex >= 0) {
                 path = "/chat/post/block";
                 console.log(variables);
-                var actionIdArray = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdSplit);
+                var actionIdArray = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdOuterSplit);
                 var leftFieldArray = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
                 msg["boldHeadline"] = variables[boldHeadlineIndex];
@@ -187,7 +187,7 @@ async function preparePostMessage(task) {
                     msg["changes"] = variables[changesIndex];
                 }
                 if (textOptionsIndex >= 0) {
-                    var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOutterSplit);
+                    var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
                     for (var i = 0; i < leftFieldArray; i++) {
                         if (msg["type"][i] == "overflow") {
                             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)

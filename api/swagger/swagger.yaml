@@ -354,7 +354,9 @@ paths:
                 items:
                   type: string
               buttonName:
-                type: string
+                type: array
+                items:
+                  type: string
               buttonValue:
                 type: string
               buttonActionId:
@@ -640,7 +642,7 @@ paths:
             $ref: "#/definitions/ErrorResponse" 
   /camunda/instance/getId:
     x-swagger-router-controller: camundaInstance
-    get:
+    POST:
       operationId: camundaInstanceGetId
       consumes:
         - application/json
@@ -663,10 +665,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-  /camunda/instance/deleteVariable:
+  /camunda/instance/variable/delete:
     x-swagger-router-controller: camundaInstance
-    get:
-      operationId: camundaInstanceDeleteVariable
+    POST:
+      operationId: camundaInstanceVariableDelete
       consumes:
         - application/json
       produces:
@@ -690,8 +692,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-
-
+  /camunda/instance/variable/get:
+    x-swagger-router-controller: camundaInstance
+    POST:
+      operationId: camundaInstanceVariableGet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              instanceId:
+                type: string
+              variable:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
 definitions:
   jsonResponse:
     required:

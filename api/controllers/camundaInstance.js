@@ -4,34 +4,66 @@
  camundaInstanceDeleteVariable: With the instance id you can delete process variables via API*/
 
 var request = require('request');
-var URL = "http://localhost:8080/engine-rest/process-instance";
+const CAMUNDA_CONFIG = require('./camundaConfig');
 
 module.exports = {
     camundaInstanceGetId: camundaInstanceGetId,
-    camundaInstanceDeleteVariable: camundaInstanceDeleteVariable
+    camundaInstanceVariableDelete: camundaInstanceVariableDelete,
+    camundaInstanceVariableGet: camundaInstanceVariableGet
+
 };
 
 function camundaInstanceGetId(req, res) {
     var msg = req.swagger.params.body.value;
-    var correlationKeys = msg.correlationKey.split(',');
+    var correlationKeys = msg.correlationKey.split(CAMUNDA_CONFIG.correlationKeySplit);
     for (var i = 2; i < 4; i++) {
         correlationKeys[i] = changeFormat(correlationKeys[i]);
     }
-    URL += "?variables=" + correlationKeys[0]+ "_eq_" + correlationKeys[2] + "," + correlationKeys[1] + "_eq_" + correlationKeys[3];
-
-    request.get({url: URL});
-    res.status(200).type('application/json').end();
+    var URL = "http://localhost:8080/engine-rest/process-instance" + "?variables=" + correlationKeys[0]+ "_eq_" + correlationKeys[2] + "," + correlationKeys[1] + "_eq_" + correlationKeys[3];
+    var options = {
+        method: 'GET',
+        url: URL
+    };
+    request(options, function (error, response, body) {
+        if (!error) {
+            var responseStringified = JSON.stringify(response);
+            res.json(responseStringified);
+        } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
+    });
 }
 
-function camundaInstanceDeleteVariable(req, res) {
+function camundaInstanceVariableGet(req, res) {
+    var msg = req.swagger.params.body.value;
+    var URL = "http://localhost:8080/engine-rest/process-instance" + msg.id + "/variables/" + msg.variableName;
+    var options = {
+        method: 'GET',
+        url: URL
+    };
+       request(options, function (error, response, body) {
+        if (!error) {
+            var responseStringified = JSON.stringify(response);
+            res.json(responseStringified);
+        } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
+    });
+}
+
+function camundaInstanceVariableDelete(req, res) {
 
     var msg = req.swagger.params.body.value;
     var instanceId = msg.instanceId;
     var variable = msg.variable;
-    URL += "/" + instanceId + "/variables/" + variable;
+    var URL = "http://localhost:8080/engine-rest/process-instance/" + instanceId + "/variables/" + variable;
 
-    request.del({url: URL});
-    res.status(200).type('application/json').end();
+    var options = {
+        method: 'GET',
+        url: URL
+    };
+    request(options, function (error, response, body) {
+        if (!error) {
+            var responseStringified = JSON.stringify(response);
+            res.json(responseStringified);
+        } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
+    });
 }
 
 function changeFormat(variable) {

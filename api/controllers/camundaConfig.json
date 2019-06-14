@@ -16,10 +16,12 @@
 
   "leftFieldSplit": ";",
   "rightFieldSplit": ";",
-  "buttonNameSplit": ";",
+  "buttonNameOuterSplit": ";",
+  "buttonNameInnerSplit": "$$",
   "textOptionsOuterSplit": "$$",
   "textOptionsInnerSplit": ";",
-  "actionIdSplit": ";",
+  "actionIdOuterSplit": ";",
+  "actionIdInnerSplit": "$$",
 
 
 

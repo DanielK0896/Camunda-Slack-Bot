@@ -36,7 +36,7 @@ function chatPostBlock(req, res) {
                 "type": msg.type[i],
                 "action_id": msg.actionId[i] + CAMUNDA_CONFIG.actionIdSplit + msg.changes
             }
-        };   
+        };
         if (msg.type[i] == "overflow") {
             objectToPush2.accessory.options = [];
             for (var t = 2; t <= i * 2; t = t + 2) {
@@ -53,13 +53,13 @@ function chatPostBlock(req, res) {
                 }
             }
         } else if (msg.type[i] == "button") {
-                objectToPush2.accessory.text = {
-                    "type": "plain_text",
-                    "text": "Klick",
-                    "emoji": true
-                };
-                objectToPush2.accessory.value = "0";
-        } 
+            objectToPush2.accessory.text = {
+                "type": "plain_text",
+                "text": "Klick",
+                "emoji": true
+            };
+            objectToPush2.accessory.value = "0";
+        }
         if (msg.rightField[i] == "") {
             objectToPush2.text = {
                 "type": "mrkdwn",
@@ -80,23 +80,26 @@ function chatPostBlock(req, res) {
     }
     body.blocks.push({
         "type": "divider"
-    },
-    {
+    });
+    objectToPush3 = {
         "type": "actions",
         "block_id": msg.buttonMessage,
-        "elements": [
-            {
-                "type": "button",          
+        "elements": []
+    };
+    for (var i = 0; i < buttonName.length; i++) {
+        objectToPush3.elements.push({
+                "type": "button",
                 "action_id": msg.buttonActionId,
                 "text": {
                     "type": "plain_text",
                     "emoji": true,
-                    "text": msg.buttonName
+                    "text": msg.buttonName[i]
                 },
                 "value": msg.buttonValue
-            }
-        ]
-        }); 
+        });
+    }
+    body.blocks.push(objectToPush3);
+
     console.log(JSON.stringify(body));
     var options = {
         method: 'POST',
