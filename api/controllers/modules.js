@@ -1,6 +1,5 @@
 var request = require("request");
 const CAMUNDA_CONFIG = require('./camundaConfig');
-const db = require('./db');
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
 
