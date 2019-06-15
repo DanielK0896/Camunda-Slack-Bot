@@ -208,7 +208,7 @@ async function preparePostMessage(task) {
                         } else {
                             msg["textOptions"].push("undefined");
                         }
-                        msg["textOptions"] = msg["textOptions"].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
+                        msg["textOptions"][i] = msg["textOptions"][i].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
                     }             
                     textOptionsArray[0] = textOptionsArray[0].toString();
                 }
