@@ -190,6 +190,7 @@ async function preparePostMessage(task) {
                 } else {
                     msg["changes"] = variables[changesIndex];
                 }
+                msg["textOptions"] = [];
                 if (textOptionsIndex >= 0) {
                     var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
                     for (var i = 0; i < leftFieldArray.length; i++) {
