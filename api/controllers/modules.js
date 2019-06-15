@@ -210,7 +210,6 @@ async function preparePostMessage(task) {
                         }
                         msg["textOptions"][i] = msg["textOptions"][i].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
                     }             
-                    textOptionsArray[0] = textOptionsArray[0].toString();
                 }
                 msg["buttonMessage"] = message;
                 if (leftFieldArray.length == 0) {
