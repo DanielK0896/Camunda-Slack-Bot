@@ -171,7 +171,7 @@ async function preparePostMessage(task) {
                 for (var i = 0; i < lengthOfLeftFields; i++) {
                     var dynamicSelect = leftFieldArray[i].split(CAMUNDA_CONFIG.typeSplit);
                     console.log(leftFieldArray);
-                    if (dynamicSelect[0] == "select") {
+                    if (dynamicSelect[0] == "static_select") {
                         msg["typeOptions"] = db[dynamicSelect[1]]
                         //msg["typeOptions"] = await postToSwaggerAPI(msg, lldap, callback);
                         msg["type"].push(dynamicSelect[0]);  
