@@ -34,7 +34,7 @@ function chatPostBlock(req, res) {
             "block_id": msg.message[i] + CAMUNDA_CONFIG.taskIdSplit + i,
             "accessory": {
                 "type": msg.type[i],
-                "action_id": msg.actionId[i] + CAMUNDA_CONFIG.actionIdSplit + msg.changes
+                "action_id": msg.actionId[i] + CAMUNDA_CONFIG.actionIdOuterSplit + msg.changes
             }
         };
         if (msg.type[i] == "overflow") {
@@ -87,7 +87,8 @@ function chatPostBlock(req, res) {
         "elements": []
     };
     for (var i = 0; i < buttonName.length; i++) {
-        objectToPush3.elements.push({
+        if (i == buttonName.length - 1) {
+            objectToPush3.elements.push({
                 "type": "button",
                 "action_id": msg.buttonActionId,
                 "text": {
@@ -96,7 +97,19 @@ function chatPostBlock(req, res) {
                     "text": msg.buttonName[i]
                 },
                 "value": msg.buttonValue
-        });
+            });
+        } else {
+            objectToPush3.elements.push({
+                "type": "button",
+                "action_id": i,
+                "text": {
+                    "type": "plain_text",
+                    "emoji": true,
+                    "text": msg.buttonName[i]
+                },
+                "value": i
+            });
+        }
     }
     body.blocks.push(objectToPush3);
 

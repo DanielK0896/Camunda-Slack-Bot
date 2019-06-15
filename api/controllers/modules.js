@@ -1,5 +1,6 @@
 var request = require("request");
 const CAMUNDA_CONFIG = require('./camundaConfig');
+const db = require('./db');
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
 
@@ -77,6 +78,7 @@ async function preparePostMessage(task) {
     var actionIdIndex = variablesToGet.indexOf("actionId");
     var textOptionsIndex = variablesToGet.indexOf("textOptions");
     var messageIndex = variablesToGet.indexOf("message");
+    var buttonNameIndex = variablesToGet.indexOf("buttonName");
         var msg = {};
         var path;
         var callback = function postCallback(body, resolve, reject) {
@@ -153,6 +155,9 @@ async function preparePostMessage(task) {
                 var actionIdArray = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdOuterSplit);
                 var leftFieldArray = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
+                var buttonNameArray = variables[buttonNameIndex].split(CAMUNDA_CONFIG.buttonNameSplit);
+                buttonNameArray.push("Abschicken");
+
                 msg["boldHeadline"] = variables[boldHeadlineIndex];
                 var lengthOfLeftFields = leftFieldArray.length / 2;
                 if (lengthOfLeftFields > 4) {
@@ -164,7 +169,14 @@ async function preparePostMessage(task) {
                 }
                 msg["type"] = [];
                 for (var i = 0; i < lengthOfLeftFields; i++) {
-                    msg["type"].push(leftFieldArray[i]);
+                    var dynamicSelect = leftFieldArray[i].split(CAMUNDA_CONFIG.typeSplit);
+                    if (dynamicSelect[0] == "select") {
+                        msg["typeOptions"] = db[dynamicSelect[1]]
+                        //msg["typeOptions"] = await postToSwaggerAPI(msg, lldap, callback);
+                        msg["type"].push(dynamicSelect[0]);  
+                    } else {
+                        msg["type"].push(leftFieldArray[i]);                       
+                    }
                     leftFieldArray.splice(i, 1);
                 }
                 msg["message"] = []
@@ -206,17 +218,15 @@ async function preparePostMessage(task) {
                     }
                     textOptionsArray[0] = textOptionsArray[0].toString();
                 }
+                msg["buttonMessage"] = message;
                 if (leftFieldArray.length == 0) {
-                    msg["buttonName"] = "Abschicken"
-                    msg["buttonMessage"] = message;
+                    msg["buttonName"] = buttonNameArray;
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    msg["buttonName"] = "Nächste Seite"
-                    msg["buttonMessage"] = "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0" + CAMUNDA_CONFIG.taskIdSplit + "0";
-                    msg["buttonActionId"] = "nextpage";
+                    msg["buttonName"] = variables[buttonNameIndex] + CAMUNDA_CONFIG.buttonNameSplit + "Nächste Seite"
+                    msg["buttonActionId"] = "nextPage";
                     msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
-
                 }
 
             }

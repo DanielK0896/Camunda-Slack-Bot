@@ -445,6 +445,10 @@ paths:
                 type: array
                 items:
                   type: string
+              maxLength:
+                type: string
+              minLength:
+                type: strinäg
       responses:
         "200":
           description: Success

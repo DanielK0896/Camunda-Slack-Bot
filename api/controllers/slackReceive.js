@@ -69,26 +69,28 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
         taskId[0] = "noAction";
     }
     
-    msg.actions[0].action_id = await testIfVariablesSent(taskid, msg, msg.actions[0].action_id);
     //call function depending on callback_id
     
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
             handleMessage(taskId, pushedButton, msg, dialogNumberArray);
             res.status(200).type('application/json').end();
-            if (taskId[4] == "delete") {
-                var updateMsg = {};
-                updateMsg["channel"] = msg.channel.id;
-                updateMsg["text"] = "Deine Nachricht ist angekommen:";
+            if (taskId[4] == "delete") {                   //update message with confirmation text
+                var updateMsg = { "channel": msg.channel.id, "text": "Deine Nachricht ist angekommen:", "ts": taskId[taskId.length - 1]};
                 for (x in msg.submission) {
                     updateMsg["text"] += " " + msg.submission[x];
                 }
-                updateMsg["ts"] = taskId[taskId.length - 1];
-                console.log(updateMsg);
                 mod.postToSwaggerAPI(updateMsg, "/chat/update", basicCallback);
             }
         } else {
-            handleMessage(taskId, pushedButton, msg);
+            if (pushedButton[0] == "lastMessage") {
+                await testIfVariablesSent(taskId[1], msg, function (taskId, pushedButton, msg) {
+                    handleMessage(taskId, pushedButton, msg);
+                    pushedButton[0] == "undefined";
+                });
+            } else {
+                handleMessage(taskId, pushedButton, msg);
+            }   
             res.json(CAMUNDA_CONFIG.basicResponse);
         }
     } else if (taskId[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
@@ -104,21 +106,12 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             }
             handleMessage(callbackId, pushedButton);
             res.status(200).type('application/json').end();
-        } else {
-            console.log("ERROR Dialog");
-        } 
-    } else {
-        console.log("Weder Nachricht noch Dialog");
-    }
-    if (msg.type == "block_actions") {
-        var payload = {};
-        if (taskId[0] == "dialog") {
-            //empty
-        } else if (msg.actions[0].type != "button" && actionId[0] != "") {                           //If action type != button && actionId (=changes) != empty
-            payload["channel"] = msg.container.channel_id;
-            payload["ts"] = msg.container.message_ts;
-            payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
+        } else {console.log("ERROR Dialog");} 
+    } else { console.log("Weder Nachricht noch Dialog"); }
 
+    if (msg.type == "block_actions") {
+        var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }             //set variables; old message body placed in "blocks"
+        if (msg.actions[0].type != "button" && actionId[0] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
             var changes = actionId;
             var recentChanges = changes[actionValue].split(CAMUNDA_CONFIG.propertiesSplit);    //changes depending on selected_options for activated block
             if (recentChanges[0] == "") {
@@ -131,143 +124,135 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
             changes[(actionValue + changes.length / 2)]
             try {
                 changes[(actionValue + changes.length / 2)] = JSON.parse(changes[(actionValue + changes.length / 2)]);    //parses changes if possible
-            } catch (e) {}
-            console.log(changes[(actionValue + changes.length / 2)]);
+            } catch (e) { }
             payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
-        } else if (pushedButton[0] == "lastMessage") {
-            payload = {
-                "channel": msg.channel.id,
-                "ts": msg.container.message_ts
-            };
-            console.log(payload);
+        } else if (pushedButton[0] == "lastMessage") {                 //when user pushed Button "Abschicken"
+            var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
-        } else if (msg.actions[0].type == "button") {
-            payload["channel"] = msg.container.channel_id;
-            payload["ts"] = msg.container.message_ts;
-            payload["blocks"] = msg.message.blocks;
-            var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
-            var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
-            var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
-            var message = pushedButton[5] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[6] + CAMUNDA_CONFIG.message + pushedButton[7] + CAMUNDA_CONFIG.message + pushedButton[8];
-            var lengthOfFields = leftField.length / 2;
-            if (lengthOfFields > 4) {
-                lengthOfFields = 4;
-            }
-            var lengthOfRightFields = rightField.length / 2;
-            if (lengthOfRightFields > 4) {
-                lengthOfRightFields = 4;
-            }
-            var types = [];
-            for (var i = 0; i < lengthOfFields; i++) {
-                types.push(leftField[i]);
-                leftField.splice(i, 1);
-            }
-            var ifDialog = [];
-            for (var i = 0; i < lengthOfRightFields; i += 2) {
-                var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
-                ifDialog.push(dialog);
-                rightField.splice(i, 1);
-            }
+        } else if (pushedButton[0] == "nextPage") {    //load nextPage
+            await testIfVariablesSent(taskId[1], msg, function (payload, pushedButton) {
+                var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
+                var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
+                var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
+                var message = pushedButton[5] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[6] + CAMUNDA_CONFIG.message + pushedButton[7] + CAMUNDA_CONFIG.message + pushedButton[8];
+                var lengthOfFields = leftField.length / 2;
+                if (lengthOfFields > 4) {
+                    lengthOfFields = 4;
+                }
+                var lengthOfRightFields = rightField.length / 2;
+                if (lengthOfRightFields > 4) {
+                    lengthOfRightFields = 4;
+                }
+                var types = [];
+                for (var i = 0; i < lengthOfFields; i++) {
+                    types.push(leftField[i]);
+                    leftField.splice(i, 1);
+                }
+                var ifDialog = [];
+                for (var i = 0; i < lengthOfRightFields; i += 2) {
+                    var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
+                    ifDialog.push(dialog);
+                    rightField.splice(i, 1);
+                }
 
-            var actionsLeft = leftField.length;
-            if (actionsLeft > 4) {
-                actionsLeft = 4;
-            }
-            var leftFieldArray = leftField.splice(0, 4);
-            var rightFieldArray = rightField.splice(0, 4);
-            var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
-            var lastBlock = actionsLeft * 2 + 2;
-            if (actionsLeft == 3) {
-                payload["blocks"].splice(7, 2);
-            } else if (actionsLeft = 2) {
-                payload["blocks"].splice(5, 4);
-            } else if (actionsLeft = 1) {
-                payload["blocks"].splice(3, 6);
-            }
-            for (var i = 0; i < actionsLeft; i++) {
-                var s = (i + 1) * 2;
-                if (types[i] == "overflow") {
-                    textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
-                    if (textOptionsArray[0] > 0) {
-                        payload["blocks"][s].accessory.options = textOptionsArray[1];
-                        textOptionsArray[0] -= 1;
-                        if (textOptionsArray[0] == 0) {
-                            textOptionsArray.splice(0, 2);
+                var actionsLeft = leftField.length;
+                if (actionsLeft > 4) {
+                    actionsLeft = 4;
+                }
+                var leftFieldArray = leftField.splice(0, 4);
+                var rightFieldArray = rightField.splice(0, 4);
+                var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+                var lastBlock = actionsLeft * 2 + 2;
+                if (actionsLeft == 3) {
+                    payload["blocks"].splice(7, 2);
+                } else if (actionsLeft = 2) {
+                    payload["blocks"].splice(5, 4);
+                } else if (actionsLeft = 1) {
+                    payload["blocks"].splice(3, 6);
+                }
+                for (var i = 0; i < actionsLeft; i++) {
+                    var s = (i + 1) * 2;
+                    if (types[i] == "overflow") {
+                        textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
+                        if (textOptionsArray[0] > 0) {
+                            payload["blocks"][s].accessory.options = textOptionsArray[1];
+                            textOptionsArray[0] -= 1;
+                            if (textOptionsArray[0] == 0) {
+                                textOptionsArray.splice(0, 2);
+                            }
+                        } else if (textOptionsArray[0] == -1) {
+                            payload["blocks"][s].accessory.options = textOptionsArray[1];
                         }
-                    } else if (textOptionsArray[0] == -1) {
-                        payload["blocks"][s].accessory.options = textOptionsArray[1];
-                    }
-                    textOptionsArray[0] = textOptionsArray[0].toString();
-                    try {
-                        payload["blocks"][s].fields[0].text = leftFieldArray[i];
-                        payload["blocks"][s].fields[1].text = rightFieldArray[i];
-                    } catch (e) {
-                        payload["blocks"][s].fields = [
-                            {
-                                "type": "mrkdwn",
-                                "text": leftFieldArray[i]
-                            }, {
-                                "type": "mrkdwn",
-                                "text": rightFieldArray[i]
-                            }];
-                    }
-                } else {
-                    try {
-                        msg["textOptions"].push("undefined");
-                        delete payload["blocks"][s].accessory.options;
-                        delete payload["blocks"][s].fields;
-                    } catch (e) { console.log(e); }
-                    payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
-                    payload["blocks"][s].accessory.confirm = {
-                        "title": {
-                            "type": "plain_text",
-                            "text": "Bestaetigung"
-                        },
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "Bist du dir sicher?"
-                        },
-                        "confirm": {
-                            "type": "plain_text",
-                            "text": "Ja"
-                        },
-                        "deny": {
-                            "type": "plain_text",
-                            "text": "Nein"
+                        textOptionsArray[0] = textOptionsArray[0].toString();
+                        try {
+                            payload["blocks"][s].fields[0].text = leftFieldArray[i];
+                            payload["blocks"][s].fields[1].text = rightFieldArray[i];
+                        } catch (e) {
+                            payload["blocks"][s].fields = [
+                                {
+                                    "type": "mrkdwn",
+                                    "text": leftFieldArray[i]
+                                }, {
+                                    "type": "mrkdwn",
+                                    "text": rightFieldArray[i]
+                                }];
                         }
-                    };
-                    payload["blocks"][s].text.text = leftFieldArray[i];
+                    } else {
+                        try {
+                            msg["textOptions"].push("undefined");
+                            delete payload["blocks"][s].accessory.options;
+                            delete payload["blocks"][s].fields;
+                        } catch (e) { console.log(e); }
+                        payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
+                        payload["blocks"][s].accessory.confirm = {
+                            "title": {
+                                "type": "plain_text",
+                                "text": "Bestaetigung"
+                            },
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Bist du dir sicher?"
+                            },
+                            "confirm": {
+                                "type": "plain_text",
+                                "text": "Ja"
+                            },
+                            "deny": {
+                                "type": "plain_text",
+                                "text": "Nein"
+                            }
+                        };
+                        payload["blocks"][s].text.text = leftFieldArray[i];
+                    }
+                    if (ifDialog[i] != "false") {
+                        payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+                    } else {
+                        payload["blocks"][s][block_id] = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+                    }
+                    payload["blocks"][s].accessory.action_id = actionIdArray[i];
+                    payload["blocks"][s].accessory.type = types[i];
+                    if (i == 3) {
+                        break;
+                    }
                 }
-                if (ifDialog[i] != "false") {
-                    payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+                actionIdArray.splice(0, 4);
+                var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
+                var lastElement = buttonNameArray.length - 1;
+                if (leftFieldArray.length == 0) {              
+                    payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
+                    payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";
+                    payload["blocks"][lastBlock].elements[lastElement].value = "lastMessage";
                 } else {
-                    payload["blocks"][s][block_id] = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+                    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(CAMUNDA_CONFIG.textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+                    payload["blocks"][s].elements[lastElement].value = buttonValue[0];
                 }
-                payload["blocks"][s].accessory.action_id = actionIdArray[i];
-                payload["blocks"][s].accessory.type = types[i]; 
-                if (i == 3) {
-                    break;
-                }
-            }
-            actionIdArray.splice(0, 4);       
-            if (leftFieldArray.length == 0) {
-                var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameOuterSplit);
-                var lastButtonName = buttonNameArray[buttonNameArray.length - 1].split(CAMUNDA_CONFIG.buttonNameInnerSplit);
-                for (var s = 0; s < buttonNameArray[buttonNameArray.length - 1]; s++) {
-                    payload["blocks"][lastBlock].elements[s].text.text = lastButtonName[s];
-                }
-                payload["blocks"][lastBlock].elements[0].action_id = "lastMessage";
-                payload["blocks"][lastBlock].elements[0].value = "lastMessage";
-            } else {
-                var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(CAMUNDA_CONFIG.textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
-                payload["blocks"][s].elements.value = buttonValue[0];
-            }
-            payload["blocks"] = JSON.stringify(payload["blocks"]);
-            console.log(JSON.stringify(payload));
-            mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
+                payload["blocks"] = JSON.stringify(payload["blocks"]);
+                console.log(JSON.stringify(payload));
+                mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
+            });
         }
     }
 }
@@ -280,26 +265,26 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
     if (msg != undefined) {
-        for (i = 1; i <= variableInformation.length; i++) {   
-            if (typeof dialogNumberArray != "undefined") {
-                arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
+        for (i = 1; i <= variableInformation.length; i++) {
+            try {
+                arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
                 arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                for (var i = 0; i < pushedButton.length; i++) {
-                    arrayOfVariables["variable"].push(pushedButton[i]);
-                    arrayOfVariables["nameVariable"].push(dialogNumberArray[i]);
+                if (typeof pushedButton != "undefined") {
+                    arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit + arrayOfVariables["variable"]);
                 }
-            } else {
-                try {
-                    arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+            } catch (e) {
+                if (typeof dialogNumberArray != "undefined") {
+                    arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                    if (typeof pushedButton != "undefined") {
-                        arrayOfVariables["variable"].splice(i - 1, 1, pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit + arrayOfVariables["variable"]);
+                    for (var i = 0; i < pushedButton.length; i++) {
+                        arrayOfVariables["variable"].push(pushedButton[i]);
+                        arrayOfVariables["nameVariable"].push(dialogNumberArray[i]);
                     }
-                } catch (e) {
+                } else {
                     arrayOfVariables["variable"].push(pushedButton + CAMUNDA_CONFIG.camundaMessageVariableSplit);
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
-                }           
-            }
+                }        
+            }           
         }
     } else {
         arrayOfVariables["variable"].push("NoVariable");
@@ -316,6 +301,8 @@ function handleDialog(taskid, msg, actionId) {
     var arrayOfVariables = {};
     var variablesForDialog = taskid[2].split(CAMUNDA_CONFIG.dialogVariablesSplit);                  //callbackId[2] = first dialog element e.g. "text"
     arrayOfVariables["triggerId"] = msg.trigger_id;
+    arrayOfVariables["minLength"] = variablesForDialog
+    arrayOfVariables["maxLength"] = variablesForDialog
     var callbackId = [];
     for (var i = 0; i < 4; i++) {
         callbackId.push(taskid[3 + i]);
@@ -360,21 +347,27 @@ function handleDialog(taskid, msg, actionId) {
     mod.postToSwaggerAPI(arrayOfVariables, "/dialog/open", basicCallback);
 }
 
-async function testIfVariablesSent(taskid, msg) {
-    var instanceId = await mod.postToSwaggerAPI(taskid[4], "camundaInstanceGetId", basicCallback);
+async function testIfVariablesSent(correlationKeys, msg, callback) {
+    var payload = {};
+    payload["channel"] = msg.container.channel_id;
+    payload["ts"] = msg.container.message_ts;
+    payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
+    var instanceId = await mod.postToSwaggerAPI(correlationKeys, "camundaInstanceGetId", basicCallback);  //get camundaInstanceId
     for (var i = 2; i < msg.message.blocks.length - 1; i += 2) {
-        var actionIdArray = msg.message.blocks[i].split(CAMUNDA_CONFIG.actionIdOuterSplit); 
-        var actionIdArray = msg.message.blocks[i].split(CAMUNDA_CONFIG.actionIdInnerrSplit);
-
-        
-        if (actionIdArray[i] == "true") {
-            
-            if (await mod.postToSwaggerAPI({ "instanceId": instanceId, "variable": actionIdArray[i + 1] },  "/camunda/instance/variable/get", statusCodeCallback) == "404") {
-                actionIdArray.splice(i + 1, 1);
-            } 
+        var blockActionId = msg.message.blocks[i].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+        var blockActionIdArray = blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
+        if (blockActionIdArray[0] == "true") {
+            if (await mod.postToSwaggerAPI({ "instanceId": instanceId, "variable": actionIdArray[1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
+                delete msg.message.blocks[i];
+                delete msg.message.blocks[i - 1];
+            }
         }
-        actionIdArray.splice(i, 1);
     }
-
-    return actionId = actionIdArray.join(CAMUNDA_CONFIG.actionIdInnerSplit);
+    if (msg.message.blocks.length > 3) {
+        console.log(payload["blocks"]);
+        payload["blocks"] = JSON.stringify(payload["blocks"]);
+        mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
+    } else {
+        callback();
+    }
 }

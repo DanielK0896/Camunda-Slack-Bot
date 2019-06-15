@@ -16,8 +16,7 @@
 
   "leftFieldSplit": ";",
   "rightFieldSplit": ";",
-  "buttonNameOuterSplit": ";",
-  "buttonNameInnerSplit": "$$",
+  "buttonNameSplit": ";",
   "textOptionsOuterSplit": "$$",
   "textOptionsInnerSplit": ";",
   "actionIdOuterSplit": ";",
@@ -27,7 +26,7 @@
 
 
   "taskIdSplit": "&%",
-
+  "typeSplit": "_",
 
   "correlationKeySplit": ";",
   "camundaMessageVariableSplit": ";",

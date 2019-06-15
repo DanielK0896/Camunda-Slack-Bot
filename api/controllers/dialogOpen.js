@@ -24,18 +24,24 @@ function dialogOpen(req, res) {
         }
     };
     for (var i = 0; i < msg.label.length; i++) {
-        body.dialog.elements.push({
+        objectToPush = {
             "label": msg.label[i],
             "name": i,
             "type": msg.type[i],
             "placeholder": msg.placeholder[i]
         });
         if (msg.data_source[i] != "undefined") {
-            body.dialog.elements.push({ "data_source": msg.data_source[i] });
+            objectToPush.push({ "data_source": msg.data_source[i] });
+        } else {
+            objectToPush.push({ "max_length": msg.maxLength, "min_length": msg.minLength });
         }
+        
         if (msg.options[i] != "undefined") {
-            body.dialog.elements.push({ "options": msg.options[i] });
-        }
+            for (var s = 0; s < msg.options; s++) {
+                objectToPush.push({ "options": msg.options[i] });
+            }
+        } 
+        body.dialog.elements.push(objectToPush);
     }
     var options = {
         method: 'POST',
