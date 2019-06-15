@@ -194,7 +194,7 @@ async function preparePostMessage(task) {
                 if (textOptionsIndex >= 0) {
                     var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
                     for (var i = 0; i < leftFieldArray; i++) {
-                        if (msg["type"][i] == "overflow") {
+                        if (msg["type"][i] == "overflow" || msg["type"][i] == "static_select") {
                             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
                             if (textOptionsArray[0] > 0) {
                                 msg["textOptions"].push(textOptionsArray[1]);
