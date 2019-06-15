@@ -226,7 +226,13 @@ async function preparePostMessage(task) {
                 } else {
                     msg["buttonName"] = variables[buttonNameIndex] + CAMUNDA_CONFIG.buttonNameSplit + "Nächste Seite"
                     msg["buttonActionId"] = "nextPage";
-                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+                    var textoptions;
+                    try {
+                        textoptions = textOptionsArray.join(textOptionsOuterSplit);
+                    } catch (e) {
+                        textoptions = "empty";
+                    }
+                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + buttonNameArray.join(CAMUNDA_CONFIG.buttonNameSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
                 }
 
             }
