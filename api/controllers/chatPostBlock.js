@@ -39,18 +39,16 @@ function chatPostBlock(req, res) {
         };
         if (msg.type[i] == "overflow" || msg.type[i] == "static_select") {
             objectToPush2.accessory.options = [];
-            for (var t = 2; t <= i + 1 * 2; t = t + 2) {
                 var textOptionsArray = msg.textOptions[i].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
-                for (var s = 0; s < textOptionsArray.length; s++) {
-                    body.blocks[t].accessory.options.push({
-                        "text": {
-                            "type": "plain_text",
-                            "text": textOptionsArray[s],
-                            "emoji": true
-                        },
-                        "value": s.toString()
-                    });
-                }
+            for (var s = 0; s < textOptionsArray.length; s++) {
+                objectToPush2.accessory.options.push({
+                    "text": {
+                        "type": "plain_text",
+                        "text": textOptionsArray[s],
+                        "emoji": true
+                    },
+                    "value": s.toString()
+                });
             }
         } else if (msg.type[i] == "button") {
             objectToPush2.accessory.text = {
