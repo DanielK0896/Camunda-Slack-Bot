@@ -25,7 +25,7 @@ module.exports = {
     slackReceive: slackReceive
 };
 
-function slackReceive(req, res) {                  //receive Slack POSTs after invoked action                                
+async function slackReceive(req, res) {                  //receive Slack POSTs after invoked action                                
 
     var msg = JSON.parse(req.swagger.params.payload.value); //get POST-Body and define Variables
     console.log(msg);
