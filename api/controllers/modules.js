@@ -208,7 +208,6 @@ async function preparePostMessage(task) {
                         } else {
                             msg["textOptions"].push("undefined");
                         }
-                        msg["textOptions"][i] = msg["textOptions"][i].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
                     }             
                 }
                 msg["buttonMessage"] = message;
