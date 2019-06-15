@@ -300,9 +300,7 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
 function handleDialog(taskid, msg, actionId) {
     var arrayOfVariables = {};
     var variablesForDialog = taskid[2].split(CAMUNDA_CONFIG.dialogVariablesSplit);                  //callbackId[2] = first dialog element e.g. "text"
-    arrayOfVariables["triggerId"] = msg.trigger_id;
-    arrayOfVariables["minLength"] = variablesForDialog
-    arrayOfVariables["maxLength"] = variablesForDialog
+    
     var callbackId = [];
     for (var i = 0; i < 4; i++) {
         callbackId.push(taskid[3 + i]);
@@ -315,34 +313,29 @@ function handleDialog(taskid, msg, actionId) {
     if (typeof actionId != "undefined") {
         callbackId.push(actionId);
     }
-    arrayOfVariables["callbackId"] = callbackId.join(CAMUNDA_CONFIG.taskIdSplit);                     //callbackId[3] = new Callback ID
-    arrayOfVariables["title"] = variablesForDialog[0];            //then necessary variables
-    arrayOfVariables["label"] = [];
-    arrayOfVariables["type"] = [];
-    arrayOfVariables["placeholder"] = [];
-    arrayOfVariables["options"] = [];
-    arrayOfVariables["data_source"] = [];
-    for (var i = 1; i < variablesForDialog.length; i = i + 4) {
+    //callbackId[3] = new Callback ID
+    arrayOfVariables = {
+        "callbackId": callbackId.join(CAMUNDA_CONFIG.taskIdSplit), "triggerId": msg.trigger_id, "minLength": [],
+        "maxLength": [], "title": variablesForDialog[0], "label": [], "type": [], "placeholder": [], "options": [], "data_source": []
+    };
+    for (var i = 1; i < variablesForDialog.length; i = i + 5) {
         arrayOfVariables["label"].push(variablesForDialog[i]);
         arrayOfVariables["type"].push(variablesForDialog[i + 1]);
         arrayOfVariables["placeholder"].push(variablesForDialog[i + 2]);
-        if (variablesForDialog[i + 3] == "options" && variablesForDialog[i + 1] == "select") {
-            arrayOfVariables["options"].push(variablesForDialog[i + 4]);
+        arrayOfVariables["minLength"].push(variablesForDialog[i + 3]);
+        arrayOfVariables["maxLength"].push(variablesForDialog[i + 4]);
+        if (variablesForDialog[i + 5] == "options" && variablesForDialog[i + 1] == "select") {
+            arrayOfVariables["options"].push(variablesForDialog[i + 6]);
             i = i + 2
         } else {
             arrayOfVariables["options"].push("undefined");
         }
-        if (variablesForDialog[i + 3] == "data_source" && variablesForDialog[i + 1] == "select") {
-            arrayOfVariables["data_source"].push(variablesForDialog[i + 4]);
+        if (variablesForDialog[i + 5] == "data_source" && variablesForDialog[i + 1] == "select") {
+            arrayOfVariables["data_source"].push(variablesForDialog[i + 6]);
             i = i + 2
         } else {
             arrayOfVariables["data_source"].push("undefined");
         } 
-    }
-    if (arrayOfVariables["options"] == []) {
-                                                                                                                         //sth. missing!!!
-    } else if (arrayOfVariables["data_source"] == []) {
-        
     }
     mod.postToSwaggerAPI(arrayOfVariables, "/dialog/open", basicCallback);
 }

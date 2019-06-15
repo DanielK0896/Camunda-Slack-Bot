@@ -33,7 +33,7 @@ function dialogOpen(req, res) {
         if (msg.data_source[i] != "undefined") {
             objectToPush.push({ "data_source": msg.data_source[i] });
         } else {
-            objectToPush.push({ "max_length": msg.maxLength, "min_length": msg.minLength });
+            objectToPush.push({ "max_length": msg.maxLength[i], "min_length": msg.minLength[i] });
         }
         
         if (msg.options[i] != "undefined") {
