@@ -86,8 +86,8 @@ function chatPostBlock(req, res) {
         "block_id": msg.buttonMessage,
         "elements": []
     };
-    for (var i = 0; i < buttonName.length; i++) {
-        if (i == buttonName.length - 1) {
+    for (var i = 0; i < msg.buttonName.length; i++) {
+        if (i == msg.buttonName.length - 1) {
             objectToPush3.elements.push({
                 "type": "button",
                 "action_id": msg.buttonActionId,
