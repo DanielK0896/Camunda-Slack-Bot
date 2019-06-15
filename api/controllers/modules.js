@@ -225,7 +225,7 @@ async function preparePostMessage(task) {
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    msg["buttonName"] = variables[buttonNameIndex] + CAMUNDA_CONFIG.buttonNameSplit + "Nächste Seite"
+                    msg["buttonName"] = [variables[buttonNameIndex], "Nächste Seite"];
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {
