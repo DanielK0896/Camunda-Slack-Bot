@@ -175,7 +175,7 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                 }
                 for (var i = 0; i < actionsLeft; i++) {
                     var s = (i + 1) * 2;
-                    if (types[i] == "overflow") {
+                    if (types[i] == "overflow" || types[i] == "static_select") {
                         textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
                         if (textOptionsArray[0] > 0) {
                             payload["blocks"][s].accessory.options = textOptionsArray[1];
@@ -246,7 +246,13 @@ function slackReceive(req, res) {                  //receive Slack POSTs after i
                     payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";
                     payload["blocks"][lastBlock].elements[lastElement].value = "lastMessage";
                 } else {
-                    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptionsArray.join(CAMUNDA_CONFIG.textOptionsOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+                    var textOptions;
+                    try {
+                        textOptions = textOptionsArray.join(textOptionsOuterSplit);
+                    } catch (e) {
+                        textOptions = "empty";
+                    }
+                    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
                     payload["blocks"][s].elements[lastElement].value = buttonValue[0];
                 }
                 payload["blocks"] = JSON.stringify(payload["blocks"]);

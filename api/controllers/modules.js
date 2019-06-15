@@ -203,12 +203,13 @@ async function preparePostMessage(task) {
                                     textOptionsArray.splice(0, 2);
                                 }
                             } else if (textOptionsArray[0] == -1) {
-                                msg["textOptions"].push(textOptionsArray);
+                                msg["textOptions"].push(textOptionsArray[1]);
                             }
                         } else {
                             msg["textOptions"].push("undefined");
                         }
                     }
+                    msg["textOptions"] = msg["textOptions"].split(CAMUNDA_CONFIG.textOptionsInnerSplit)
                     textOptionsArray[0] = textOptionsArray[0].toString();
                 }
                 msg["buttonMessage"] = message;
