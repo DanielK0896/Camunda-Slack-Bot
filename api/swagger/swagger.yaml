@@ -646,7 +646,7 @@ paths:
             $ref: "#/definitions/ErrorResponse" 
   /camunda/instance/getId:
     x-swagger-router-controller: camundaInstance
-    POST:
+    post:
       operationId: camundaInstanceGetId
       consumes:
         - application/json
@@ -671,7 +671,7 @@ paths:
             $ref: "#/definitions/ErrorResponse" 
   /camunda/instance/variable/delete:
     x-swagger-router-controller: camundaInstance
-    POST:
+    post:
       operationId: camundaInstanceVariableDelete
       consumes:
         - application/json
@@ -698,7 +698,7 @@ paths:
             $ref: "#/definitions/ErrorResponse" 
   /camunda/instance/variable/get:
     x-swagger-router-controller: camundaInstance
-    POST:
+    post:
       operationId: camundaInstanceVariableGet
       consumes:
         - application/json
