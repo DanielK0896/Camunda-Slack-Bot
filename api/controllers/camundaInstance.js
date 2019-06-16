@@ -25,6 +25,7 @@ function camundaInstanceGetId(req, res) {
     console.log(URL);
     request(options, function (error, response, body) {
         if (!error) {
+            console.log(JSON.stringify(response));
             var responseStringified = JSON.stringify({ "instanceId": response.body[0].id });
             res.json(responseStringified);
             console.log("ID:" + response.body[0].id);
