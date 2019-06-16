@@ -227,6 +227,7 @@ function handleDialog(taskid, msg, actionId) {
 }
 
 async function testIfVariablesSent(correlationKeys, msg, callback) {
+    console.log(msg.message.blocks.length);
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
@@ -343,9 +344,6 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             }          
             payload["blocks"][s].text.text = leftFieldArray[i];
         }
-        console.log(ifDialog);
-        console.log(s);
-        console.log(JSON.stringify(payload["blocks"]));
         if (ifDialog[i] != "false") {
             payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         } else {
