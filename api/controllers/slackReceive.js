@@ -234,19 +234,20 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     payload["ts"] = msg.container.message_ts;
     payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
     var responseObject = await mod.postToSwaggerAPI({ "correlationKey": correlationKeys }, "/camunda/instance/getId", basicCallback);  //get camundaInstanceId
-    for (var i = 2; i < msg.message.blocks.length - 1; i += 2) {
-        console.log(i);
-        var blockActionId = msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit);
-        var blockActionIdArray = blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
-        console.log(blockActionId);
-        console.log(blockActionIdArray);
+    var blockActionId = [];
+    var blockActionIdArray = [];
+    var blocksLength = msg.message.blocks.length;
+    for (var i = 2; i < blocksLength - 1; i += 2) {
+        blockActionId.push(msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit));
+        blockActionIdArray.push(blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
+    }
+    for (var i = 2; i < blocksLength - 1; i += 2) {
         if (blockActionIdArray[0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
                 payload.blocks.splice(i, 2);;
             }
         }
     }
-    console.log(msg.message.blocks.length);
     if (msg.message.blocks.length > 3) {
         nextPage(payload, msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit), 4 - (payload.blocks.length - 3) / 2 );
     } else {
