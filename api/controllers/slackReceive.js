@@ -83,12 +83,12 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 mod.postToSwaggerAPI(updateMsg, "/chat/update", basicCallback);
             }
         } else {
-            if (msg.actions.actionId == "lastMessage") {
+            if (msg.actions.action_id == "lastMessage") {
                 await testIfVariablesSent(taskId[1], msg, function (taskId, pushedButton, msg) {
                     handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
                 });
-            } else if (msg.actions.actionId == "nextPage") {
+            } else if (msg.actions.action_id == "nextPage") {
             } else {
                 handleMessage(taskId, pushedButton, msg);
             }   
@@ -130,10 +130,10 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
-        } else if (msg.actions.actionId == "lastMessage") {                 //when user pushed Button "Abschicken"
+        } else if (msg.actions.action_íd == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
-        } else if (msg.actions.actionId == "nextPage") {    //load nextPage
+        } else if (msg.actions.action_id == "nextPage") {    //load nextPage
             await testIfVariablesSent(taskId[1], msg, function (payload, pushedButton) {
                 var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
