@@ -68,8 +68,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     } else {
         taskId[0] = "noAction";
     }
-    console.log("action_id" + msg.actions.action_id);
-    console.log("actions" + msg.actions);
     //call function depending on callback_id
     
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
@@ -84,12 +82,12 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 mod.postToSwaggerAPI(updateMsg, "/chat/update", basicCallback);
             }
         } else {
-            if (msg.actions.action_id == "lastMessage") {
+            if (msg.actions[0].action_id == "lastMessage") {
                 await testIfVariablesSent(taskId[1], msg, function (taskId, pushedButton, msg) {
                     handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
                 });
-            } else if (msg.actions.action_id == "nextPage") {
+            } else if (msg.actions[0].action_id == "nextPage") {
                 console.log("nextPage");
             } else {
                 handleMessage(taskId, pushedButton, msg);
@@ -132,10 +130,10 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
-        } else if (msg.actions.action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
+        } else if (msg.actions[0].action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
-        } else if (msg.actions.action_id == "nextPage") {    //load nextPage
+        } else if (msg.actions[0].action_id == "nextPage") {    //load nextPage
             console.log("NEXTPAGE HANDLING");
             await testIfVariablesSent(taskId[1], msg, function (payload, pushedButton) {
                 var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
