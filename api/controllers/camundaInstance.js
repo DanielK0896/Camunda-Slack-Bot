@@ -25,6 +25,7 @@ function camundaInstanceGetId(req, res) {
         method: 'GET',
         url: URL
     };
+    console.log(URL);
     request(options, function (error, response, body) {
         if (!error) {
             console.log("Response:" + response);
