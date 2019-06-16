@@ -25,11 +25,11 @@ function camundaInstanceGetId(req, res) {
     console.log(URL);
     request(options, function (error, response, body) {
         if (!error) {
-            console.log(JSON.stringify(response.body));
-            var responseStringified = JSON.stringify({ "instanceId": response.body });
-            res.json(responseStringified);
-            console.log("ID:" + response.body[0]);
-            console.log(responseStringified);
+            console.log(JSON.stringify(body));
+            var bodyStringified = JSON.stringify({ "instanceId": body.id });
+            res.json(bodyStringified);
+            console.log("ID:" + body.id);
+            console.log(bodyStringified);
         } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
     });
 }
