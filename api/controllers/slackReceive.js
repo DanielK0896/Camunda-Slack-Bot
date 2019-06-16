@@ -292,6 +292,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     }
     for (var i = 0; i < actionsLeft; i++) {
         var s = (i + 5 - numberOfChanges) * 2;
+        console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
             if (textOptionsArray[0] > 0) {
