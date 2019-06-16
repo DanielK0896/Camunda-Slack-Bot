@@ -367,7 +367,8 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
     console.log(lastElement);
-    console.log(JSON.stringify(payload["blocks"][lastBlock].elements));
+    console.log(lastElement);
+    console.log(JSON.stringify(payload["blocks"]));
     if (leftFieldArray.length == 0) {
         payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
         payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";
@@ -382,6 +383,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
         payload["blocks"][s].elements[lastElement].value = buttonValue[0];
     }
+    console.log(JSON.stringify(payload["blocks"]));
     payload["blocks"] = JSON.stringify(payload["blocks"]);
     console.log(JSON.stringify(payload));
     mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
