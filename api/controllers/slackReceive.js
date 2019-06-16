@@ -289,7 +289,9 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+    console.log(actionsLeft);
     var lastBlock = actionsLeft * 2 + 2;
+    console.log(lastBlock);
     if (actionsLeft == 3) {
         payload["blocks"].splice(7, 2);
     } else if (actionsLeft == 2) {
