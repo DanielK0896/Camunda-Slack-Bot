@@ -27,13 +27,15 @@ function camundaInstanceGetId(req, res) {
         if (!error) {
             var responseStringified = JSON.stringify({ "instanceId": response.body[0].id });
             res.json(responseStringified);
-            console.log(response.body[0].id);
+            console.log("ID:" + response.body[0].id);
+            console.log(responseStringified);
         } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
     });
 }
 
 function camundaInstanceVariableGet(req, res) {
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var URL = "http://localhost:8080/engine-rest/process-instance" + msg.id + "/variables/" + msg.variableName;
     var options = {
         method: 'GET',
@@ -43,6 +45,7 @@ function camundaInstanceVariableGet(req, res) {
         if (!error) {
             var responseStringified = JSON.stringify(response);
             res.json(responseStringified);
+            console.log(responseStringified);
         } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
     });
 }
