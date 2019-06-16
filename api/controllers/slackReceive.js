@@ -89,6 +89,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                     pushedButton[0] == "undefined";
                 });
             } else if (msg.actions.action_id == "nextPage") {
+                console.log("nextPage");
             } else {
                 handleMessage(taskId, pushedButton, msg);
             }   
@@ -134,6 +135,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
         } else if (msg.actions.action_id == "nextPage") {    //load nextPage
+            console.log("NEXTPAGE HANDLING");
             await testIfVariablesSent(taskId[1], msg, function (payload, pushedButton) {
                 var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
