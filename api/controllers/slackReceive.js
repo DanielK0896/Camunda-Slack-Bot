@@ -239,7 +239,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     var blocksLength = msg.message.blocks.length;
     for (var i = 2; i < blocksLength - 1; i += 2) {
         blockActionId.push(msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit));
-        blockActionIdArray.push(blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
+        blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
     for (var i = 2; i < blocksLength - 1; i += 2) {
         if (blockActionIdArray[0] == "true") {
