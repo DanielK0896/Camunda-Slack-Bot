@@ -138,9 +138,8 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         } else if (msg.actions[0].action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
-        } else if (msg.actions[0].action_id == "nextPage") {    //load nextPage
-            let nextPageCallback = nextPage(payload, pushedButton, 4);
-            testIfVariablesSent(taskId[1], msg, nextPageCallback);
+        } else if (msg.actions[0].action_id == "nextPage") {    //load nextPage 
+                testIfVariablesSent(taskId[1], msg, function() { nextPage(payload, pushedButton, 4); });
         }
     }
 }
