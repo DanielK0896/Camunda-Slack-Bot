@@ -716,7 +716,7 @@ paths:
             properties:
               instanceId:
                 type: string
-              variable:
+              variableName:
                 type: string
       responses:
         "200":
