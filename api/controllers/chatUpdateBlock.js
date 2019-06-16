@@ -11,7 +11,6 @@ module.exports = {
 function chatUpdateBlock(req, res) {
 
     var msg = req.swagger.params.body.value;
-    console.log(msg);
     var blocks = JSON.parse(msg.blocks);
     var body = {
         "channel": msg.channel,
@@ -19,7 +18,6 @@ function chatUpdateBlock(req, res) {
         "blocks": blocks
         
     };
-    console.log(JSON.stringify(body));
     var options = {
         method: 'POST',
         url: URL,

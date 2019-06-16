@@ -265,8 +265,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
 
 function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
     var arrayOfVariables = {};
-    console.log(pushedButton);
-    console.log(dialogNumberArray);
     var variableInformation = taskid[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
@@ -353,13 +351,9 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     payload["ts"] = msg.container.message_ts;
     payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
     var responseObject = await mod.postToSwaggerAPI({ "correlationKey": correlationKeys }, "/camunda/instance/getId", basicCallback);  //get camundaInstanceId
-    console.log(responseObject);
     for (var i = 2; i < msg.message.blocks.length - 1; i += 2) {
         var blockActionId = msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit);
         var blockActionIdArray = blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
-        console.log(responseObject);
-        console.log(responseObject[0].id);
-        console.log(typeof responseObject);
         if (blockActionIdArray[0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variable": blockActionIdArray[1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
                 delete msg.message.blocks[i];

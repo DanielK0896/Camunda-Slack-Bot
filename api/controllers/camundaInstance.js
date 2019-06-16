@@ -35,7 +35,7 @@ function camundaInstanceGetId(req, res) {
 function camundaInstanceVariableGet(req, res) {
     var msg = req.swagger.params.body.value;
     console.log(msg);
-    var URL = "http://localhost:8080/engine-rest/process-instance" + msg.id + "/variables/" + msg.variableName;
+    var URL = "http://localhost:8080/engine-rest/process-instance/" + msg.instanceId + "/variables/" + msg.variableName;
     var options = {
         method: 'GET',
         url: URL
