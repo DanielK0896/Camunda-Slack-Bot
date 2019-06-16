@@ -367,7 +367,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
     console.log(lastElement);
-    console.log(lastElement);
+    console.log(lastBlock);
     console.log(JSON.stringify(payload["blocks"]));
     if (leftFieldArray.length == 0) {
         payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
