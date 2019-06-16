@@ -29,7 +29,7 @@ function dialogOpen(req, res) {
             "name": i,
             "type": msg.type[i],
             "placeholder": msg.placeholder[i]
-        });
+        };
         if (msg.data_source[i] != "undefined") {
             objectToPush.push({ "data_source": msg.data_source[i] });
         } else {
