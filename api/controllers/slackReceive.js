@@ -228,6 +228,7 @@ function handleDialog(taskid, msg, actionId) {
 
 async function testIfVariablesSent(correlationKeys, msg, callback) {
     console.log(msg.message.blocks.length);
+    console.log(JSON.stringify(msg));
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
