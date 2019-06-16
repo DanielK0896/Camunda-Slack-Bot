@@ -27,7 +27,7 @@
 
   "taskIdSplit": "&%",
   "typeSplit": "-",
-
+  "confirmSplit":  "$$",
   "correlationKeySplit": ";",
   "camundaMessageVariableSplit": ";",
 

@@ -58,6 +58,26 @@ function chatPostBlock(req, res) {
             };
             objectToPush2.accessory.value = "0";
         }
+        if (confirm[i] == "true") {
+            objectToPush2.accessory.confirm = {
+                "title": {
+                    "type": "plain_text",
+                    "text": "Bestaetigung"
+                },
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "Bist du dir sicher?"
+                },
+                "confirm": {
+                    "type": "plain_text",
+                    "text": "Ja"
+                },
+                "deny": {
+                    "type": "plain_text",
+                    "text": "Nein"
+                }
+            };
+        }
         if (msg.rightField[i] == "") {
             objectToPush2.text = {
                 "type": "mrkdwn",

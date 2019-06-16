@@ -167,8 +167,11 @@ async function preparePostMessage(task) {
                     lengthOfRightFields = 4;
                 }
                 msg["type"] = [];
+                msg["confirm"] = [];
                 for (var i = 0; i < lengthOfLeftFields; i++) {
-                    msg["type"].push(leftFieldArray[i]);                       
+                    var type = leftFieldArray[i].split(CAMUNDA_CONFIG.confirmSplit);
+                    msg["type"].push(type[0]);        
+                    msg["confirm"].push(type[1]); 
                     leftFieldArray.splice(i, 1);
                 }
                 msg["message"] = []
@@ -216,7 +219,7 @@ async function preparePostMessage(task) {
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    msg["buttonName"] = [variables[buttonNameIndex], "Nächste Seite"];
+                    msg["buttonName"] = [variables[buttonNameIndex], "Naechste Seite"];
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {

@@ -367,6 +367,10 @@ paths:
                 type: array
                 items:
                   type: string
+              confirm:
+                type: array
+                items:
+                  type: string
       responses:
         "200":
           description: Success
