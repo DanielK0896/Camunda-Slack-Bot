@@ -260,7 +260,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var typeArray = [];
     var confirm = [];
     for (var i = 0; i < actionsLeft; i++) {
-        var type = leftFieldArray[i].split(CAMUNDA_CONFIG.confirmSplit);
+        var type = leftField[i].split(CAMUNDA_CONFIG.confirmSplit);
         typeArray.push(type[0]);
         confirm.push(type[1]); 
         leftField.splice(i, 1);
