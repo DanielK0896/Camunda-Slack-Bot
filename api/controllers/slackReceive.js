@@ -242,6 +242,8 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
         }
     }
     if (msg.message.blocks.length > 3) {
+        console.log(4 - (payload.blocks.length - 3) / 2);
+        console.log(payload.blocks.length);
         nextPage(payload, msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit), 4 - (payload.blocks.length - 3) / 2 );
     } else {
         callback();
