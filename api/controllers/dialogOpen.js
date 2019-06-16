@@ -31,14 +31,14 @@ function dialogOpen(req, res) {
             "placeholder": msg.placeholder[i]
         };
         if (msg.data_source[i] != "undefined") {
-            objectToPush += { "data_source": msg.data_source[i] };
+            Object.assign(objectToPush, { "data_source": msg.data_source[i] });
         } else {
-            objectToPush += { "max_length": msg.maxLength[i], "min_length": msg.minLength[i] };
+            Object.assign(objectToPush, { "max_length": msg.maxLength[i], "min_length": msg.minLength[i] });
         }
         
         if (msg.options[i] != "undefined") {
             for (var s = 0; s < msg.options; s++) {
-                objectToPush += { "options": msg.options[i] };
+                Object.assign(objectToPush, { "options": msg.options[i] });
             }
         } 
         body.dialog.elements.push(objectToPush);
