@@ -239,15 +239,21 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
         blockActionId.push(msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit));
         blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
+    var pushedButton = msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit);
+    var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
+    var lengthOfLeftFields = leftFields.length;
     for (var i = 2; i < blocksLength - 1; i += 2) {
         if (blockActionIdArray[i / 2 - 1][0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[i / 2 - 1][1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
-                payload.blocks.splice(i, 2);;
+                if (lengthOfLeftFields <= 0) {
+                    payload.blocks.splice(i, 2);
+                }
+                lengthOfLeftFields -= 1;
             }
         }
     }
     if (msg.message.blocks.length > 3) {
-        nextPage(payload, msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit), 4 - (payload.blocks.length - 3) / 2 );
+        nextPage(payload, pushedButton, 4 - (payload.blocks.length - 3) / 2 );
     } else {
         callback();
     }
@@ -325,7 +331,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             try {
                 delete payload["blocks"][s].accessory.options;
                 delete payload["blocks"][s].fields;
-            } catch (e) { console.log(e); }
+            } catch (e) {}
             payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
             if (confirm[i] == "true") {
                 payload["blocks"][s].accessory.confirm = {
