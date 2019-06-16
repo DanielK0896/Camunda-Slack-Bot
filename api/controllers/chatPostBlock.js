@@ -34,7 +34,7 @@ function chatPostBlock(req, res) {
             "block_id": msg.message[i] + CAMUNDA_CONFIG.taskIdSplit + i,
             "accessory": {
                 "type": msg.type[i],
-                "action_id": msg.actionId[i] + CAMUNDA_CONFIG.actionIdOuterSplit + msg.changes
+                "action_id": [msg.actionId[i], msg.changes]
             }
         };
         if (msg.type[i] == "overflow" || msg.type[i] == "static_select") {
