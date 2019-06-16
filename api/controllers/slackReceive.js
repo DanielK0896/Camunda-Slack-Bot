@@ -356,8 +356,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
         var blockActionIdArray = blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
         if (blockActionIdArray[0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
-                delete payload["blocks"][i];
-                delete payload["blocks"][i - 1];
+                payload.blocks.splice(i, 2);;
             }
         }
     }
