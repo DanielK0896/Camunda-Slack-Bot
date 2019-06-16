@@ -365,7 +365,9 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     }
     actionIdArray.splice(0, 4);
     var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
-    var lastElement = buttonNameArray.length - 1;
+    var lastElement = buttonNameArray.length;
+    console.log(lastElement);
+    console.log(JSON.stringify(payload["blocks"][lastBlock].elements));
     if (leftFieldArray.length == 0) {
         payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
         payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";

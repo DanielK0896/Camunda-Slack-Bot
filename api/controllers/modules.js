@@ -155,7 +155,6 @@ async function preparePostMessage(task) {
                 var leftFieldArray = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
                 var buttonNameArray = variables[buttonNameIndex].split(CAMUNDA_CONFIG.buttonNameSplit);
-                buttonNameArray.push("Abschicken");
 
                 msg["boldHeadline"] = variables[boldHeadlineIndex];
                 var lengthOfLeftFields = leftFieldArray.length / 2;
@@ -215,6 +214,7 @@ async function preparePostMessage(task) {
                 }
                 msg["buttonMessage"] = message;
                 if (leftFieldArray.length == 0) {
+                    buttonNameArray.push("Abschicken");
                     msg["buttonName"] = buttonNameArray;
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
