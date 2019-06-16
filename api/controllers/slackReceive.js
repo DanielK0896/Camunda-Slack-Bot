@@ -51,7 +51,11 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         taskId = msg.actions[0].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
         var actionId = msg.actions[0].action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit);
         var variableCheck = actionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
-        msg.actions[0].action_id = variableCheck[1];
+        if (typeof variableCheck[1] == "undefined") {
+            msg.actions[0].action_id = variableCheck[0];
+        } else {
+            msg.actions[0].action_id = variableCheck[1];
+        }
         actionId.splice(0, 1).toString();
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.text.text;
