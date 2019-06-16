@@ -106,7 +106,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                     callbackId.push(taskId[3 + i]);
                 }         
             }
-            handleMessage(callbackId, pushedButton);
+            handleMessage(callbackId, pushedButton, msg);
             res.status(200).type('application/json').end();
         } else {console.log("ERROR Dialog");} 
     } else { console.log("Weder Nachricht noch Dialog"); }
@@ -145,6 +145,7 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
     var variableInformation = taskid[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
+    console.log(msg);
     if (msg != undefined) {
         for (i = 1; i <= variableInformation.length; i++) {
             try {
