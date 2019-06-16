@@ -25,7 +25,7 @@ function camundaInstanceGetId(req, res) {
     console.log(URL);
     request(options, function (error, response, body) {
         if (!error) {
-            res.json(JSON.stringify(body));
+            res.json(body);
         } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
     });
 }
