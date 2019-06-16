@@ -280,7 +280,8 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
                 }
             } catch (e) {
                 if (typeof dialogNumberArray != "undefined") {
-                    arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
+                    var actionId = taskid[taskid.length - 1].split(CAMUNDA_CONFIG.actionIdInnerSplit);
+                    arrayOfVariables["variable"].push(actionId[1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
                     for (var i = 0; i < pushedButton.length; i++) {
                         arrayOfVariables["variable"].push(pushedButton[i]);
