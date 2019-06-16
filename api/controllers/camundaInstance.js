@@ -15,6 +15,7 @@ module.exports = {
 
 function camundaInstanceGetId(req, res) {
     var msg = req.swagger.params.body.value;
+    console.log(msg);
     var correlationKeys = msg.correlationKey.split(CAMUNDA_CONFIG.correlationKeySplit);
     for (var i = 2; i < 4; i++) {
         correlationKeys[i] = changeFormat(correlationKeys[i]);
@@ -26,7 +27,9 @@ function camundaInstanceGetId(req, res) {
     };
     request(options, function (error, response, body) {
         if (!error) {
+            console.log("Response:" + response);
             var responseStringified = JSON.stringify(response);
+            console.log("ResponseString:" + responseStringified);
             res.json(responseStringified);
         } else { console.log("ERROR camundaInstanceGetVariable: " + error); }
     });
