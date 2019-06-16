@@ -356,7 +356,11 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     console.log(responseObject);
     for (var i = 2; i < msg.message.blocks.length - 1; i += 2) {
         var blockActionId = msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit);
+        console.log(blockActionId);
         var blockActionIdArray = blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
+        console.log(blockActionIdArray);
+        console.log(responseObject[0].id);
+        console.log(typeof responseObject);
         if (blockActionIdArray[0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variable": blockActionIdArray[1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
                 delete msg.message.blocks[i];
