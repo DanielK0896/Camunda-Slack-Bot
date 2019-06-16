@@ -139,7 +139,8 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
         } else if (msg.actions[0].action_id == "nextPage") {    //load nextPage
-            testIfVariablesSent(taskId[1], msg, nextPage(payload, pushedButton, 4));
+            let nextPageCallback = nextPage(payload, pushedButton, 4);
+            testIfVariablesSent(taskId[1], msg, nextPageCallback);
         }
     }
 }
