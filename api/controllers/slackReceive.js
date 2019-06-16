@@ -249,6 +249,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
 }
 
 function nextPage(payload, pushedButton, numberOfChanges) {
+    console.log(numberOfChanges);
     var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
     var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
