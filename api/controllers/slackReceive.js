@@ -351,7 +351,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
     payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
-    var instanceId = await mod.postToSwaggerAPI(correlationKeys, "/camunda/instance/getId", basicCallback);  //get camundaInstanceId
+    var instanceId = await mod.postToSwaggerAPI({"correlationKey": correlationKeys}, "/camunda/instance/getId", basicCallback);  //get camundaInstanceId
     for (var i = 2; i < msg.message.blocks.length - 1; i += 2) {
         var blockActionId = msg.message.blocks[i].split(CAMUNDA_CONFIG.actionIdOuterSplit);
         var blockActionIdArray = blockActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
