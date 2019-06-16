@@ -130,7 +130,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             console.log(payload["blocks"]);
             payload["blocks"] = JSON.stringify(payload["blocks"]);
             mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
-        } else if (msg.actions.action_íd == "lastMessage") {                 //when user pushed Button "Abschicken"
+        } else if (msg.actions.action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
         } else if (msg.actions.action_id == "nextPage") {    //load nextPage
