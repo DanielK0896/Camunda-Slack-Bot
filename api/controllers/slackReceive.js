@@ -68,7 +68,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     } else {
         taskId[0] = "noAction";
     }
-    
+    console.log(msg.actions.action_id);
     //call function depending on callback_id
     
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
