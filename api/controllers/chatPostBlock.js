@@ -58,7 +58,7 @@ function chatPostBlock(req, res) {
             };
             objectToPush2.accessory.value = "0";
         }
-        if (confirm[i] == "true") {
+        if (msg.confirm[i] == "true") {
             objectToPush2.accessory.confirm = {
                 "title": {
                     "type": "plain_text",
