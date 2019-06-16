@@ -17,9 +17,9 @@ function camundaInstanceGetId(req, res) {
     var msg = req.swagger.params.body.value;
     console.log(msg);
     var correlationKeys = msg.correlationKey.split(CAMUNDA_CONFIG.correlationKeySplit);
-    for (var i = 2; i < 4; i++) {
-        correlationKeys[i] = changeFormat(correlationKeys[i]);
-    }
+    //for (var i = 2; i < 4; i++) {
+    //    correlationKeys[i] = changeFormat(correlationKeys[i]);
+    //}
     var URL = "http://localhost:8080/engine-rest/process-instance" + "?variables=" + correlationKeys[0]+ "_eq_" + correlationKeys[2] + "," + correlationKeys[1] + "_eq_" + correlationKeys[3];
     var options = {
         method: 'GET',
