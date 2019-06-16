@@ -341,6 +341,9 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             }          
             payload["blocks"][s].text.text = leftFieldArray[i];
         }
+        console.log(ifDialog);
+        console.log(s);
+        console.log(JSON.stringify(payload["blocks"]));
         if (ifDialog[i] != "false") {
             payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         } else {
