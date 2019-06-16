@@ -227,8 +227,6 @@ function handleDialog(taskid, msg, actionId) {
 }
 
 async function testIfVariablesSent(correlationKeys, msg, callback) {
-    console.log(msg.message.blocks.length);
-    console.log(JSON.stringify(msg));
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
@@ -242,8 +240,8 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
         blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
     for (var i = 2; i < blocksLength - 1; i += 2) {
-        if (blockActionIdArray[0] == "true") {
-            if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
+        if (blockActionIdArray[i / 2 - 1][0] == "true") {
+            if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[i / 2 - 1][1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
                 payload.blocks.splice(i, 2);;
             }
         }
