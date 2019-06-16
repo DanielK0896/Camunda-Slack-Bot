@@ -18,6 +18,7 @@ function chatUpdateBlock(req, res) {
         "blocks": blocks
         
     };
+    console.log(JSON.stringify(body));
     var options = {
         method: 'POST',
         url: URL,
