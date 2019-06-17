@@ -254,9 +254,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
                     payload.blocks.push(payload.blocks[i]);
                     payload.blocks.push(payload.blocks[i + 1]);
                 }
-                payload.blocks.splice(i, 2);
-
-                
+                payload.blocks.splice(i, 2);              
             }
         }
     }
@@ -307,6 +305,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         } else {
             var s = (payload["blocks"].length - 3) - (i * 2);
         }
+        console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
             if (textOptionsArray[0] > 0) {
@@ -320,7 +319,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             }
             textOptionsArray[0] = textOptionsArray[0].toString();
         }
-        if (rightField[i] == '') {
+        if (rightField[i] != '') {
             try {
                 payload["blocks"][s].fields[0].text = leftFieldArray[i];
                 payload["blocks"][s].fields[1].text = rightFieldArray[i];
