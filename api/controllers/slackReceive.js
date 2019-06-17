@@ -289,7 +289,6 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
-    console.log(actionsLeft);
     for (var i = 0; i < actionsLeft; i++) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
@@ -303,8 +302,6 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         } else {
             var s = (payload["blocks"].length - 3) - (i * 2);
         }
-        console.log(payload["blocks"].length);
-        console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
             if (textOptionsArray[0] > 0) {
@@ -360,6 +357,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             }          
             payload["blocks"][s].text.text = leftFieldArray[i];
         }
+        console.log(payload["blocks"]);
         if (ifDialog[i] != "false") {
             payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         } else {
