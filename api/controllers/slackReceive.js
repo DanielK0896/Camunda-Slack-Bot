@@ -239,7 +239,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
         blockActionId.push(msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit));
     }
     for (var i = 0; i < blockActionId.length; i++) {
-        blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
+        blockActionIdArray.push(blockActionId[i][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
     var pushedButton = msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit);
     var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
