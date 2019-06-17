@@ -250,13 +250,13 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
                 if (lengthOfLeftFields > 0) {
                     lengthOfLeftFields -= 1;
                     numberOfChanges += 1;
-                    console.log("1" + payload.blocks);
+                    console.log("1" + JSON.stringify(payload.blocks));
                     payload.blocks.push(payload.blocks[i]);
                     payload.blocks.push(payload.blocks[i + 1]);
                 }
-                console.log("2" + payload.blocks);
+                console.log("2" + JSON.stringify(payload.blocks));
                 payload.blocks.splice(i, 2);   
-                console.log("3" + payload.blocks);
+                console.log("3" + JSON.stringify(payload.blocks));
             }
         }
     }
