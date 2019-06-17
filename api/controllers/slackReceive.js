@@ -243,18 +243,20 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var lengthOfLeftFields = leftFields.length / 2;
     var numberOfChanges = 0;
-    console.log(blockActionId);
-    console.log(blockActionIdArray);
+    console.log(lengthOfLeftFields);
     for (var i = blocksLength - 3; i >= 2; i -= 2) {
         if (blockActionIdArray[i / 2 - 1][0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[i / 2 - 1][1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
                 if (lengthOfLeftFields > 0) {
                     lengthOfLeftFields -= 1;
                     numberOfChanges += 1;
+                    console.log("1" + payload.blocks);
                     payload.blocks.push(payload.blocks[i]);
                     payload.blocks.push(payload.blocks[i + 1]);
                 }
-                payload.blocks.splice(i, 2);              
+                console.log("2" + payload.blocks);
+                payload.blocks.splice(i, 2);   
+                console.log("3" + payload.blocks);
             }
         }
     }
