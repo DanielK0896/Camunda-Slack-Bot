@@ -242,25 +242,28 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     var pushedButton = msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit);
     var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var lengthOfLeftFields = leftFields.length;
-    for (var i = 2; i < blocksLength - 1; i += 2) {
+    var numberOfChanges = 0;
+    for (var i = blocksLength - 3; i >= 2; i -= 2) {
         if (blockActionIdArray[i / 2 - 1][0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[i / 2 - 1][1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
                 if (lengthOfLeftFields <= 0) {
                     payload.blocks.splice(i, 2);
-                }
-                lengthOfLeftFields -= 1;
+                } else {
+                    lengthOfLeftFields -= 1;
+                    numberOfChanges += 1;
+                }              
             }
         }
     }
     if (msg.message.blocks.length > 3) {
-        nextPage(payload, pushedButton, 4 - (payload.blocks.length - 3) / 2 );
+        nextPage(payload, pushedButton, numberOfChanges);
     } else {
         callback();
     }
 }
 
 function nextPage(payload, pushedButton, numberOfChanges) {
-    console.log(pushedButton);
+    console.log(numberOfChanges);
     var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
     var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
@@ -300,7 +303,11 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         payload["blocks"].splice(3, 6);
     }
     for (var i = 0; i < actionsLeft; i++) {
-        var s = (i + 5 - numberOfChanges) * 2;
+        if (numberOfChanges == 4) {
+            var s = (i + 1) * 2;
+        } else {
+            var s = (payload["blocks"].length - 3) - (i * 2);
+        }
         console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
@@ -368,9 +375,6 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     actionIdArray.splice(0, 4);
     var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
-    console.log(lastElement);
-    console.log(lastBlock);
-    console.log(JSON.stringify(payload["blocks"]));
     if (leftFieldArray.length == 0) {
         payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
         payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";
