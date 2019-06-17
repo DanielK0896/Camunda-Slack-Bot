@@ -261,7 +261,6 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     }
     payload.blocks.push(divider);
     payload.blocks.push(lastBlock);
-    console.log("Ende   " + JSON.stringify(payload.blocks));
     if (msg.message.blocks.length > 3) {
         nextPage(payload, pushedButton, numberOfChanges);
     } else {
@@ -270,7 +269,7 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
 }
 
 function nextPage(payload, pushedButton, numberOfChanges) {
-    console.log(numberOfChanges);
+    console.log(pushedButton);
     var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
     var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
