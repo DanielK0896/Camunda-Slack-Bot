@@ -252,13 +252,10 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
                 if (lengthOfLeftFields > 0) {
                     lengthOfLeftFields -= 1;
                     numberOfChanges += 1;
-                    console.log("1" + JSON.stringify(payload.blocks));
                     payload.blocks.push(payload.blocks[i - 1]);
                     payload.blocks.push(payload.blocks[i]);
                 }
-                console.log("2" + JSON.stringify(payload.blocks));
                 payload.blocks.splice(i, 2);   
-                console.log("3" + JSON.stringify(payload.blocks));
             }
         }
     }
@@ -375,6 +372,10 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         } else {
             payload["blocks"][s][block_id] = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
+        console.log(actionIdArray);
+        console.log(actionIdArray[i]);
+        console.log(typeArray);
+        console.log(typeArray[i]);
         payload["blocks"][s].accessory.action_id = actionIdArray[i];
         payload["blocks"][s].accessory.type = typeArray[i];
     }
