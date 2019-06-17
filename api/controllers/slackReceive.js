@@ -319,6 +319,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             }
             textOptionsArray[0] = textOptionsArray[0].toString();
         }
+        console.log(rightField);
         if (rightField[i] != '') {
             try {
                 payload["blocks"][s].fields[0].text = leftFieldArray[i];
