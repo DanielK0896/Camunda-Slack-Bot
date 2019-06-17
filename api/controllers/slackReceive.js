@@ -235,16 +235,16 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     var blockActionId = [];
     var blockActionIdArray = [];
     var blocksLength = msg.message.blocks.length;
-    for (var i = blocksLength - 3; i >= 2; i -= 2) {
+    for (var i = 2; i < blocksLength - 1; i += 2) {
         blockActionId.push(msg.message.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit));
-    }
-    for (var i = 0; i < blockActionId.length; i++) {
-        blockActionIdArray.push(blockActionId[i][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
+        blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
     var pushedButton = msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit);
     var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var lengthOfLeftFields = leftFields.length / 2;
     var numberOfChanges = 0;
+    console.log(blockActionId);
+    console.log(blockActionIdArray);
     for (var i = blocksLength - 3; i >= 2; i -= 2) {
         if (blockActionIdArray[i / 2 - 1][0] == "true") {
             if (await mod.postToSwaggerAPI({ "instanceId": responseObject[0].id, "variableName": blockActionIdArray[i / 2 - 1][1] }, "/camunda/instance/variable/get", statusCodeCallback) == "200") {
