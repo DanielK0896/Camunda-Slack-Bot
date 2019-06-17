@@ -304,6 +304,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         } else {
             var s = (payload["blocks"].length - 3) - (i * 2);
         }
+        console.log(payload["blocks"].length);
         console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
