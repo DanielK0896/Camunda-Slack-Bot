@@ -293,18 +293,16 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
     console.log(actionsLeft);
-    var lastBlock = actionsLeft * 2 + 2;
-    console.log(lastBlock);
-    if (actionsLeft == 3) {
-        payload["blocks"].splice(7, 2);
-    } else if (actionsLeft == 2) {
-        payload["blocks"].splice(5, 4);
-    } else if (actionsLeft == 1) {
-        payload["blocks"].splice(3, 6);
-    }
     for (var i = 0; i < actionsLeft; i++) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
+            if (actionsLeft == 3) {
+                payload["blocks"].splice(7, 2);
+            } else if (actionsLeft == 2) {
+                payload["blocks"].splice(5, 4);
+            } else if (actionsLeft == 1) {
+                payload["blocks"].splice(3, 6);
+            }
         } else {
             var s = (payload["blocks"].length - 3) - (i * 2);
         }
@@ -375,6 +373,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     actionIdArray.splice(0, 4);
     var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
+    var lastBlock = payload["blocks"].length - 1;
     if (leftFieldArray.length == 0) {
         payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
         payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";
