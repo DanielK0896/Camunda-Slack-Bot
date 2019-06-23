@@ -375,7 +375,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         console.log(actionIdArray[i]);
         console.log(typeArray);
         console.log(typeArray[i]);
-        payload["blocks"][s].accessory.action_id = actionIdArray[i];
+        payload["blocks"][s].accessory.action_id = actionIdArray[i];////////////////////////////////////////////////////////////////////////////////////////////////// an modules anpassen
         payload["blocks"][s].accessory.type = typeArray[i];
     }
     actionIdArray.splice(0, 4);
