@@ -292,7 +292,8 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     var ifDialog = [];
     console.log(actionsLeft);
     for (var i = 0; i < actionsLeft; i += 2) {
-        console.log("rightField" + rightField);
+        console.log("type   rightField" + typeof rightField);
+        console.log("rightField" + rightField[i]);
         var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogIntaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
         console.log("dialog" + dialog);
         ifDialog.push(dialog);
