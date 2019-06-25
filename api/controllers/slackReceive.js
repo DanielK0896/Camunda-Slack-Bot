@@ -59,7 +59,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         } else {
             msg.actions[0].action_id = variableCheck[1];
         }
-        actionId.splice(0, 1).toString();
+        actionId.splice(0, 1).join(CAMUNDA_CONFIG.actionIdOuterSplit);
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
             pushedButton = msg.actions[0].selected_option.text.text;
             actionValue = parseInt(msg.actions[0].selected_option.value, 10);
@@ -118,9 +118,10 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         } else {console.log("ERROR Dialog");} 
     } else { console.log("Weder Nachricht noch Dialog"); }
     if (msg.type == "block_actions") {
-        var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }             //set variables; old message body placed in "blocks"
-        if (msg.actions[0].type != "button" && actionId[0] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
-            var changes = actionId;
+        var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
+        changesInActionId = actionId.split(changesOuterSplit);             //set variables; old message body placed in "blocks"
+        if (changesInActionId[1] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
+            var changes = changesInActionId;
             var recentChanges = changes[actionValue].split(CAMUNDA_CONFIG.propertiesSplit);    //changes depending on selected_options for activated block
             if (recentChanges[0] == "") {
                 recentChanges[0] = taskId[taskId.length - 1]
