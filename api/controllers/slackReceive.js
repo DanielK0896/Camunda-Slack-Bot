@@ -121,7 +121,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
         changesInActionId = actionId.split(CAMUNDA_CONFIG.changesOuterSplit);             //set variables; old message body placed in "blocks"
         if (msg.actions[0].action_id == "nextPage") {    //load nextPage 
-            testIfVariablesSent(taskId[1], msg, function() { nextPage(payload, pushedButton, 4); });
+            testIfVariablesSent(taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskid); });
         } else if (msg.actions[0].action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
@@ -265,13 +265,13 @@ async function testIfVariablesSent(correlationKeys, msg, callback) {
     payload.blocks.push(divider);
     payload.blocks.push(lastBlock);
     if (msg.message.blocks.length > 3) {
-        nextPage(payload, pushedButton, numberOfChanges);
+        nextPage(payload, pushedButton, numberOfChanges, taskid);
     } else {
         callback();
     }
 }
 
-function nextPage(payload, pushedButton, numberOfChanges) {
+function nextPage(payload, pushedButton, numberOfChanges, taskid) {
     console.log(pushedButton);
     var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
