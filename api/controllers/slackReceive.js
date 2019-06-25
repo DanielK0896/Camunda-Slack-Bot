@@ -121,7 +121,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
         changesInActionId = actionId.split(CAMUNDA_CONFIG.changesOuterSplit);             //set variables; old message body placed in "blocks"
         if (msg.actions[0].action_id == "nextPage") {    //load nextPage 
-            console.log("IN NEXTPAGE ANGEKOMMEN");
             testIfVariablesSent(taskId[1], msg, function() { nextPage(payload, pushedButton, 4); });
         } else if (msg.actions[0].action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
@@ -371,6 +370,8 @@ function nextPage(payload, pushedButton, numberOfChanges) {
             payload["blocks"][s].text.text = leftFieldArray[i];
         }
         console.log(payload["blocks"]);
+        console.log(payload["blocks"][2]);
+        console.log(payload["blocks"][2][block_id]);
         if (ifDialog[i] != "false") {
             payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         } else {
