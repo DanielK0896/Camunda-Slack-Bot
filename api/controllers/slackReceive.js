@@ -375,9 +375,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             payload.blocks[s].block_id = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
         payload.blocks[s].accessory.type = typeArray[i];
-        console.log(changesArray);
-        console.log(actionIdArray[1]);
-        console.log(changesArray[1]);
         changesArray[0] = parseInt(changesArray[0], 10)
             if (changesArray[0] > 0) {
                 payload.blocks[s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];

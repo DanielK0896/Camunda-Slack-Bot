@@ -163,8 +163,10 @@ async function preparePostMessage(task) {
                 msg["leftField"] = leftFieldArray.splice(0, 4);
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = actionIdArray.splice(0, 4);
+                var changesForButtonValue;
                 if (variablesToGet.indexOf("changes") == -1) {
                     msg["changes"] = "-1" + CAMUNDA_CONFIG.changesOuterSplit;
+                    changesForButtonValue = msg["changes"];
                 } else {
                         var changesArray = variables[variablesToGet.indexOf("changes")].split(CAMUNDA_CONFIG.changesOuterSplit);
                         for (var i = 0; i < leftFieldArray.length; i++) {
@@ -179,7 +181,7 @@ async function preparePostMessage(task) {
                                     msg["changes"].push(changesArray[1]);
                                 }
                             }   
-                        variables[variablesToGet.indexOf("changes")] = changesArray.join(CAMUNDA_CONFIG.changesOuterSplit);       
+                        changesForButtonValue = changesArray.join(CAMUNDA_CONFIG.changesOuterSplit);    
                     }
                 
                 if (variablesToGet.indexOf("textOptions") >= 0) {
