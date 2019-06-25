@@ -139,9 +139,9 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             try {
                 changes[(actionValue + changes.length / 2)] = JSON.parse(changes[(actionValue + changes.length / 2)]);    //parses changes if possible
             } catch (e) { }
-            payload["blocks"] = mod.pushSpecificVariables(payload["blocks"], changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
-            console.log(payload["blocks"]);
-            payload["blocks"] = JSON.stringify(payload["blocks"]);
+            payload.blocks = mod.pushSpecificVariables(payload.blocks, changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
+            console.log(payload.blocks);
+            payload.blocks = JSON.stringify(payload.blocks);
             mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
         }
     }
@@ -233,7 +233,7 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
-    payload["blocks"] = msg.message.blocks;                     //set necessary variables, old message body placed in payload["blocks"]
+    payload.blocks = msg.message.blocks;                     //set necessary variables, old message body placed in payload.blocks
     var responseObject = await mod.postToSwaggerAPI({ "correlationKey": correlationKeys }, "/camunda/instance/getId", basicCallback);  //get camundaInstanceId
     var blockActionId = [];
     var blockActionIdArray = [];
@@ -303,36 +303,36 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
             if (actionsLeft == 3) {
-                payload["blocks"].splice(7, 2);
+                payload.blocks.splice(7, 2);
             } else if (actionsLeft == 2) {
-                payload["blocks"].splice(5, 4);
+                payload.blocks.splice(5, 4);
             } else if (actionsLeft == 1) {
-                payload["blocks"].splice(3, 6);
+                payload.blocks.splice(3, 6);
             }
         } else {
-            var s = (payload["blocks"].length - 3) - (i * 2);
+            var s = (payload.blocks.length - 3) - (i * 2);
         }
         console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
             if (textOptionsArray[0] > 0) {
-                payload["blocks"][s].accessory.options = textOptionsArray[1];
+                payload.blocks[s].accessory.options = textOptionsArray[1];
                 textOptionsArray[0] -= 1;
                 if (textOptionsArray[0] == 0) {
                     textOptionsArray.splice(0, 2);
                 }
             } else if (textOptionsArray[0] == -1) {
-                payload["blocks"][s].accessory.options = textOptionsArray[1];
+                payload.blocks[s].accessory.options = textOptionsArray[1];
             }
             textOptionsArray[0] = textOptionsArray[0].toString();
         }
         console.log(rightFieldArray);
         if (rightFieldArray[i] != '') {
             try {
-                payload["blocks"][s].fields[0].text = leftFieldArray[i];
-                payload["blocks"][s].fields[1].text = rightFieldArray[i];
+                payload.blocks[s].fields[0].text = leftFieldArray[i];
+                payload.blocks[s].fields[1].text = rightFieldArray[i];
             } catch (e) {
-                payload["blocks"][s].fields = [
+                payload.blocks[s].fields = [
                     {
                         "type": "mrkdwn",
                         "text": leftFieldArray[i]
@@ -343,12 +343,12 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             }
         } else {
             try {
-                delete payload["blocks"][s].accessory.options;
-                delete payload["blocks"][s].fields;
+                delete payload.blocks[s].accessory.options;
+                delete payload.blocks[s].fields;
             } catch (e) {}
-            payload["blocks"][s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
+            payload.blocks[s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
             if (confirm[i] == "true") {
-                payload["blocks"][s].accessory.confirm = {
+                payload.blocks[s].accessory.confirm = {
                     "title": {
                         "type": "plain_text",
                         "text": "Bestaetigung"
@@ -367,7 +367,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
                     }
                 };
             }          
-            payload["blocks"][s].text.text = leftFieldArray[i];
+            payload.blocks[s].text.text = leftFieldArray[i];
         }
         console.log(taskId);
         if (ifDialog[i] != "false") {
@@ -379,28 +379,28 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         console.log(actionIdArray[i]);
         console.log(typeArray);
         console.log(typeArray[i]);
-        payload["blocks"][s].accessory.type = typeArray[i];
+        payload.blocks[s].accessory.type = typeArray[i];
         changesArray[0] = parseInt(changesArray[0], 10)
             if (changesArray[0] > 0) {
-                payload["blocks"][s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                payload.blocks[s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
                 changesArray[0] -= 1;
                 if (changesArray[0] == 0) {
                     changesArray.splice(0, 2);
                 }
             } else if (changesArray[0] == -1) {
-                payload["blocks"][s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                payload.blocks[s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
             }
             changesArray[0] = changesArray[0].toString();
     }
     actionIdArray.splice(0, 4);
-    console.log(payload["blocks"]);
+    console.log(payload.blocks);
     var buttonNameArray = pushedButton[5].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
-    var lastBlock = payload["blocks"].length - 1;
+    var lastBlock = payload.blocks.length - 1;
     if (leftFieldArray.length == 0) {
-        payload["blocks"][lastBlock].elements[lastElement].text.text = "Abschicken";
-        payload["blocks"][lastBlock].elements[lastElement].action_id = "lastMessage";
-        payload["blocks"][lastBlock].elements[lastElement].value = "lastMessage";
+        payload.blocks[lastBlock].elements[lastElement].text.text = "Abschicken";
+        payload.blocks[lastBlock].elements[lastElement].action_id = "lastMessage";
+        payload.blocks[lastBlock].elements[lastElement].value = "lastMessage";
     } else {
         var textOptions;
         try {
@@ -409,10 +409,10 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             textOptions = "empty";
         }
         var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
-        payload["blocks"][s].elements[lastElement].value = buttonValue[0];
+        payload.blocks[s].elements[lastElement].value = buttonValue[0];
     }
-    console.log(JSON.stringify(payload["blocks"]));
-    payload["blocks"] = JSON.stringify(payload["blocks"]);
+    console.log(JSON.stringify(payload.blocks));
+    payload.blocks = JSON.stringify(payload.blocks);
     console.log(JSON.stringify(payload));
     mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
 }
