@@ -290,11 +290,15 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         leftField.splice(i, 1);
     }
     var ifDialog = [];
+    console.log(actionsLeft);
     for (var i = 0; i < actionsLeft; i += 2) {
+        console.log("rightField" + rightField);
         var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogIntaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
+        console.log("dialog" + dialog);
         ifDialog.push(dialog);
         rightField.splice(i, 1);
     }
+    console.log("ifDialog" + ifDialog);
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
