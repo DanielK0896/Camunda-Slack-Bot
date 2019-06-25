@@ -17,7 +17,8 @@ var statusCodeCallback = function postCallback(body, resolve, reject) {
     } catch (e) {
         console.log("ERROR callback: " + e);
         console.log("Body: " + body);
-        console.log(JSON.stringify(body));
+        console.log("Body String: " + JSON.stringify(body));
+        reject();
     }
 };
 
@@ -274,6 +275,7 @@ function nextPage(payload, pushedButton, numberOfChanges) {
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
     var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
     var message = pushedButton[5] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[6] + CAMUNDA_CONFIG.message + pushedButton[7] + CAMUNDA_CONFIG.message + pushedButton[8];
+    var changesArray = pushedButton[4].split(CAMUNDA_CONFIG.changesOuterSplit);
     var actionsLeft = leftField.length / 2;
     if (actionsLeft > numberOfChanges) {
         actionsLeft = numberOfChanges;
@@ -375,12 +377,22 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         console.log(actionIdArray[i]);
         console.log(typeArray);
         console.log(typeArray[i]);
-        payload["blocks"][s].accessory.action_id = actionIdArray[i];////////////////////////////////////////////////////////////////////////////////////////////////// an modules anpassen
         payload["blocks"][s].accessory.type = typeArray[i];
+        changesArray[0] = parseInt(changesArray[0], 10)
+            if (changesArray[0] > 0) {
+                payload["blocks"][s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                changesArray[0] -= 1;
+                if (changesArray[0] == 0) {
+                    changesArray.splice(0, 2);
+                }
+            } else if (changesArray[0] == -1) {
+                payload["blocks"][s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+            }
+            changesArray[0] = changesArray[0].toString();
     }
     actionIdArray.splice(0, 4);
     console.log(payload["blocks"]);
-    var buttonNameArray = pushedButton[4].split(CAMUNDA_CONFIG.buttonNameSplit);
+    var buttonNameArray = pushedButton[5].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
     var lastBlock = payload["blocks"].length - 1;
     if (leftFieldArray.length == 0) {

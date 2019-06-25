@@ -12,7 +12,8 @@
   "textConfirmationSplit": ";",
   "styleSplit": ";",
   "buttonValueSplit": "&%",
-  "changes": ";",
+  "changesInnerSplit": ";",
+  "changesOuterSplit": "$$",
 
   "leftFieldSplit": ";",
   "rightFieldSplit": ";",

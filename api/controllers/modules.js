@@ -126,14 +126,16 @@ async function preparePostMessage(task) {
                 }
             }
             if (variablesToGet.indexOf("boldHeadline") >= 0) {
+                msg = { 
+                    channel: "", textOptions: [], boldHeadline: variables[variablesToGet.indexOf("boldHeadline")],
+                    type: [], confirm: [], message: [], changes: []
+                };
                 path = "/chat/post/block";
-                console.log(variables);
                 var actionIdArray = variables[variablesToGet.indexOf("actionId")].split(CAMUNDA_CONFIG.actionIdOuterSplit);
                 var leftFieldArray = variables[variablesToGet.indexOf("leftField")].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[variablesToGet.indexOf("rightField")].split(CAMUNDA_CONFIG.rightFieldSplit);
                 var buttonNameArray = variables[variablesToGet.indexOf("buttonName")].split(CAMUNDA_CONFIG.buttonNameSplit);
 
-                msg["boldHeadline"] = variables[variablesToGet.indexOf("boldHeadline")];
                 var lengthOfLeftFields = leftFieldArray.length / 2;
                 if (lengthOfLeftFields > 4) {
                     lengthOfLeftFields = 4;
@@ -142,15 +144,12 @@ async function preparePostMessage(task) {
                 if (lengthOfRightFields > 4) {
                     lengthOfRightFields = 4;
                 }
-                msg["type"] = [];
-                msg["confirm"] = [];
                 for (var i = 0; i < lengthOfLeftFields; i++) {
                     var type = leftFieldArray[i].split(CAMUNDA_CONFIG.confirmSplit);
                     msg["type"].push(type[0]);        
                     msg["confirm"].push(type[1]); 
                     leftFieldArray.splice(i, 1);
                 }
-                msg["message"] = []
                 var message = variables[variablesToGet.indexOf("message")];
                 for (var i = 0; i < lengthOfRightFields; i++) {
                     if (rightFieldArray[i] != "false") {
@@ -165,11 +164,24 @@ async function preparePostMessage(task) {
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = actionIdArray.splice(0, 4);
                 if (variablesToGet.indexOf("changes") == -1) {
-                    msg["changes"] = ";";
+                    msg["changes"] = "-1" + CAMUNDA_CONFIG.changesOuterSplit;
                 } else {
-                    msg["changes"] = variables[variablesToGet.indexOf("changes")];
-                }
-                msg["textOptions"] = [];
+                        var changesArray = variables[variablesToGet.indexOf("changes")].split(CAMUNDA_CONFIG.changesOuterSplit);
+                        for (var i = 0; i < leftFieldArray.length; i++) {
+                            changesArray[0] = parseInt(changesArray[0], 10)
+                                if (changesArray[0] > 0) {
+                                    msg["changes"].push(changesArray[1]);
+                                    changesArray[0] -= 1;
+                                    if (changesArray[0] == 0) {
+                                        changesArray.splice(0, 2);
+                                    }
+                                } else if (changesArray[0] == -1) {
+                                    msg["changes"].push(changesArray[1]);
+                                }
+                            }   
+                        variables[variablesToGet.indexOf("changes")] = changesArray.join(CAMUNDA_CONFIG.changesOuterSplit);       
+                    }
+                
                 if (variablesToGet.indexOf("textOptions") >= 0) {
                     var textOptionsArray = variables[variablesToGet.indexOf("textOptions")].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
                     for (var i = 0; i < leftFieldArray.length; i++) {
@@ -204,7 +216,7 @@ async function preparePostMessage(task) {
                     } catch (e) {
                         textOptions = "empty";
                     }
-                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + buttonNameArray.join(CAMUNDA_CONFIG.buttonNameSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + variables[variablesToGet.indexOf("changes")] + CAMUNDA_CONFIG.taskIdSplit + buttonNameArray.join(CAMUNDA_CONFIG.buttonNameSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
                 }
 
             }
