@@ -52,6 +52,8 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         taskId = msg.actions[0].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
         var actionId = msg.actions[0].action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit);
         var variableCheck = actionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
+        console.log(actionId);
+        console.log(variableCheck);
         if (typeof variableCheck[1] == "undefined") {
             msg.actions[0].action_id = variableCheck[0];
         } else {
@@ -115,7 +117,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             res.status(200).type('application/json').end();
         } else {console.log("ERROR Dialog");} 
     } else { console.log("Weder Nachricht noch Dialog"); }
-
     if (msg.type == "block_actions") {
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }             //set variables; old message body placed in "blocks"
         if (msg.actions[0].type != "button" && actionId[0] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
