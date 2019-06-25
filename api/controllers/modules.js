@@ -55,29 +55,6 @@ function createPDF(template, fileName, variables) {
 async function preparePostMessage(task) {
     var variablesToGet = task.variables.get("variablesToGet").split(CAMUNDA_CONFIG.variablesToGetSplit);
     var variables = getVariables(task, variablesToGet);
-    var channelIndex = variablesToGet.indexOf("channel");
-    var textIndex = variablesToGet.indexOf("text");
-    var callbackIdIndex = variablesToGet.indexOf("callbackId");
-    var userIndex = variablesToGet.indexOf("user");
-    var kickUserIndex = variablesToGet.indexOf("kickUser");
-    var inviteUserIndex = variablesToGet.indexOf("inviteUser");
-    var postAtIndex = variablesToGet.indexOf("postAt");
-    var tsIndex = variablesToGet.indexOf("ts");
-    var scheduledMessageIdIndex = variablesToGet.indexOf("scheduledMessageId");
-    var messageTsIndex = variablesToGet.indexOf("messageTs");
-    var textButtonsIndex = variablesToGet.indexOf("textButtons");
-    var styleIndex = variablesToGet.indexOf("style");
-    var textConfirmationIndex = variablesToGet.indexOf("textConfirmation");
-    var boldHeadlineIndex = variablesToGet.indexOf("boldHeadline");
-    var userProfileIndex = variablesToGet.indexOf("userProfile");
-    var fileIndex = variablesToGet.indexOf("file");
-    var changesIndex = variablesToGet.indexOf("changes");
-    var leftFieldIndex = variablesToGet.indexOf("leftField");
-    var rightFieldIndex = variablesToGet.indexOf("rightField");
-    var actionIdIndex = variablesToGet.indexOf("actionId");
-    var textOptionsIndex = variablesToGet.indexOf("textOptions");
-    var messageIndex = variablesToGet.indexOf("message");
-    var buttonNameIndex = variablesToGet.indexOf("buttonName");
         var msg = {};
         var path;
         var callback = function postCallback(body, resolve, reject) {
@@ -94,69 +71,69 @@ async function preparePostMessage(task) {
             }
         };
 
-        if (channelIndex >= 0) {
+        if (variablesToGet.indexOf("channel") >= 0) {
             msg["channel"] = "";
-            if (tsIndex >= 0) {
-                msg["ts"] = variables[tsIndex];
+            if (variablesToGet.indexOf("ts") >= 0) {
+                msg["ts"] = variables[variablesToGet.indexOf("ts")];
                 path = '/chat/delete';
             }
-            if (textIndex >= 0) {
-                msg["text"] = variables[textIndex];
+            if (variablesToGet.indexOf("text") >= 0) {
+                msg["text"] = variables[variablesToGet.indexOf("text")];
                 path = '/chat/post';
-                if (tsIndex >= 0) {
-                    msg["ts"] = variables[tsIndex];
+                if (variablesToGet.indexOf("ts") >= 0) {
+                    msg["ts"] = variables[variablesToGet.indexOf("ts")];
                     path = '/chat/update';
                 }
-                if (userIndex >= 0) {
-                    msg["user"] = variables[userIndex];
+                if (variablesToGet.indexOf("user") >= 0) {
+                    msg["user"] = variables[variablesToGet.indexOf("user")];
                     path += '/ephemeral';
                 }
-            } else if (kickUserIndex >= 0) {
-                msg["user"] = variables[kickUserIndex];
+            } else if (variablesToGet.indexOf("kickUser") >= 0) {
+                msg["user"] = variables[variablesToGet.indexOf("kickUser")];
                 path += '/channel/kick';
-            } else if (inviteUserIndex >= 0) {
-                msg["user"] = variables[inviteUserIndex];
+            } else if (variablesToGet.indexOf("inviteUser") >= 0) {
+                msg["user"] = variables[variablesToGet.indexOf("inviteUser")];
                 path += '/channel/invite';
-            } else if (userProfileIndex >= 0) {
-                msg["user"] = variables[userProfileIndex];
+            } else if (variablesToGet.indexOf("userProfile") >= 0) {
+                msg["user"] = variables[variablesToGet.indexOf("userProfile")];
                 path += '/slackGet/userProfile';
-            } else if (fileIndex >= 0) {
-                msg["file"] = variables[fileIndex];
+            } else if (variablesToGet.indexOf("file") >= 0) {
+                msg["file"] = variables[variablesToGet.indexOf("file")];
                 path = '/file/delete';
             }
-            if (postAtIndex >= 0) {
-                msg["postAt"] = variables[postAtIndex];
+            if (variablesToGet.indexOf("postAt") >= 0) {
+                msg["postAt"] = variables[variablesToGet.indexOf("postAt")];
                 path += '/schedule';
             }
-            if (scheduledMessageIdIndex >= 0) {
-                msg["scheduledMessageId"] = variables[scheduledMessageIdIndex];
+            if (variablesToGet.indexOf("scheduledMessageId") >= 0) {
+                msg["scheduledMessageId"] = variables[variablesToGet.indexOf("scheduledMessageId")];
                 path = '/chat/scheduled/delete';
             }
-            if (messageTsIndex >= 0) {
-                msg["messageTs"] = variables[messageTsIndex];
+            if (variablesToGet.indexOf("messageTs") >= 0) {
+                msg["messageTs"] = variables[variablesToGet.indexOf("messageTs")];
                 path = '/slackGet/permalink';
             }
-            if (callbackIdIndex >= 0) {
-                msg["callbackId"] = variables[callbackIdIndex];
-                if (textButtonsIndex >= 0) {
-                    msg["textButtons"] = variables[textButtonsIndex].split(CAMUNDA_CONFIG.textButtonSplit);
-                    if (textConfirmationIndex >= 0) {
-                        msg["textConfirmation"] = variables[textConfirmationIndex].split(CAMUNDA_CONFIG.textConfirmationSplit);
+            if (variablesToGet.indexOf("callbackId") >= 0) {
+                msg["callbackId"] = variables[variablesToGet.indexOf("callbackId")];
+                if (variablesToGet.indexOf("textButtons") >= 0) {
+                    msg["textButtons"] = variables[variablesToGet.indexOf("textButtons")].split(CAMUNDA_CONFIG.textButtonSplit);
+                    if (variablesToGet.indexOf("textConfirmation") >= 0) {
+                        msg["textConfirmation"] = variables[variablesToGet.indexOf("textConfirmation")].split(CAMUNDA_CONFIG.textConfirmationSplit);
                     }
-                    if (styleIndex >= 0) {
-                        msg["style"] = variables[styleIndex].split(CAMUNDA_CONFIG.styleSplit);
+                    if (variablesToGet.indexOf("style") >= 0) {
+                        msg["style"] = variables[variablesToGet.indexOf("style")].split(CAMUNDA_CONFIG.styleSplit);
                     }
                 }
             }
-            if (boldHeadlineIndex >= 0) {
+            if (variablesToGet.indexOf("boldHeadline") >= 0) {
                 path = "/chat/post/block";
                 console.log(variables);
-                var actionIdArray = variables[actionIdIndex].split(CAMUNDA_CONFIG.actionIdOuterSplit);
-                var leftFieldArray = variables[leftFieldIndex].split(CAMUNDA_CONFIG.leftFieldSplit);
-                var rightFieldArray = variables[rightFieldIndex].split(CAMUNDA_CONFIG.rightFieldSplit);
-                var buttonNameArray = variables[buttonNameIndex].split(CAMUNDA_CONFIG.buttonNameSplit);
+                var actionIdArray = variables[variablesToGet.indexOf("actionId")].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+                var leftFieldArray = variables[variablesToGet.indexOf("leftField")].split(CAMUNDA_CONFIG.leftFieldSplit);
+                var rightFieldArray = variables[variablesToGet.indexOf("rightField")].split(CAMUNDA_CONFIG.rightFieldSplit);
+                var buttonNameArray = variables[variablesToGet.indexOf("buttonName")].split(CAMUNDA_CONFIG.buttonNameSplit);
 
-                msg["boldHeadline"] = variables[boldHeadlineIndex];
+                msg["boldHeadline"] = variables[variablesToGet.indexOf("boldHeadline")];
                 var lengthOfLeftFields = leftFieldArray.length / 2;
                 if (lengthOfLeftFields > 4) {
                     lengthOfLeftFields = 4;
@@ -174,7 +151,7 @@ async function preparePostMessage(task) {
                     leftFieldArray.splice(i, 1);
                 }
                 msg["message"] = []
-                var message = variables[messageIndex];
+                var message = variables[variablesToGet.indexOf("message")];
                 for (var i = 0; i < lengthOfRightFields; i++) {
                     if (rightFieldArray[i] != "false") {
                         var dialog = rightFieldArray[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
@@ -187,14 +164,14 @@ async function preparePostMessage(task) {
                 msg["leftField"] = leftFieldArray.splice(0, 4);
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = actionIdArray.splice(0, 4);
-                if (changesIndex == -1) {
+                if (variablesToGet.indexOf("changes") == -1) {
                     msg["changes"] = ";";
                 } else {
-                    msg["changes"] = variables[changesIndex];
+                    msg["changes"] = variables[variablesToGet.indexOf("changes")];
                 }
                 msg["textOptions"] = [];
-                if (textOptionsIndex >= 0) {
-                    var textOptionsArray = variables[textOptionsIndex].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
+                if (variablesToGet.indexOf("textOptions") >= 0) {
+                    var textOptionsArray = variables[variablesToGet.indexOf("textOptions")].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
                     for (var i = 0; i < leftFieldArray.length; i++) {
                         if (msg["type"][i] == "overflow" || msg["type"][i] == "static_select") {
                             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
@@ -219,7 +196,7 @@ async function preparePostMessage(task) {
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    msg["buttonName"] = [variables[buttonNameIndex], "Naechste Seite"];
+                    msg["buttonName"] = [variables[variablesToGet.indexOf("buttonName")], "Naechste Seite"];
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {
@@ -232,7 +209,7 @@ async function preparePostMessage(task) {
 
             }
         }
-    var listOfChannels = variables[channelIndex].split(CAMUNDA_CONFIG.channelSplit);
+    var listOfChannels = variables[variablesToGet.indexOf("channel")].split(CAMUNDA_CONFIG.channelSplit);
     var arrayOfTimeStamps = [];
     console.log(JSON.stringify(msg));
     console.log(path);
@@ -263,7 +240,6 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
     }
     return arrayOfVariables;
 } 
-
 
 
 
@@ -449,3 +425,4 @@ function getUsers() {
         return listOfAllLDAPUsers;
     });
 }
+
