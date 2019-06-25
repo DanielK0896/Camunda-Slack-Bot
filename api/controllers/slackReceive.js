@@ -119,7 +119,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     } else { console.log("Weder Nachricht noch Dialog"); }
     if (msg.type == "block_actions") {
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
-        changesInActionId = actionId.split(changesOuterSplit);             //set variables; old message body placed in "blocks"
+        changesInActionId = actionId.split(CAMUNDA_CONFIG.changesOuterSplit);             //set variables; old message body placed in "blocks"
         if (changesInActionId[1] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
             var changes = changesInActionId;
             var recentChanges = changes[actionValue].split(CAMUNDA_CONFIG.propertiesSplit);    //changes depending on selected_options for activated block
