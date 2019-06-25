@@ -409,6 +409,12 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             textOptions = "empty";
         }
         var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
+        console.log(s);
+        console.log(lastElement);
+        console.log(payload.blocks);
+        console.log(payload.blocks.elements);
+        console.log(payload.blocks.elements[lastElement]);
+        console.log(payload.blocks.elements[lastElement].value);
         payload.blocks[s].elements[lastElement].value = buttonValue[0];
     }
     console.log(JSON.stringify(payload.blocks));
