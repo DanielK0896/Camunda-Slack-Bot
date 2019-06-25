@@ -92,7 +92,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             }
         } else {
             if (msg.actions[0].action_id == "lastMessage") {
-                await testIfVariablesSent(taskid, taskId[1], msg, function (taskId, pushedButton, msg) {
+                await testIfVariablesSent(taskId, taskId[1], msg, function (taskId, pushedButton, msg) {
                     handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
                 });
@@ -121,7 +121,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
         changesInActionId = actionId.split(CAMUNDA_CONFIG.changesOuterSplit);             //set variables; old message body placed in "blocks"
         if (msg.actions[0].action_id == "nextPage") {    //load nextPage 
-            testIfVariablesSent(taskid, taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskid); });
+            testIfVariablesSent(taskId, taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskId); });
         } else if (msg.actions[0].action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
@@ -147,9 +147,9 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     }
 }
 
-function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
+function handleMessage(taskId, pushedButton, msg, dialogNumberArray) {
     var arrayOfVariables = {};
-    var variableInformation = taskid[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
+    var variableInformation = taskId[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
     arrayOfVariables["nameVariable"] = [];
     arrayOfVariables["variable"] = [];
     console.log(msg);
@@ -163,7 +163,7 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
                 }
             } catch (e) {
                 if (typeof dialogNumberArray != "undefined") {
-                    arrayOfVariables["variable"].push(taskid[taskid.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
+                    arrayOfVariables["variable"].push(taskId[taskId.length - 1] + CAMUNDA_CONFIG.camundaMessageVariableSplit + dialogNumberArray.join(CAMUNDA_CONFIG.camundaMessageVariableSplit));
                     arrayOfVariables["nameVariable"].push(variableInformation[i - 1]);
                     for (var i = 0; i < pushedButton.length; i++) {
                         arrayOfVariables["variable"].push(pushedButton[i]);
@@ -180,19 +180,19 @@ function handleMessage(taskid, pushedButton, msg, dialogNumberArray) {
         arrayOfVariables["nameVariable"].push(variableInformation[0]);
     }
     var path = "/camunda/sendMessage/"
-    arrayOfVariables["correlationKey"] = taskid[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
-    arrayOfVariables["message"] = taskid[2];        //callbackId[2] = the message name in the camunda process
+    arrayOfVariables["correlationKey"] = taskId[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
+    arrayOfVariables["message"] = taskId[2];        //callbackId[2] = the message name in the camunda process
     console.log(arrayOfVariables);
     mod.postToSwaggerAPI(arrayOfVariables, path, basicCallback);
 }
 
-function handleDialog(taskid, msg, actionId) {
+function handleDialog(taskId, msg, actionId) {
     var arrayOfVariables = {};
-    var variablesForDialog = taskid[2].split(CAMUNDA_CONFIG.dialogVariablesSplit);                  //callbackId[2] = first dialog element e.g. "text"
+    var variablesForDialog = taskId[2].split(CAMUNDA_CONFIG.dialogVariablesSplit);                  //callbackId[2] = first dialog element e.g. "text"
     
     var callbackId = [];
     for (var i = 0; i < 4; i++) {
-        callbackId.push(taskid[3 + i]);
+        callbackId.push(taskId[3 + i]);
     }
     try {
         callbackId.push(msg.container.message_ts);
@@ -229,7 +229,7 @@ function handleDialog(taskid, msg, actionId) {
     mod.postToSwaggerAPI(arrayOfVariables, "/dialog/open", basicCallback);
 }
 
-async function testIfVariablesSent(taskid, correlationKeys, msg, callback) {
+async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
@@ -265,13 +265,13 @@ async function testIfVariablesSent(taskid, correlationKeys, msg, callback) {
     payload.blocks.push(divider);
     payload.blocks.push(lastBlock);
     if (msg.message.blocks.length > 3) {
-        nextPage(payload, pushedButton, numberOfChanges, taskid);
+        nextPage(payload, pushedButton, numberOfChanges, taskId);
     } else {
         callback();
     }
 }
 
-function nextPage(payload, pushedButton, numberOfChanges, taskid) {
+function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     console.log(pushedButton);
     var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
@@ -292,7 +292,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskid) {
     }
     var ifDialog = [];
     for (var i = 0; i < actionsLeft; i += 2) {
-        var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
+        var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogIntaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
         ifDialog.push(dialog);
         rightField.splice(i, 1);
     }
@@ -369,7 +369,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskid) {
             }          
             payload["blocks"][s].text.text = leftFieldArray[i];
         }
-        console.log(taskid);
+        console.log(taskId);
         if (ifDialog[i] != "false") {
             payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         } else {
