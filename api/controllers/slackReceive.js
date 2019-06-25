@@ -374,10 +374,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         } else {
             payload.blocks[s].block_id = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
-        console.log(actionIdArray);
-        console.log(actionIdArray[i]);
-        console.log(typeArray);
-        console.log(typeArray[i]);
         payload.blocks[s].accessory.type = typeArray[i];
         changesArray[0] = parseInt(changesArray[0], 10)
             if (changesArray[0] > 0) {
@@ -390,6 +386,12 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
                 payload.blocks[s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
             }
             changesArray[0] = changesArray[0].toString();
+            if(typeArray[i] == "button") {
+                payload.blocks[s].accessory.text = {
+                    "type":"plain_text", "text":"Klick", "emoji":true
+                };
+                payload.blocks[s].accessory.value = "0";
+            }
     }
     actionIdArray.splice(0, 4);
     console.log(payload.blocks);
