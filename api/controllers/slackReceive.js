@@ -92,7 +92,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             }
         } else {
             if (msg.actions[0].action_id == "lastMessage") {
-                await testIfVariablesSent(taskId[1], msg, function (taskId, pushedButton, msg) {
+                await testIfVariablesSent(taskid, taskId[1], msg, function (taskId, pushedButton, msg) {
                     handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
                 });
@@ -121,7 +121,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
         changesInActionId = actionId.split(CAMUNDA_CONFIG.changesOuterSplit);             //set variables; old message body placed in "blocks"
         if (msg.actions[0].action_id == "nextPage") {    //load nextPage 
-            testIfVariablesSent(taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskid); });
+            testIfVariablesSent(taskid, taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskid); });
         } else if (msg.actions[0].action_id == "lastMessage") {                 //when user pushed Button "Abschicken"
             var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
             mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
@@ -229,7 +229,7 @@ function handleDialog(taskid, msg, actionId) {
     mod.postToSwaggerAPI(arrayOfVariables, "/dialog/open", basicCallback);
 }
 
-async function testIfVariablesSent(correlationKeys, msg, callback) {
+async function testIfVariablesSent(taskid, correlationKeys, msg, callback) {
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
