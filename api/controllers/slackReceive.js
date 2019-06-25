@@ -373,9 +373,9 @@ function nextPage(payload, pushedButton, numberOfChanges) {
         console.log(payload["blocks"][2]);
         console.log(payload["blocks"][2][block_id]);
         if (ifDialog[i] != "false") {
-            payload["blocks"][s][block_id] = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+            payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         } else {
-            payload["blocks"][s][block_id] = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+            payload.blocks[s].block_id = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
         console.log(actionIdArray);
         console.log(actionIdArray[i]);
