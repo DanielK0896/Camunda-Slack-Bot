@@ -243,10 +243,8 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
         blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
     var pushedButton = msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit);
-    try {
-        var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
-        var lengthOfLeftFields = leftFields.length / 2;
-    } catch(e) {}
+    var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
+    var lengthOfLeftFields = leftFields.length / 2;
     var numberOfChanges = 0;
     var lastBlock = payload.blocks.pop();
     var divider = payload.blocks.pop();
@@ -401,7 +399,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     if (leftField.length == 0) {
         payload.blocks[lastBlock].elements[lastElement].text.text = "Abschicken";
         payload.blocks[lastBlock].elements[lastElement].action_id = "lastMessage";
-        payload.blocks[lastBlock].elements[lastElement].value = "lastMessage";
     } else {
         var textOptions;
         try {
@@ -409,9 +406,9 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         } catch (e) {
             textOptions = "empty";
         }
-        var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
-        payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
     }
+    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
+        payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
     console.log(JSON.stringify(payload.blocks));
     payload.blocks = JSON.stringify(payload.blocks);
     console.log(JSON.stringify(payload));
