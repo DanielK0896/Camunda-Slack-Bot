@@ -243,10 +243,11 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
         blockActionIdArray.push(blockActionId[i / 2 - 1][0].split(CAMUNDA_CONFIG.actionIdInnerSplit));
     }
     var pushedButton = msg.actions[0].value.split(CAMUNDA_CONFIG.taskIdSplit);
-    var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
-    var lengthOfLeftFields = leftFields.length / 2;
+    try {
+        var leftFields = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
+        var lengthOfLeftFields = leftFields.length / 2;
+    } catch(e) {}
     var numberOfChanges = 0;
-    console.log(lengthOfLeftFields);
     var lastBlock = payload.blocks.pop();
     var divider = payload.blocks.pop();
     for (var i = blocksLength - 3; i >= 2; i -= 2) {
