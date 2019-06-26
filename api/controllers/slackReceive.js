@@ -404,6 +404,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     if (leftField.length == 0) {
         payload.blocks[lastBlock].elements[lastElement].text.text = "Abschicken";
         payload.blocks[lastBlock].elements[lastElement].action_id = "lastMessage";
+        payload.blocks[lastBlock].elements[lastElement].value = "lastMessage";
     } else {
         var textOptions;
         try {
@@ -411,9 +412,10 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         } catch (e) {
             textOptions = "empty";
         }
+        var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesArray.join(CAMUNDA_CONFIG.changesOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+        payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
     }
-    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesArray.join(CAMUNDA_CONFIG.changesOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
-    payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
+    
     for (var i = 2; i < lastBlock;i+=2) {
         var blockIdArray = payload.blocks[i].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
         blockIdArray.pop();
