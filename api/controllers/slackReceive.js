@@ -258,6 +258,10 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
                     payload.blocks.push(payload.blocks[i]);
                 }
                 payload.blocks.splice(i, 2);   
+            } else {
+                var actionIdArray = payload.blocks[i].accessory.action_id.split(CAMUNDA_CONFIG.taskIdSplit);
+                actionIdArray.pop();
+                payload.blocks[i].accessory.action_id = actionIdArray.join(CAMUNDA_CONFIG.taskIdSplit) + CAMUNDA_CONFIG.taskIdSplit + i / 2;
             }
         }
     }
@@ -298,7 +302,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
-    console.log("actionsLeft: " + actionsLeft);
     for (var i = 0; i < actionsLeft; i++) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
@@ -368,26 +371,22 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             }          
             payload.blocks[s].text.text = leftFieldArray[i];
         }
-        console.log(taskId);
         if (ifDialog[i] != "false") {
-            payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + actionsLeft;
+            payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + i;
         } else {
             payload.blocks[s].block_id = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
-        console.log(changesArray);
-        console.log("actionId " + actionIdArray);
         payload.blocks[s].accessory.type = typeArray[i];
         changesArray[0] = parseInt(changesArray[0], 10)
             if (changesArray[0] > 0) {
-                payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[0] + CAMUNDA_CONFIG.changesOuterSplit + changesArray[1];
                 changesArray[0] -= 1;
                 if (changesArray[0] == 0) {
                     changesArray.splice(0, 2);
                 }
             } else if (changesArray[0] == -1) {
-                payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[0] + CAMUNDA_CONFIG.changesOuterSplit + changesArray[1];
             }
-            console.log("action_id" + payload.blocks[s].accessory.action_id);
             changesArray[0] = changesArray[0].toString();
             if(typeArray[i] == "button") {
                 payload.blocks[s].accessory.text = {
@@ -397,7 +396,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             }
     }
     actionIdArray.splice(0, 4);
-    console.log(payload.blocks);
     var buttonNameArray = pushedButton[5].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length;
     var lastBlock = payload.blocks.length - 1;
