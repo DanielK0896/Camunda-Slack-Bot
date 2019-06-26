@@ -5,6 +5,11 @@
     "replace_original": false,
     "text": "Deine Nachricht ist angekommen!"
   },
+  "errorResponse": {
+    "response_type": "ephemeral",
+    "replace_original": false,
+    "text": "Es ist ein Fehler aufgetreten. Versuche es später noch einmal oder wende dich an IT"
+  },
 
   "variablesToGetSplit": ";",
   "channelSplit": ";",

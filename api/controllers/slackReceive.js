@@ -13,6 +13,7 @@ var basicCallback = function postCallback(body, resolve, reject) {
 var statusCodeCallback = function postCallback(body, resolve, reject) {
     try {
         var bodyParsed = JSON.parse(body);
+        console.log("Status: " + bodyParsed.statusCode);
         resolve(bodyParsed.statusCode);
     } catch (e) {
         console.log("ERROR callback: " + e);
@@ -81,28 +82,35 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
-            handleMessage(taskId, pushedButton, msg, dialogNumberArray);
-            res.status(200).type('application/json').end();
-            if (taskId[4] == "delete") {                   //update message with confirmation text
-                var updateMsg = { "channel": msg.channel.id, "text": "Deine Nachricht ist angekommen:", "ts": taskId[taskId.length - 1]};
-                for (x in msg.submission) {
-                    updateMsg["text"] += " " + msg.submission[x];
+            if(await handleMessage(taskId, pushedButton, msg, dialogNumberArray) == "200") {
+                res.status(200).type('application/json').end();
+                if (taskId[4] == "delete") {                   //update message with confirmation text
+                    var updateMsg = { "channel": msg.channel.id, "text": "Deine Nachricht ist angekommen:", "ts": taskId[taskId.length - 1]};
+                    for (x in msg.submission) {
+                        updateMsg["text"] += " " + msg.submission[x];
+                    }
+                    mod.postToSwaggerAPI(updateMsg, "/chat/update", basicCallback);
                 }
-                mod.postToSwaggerAPI(updateMsg, "/chat/update", basicCallback);
             }
         } else {
+            var responseCode;
             if (msg.actions[0].action_id == "lastMessage") {
-                await testIfVariablesSent(taskId, taskId[1], msg, function (taskId, pushedButton, msg) {
-                    handleMessage(taskId, pushedButton, msg);
+                responseCode = await testIfVariablesSent(taskId, taskId[1], msg, function (taskId, pushedButton, msg) {
+                    var responseCode = await handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
                     var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
                     mod.postToSwaggerAPI(payload, "/chat/delete", basicCallback);
+                    return responseCode;
                 }, pushedButton);
             } else if (msg.actions[0].action_id == "nextPage") {
             } else {
-                handleMessage(taskId, pushedButton, msg);
+                responseCode = await handleMessage(taskId, pushedButton, msg);
             }   
-            res.json(CAMUNDA_CONFIG.basicResponse);
+            if(responseCode == "200") {
+                res.json(CAMUNDA_CONFIG.basicResponse);
+            } else {
+                res.json(CAMUNDA_CONFIG.errorResponse);
+            }
         }
     } else if (taskId[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskId[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
@@ -146,7 +154,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     }
 }
 
-function handleMessage(taskId, pushedButton, msg, dialogNumberArray) {
+async function handleMessage(taskId, pushedButton, msg, dialogNumberArray) {
     console.log(taskId + "   " + pushedButton)
     var arrayOfVariables = {};
     var variableInformation = taskId[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
@@ -183,7 +191,7 @@ function handleMessage(taskId, pushedButton, msg, dialogNumberArray) {
     arrayOfVariables["correlationKey"] = taskId[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskId[2];        //callbackId[2] = the message name in the camunda process
     console.log(arrayOfVariables);
-    mod.postToSwaggerAPI(arrayOfVariables, path, basicCallback);
+    return await mod.postToSwaggerAPI(arrayOfVariables, path, statusCodeCallback);
 }
 
 function handleDialog(taskId, msg, actionId) {
