@@ -119,7 +119,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             res.status(200).type('application/json').end();
         } else {console.log("ERROR Dialog");} 
     } else { console.log("Weder Nachricht noch Dialog"); }
-    if (msg.type == "block_actions") {
+    if (msg.type == "block_actions" && msg.actions[0].action_id != "lastMessage") {
         var payload = { "channel": msg.container.channel_id, "ts": msg.container.message_ts, "blocks": msg.message.blocks }
         changesInActionId = actionId.split(CAMUNDA_CONFIG.changesOuterSplit);             //set variables; old message body placed in "blocks"
         if (msg.actions[0].action_id == "nextPage") {
