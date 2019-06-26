@@ -339,7 +339,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
                 }
                 textOptionsArray[0] = textOptionsArray[0].toString();
             }
-            console.log(rightFieldArray);
             if (rightFieldArray[i] != '') {
                 try {
                     payload.blocks[s].fields[0].text = leftFieldArray[i];
@@ -411,6 +410,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     var lastElement = buttonNameArray.length;
     var lastBlock = payload.blocks.length - 1;
     if (leftField.length == 0) {
+        console.log(payload);
         payload.blocks[lastBlock].elements[lastElement].text.text = "Abschicken";
         payload.blocks[lastBlock].elements[lastElement].action_id = "lastMessage";
         payload.blocks[lastBlock].elements[lastElement].value = "lastMessage";
