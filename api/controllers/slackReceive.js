@@ -95,7 +95,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 await testIfVariablesSent(taskId, taskId[1], msg, function (taskId, pushedButton, msg) {
                     handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
-                });
+                }, pushedButton);
             } else if (msg.actions[0].action_id == "nextPage") {
             } else {
                 handleMessage(taskId, pushedButton, msg);
@@ -230,7 +230,7 @@ function handleDialog(taskId, msg, actionId) {
     mod.postToSwaggerAPI(arrayOfVariables, "/dialog/open", basicCallback);
 }
 
-async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
+async function testIfVariablesSent(taskId, correlationKeys, msg, callback, variable) {
     var payload = {};
     payload["channel"] = msg.container.channel_id;
     payload["ts"] = msg.container.message_ts;
@@ -272,7 +272,7 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
     if (msg.message.blocks.length > maximalLength) {
         nextPage(payload, pushedButton, numberOfChanges, taskId);
     } else {
-        callback();
+        callback(taskId, variable, msg);
     }
 }
 
