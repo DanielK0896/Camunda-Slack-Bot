@@ -278,101 +278,103 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback, varia
 
 function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     console.log(pushedButton);
-    var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
-    var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
-    var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
-    var message = pushedButton[6] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[7] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[8] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[9];
-    var changesArray = pushedButton[4].split(CAMUNDA_CONFIG.changesOuterSplit);
-    var actionsLeft = leftField.length / 2;
-    if (actionsLeft > numberOfChanges) {
-        actionsLeft = numberOfChanges;
-    }
-    var typeArray = [];
-    var confirm = [];
-    for (var i = 0; i < actionsLeft; i++) {
-        var type = leftField[i].split(CAMUNDA_CONFIG.confirmSplit);
-        typeArray.push(type[0]);
-        confirm.push(type[1]); 
-        leftField.splice(i, 1);
-    }
-    var ifDialog = [];
-    for (var i = 0; i < actionsLeft; i += 2) {
-        var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
-        ifDialog.push(dialog);
-        rightField.splice(i, 1);
-    }
-    var leftFieldArray = leftField.splice(0, numberOfChanges);
-    var rightFieldArray = rightField.splice(0, numberOfChanges);
-    var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
-    for (var i = 0; i < actionsLeft; i++) {
-        if (numberOfChanges == 4) {
-            var s = (i + 1) * 2;
-            if (actionsLeft == 3) {
-                payload.blocks.splice(7, 2);
-            } else if (actionsLeft == 2) {
-                payload.blocks.splice(5, 4);
-            } else if (actionsLeft == 1) {
-                payload.blocks.splice(3, 6);
-            }
-        } else {
-            var s = (payload.blocks.length - 3) - (i * 2);
+    if(pushedButton != "lastMessage") {
+        var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
+        var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
+        var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
+        var message = pushedButton[6] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[7] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[8] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[9];
+        var changesArray = pushedButton[4].split(CAMUNDA_CONFIG.changesOuterSplit);
+        var actionsLeft = leftField.length / 2;
+        if (actionsLeft > numberOfChanges) {
+            actionsLeft = numberOfChanges;
         }
-        if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
-            textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
-            if (textOptionsArray[0] > 0) {
-                payload.blocks[s].accessory.options = textOptionsArray[1];
-                textOptionsArray[0] -= 1;
-                if (textOptionsArray[0] == 0) {
-                    textOptionsArray.splice(0, 2);
+        var typeArray = [];
+        var confirm = [];
+        for (var i = 0; i < actionsLeft; i++) {
+            var type = leftField[i].split(CAMUNDA_CONFIG.confirmSplit);
+            typeArray.push(type[0]);
+            confirm.push(type[1]); 
+            leftField.splice(i, 1);
+        }
+        var ifDialog = [];
+        for (var i = 0; i < actionsLeft; i += 2) {
+            var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
+            ifDialog.push(dialog);
+            rightField.splice(i, 1);
+        }
+        var leftFieldArray = leftField.splice(0, numberOfChanges);
+        var rightFieldArray = rightField.splice(0, numberOfChanges);
+        var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+    
+        for (var i = 0; i < actionsLeft; i++) {
+            if (numberOfChanges == 4) {
+                var s = (i + 1) * 2;
+                if (actionsLeft == 3) {
+                    payload.blocks.splice(7, 2);
+                } else if (actionsLeft == 2) {
+                    payload.blocks.splice(5, 4);
+                } else if (actionsLeft == 1) {
+                    payload.blocks.splice(3, 6);
                 }
-            } else if (textOptionsArray[0] == -1) {
-                payload.blocks[s].accessory.options = textOptionsArray[1];
+            } else {
+                var s = (payload.blocks.length - 3) - (i * 2);
             }
-            textOptionsArray[0] = textOptionsArray[0].toString();
-        }
-        console.log(rightFieldArray);
-        if (rightFieldArray[i] != '') {
-            try {
-                payload.blocks[s].fields[0].text = leftFieldArray[i];
-                payload.blocks[s].fields[1].text = rightFieldArray[i];
-            } catch (e) {
-                payload.blocks[s].fields = [
-                    {
-                        "type": "mrkdwn",
-                        "text": leftFieldArray[i]
-                    }, {
-                        "type": "mrkdwn",
-                        "text": rightFieldArray[i]
-                    }];
-            }
-        } else {
-            try {
-                delete payload.blocks[s].accessory.options;
-                delete payload.blocks[s].fields;
-            } catch (e) {}
-            payload.blocks[s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
-            if (confirm[i] == "true") {
-                payload.blocks[s].accessory.confirm = {
-                    "title": {
-                        "type": "plain_text",
-                        "text": "Bestaetigung"
-                    },
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "Bist du dir sicher?"
-                    },
-                    "confirm": {
-                        "type": "plain_text",
-                        "text": "Ja"
-                    },
-                    "deny": {
-                        "type": "plain_text",
-                        "text": "Nein"
+            if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
+                textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
+                if (textOptionsArray[0] > 0) {
+                    payload.blocks[s].accessory.options = textOptionsArray[1];
+                    textOptionsArray[0] -= 1;
+                    if (textOptionsArray[0] == 0) {
+                        textOptionsArray.splice(0, 2);
                     }
-                };
-            }          
-            payload.blocks[s].text.text = leftFieldArray[i];
-        }
+                } else if (textOptionsArray[0] == -1) {
+                    payload.blocks[s].accessory.options = textOptionsArray[1];
+                }
+                textOptionsArray[0] = textOptionsArray[0].toString();
+            }
+            console.log(rightFieldArray);
+            if (rightFieldArray[i] != '') {
+                try {
+                    payload.blocks[s].fields[0].text = leftFieldArray[i];
+                    payload.blocks[s].fields[1].text = rightFieldArray[i];
+                } catch (e) {
+                    payload.blocks[s].fields = [
+                        {
+                            "type": "mrkdwn",
+                            "text": leftFieldArray[i]
+                        }, {
+                            "type": "mrkdwn",
+                            "text": rightFieldArray[i]
+                        }];
+                }
+            } else {
+                try {
+                    delete payload.blocks[s].accessory.options;
+                    delete payload.blocks[s].fields;
+                } catch (e) {}
+                payload.blocks[s].text = { "type": "mrkdwn", "text": leftFieldArray[i] };
+                if (confirm[i] == "true") {
+                    payload.blocks[s].accessory.confirm = {
+                        "title": {
+                            "type": "plain_text",
+                            "text": "Bestaetigung"
+                        },
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Bist du dir sicher?"
+                        },
+                        "confirm": {
+                            "type": "plain_text",
+                            "text": "Ja"
+                        },
+                        "deny": {
+                            "type": "plain_text",
+                            "text": "Nein"
+                        }
+                    };
+                }          
+                payload.blocks[s].text.text = leftFieldArray[i];
+            }    
         if (ifDialog[i] != "false") {
             payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + i;
         } else {
@@ -415,7 +417,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesArray.join(CAMUNDA_CONFIG.changesOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
         payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
     }
-    
+}
     for (var i = 2; i < lastBlock;i+=2) {
         var blockIdArray = payload.blocks[i].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
         blockIdArray.pop();
