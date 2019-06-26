@@ -134,8 +134,11 @@ async function preparePostMessage(task) {
                 var actionIdArray = variables[variablesToGet.indexOf("actionId")].split(CAMUNDA_CONFIG.actionIdOuterSplit);
                 var leftFieldArray = variables[variablesToGet.indexOf("leftField")].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[variablesToGet.indexOf("rightField")].split(CAMUNDA_CONFIG.rightFieldSplit);
-                var buttonNameArray = variables[variablesToGet.indexOf("buttonName")].split(CAMUNDA_CONFIG.buttonNameSplit);
-
+                try {
+                    var buttonNameArray = variables[variablesToGet.indexOf("buttonName")].split(CAMUNDA_CONFIG.buttonNameSplit);
+                } catch(e) {
+                    var buttonNameArray = "";
+                }
                 var lengthOfLeftFields = leftFieldArray.length / 2;
                 if (lengthOfLeftFields > 4) {
                     lengthOfLeftFields = 4;
@@ -210,7 +213,8 @@ async function preparePostMessage(task) {
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    msg["buttonName"] = [variables[variablesToGet.indexOf("buttonName")], "Naechste Seite"];
+                    buttonNameArray.push("Naechste Seite");
+                    msg["buttonName"] = buttonNameArray;
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {
