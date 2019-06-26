@@ -217,7 +217,7 @@ async function preparePostMessage(task) {
                     buttonNameArray.push("Naechste Seite");
                     console.log(buttonNameArray);
                     msg["buttonName"] = buttonNameArray;
-                    console.log(msg["buttonName"]);
+                    console.log(msg["buttonName"])
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {
@@ -225,8 +225,8 @@ async function preparePostMessage(task) {
                     } catch (e) {
                         textOptions = "empty";
                     }
-                    buttonNameArray.pop();
-                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesForButtonValue + CAMUNDA_CONFIG.taskIdSplit + buttonNameArray.join(CAMUNDA_CONFIG.buttonNameSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+                    msg["buttonValue"] = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesForButtonValue + CAMUNDA_CONFIG.taskIdSplit + buttonNameArrays.pop().join(CAMUNDA_CONFIG.buttonNameSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
+                    console.log(msg["buttonName"])
                 }
 
             }
