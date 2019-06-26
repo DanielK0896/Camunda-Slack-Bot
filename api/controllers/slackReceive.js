@@ -285,7 +285,7 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback, varia
 
 function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     console.log(pushedButton);
-    if(pushedButton != "lastMessage") {
+    if(numberOfChanges > 0) {
         var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
         var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
         var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
