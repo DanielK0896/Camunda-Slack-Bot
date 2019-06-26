@@ -137,7 +137,7 @@ async function preparePostMessage(task) {
                 try {
                     var buttonNameArray = variables[variablesToGet.indexOf("buttonName")].split(CAMUNDA_CONFIG.buttonNameSplit);
                 } catch(e) {
-                    var buttonNameArray = "";
+                    var buttonNameArray = [];
                 }
                 var lengthOfLeftFields = leftFieldArray.length / 2;
                 if (lengthOfLeftFields > 4) {
@@ -213,7 +213,9 @@ async function preparePostMessage(task) {
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
+                    console.log(buttonNameArray);
                     buttonNameArray.push("Naechste Seite");
+                    console.log(buttonNameArray);
                     msg["buttonName"] = buttonNameArray;
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
