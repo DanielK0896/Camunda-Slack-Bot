@@ -258,12 +258,6 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
                     payload.blocks.push(payload.blocks[i]);
                 }
                 payload.blocks.splice(i, 2);   
-            } else {
-                var blockIdArray = payload.blocks[i].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
-                console.log("actionIdArray1: " + blockIdArray);
-                blockIdArray.pop();
-                console.log("actionIdArray2: " + blockIdArray);
-                payload.blocks[i].block_id = blockIdArray.join(CAMUNDA_CONFIG.taskIdSplit) + CAMUNDA_CONFIG.taskIdSplit + i / 2;
             }
         }
     }
@@ -413,7 +407,12 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         }
     }
     var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesArray.join(CAMUNDA_CONFIG.changesOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
-        payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
+    payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
+    for (var i = 2; i < lastBlock;i+=2) {
+        var blockIdArray = payload.blocks[i].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
+        blockIdArray.pop();
+        payload.blocks[i].block_id = blockIdArray.join(CAMUNDA_CONFIG.taskIdSplit) + CAMUNDA_CONFIG.taskIdSplit + i / 2 - 1;
+    }
     console.log(JSON.stringify(payload.blocks));
     payload.blocks = JSON.stringify(payload.blocks);
     console.log(JSON.stringify(payload));
