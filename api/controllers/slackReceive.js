@@ -407,7 +407,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     }
     actionIdArray.splice(0, 4);
     var buttonNameArray = pushedButton[5].split(CAMUNDA_CONFIG.buttonNameSplit);
-    var lastElement = buttonNameArray.length;
+    var lastElement = buttonNameArray.length -1;
     var lastBlock = payload.blocks.length - 1;
     console.log(lastBlock);
     console.log(lastElement);
