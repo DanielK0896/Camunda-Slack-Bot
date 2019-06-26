@@ -275,7 +275,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     var leftField = pushedButton[1].split(CAMUNDA_CONFIG.leftFieldSplit);
     var rightField = pushedButton[2].split(CAMUNDA_CONFIG.rightFieldSplit);
     var textOptionsArray = pushedButton[3].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
-    var message = pushedButton[5] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[6] + CAMUNDA_CONFIG.message + pushedButton[7] + CAMUNDA_CONFIG.message + pushedButton[8];
+    var message = pushedButton[6] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[7] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[8] + CAMUNDA_CONFIG.taskIdSplit + pushedButton[9];
     var changesArray = pushedButton[4].split(CAMUNDA_CONFIG.changesOuterSplit);
     var actionsLeft = leftField.length / 2;
     if (actionsLeft > numberOfChanges) {
