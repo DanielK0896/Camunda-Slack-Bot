@@ -258,7 +258,7 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback, varia
                 if (lengthOfLeftFields > 0) {
                     lengthOfLeftFields -= 1;
                     numberOfChanges += 1;
-                    payload.blocks.push(payload.blocks[i - 1]);
+                    payload.blocks.push(payload.blocks[i + 1]);
                     payload.blocks.push(payload.blocks[i]);
                 }
                 payload.blocks.splice(i, 2);   
