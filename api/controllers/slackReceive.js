@@ -261,7 +261,7 @@ async function testIfVariablesSent(taskId, correlationKeys, msg, callback) {
             } else {
                 var blockIdArray = payload.blocks[i].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
                 console.log("actionIdArray1: " + blockIdArray);
-                actionIdArray.pop();
+                blockIdArray.pop();
                 console.log("actionIdArray2: " + blockIdArray);
                 payload.blocks[i].block_id = blockIdArray.join(CAMUNDA_CONFIG.taskIdSplit) + CAMUNDA_CONFIG.taskIdSplit + i / 2;
             }
