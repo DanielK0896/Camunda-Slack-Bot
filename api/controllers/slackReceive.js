@@ -95,7 +95,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         } else {
             var responseCode;
             if (msg.actions[0].action_id == "lastMessage") {
-                responseCode = await testIfVariablesSent(taskId, taskId[1], msg, function (taskId, pushedButton, msg) {
+                responseCode = await testIfVariablesSent(taskId, taskId[1], msg, async function (taskId, pushedButton, msg) {
                     var responseCode = await handleMessage(taskId, pushedButton, msg);
                     pushedButton[0] == "undefined";
                     var payload = { "channel": msg.channel.id, "ts": msg.container.message_ts };
