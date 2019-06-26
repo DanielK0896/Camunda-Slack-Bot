@@ -410,7 +410,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     var lastElement = buttonNameArray.length;
     var lastBlock = payload.blocks.length - 1;
     if (leftField.length == 0) {
-        console.log(payload);
+        console.log(JSON.stringify(payload));
         payload.blocks[lastBlock].elements[lastElement].text.text = "Abschicken";
         payload.blocks[lastBlock].elements[lastElement].action_id = "lastMessage";
         payload.blocks[lastBlock].elements[lastElement].value = "lastMessage";
