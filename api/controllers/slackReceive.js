@@ -411,7 +411,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     for (var i = 2; i < lastBlock;i+=2) {
         var blockIdArray = payload.blocks[i].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
         blockIdArray.pop();
-        payload.blocks[i].block_id = blockIdArray.join(CAMUNDA_CONFIG.taskIdSplit) + CAMUNDA_CONFIG.taskIdSplit + i / 2 - 1;
+        payload.blocks[i].block_id = blockIdArray.join(CAMUNDA_CONFIG.taskIdSplit) + CAMUNDA_CONFIG.taskIdSplit + (i / 2 - 1).toString();
     }
     console.log(JSON.stringify(payload.blocks));
     payload.blocks = JSON.stringify(payload.blocks);
