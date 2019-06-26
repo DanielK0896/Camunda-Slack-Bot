@@ -297,7 +297,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     }
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
-    var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+    var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
     for (var i = 0; i < actionsLeft; i++) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
