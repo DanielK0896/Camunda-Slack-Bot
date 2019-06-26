@@ -298,6 +298,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
+    console.log("actionsLeft: " + actionsLeft);
     for (var i = 0; i < actionsLeft; i++) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
@@ -369,7 +370,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         }
         console.log(taskId);
         if (ifDialog[i] != "false") {
-            payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
+            payload.blocks[s].block_id = ifDialog[i] + CAMUNDA_CONFIG.taskIdSplit + message + CAMUNDA_CONFIG.taskIdSplit + actionsLeft;
         } else {
             payload.blocks[s].block_id = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
