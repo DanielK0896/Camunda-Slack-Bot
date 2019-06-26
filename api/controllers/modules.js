@@ -217,6 +217,7 @@ async function preparePostMessage(task) {
                     buttonNameArray.push("Naechste Seite");
                     console.log(buttonNameArray);
                     msg["buttonName"] = buttonNameArray;
+                    console.log(msg["buttonName"]);
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {
