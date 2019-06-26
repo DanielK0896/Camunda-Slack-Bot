@@ -297,7 +297,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
     }
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
-    var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
+    var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
     for (var i = 0; i < actionsLeft; i++) {
         if (numberOfChanges == 4) {
             var s = (i + 1) * 2;
@@ -378,14 +378,15 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         payload.blocks[s].accessory.type = typeArray[i];
         changesArray[0] = parseInt(changesArray[0], 10)
             if (changesArray[0] > 0) {
-                payload.blocks[s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
                 changesArray[0] -= 1;
                 if (changesArray[0] == 0) {
                     changesArray.splice(0, 2);
                 }
             } else if (changesArray[0] == -1) {
-                payload.blocks[s].accessory.action_id = actionIdArray[1] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
+                payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + changesArray[1];
             }
+            console.log("action_id" + payload.blocks[s].accessory.action_id);
             changesArray[0] = changesArray[0].toString();
             if(typeArray[i] == "button") {
                 payload.blocks[s].accessory.text = {
@@ -410,7 +411,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
             textOptions = "empty";
         }
     }
-    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + message;
+    var buttonValue = actionIdArray + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesArray.join(CAMUNDA_CONFIG.changesOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
         payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
     console.log(JSON.stringify(payload.blocks));
     payload.blocks = JSON.stringify(payload.blocks);
