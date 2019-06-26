@@ -148,6 +148,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
 }
 
 function handleMessage(taskId, pushedButton, msg, dialogNumberArray) {
+    console.log(taskId + "   " + pushedButton)
     var arrayOfVariables = {};
     var variableInformation = taskId[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
     arrayOfVariables["nameVariable"] = [];
