@@ -290,16 +290,11 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         leftField.splice(i, 1);
     }
     var ifDialog = [];
-    console.log(actionsLeft);
     for (var i = 0; i < actionsLeft; i += 2) {
-        console.log(typeof rightField);
-        console.log("rightField" + rightField);
         var dialog = rightField[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
-        console.log("dialog" + dialog);
         ifDialog.push(dialog);
         rightField.splice(i, 1);
     }
-    console.log("ifDialog" + ifDialog);
     var leftFieldArray = leftField.splice(0, numberOfChanges);
     var rightFieldArray = rightField.splice(0, numberOfChanges);
     var actionIdArray = pushedButton[0].split(CAMUNDA_CONFIG.actionIdOuterSplit);
@@ -316,7 +311,6 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         } else {
             var s = (payload.blocks.length - 3) - (i * 2);
         }
-        console.log(s);
         if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
             if (textOptionsArray[0] > 0) {
@@ -379,6 +373,8 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         } else {
             payload.blocks[s].block_id = message + CAMUNDA_CONFIG.taskIdSplit + taskId[taskId.length - 1];
         }
+        console.log(changesArray);
+        console.log("actionId " + actionIdArray);
         payload.blocks[s].accessory.type = typeArray[i];
         changesArray[0] = parseInt(changesArray[0], 10)
             if (changesArray[0] > 0) {
