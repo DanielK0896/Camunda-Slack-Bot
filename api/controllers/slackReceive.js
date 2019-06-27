@@ -158,11 +158,10 @@ async function handleMessage(taskId, pushedButton, msg) {
     var arrayOfVariables = {nameVariable: [], variable: []};
     arrayOfVariables["correlationKey"] = taskId[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskId[2];        //callbackId[2] = the message name in the camunda process
-    try {
-        var variableInformation = taskId[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
-    } catch(e) {
-        var variableInformation = [true];
-    }
+    var variableInformation = taskId[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
+    if(variableInformation == "") {
+        variableInformation = [true];
+    }    
     console.log(variableInformation);
     try {
         for (i = 1; i <= variableInformation.length; i++) {
