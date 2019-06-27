@@ -50,7 +50,9 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
     } else if (msg.type == "block_actions") {                    //block element action
         taskId = msg.actions[0].block_id.split(CAMUNDA_CONFIG.taskIdSplit);
         var changesInActionId = msg.actions[0].action_id.split(CAMUNDA_CONFIG.actionIdOuterSplit);
+        console.log(changesInActionId);
         var actionId = changesInActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
+        console.log(actionId);
         actionId.shift;
         if (typeof actionId[1] == "undefined") {
             msg.actions[0].action_id = actionId[0];
