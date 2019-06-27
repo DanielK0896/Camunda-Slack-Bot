@@ -63,6 +63,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             }
         }
         changesInActionId.splice(0, 1);
+        changesInActionId = changesInActionId.join(CAMUNDA_CONFIG.actionIdOuterSplit).split(CAMUNDA_CONFIG.changesOuterSplit);
         console.log(changesInActionId);
         console.log(actionId);
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
