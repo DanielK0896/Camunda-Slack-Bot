@@ -83,7 +83,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         taskId[0] = "noAction";
     }
     //call function depending on callback_id
-    
+    console.log("TASKID: " + taskId)
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
             if(await handleMessage(taskId, pushedButton, msg) == "204") {
@@ -168,13 +168,13 @@ async function handleMessage(taskId, pushedButton, msg) {
     }    
     console.log("variableInformation: " + variableInformation);
     try {
-        for (i = 1; i <= variableInformation.length; i++) {
+        for (i = 0; i < variableInformation.length; i++) {
             if(variableInformation.split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
-                arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i - 1], msg, true)); 
+                arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i], msg, true)); 
             } else {
                 arrayOfVariables.variable.push(pushedButton[i]); 
             }
-            arrayOfVariables.nameVariable.push(variableInformation[i - 1]);
+            arrayOfVariables.nameVariable.push(variableInformation[i]);
         }
     } catch(e) {
         console.log(e);
