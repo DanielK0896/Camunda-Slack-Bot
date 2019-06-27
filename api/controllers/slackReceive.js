@@ -85,7 +85,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         taskId[0] = "noAction";
     }
     //call function depending on callback_id
-    console.log("TASKID: " + taskId)
     if (taskId[0] == "message") {            //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...    
         if (msg.type == "dialog_submission") {
             if(await handleMessage(taskId, pushedButton, msg) == "204") {
@@ -160,6 +159,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
 }
 
 async function handleMessage(taskId, pushedButton, msg) {
+    console.log("TASKID: " + taskId)
     console.log("pushedButton: " + pushedButton);
     var arrayOfVariables = {nameVariable: [], variable: []};
     arrayOfVariables["correlationKey"] = taskId[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
