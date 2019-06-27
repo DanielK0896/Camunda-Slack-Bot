@@ -128,13 +128,11 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             for (var i = 0; i < 5; i++) {
                 if (typeof taskId[3 + i] != "undefined") {
                     callbackId.push(taskId[3 + i]);
-                }         
-            }
-            console.log(callbackId);
+                }  
+            }       
             if(callbackId[3] == "") {
                 callbackId[3] = msg.actions[0].action_id;
             }
-            console.log(callbackId);
             handleMessage(callbackId, pushedButton, msg);
             res.status(200).type('application/json').end();
         } else {console.log("ERROR Dialog");} 
@@ -204,21 +202,17 @@ function handleDialog(taskId, msg, actionId) {
     for (var i = 0; i < 4; i++) {
         callbackId.push(taskId[taskId.indexOf("message", 3) + i]);
     }
-    console.log(callbackId);
     if(callbackId[3] == "") {
         callbackId[3] == msg.actions[0].action_id;
     }
-    console.log(callbackId);
     try {
         callbackId.push(msg.container.message_ts);
     } catch (e) {
         callbackId.push(msg.message_ts);
     }
-    console.log(callbackId);
     if (typeof actionId != "undefined") {
         callbackId.push(actionId);
     }
-    console.log(callbackId);
     //callbackId[3] = new Callback ID
     arrayOfVariables = {
         "callbackId": callbackId.join(CAMUNDA_CONFIG.taskIdSplit), "triggerId": msg.trigger_id, "minLength": [],
