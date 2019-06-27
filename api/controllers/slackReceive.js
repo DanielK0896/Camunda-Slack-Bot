@@ -136,6 +136,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         if (msg.actions[0].action_id == "nextPage") {
             testIfVariablesSent(taskId, taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskId); });       
         } else if (changesInActionId[1] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
+            console.log("changesInActionId: " + changesInActionId);
             var changes = changesInActionId;
             var recentChanges = changes[actionValue].split(CAMUNDA_CONFIG.propertiesSplit);    //changes depending on selected_options for activated block
             if (recentChanges[0] == "") {
@@ -150,7 +151,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 changes[(actionValue + changes.length / 2)] = JSON.parse(changes[(actionValue + changes.length / 2)]);    //parses changes if possible
             } catch (e) { }
             payload.blocks = mod.pushSpecificVariables(payload.blocks, changes[actionValue], (actionValue + changes.length / 2).toString(), changes);  //push changes in old message body
-            console.log("CHANGES:    " + payload.blocks);
             payload.blocks = JSON.stringify(payload.blocks);
             mod.postToSwaggerAPI(payload, "/chat/update/block", basicCallback);
         }
@@ -158,7 +158,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
 }
 
 async function handleMessage(taskId, pushedButton, msg) {
-    console.log(pushedButton);
+    console.log("pushedButton: " + pushedButton);
     var arrayOfVariables = {nameVariable: [], variable: []};
     arrayOfVariables["correlationKey"] = taskId[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskId[2];        //callbackId[2] = the message name in the camunda process
@@ -166,7 +166,7 @@ async function handleMessage(taskId, pushedButton, msg) {
     if(variableInformation == "") {
         variableInformation = "true";
     }    
-    console.log(variableInformation);
+    console.log("variableInformation: " + variableInformation);
     try {
         for (i = 1; i <= variableInformation.length; i++) {
             if(variableInformation.split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
