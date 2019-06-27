@@ -204,7 +204,7 @@ function handleDialog(taskId, msg) {
     }
     console.log(callbackId);
     if(callbackId[3] == "") {
-        callbackId[3] == msg.actions[0].action_id;
+        callbackId[3] = msg.actions[0].action_id;
     }
     try {
         callbackId.push(msg.container.message_ts);
