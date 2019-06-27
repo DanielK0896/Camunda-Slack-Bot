@@ -119,7 +119,7 @@ function chatPostBlock(req, res) {
         } else {
             objectToPush3.elements.push({
                 "type": "button",
-                "action_id": i.toString(),
+                "action_id": msg.buttonName[i],
                 "text": {
                     "type": "plain_text",
                     "emoji": true,

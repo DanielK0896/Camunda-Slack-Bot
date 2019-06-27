@@ -213,11 +213,8 @@ async function preparePostMessage(task) {
                     msg["buttonActionId"] = "lastMessage";
                     msg["buttonValue"] = "lastMessage";
                 } else {
-                    console.log(buttonNameArray);
                     buttonNameArray.push("Naechste Seite");
-                    console.log(buttonNameArray);
                     msg["buttonName"] = buttonNameArray;
-                    console.log(msg["buttonName"])
                     msg["buttonActionId"] = "nextPage";
                     var textOptions;
                     try {
