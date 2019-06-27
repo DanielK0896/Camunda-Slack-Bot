@@ -62,7 +62,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 msg.actions[0].action_id += CAMUNDA_CONFIG.camundaMessageVariablesSplit + actionId[i];
             }
         }
-        taskId[3] = msg.actions[0].action_id;
         changesInActionId.splice(0, 1);
         changesInActionId = changesInActionId.join(CAMUNDA_CONFIG.actionIdOuterSplit).split(CAMUNDA_CONFIG.changesOuterSplit);
         console.log(changesInActionId);
@@ -123,11 +122,14 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             res.status(200).type('application/json').end();
         } else if (pushedButton != taskId[1]) {
             var callbackId = [];
+            console.log(taskId);
             for (var i = 0; i < 5; i++) {
                 if (typeof taskId[3 + i] != "undefined") {
                     callbackId.push(taskId[3 + i]);
                 }         
             }
+            console.log(taskId);
+            taskId[3] = msg.actions[0].action_id;
             handleMessage(callbackId, pushedButton, msg);
             res.status(200).type('application/json').end();
         } else {console.log("ERROR Dialog");} 
@@ -168,7 +170,7 @@ async function handleMessage(taskId, pushedButton, msg) {
     console.log("variableInformation: " + variableInformation);
     try {
         for (i = 0; i < variableInformation.length; i++) {
-            if(variableInformation.split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
+            if(variableInformation[i].split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
                 arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i], msg, true)); 
             } else {
                 arrayOfVariables.variable.push(pushedButton[i]); 
