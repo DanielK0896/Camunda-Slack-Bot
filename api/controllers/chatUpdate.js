@@ -37,6 +37,8 @@ function chatUpdate(req, res) {
                 "value": i.toString()
             });
         }
+    } else {
+        body.attachments = [];
     }
     if (typeof msg.textConfirmation != "undefined") {
         for (var i = 0; i < msg.textConfirmation.length; i++) {
