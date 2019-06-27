@@ -108,7 +108,7 @@ function chatPostBlock(req, res) {
         if (i == msg.buttonName.length - 1) {
             objectToPush3.elements.push({
                 "type": "button",
-                "action_id": msg.buttonActionId,
+                "action_id": msg.buttonActionId + CAMUNDA_CONFIG.actionIdOuterSplit + "-1" + CAMUNDA_CONFIG.changesOuterSplit,
                 "text": {
                     "type": "plain_text",
                     "emoji": true,
@@ -119,7 +119,7 @@ function chatPostBlock(req, res) {
         } else {
             objectToPush3.elements.push({
                 "type": "button",
-                "action_id": i.toString(),
+                "action_id": i.toString() + CAMUNDA_CONFIG.actionIdOuterSplit + "-1" + CAMUNDA_CONFIG.changesOuterSplit,
                 "text": {
                     "type": "plain_text",
                     "emoji": true,
