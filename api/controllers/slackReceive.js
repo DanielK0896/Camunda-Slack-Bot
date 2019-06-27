@@ -56,6 +56,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         if (typeof actionId[1] == "undefined") {
             msg.actions[0].action_id = actionId[0];
         } else {
+            console.log(actionId[1]);
             msg.actions[0].action_id = actionId[1].join(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
         }
         changesInActionId.splice(0, 1);
