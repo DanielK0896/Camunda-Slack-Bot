@@ -167,7 +167,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
 
 async function handleMessage(taskId, pushedButton, msg) {
     console.log("TASKID: " + taskId)
-    console.log("pushedButton: " + pushedButton);
+    console.log(pushedButton);
     var arrayOfVariables = {nameVariable: [], variable: []};
     arrayOfVariables["correlationKey"] = taskId[1];  //callbackId[1] = correlationKeys, look at camundaSendMessage for further Informations
     arrayOfVariables["message"] = taskId[2];        //callbackId[2] = the message name in the camunda process
@@ -175,7 +175,6 @@ async function handleMessage(taskId, pushedButton, msg) {
     console.log("variableInformation: " + variableInformation);
     try {
         for (i = 0; i < variableInformation.length; i++) {
-            console.log(variableInformation[i].split(CAMUNDA_CONFIG.propertiesSplit).length);
             if(variableInformation[i].split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
                 arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i], msg, true)); 
             } else {
