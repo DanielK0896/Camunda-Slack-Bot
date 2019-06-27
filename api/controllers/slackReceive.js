@@ -177,6 +177,7 @@ async function handleMessage(taskId, pushedButton, msg) {
         arrayOfVariables.variable.push("NoVariable");
         arrayOfVariables.nameVariable.push(variableInformation[0]);
     }
+    console.log(arrayOfVariables);
     return await mod.postToSwaggerAPI(arrayOfVariables, "/camunda/sendMessage/", statusCodeCallback);
 }
 
