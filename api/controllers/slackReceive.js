@@ -160,7 +160,7 @@ async function handleMessage(taskId, pushedButton, msg) {
     arrayOfVariables["message"] = taskId[2];        //callbackId[2] = the message name in the camunda process
     var variableInformation = taskId[3].split(CAMUNDA_CONFIG.camundaMessageVariablesSplit); // callbackId[3] = "variable1,variable2,..." e.g. "three,user,user.name"
     if(variableInformation == "") {
-        variableInformation = ["true"];
+        variableInformation = "true";
     }    
     console.log(variableInformation);
     try {
