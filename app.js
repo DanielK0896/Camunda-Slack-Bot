@@ -30,54 +30,7 @@ setInterval(mod.getChannels, 300000);
 //setInterval(mod.getUsers, 300000);
 setTimeout(function () {
 
-    client.subscribe("addStartVariables", async function ({ task, taskService }) {
-        var ts = await mod.preparePostMessage(task);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        client.taskService.complete(task, processVariables);
-    });
-
-    client.subscribe("invite", async function ({ task, taskService }) {
-        var ts = await mod.preparePostMessage(task);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        client.taskService.complete(task, processVariables);
-    });
-
-    client.subscribe("room", async function ({ task, taskService }) {
-        var ts = await mod.preparePostMessage(task);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        client.taskService.complete(task, processVariables);
-    });
-
-    client.subscribe("update", async function ({ task, taskService }) {
-        var ts = await mod.preparePostMessage(task);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        client.taskService.complete(task, processVariables);
-    });
-
-    client.subscribe("list", async function ({ task, taskService }) {
-        //var processVariables = mod.preparePostMessage(task);
-        await client.taskService.complete(task)
-    });
-
-    client.subscribe("reminder", async function ({ task, taskService }) {
-        var ts = await mod.preparePostMessage(task);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        client.taskService.complete(task, processVariables);
-    });
-
-    client.subscribe("done", async function ({ task, taskService }) {
-        var ts = await mod.preparePostMessage(task);
-        const processVariables = new Variables();
-        processVariables.set(task.activityId, ts);
-        client.taskService.complete(task, processVariables);
-    });
-
-    client.subscribe("sendParticipants", async function ({ task, taskService }) {
+    client.subscribe("messageWithTSResponse", async function ({ task, taskService }) {
         var ts = await mod.preparePostMessage(task);
         const processVariables = new Variables();
         processVariables.set(task.activityId, ts);
