@@ -202,19 +202,23 @@ function handleDialog(taskId, msg, actionId) {
     
     var callbackId = [];
     for (var i = 0; i < 4; i++) {
-        callbackId.push(taskId[3 + i]);
+        callbackId.push(taskId[callbackId.indexOf("message", 3) + i]);
     }
+    console.log(callbackId);
     if(callbackId[3] == "") {
         callbackId[3] == msg.actions[0].action_id;
     }
+    console.log(callbackId);
     try {
         callbackId.push(msg.container.message_ts);
     } catch (e) {
         callbackId.push(msg.message_ts);
     }
+    console.log(callbackId);
     if (typeof actionId != "undefined") {
         callbackId.push(actionId);
     }
+    console.log(callbackId);
     //callbackId[3] = new Callback ID
     arrayOfVariables = {
         "callbackId": callbackId.join(CAMUNDA_CONFIG.taskIdSplit), "triggerId": msg.trigger_id, "minLength": [],
