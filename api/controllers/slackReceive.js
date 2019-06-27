@@ -178,7 +178,12 @@ async function handleMessage(taskId, pushedButton, msg) {
             if(variableInformation[i].split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
                 arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i], msg, true)); 
             } else {
-                arrayOfVariables.variable.push(pushedButton[i]); 
+                if(typeof pushedButton == string) {
+                    arrayOfVariables.variable.push(pushedButton);
+                } else {
+                    arrayOfVariables.variable.push(pushedButton[i]);
+                }
+                 
             }
             arrayOfVariables.nameVariable.push(variableInformation[i]);
         }
