@@ -202,7 +202,7 @@ function handleDialog(taskId, msg, actionId) {
     
     var callbackId = [];
     for (var i = 0; i < 4; i++) {
-        callbackId.push(taskId[callbackId.indexOf("message", 3) + i]);
+        callbackId.push(taskId[taskId.indexOf("message", 3) + i]);
     }
     console.log(callbackId);
     if(callbackId[3] == "") {
