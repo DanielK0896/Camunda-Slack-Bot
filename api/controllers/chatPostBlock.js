@@ -119,13 +119,13 @@ function chatPostBlock(req, res) {
         } else {
             objectToPush3.elements.push({
                 "type": "button",
-                "action_id": msg.buttonName[i],
+                "action_id": i.toString(),
                 "text": {
                     "type": "plain_text",
                     "emoji": true,
                     "text": msg.buttonName[i]
                 },
-                "value": i.toString()
+                "value": msg.buttonName[i]
             });
         }
     }
