@@ -98,6 +98,9 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             }
         } else {
             var responseCode;
+            if(taskId[3] == "") {
+                taskId[3] = msg.actions[0].action_id;
+            }
             if (msg.actions[0].action_id == "lastMessage") {
                 responseCode = await testIfVariablesSent(taskId, taskId[1], msg, async function (taskId, pushedButton, msg) {
                     var responseCode = await handleMessage(taskId, pushedButton, msg);
@@ -122,14 +125,16 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             res.status(200).type('application/json').end();
         } else if (pushedButton != taskId[1]) {
             var callbackId = [];
-            console.log(taskId);
             for (var i = 0; i < 5; i++) {
                 if (typeof taskId[3 + i] != "undefined") {
                     callbackId.push(taskId[3 + i]);
                 }         
             }
-            console.log(taskId);
-            taskId[3] = msg.actions[0].action_id;
+            console.log(callbackId);
+            if(callbackId[3] == "") {
+                callbackId[3] = msg.actions[0].action_id;
+            }
+            console.log(callbackId);
             handleMessage(callbackId, pushedButton, msg);
             res.status(200).type('application/json').end();
         } else {console.log("ERROR Dialog");} 
