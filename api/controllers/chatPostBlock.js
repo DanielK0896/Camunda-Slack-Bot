@@ -119,13 +119,13 @@ function chatPostBlock(req, res) {
         } else {
             objectToPush3.elements.push({
                 "type": "button",
-                "action_id": i.toString() + CAMUNDA_CONFIG.actionIdOuterSplit + "-1" + CAMUNDA_CONFIG.changesOuterSplit,
+                "action_id": msg.buttonName[i] + CAMUNDA_CONFIG.actionIdOuterSplit + "-1" + CAMUNDA_CONFIG.changesOuterSplit,
                 "text": {
                     "type": "plain_text",
                     "emoji": true,
                     "text": msg.buttonName[i]
                 },
-                "value": msg.buttonName[i]
+                "value": i.toString()
             });
         }
     }
