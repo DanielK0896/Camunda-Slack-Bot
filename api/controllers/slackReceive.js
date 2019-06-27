@@ -121,7 +121,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         }
     } else if (taskId[0] == "dialog") {   //callbackId[0] = identifier (What to do after invoked action?) e.g. message, dialog,...
         if (pushedButton == taskId[1]) {  //callbackId[1] = open Dialog when pushed Button = e.g. "0"
-            handleDialog(taskId, msg, msg.actions[0].action_id);
+            handleDialog(taskId, msg);
             res.status(200).type('application/json').end();
         } else if (pushedButton != taskId[1]) {
             var callbackId = [];
@@ -194,7 +194,7 @@ async function handleMessage(taskId, pushedButton, msg) {
     return await mod.postToSwaggerAPI(arrayOfVariables, "/camunda/sendMessage/", statusCodeCallback);
 }
 
-function handleDialog(taskId, msg, actionId) {
+function handleDialog(taskId, msg) {
     var arrayOfVariables = {};
     var variablesForDialog = taskId[2].split(CAMUNDA_CONFIG.dialogVariablesSplit);                  //callbackId[2] = first dialog element e.g. "text"
     
@@ -202,6 +202,7 @@ function handleDialog(taskId, msg, actionId) {
     for (var i = 0; i < 4; i++) {
         callbackId.push(taskId[taskId.indexOf("message", 3) + i]);
     }
+    console.log(callbackId);
     if(callbackId[3] == "") {
         callbackId[3] == msg.actions[0].action_id;
     }
@@ -209,9 +210,6 @@ function handleDialog(taskId, msg, actionId) {
         callbackId.push(msg.container.message_ts);
     } catch (e) {
         callbackId.push(msg.message_ts);
-    }
-    if (typeof actionId != "undefined") {
-        callbackId.push(actionId);
     }
     //callbackId[3] = new Callback ID
     arrayOfVariables = {
