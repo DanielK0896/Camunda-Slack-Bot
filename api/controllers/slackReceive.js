@@ -53,13 +53,13 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         console.log(changesInActionId);
         var actionId = changesInActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
         console.log(actionId);
-        actionId.shift;
+        actionId.splice(0, 1);
         if (typeof actionId[1] == "undefined") {
             msg.actions[0].action_id = actionId[0];
         } else {
             msg.actions[0].action_id = actionId[1].join(CAMUNDA_CONFIG.camundaMessageVariablesSplit);
         }
-        changesInActionId.shift;
+        changesInActionId.splice(0, 1);
         console.log(changesInActionId);
         console.log(actionId);
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
@@ -171,6 +171,7 @@ async function handleMessage(taskId, pushedButton, msg) {
             arrayOfVariables.nameVariable.push(variableInformation[i - 1]);
         }
     } catch(e) {
+        console.log(e);
         arrayOfVariables.variable.push("NoVariable");
         arrayOfVariables.nameVariable.push(variableInformation[0]);
     }
