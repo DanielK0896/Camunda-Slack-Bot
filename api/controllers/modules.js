@@ -174,7 +174,7 @@ async function preparePostMessage(task) {
                 if (variablesToGet.indexOf("changes") == -1) {
                     msg["changes"].push("-1" + CAMUNDA_CONFIG.changesOuterSplit);
                     var changesForButtonValue = msg["changes"];
-                    var changesArray = msg["changes"].split(CAMUNDA_CONFIG.changesOuterSplit);
+                    var changesArray = msg["changes"][1].split(CAMUNDA_CONFIG.changesOuterSplit);
                 } else {
                     var changesArray = variables[variablesToGet.indexOf("changes")].split(CAMUNDA_CONFIG.changesOuterSplit);
                 }
@@ -188,8 +188,6 @@ async function preparePostMessage(task) {
                             changesArray.splice(0, 2);
                         }
                     } else if (changesArray[0] == -1) {
-                        console.log(changesArray);
-                        console.log(changesArray[1]);
                         msg["changes"].push(changesArray[1]);
                     }
                 }   
