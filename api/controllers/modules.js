@@ -188,6 +188,8 @@ async function preparePostMessage(task) {
                             changesArray.splice(0, 2);
                         }
                     } else if (changesArray[0] == -1) {
+                        console.log(changesArray);
+                        console.log(changesArray[1]);
                         msg["changes"].push(changesArray[1]);
                     }
                 }   
