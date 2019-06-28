@@ -129,7 +129,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 if (typeof taskId[3 + i] != "undefined") {
                     callbackId.push(taskId[3 + i]);
                 }  
-            }       
+            }    
             if(callbackId[3] == "") {
                 callbackId[3] = msg.actions[0].action_id;
             }
@@ -175,6 +175,7 @@ async function handleMessage(taskId, pushedButton, msg) {
         for (i = 0; i < variableInformation.length; i++) {
             if(variableInformation[i].split(CAMUNDA_CONFIG.propertiesSplit).length > 1) {
                 arrayOfVariables = (mod.pushSpecificVariables(arrayOfVariables, "variable", variableInformation[i], msg, true)); 
+                arrayOfVariables.variable += CAMUNDA_CONFIG.camundaMessageVariablesSplit + pushedButton;
             } else {
                 if(typeof pushedButton == "string") {
                     arrayOfVariables.variable.push(pushedButton);
@@ -205,6 +206,9 @@ function handleDialog(taskId, msg) {
     console.log(callbackId);
     if(callbackId[3] == "") {
         callbackId[3] = msg.actions[0].action_id;
+    }
+    if(taskId[taskId.length - 1] == "delete") {
+        callbackId.push("delete");
     }
     try {
         callbackId.push(msg.container.message_ts);
