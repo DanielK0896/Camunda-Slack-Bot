@@ -157,42 +157,46 @@ async function preparePostMessage(task) {
                     leftFieldArray.splice(i, 1);
                 }
                 var message = variables[variablesToGet.indexOf("message")];
+                console.log(message);
                 for (var i = 0; i < lengthOfRightFields; i++) {
                     if (rightFieldArray[i] != "false") {
                         var dialog = rightFieldArray[i].split(CAMUNDA_CONFIG.dialogInTaskIdSplit).join(CAMUNDA_CONFIG.taskIdSplit);
                         msg["message"].push(dialog + CAMUNDA_CONFIG.taskIdSplit + message);
                     } else {
                         msg["message"].push(message);
+                        console.log(msg.message);
                     }
                     rightFieldArray.splice(i, 1);
                 }
                 msg["leftField"] = leftFieldArray.splice(0, 4);
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = actionIdArray.splice(0, 4);
-                var changesForButtonValue;
                 if (variablesToGet.indexOf("changes") == -1) {
                     msg["changes"] = "-1" + CAMUNDA_CONFIG.changesOuterSplit;
-                    changesForButtonValue = msg["changes"];
+                    var changesForButtonValue = msg["changes"];
+                    var changesArray = msg["changes"];
                 } else {
-                        var changesArray = variables[variablesToGet.indexOf("changes")].split(CAMUNDA_CONFIG.changesOuterSplit);
-                        for (var i = 0; i < leftFieldArray.length; i++) {
-                            changesArray[0] = parseInt(changesArray[0], 10)
-                                if (changesArray[0] > 0) {
-                                    msg["changes"].push(changesArray[1]);
-                                    changesArray[0] -= 1;
-                                    if (changesArray[0] == 0) {
-                                        changesArray.splice(0, 2);
-                                    }
-                                } else if (changesArray[0] == -1) {
-                                    msg["changes"].push(changesArray[1]);
-                                }
-                            }   
-                        changesForButtonValue = changesArray.join(CAMUNDA_CONFIG.changesOuterSplit);    
-                    }
+                    var changesArray = variables[variablesToGet.indexOf("changes")].split(CAMUNDA_CONFIG.changesOuterSplit);
+                }
                 
+                for (var i = 0; i < leftFieldArray.length; i++) {
+                    changesArray[0] = parseInt(changesArray[0], 10)
+                    if (changesArray[0] > 0) {
+                        msg["changes"].push(changesArray[1]);
+                        changesArray[0] -= 1;
+                        if (changesArray[0] == 0) {
+                            changesArray.splice(0, 2);
+                        }
+                    } else if (changesArray[0] == -1) {
+                        msg["changes"].push(changesArray[1]);
+                    }
+                }   
+                if (variablesToGet.indexOf("changes") != -1) {
+                    var changesForButtonValue = changesArray.join(CAMUNDA_CONFIG.changesOuterSplit); 
+                }   
                 if (variablesToGet.indexOf("textOptions") >= 0) {
                     var textOptionsArray = variables[variablesToGet.indexOf("textOptions")].split(CAMUNDA_CONFIG.textOptionsOuterSplit);
-                    for (var i = 0; i < leftFieldArray.length; i++) {
+                    for (var i = 0; i < lengthOfLeftFields; i++) {
                         if (msg["type"][i] == "overflow" || msg["type"][i] == "static_select") {
                             textOptionsArray[0] = parseInt(textOptionsArray[0], 10)
                             if (textOptionsArray[0] > 0) {

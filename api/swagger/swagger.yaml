@@ -348,7 +348,9 @@ paths:
                 items:
                   type: string
               changes:
-                type: string
+                type: array
+                items:
+                  type: string
               message:
                 type: array
                 items:
