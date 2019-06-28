@@ -63,7 +63,6 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             }
         }
         changesInActionId.splice(0, 1);
-        changesInActionId = changesInActionId.join(CAMUNDA_CONFIG.actionIdOuterSplit).split(CAMUNDA_CONFIG.changesOuterSplit);
         console.log(changesInActionId);
         console.log(actionId);
         if (msg.actions[0].type == "static_select" || msg.actions[0].type == "overflow") {           //overflow menu or static select menu
@@ -145,13 +144,15 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
             testIfVariablesSent(taskId, taskId[1], msg, function() { nextPage(payload, pushedButton, 4, taskId); });       
         } else if (changesInActionId[1] != "") {                           //If action type != button && actionId (=changes) != empty -> handle changes
             console.log("changesInActionId: " + changesInActionId);
-            var changes = changesInActionId.split(CAMUNDA_CONFIG.changesInnerSplit);
+            console.log(actionValue);
+            var changes = changesInActionId;
             var recentChanges = changes[actionValue].split(CAMUNDA_CONFIG.propertiesSplit);    //changes depending on selected_options for activated block
             if (recentChanges[0] == "") {
                 recentChanges[0] = taskId[taskId.length - 1]
             } else {
                 recentChanges.unshift(taskId[taskId.length - 1]);
             }
+            recentChanges[0] = parseInt(recentChanges[0], 10) * 2 + 2;
             changes[actionValue] = recentChanges.join(CAMUNDA_CONFIG.propertiesSplit);
             changes[(actionValue + changes.length / 2)]
             try {
