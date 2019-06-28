@@ -172,7 +172,7 @@ async function preparePostMessage(task) {
                 msg["rightField"] = rightFieldArray.splice(0, 4);
                 msg["actionId"] = actionIdArray.splice(0, 4);
                 if (variablesToGet.indexOf("changes") == -1) {
-                    msg["changes"] = "-1" + CAMUNDA_CONFIG.changesOuterSplit;
+                    msg["changes"].push("-1" + CAMUNDA_CONFIG.changesOuterSplit);
                     var changesForButtonValue = msg["changes"];
                     var changesArray = msg["changes"].split(CAMUNDA_CONFIG.changesOuterSplit);
                 } else {
