@@ -174,7 +174,7 @@ async function preparePostMessage(task) {
                 if (variablesToGet.indexOf("changes") == -1) {
                     msg["changes"] = "-1" + CAMUNDA_CONFIG.changesOuterSplit;
                     var changesForButtonValue = msg["changes"];
-                    var changesArray = msg["changes"];
+                    var changesArray = msg["changes"].split(CAMUNDA_CONFIG.changesOuterSplit);
                 } else {
                     var changesArray = variables[variablesToGet.indexOf("changes")].split(CAMUNDA_CONFIG.changesOuterSplit);
                 }
