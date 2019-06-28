@@ -134,6 +134,9 @@ async function preparePostMessage(task) {
                 var actionIdArray = variables[variablesToGet.indexOf("actionId")].split(CAMUNDA_CONFIG.actionIdOuterSplit);
                 var leftFieldArray = variables[variablesToGet.indexOf("leftField")].split(CAMUNDA_CONFIG.leftFieldSplit);
                 var rightFieldArray = variables[variablesToGet.indexOf("rightField")].split(CAMUNDA_CONFIG.rightFieldSplit);
+                console.log(actionIdArray);
+                console.log(leftFieldArray);
+                console.log(rightFieldArray);
                 try {
                     var buttonNameArray = variables[variablesToGet.indexOf("buttonName")].split(CAMUNDA_CONFIG.buttonNameSplit);
                 } catch(e) {
