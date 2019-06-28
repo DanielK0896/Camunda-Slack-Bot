@@ -90,9 +90,11 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
                 res.status(200).type('application/json').end();
                 if (taskId[4] == "delete") {                   //update message with confirmation text
                     var updateMsg = { "channel": msg.channel.id, "text": "Deine Nachricht ist angekommen:", "ts": taskId[taskId.length - 1]};
+                    console.log(updateMsg);
                     for (x in msg.submission) {
                         updateMsg["text"] += " " + msg.submission[x];
                     }
+                    console.log(updateMsg);
                     mod.postToSwaggerAPI(updateMsg, "/chat/update", basicCallback);
                 }
             }
