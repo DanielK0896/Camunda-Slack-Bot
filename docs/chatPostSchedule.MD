@@ -19,5 +19,5 @@ Post a scheduled message into a slack channel. Message is created dynamically by
 Put your message in a JSON-String and pass it to Swagger API using a http request.
 
 ```javascript
-var msg = JSON.stringifiy({channel: variable1, user: variable2, text: variable3, callbackId: variable4, textButtons: array1, style: array2, textConfirmation: array3});
+var msg = JSON.stringifiy({channel: variable1, postAt: variable2, text: variable3, callbackId: variable4, textButtons: array1, style: array2, textConfirmation: array3});
 ```
