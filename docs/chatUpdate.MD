@@ -1,6 +1,6 @@
 # /chat/update
 
-Post a scheduled message into a slack channel. Message is created dynamically by the amount of passed array elements.
+Update a specific message in a slack channel. Message is created dynamically by the amount of passed array elements.
 
 
 ## Variables to pass
