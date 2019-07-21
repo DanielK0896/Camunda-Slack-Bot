@@ -21,7 +21,7 @@ function getPermalink(req, res) {
         },
         form: {
             "channel": msg.channel,
-            "messageTs": msg.messageTs
+            "messageTs": msg.ts
         }
     };
 
@@ -29,5 +29,5 @@ function getPermalink(req, res) {
         if (error) throw new Error(error);
         res.json(body);
     });
-    }
+}
 
