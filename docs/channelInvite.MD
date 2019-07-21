@@ -5,8 +5,8 @@ Invite a user into a slack channel
 ## Variables to pass
 
 ```
-* channel (string) #slack channel id
-* user (string)    #slack user id
+* channel (slack channel id -> string)
+* user (slack user id -> string)
 ```
 
 Put your message in a JSON-String and pass it to Swagger API using a http request.
