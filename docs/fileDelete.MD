@@ -11,5 +11,5 @@ Delete a specific file in slack.
 Put your message in a JSON-String and pass it to Swagger API using a http request.
 
 ```javascript
-var msg = JSON.stringifiy({channel: variable1, text: variable2, ts: variable3, callbackId: variable4, textButtons: array1, style: array2, textConfirmation: array3});
+var msg = JSON.stringifiy({file: variable1});
 ```
