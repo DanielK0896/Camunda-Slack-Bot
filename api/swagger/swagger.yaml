@@ -425,7 +425,7 @@ paths:
           required: false
           schema:
             properties:
-              triggerid:
+              triggerId:
                 type: string
               callbackId:
                 type: string
