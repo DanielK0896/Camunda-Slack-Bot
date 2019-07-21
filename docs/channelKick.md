@@ -1,6 +1,6 @@
-# /channelKick
+# /channel/kick
 
-Kick a user out of a slack channel
+Kick a user out of a slack channel.
 
 ## Variables to pass
 
