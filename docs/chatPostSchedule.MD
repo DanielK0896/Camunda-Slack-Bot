@@ -14,7 +14,7 @@ Post a scheduled message into a slack channel. Message is created dynamically by
 | `style` | array with strings | every array element adds a style to a textButton |
 | `textConfirmation` | array with strings | optional textButton confirmation: every array element adds a headline |
 
-**Remind:** The elements with the same index in several arrays belongs to each other!
+**Mind:** The elements with the same index in several arrays belongs to each other!
 
 Put your message in a JSON-String and pass it to Swagger API using a http request.
 
