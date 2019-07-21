@@ -132,7 +132,7 @@ paths:
             properties:
               channel:
                 type: string
-              messageTs:
+              ts:
                 type: string
       responses:
         "200":
