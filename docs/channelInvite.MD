@@ -1,6 +1,6 @@
-# /channelInvite
+# /channel/invite
 
-Invite a user into a slack channel
+Invite a user into a slack channel.
 
 ## Variables to pass
 
