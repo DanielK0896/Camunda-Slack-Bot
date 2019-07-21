@@ -5,8 +5,6 @@ Update a specific block message in a slack channel. You have to pass a formatted
 
 ## Variables to pass
 
-**Mind:** The elements with the same index in several arrays belongs to each other!
-
 | variable name  | type | description |
 | ------------- | ------------- | ------------- | 
 | `channel` | string  | slack channel id |
