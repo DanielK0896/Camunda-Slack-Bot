@@ -10,8 +10,8 @@
 | `label` | array with strings | label of the dialog elements |
 | `name` | array with strings | name of the dialog element (not shown) |
 | `placeholder` | array with strings | placeholder of the dialog element |
-| `maxLength` | array with strings | dialog element input maxLength |
 | `minLength` | array with strings | dialog element input minLength |
+| `maxLength` | array with strings | dialog element input maxLength |
 | `data_source` | array with strings | optional: type = select menu -> source for elements |
 | `options` | array with strings | optional: options for a select menu |
 
