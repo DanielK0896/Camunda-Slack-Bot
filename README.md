@@ -82,8 +82,8 @@ Add input variables to your camunda task (have a look at [/chat/post/block](docs
       you can add more than one by separating them using ";"
    5. rightField **(Required)** -> right field of a section text; can be empty, so you only have one text on the left; you can add more       than one by separating them using ";"
    6. actionId
-   7. textOptions
-   8. changes
+   7. textOptions -> textOptions for a select menu; using the [variable shortening principle](docs/vsp.MD)
+   8. changes -> changes after user interaction; using the [variable shortening principle](docs/vsp.MD)
    9. message
    10. buttonName
    11. buttonValue
