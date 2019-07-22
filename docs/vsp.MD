@@ -24,12 +24,12 @@ A number shows how often (in how many sections) the changes should be used.
          -> when the number reaches 0, the number and the changes are spliced (splice(0, 2))
 - **-1** -> endless; changes are used for all following sections; not decreased
 
-  1.  The changes are separated by ";" (changesInnerSplit)
-  1a. First elements -> properties where the changes should be used
-  1b. Last elements -> changes
-  1c. e. g. fields.1.text;fields.1.text;New text 1;New text 2 
-      -> When first option is choosen -> fields.1.text = New text 1
-      -> When second option is choosen -> fields.1.text = New text 2
+  1. The changes are separated by ";" (changesInnerSplit)
+         a. First elements -> properties where the changes should be used
+         b. Last elements -> changes
+         c. e. g. fields.1.text;fields.1.text;New text 1;New text 2 \n
+                  -> When first option is choosen -> fields.1.text = New text 1 \n
+                  -> When second option is choosen -> fields.1.text = New text 2
   2.  Number and changes are separated by "$$" (changesOuterSplit)
   
   **Example:**
