@@ -18,12 +18,11 @@ npm install -g swagger
 # Getting Started
 
 1. Create a Slack-APP, set the Request URL (/Features/Interactive Components) and install the APP in your workspace.
-2. Get OAuth Tokens (/Features/OAuth & Permissions) and create a 'secret.json':
+2. Get OAuth Tokens (/Features/OAuth & Permissions) and create a 'secrets.json':
 
    ```
       {
-         "Authorization": "Put your Bot User OAuth Access Token here",
-         "AccessToken": Put your OAuth Access Token here"
+         "Authorization": "Put your Bot User OAuth Access Token here"
       }
    ```
 
