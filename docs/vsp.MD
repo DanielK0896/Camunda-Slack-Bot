@@ -1,6 +1,6 @@
 # variable shortening principle
 
-##textOptions
+## textOptions
 
 A number shows how often (in how many select_menus or overflow menus) the textOptions should be used.
 
@@ -13,10 +13,10 @@ A number shows how often (in how many select_menus or overflow menus) the textOp
   
   **Example:**
   
-  5$$Option1;Option2;Option3$$-1$$Option4;Option5 -> Options 1,2 and 3 are used 5 times 
-  -> then both elements are spliced -> -1$$Option4;Option5 -> options 4,5 are used in all following overflow or select_menus
+  **5$$Option1;Option2;Option3$$-1$$Option4;Option5** -> Options 1,2 and 3 are used 5 times 
+  -> then both elements are spliced -> **-1$$Option4;Option5** -> options 4,5 are used in all following overflow or select_menus
 
-##changes
+## changes
 
 A number shows how often (in how many sections) the changes should be used.
 
@@ -34,5 +34,5 @@ A number shows how often (in how many sections) the changes should be used.
   
   **Example:**
   
-  5$$fields.1.text;fields.1.text;fields.1.text;New text 1;New text 2;New text 3  -> changes are used 5 times 
+  **5$$fields.1.text;fields.1.text;fields.1.text;New text 1;New text 2;New text 3**  -> changes are used 5 times 
   -> then no more changes; in every section fields.1.text changes to New text 1/2/3 depending on pushed Button (first/second/third)
