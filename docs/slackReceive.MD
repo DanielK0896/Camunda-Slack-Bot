@@ -1,5 +1,6 @@
 # /slackreceive
 
+Endpoint for the slack request url.
 ## Variables to pass
 
 | variable name  | type | description |
