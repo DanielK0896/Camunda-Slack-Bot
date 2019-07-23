@@ -72,7 +72,7 @@ Add input variables to your camunda task (have a look at [/chat/post](docs/chatP
 
 **Mind:** You have to pass as many styles as you have textButtons. textConfirmation is optional, e. g. "Yes;;No" adds a confirmation to the first and third button with the headlines "Yes" and "No".
 
-## Block messages
+### Block messages
 
 Add input variables to your camunda task (have a look at [/chat/post/block](docs/chatPostBlock.MD)):
    1. variablesToGet **(Required)**-> list all your variables you want to pass, separatet by ";"
