@@ -64,7 +64,7 @@ Add input variables to your camunda task (have a look at [/chat/post](docs/chatP
    1. variablesToGet **(Required)**-> list all your variables you want to pass, separatet by ";"
    2. channel **(Required)** -> channel **name** (!); you can add more than one by separating them using ";"
    3. text **(Required)** -> Basic text on top of the slack message
-   4. [callbackId](docs/callbackId) -> if you add buttons
+   4. [callbackId](docs/callbackId.MD) -> if you add buttons
    5. textButtons -> visible button name, you can add more than one by separating them using ";"
    6. style -> adds a specific style to a button, you can add a style to every button using ";"
    7. textConfirmation -> visible confirmation headline, adds a confirmation dialog to a button, 
@@ -87,7 +87,7 @@ Add input variables to your camunda task (have a look at [/chat/post/block](docs
       - example: true$$name;true$$trainer;true$$day;true$$time;false$$room
    7. textOptions -> textOptions for a select menu; using the [variable shortening principle](docs/vsp.MD)
    8. changes -> changes after user interaction; using the [variable shortening principle](docs/vsp.MD)
-   9. message **(Required)** -> informations to send user interactions back to the camunda process -> Details: [callbackId](docs/callbackId)
+   9. message **(Required)** -> informations to send user interactions back to the camunda process -> Details: [callbackId](docs/callbackId.MD)
    10. buttonName -> optional additional buttons at the end of the block message
    11. buttonValue -> built by the backend; no need to set an input variable
    12. buttonActionId -> built by the backend (nextPage or lastMessage); no need to set an input variable
