@@ -81,22 +81,23 @@ Add input variables to your camunda task (have a look at [/chat/post/block](docs
    4. leftField **(Required)** -> left field of a section text; amount of sections depends on length of leftFields; 
       you can add more than one by separating them using ";"
    5. rightField **(Required)** -> right field of a section text; can be empty, so you only have one text on the left; you can add more       than one by separating them using ";"
-   6. actionId
+   6. actionId -> for identification ->
+      - first element: t (= true) or f (=false) -> if true: button push required, otherwise message will be sent again and again
+      - second element: identification name and name of the variable, where user interactions are stored
+      - example: true$$name;true$$trainer;true$$day;true$$time;false$$room
    7. textOptions -> textOptions for a select menu; using the [variable shortening principle](docs/vsp.MD)
    8. changes -> changes after user interaction; using the [variable shortening principle](docs/vsp.MD)
-   9. message
-   10. buttonName
-   11. buttonValue
-   12. buttonActionId
-   13. buttonMessage
-   14. type
-   15. confirm
+   9. message **(Required)** -> informations to send user interactions back to the camunda process -> Details: [callbackId](docs/callbackId)
+   10. buttonName -> optional additional buttons at the end of the block message
+   11. buttonValue -> built by the backend; no need to set an input variable
+   12. buttonActionId -> built by the backend (nextPage or lastMessage); no need to set an input variable
+   13. buttonMessage -> identical to message
+   14. type **(Required)** -> type of the interactive components; using the [variable shortening principle](docs/vsp.MD)
+   15. confirm **(Required)** -> optional confirmation for every interactive component; using the [variable shortening principle](docs/vsp.MD)
    
-   
-   
-   
-//![Alt text](/pfad/zum/bild.jpg "Optionaler Titel")
-
+   16. dialog **(Required)** -> additional variable; list of dialogs for every section/interactive component separated by ";"
+       - if dialog not nessecary, add an f instead
+       - e. g. f;f;f -> no dialog in all 3 sections
 
 ## Swagger API (calling Slack API)
 * #### [/channel/invite](docs/channelInvite.MD)
