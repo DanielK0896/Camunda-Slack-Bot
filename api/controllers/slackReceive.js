@@ -53,7 +53,7 @@ async function slackReceive(req, res) {                  //receive Slack POSTs a
         console.log(changesInActionId);
         var actionId = changesInActionId[0].split(CAMUNDA_CONFIG.actionIdInnerSplit);
         console.log(actionId);
-        if (typeof actionId[1] == "undefined") {
+        if (actionId[1] == "") {
             msg.actions[0].action_id = actionId[0];
         } else {
             console.log(actionId[1]);
@@ -331,11 +331,15 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
                 var s = (payload.blocks.length - 3) - (i * 2);
             }
             if (textOptionsArray[0] != "") {
-                if (typeArray[i] == "overflow" || typeArray[i] == "static_select") {
+                if (typeShortened[1][i] == "overflow" || typeShortened[1][i] == "static_select") {
                     var textOptionsShortened = mod.variableShorteningPrinciple(1, textOptionsArray)
                     textOptionsArray = textOptionsShortened[0];            
                     payload.blocks[s].accessory.options = textOptionsShortened[1];
+                    var textOptions = textOptionsArray.join(CAMUNDA_CONFIG.vspSplit);
                 }
+            } else {
+                textOptions = "empty";
+            }                
             if (rightFieldArray[i] != "") {
                 try {
                     payload.blocks[s].fields[0].text = leftFieldArray[i];
@@ -390,9 +394,7 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         } else {
             payload.blocks[s].accessory.action_id = actionIdArray[0] + CAMUNDA_CONFIG.actionIdOuterSplit + ""
         }
-        
-
-        if(typeArray[i] == "button") {
+        if(typeShortened[1][i] == "button") {
             payload.blocks[s].accessory.text = {
                 "type":"plain_text", "text":"Klick", "emoji":true
             };
@@ -400,25 +402,17 @@ function nextPage(payload, pushedButton, numberOfChanges, taskId) {
         }
     }
     actionIdArray.splice(0, 4);
-    var buttonNameArray = pushedButton[5].split(CAMUNDA_CONFIG.buttonNameSplit);
+    var buttonNameArray = pushedButton[8].split(CAMUNDA_CONFIG.buttonNameSplit);
     var lastElement = buttonNameArray.length -1;
     var lastBlock = payload.blocks.length - 1;
-    console.log(lastBlock);
-    console.log(lastElement);
     if (leftField.length == 0) {
         console.log(JSON.stringify(payload));
         payload.blocks[lastBlock].elements[lastElement].text.text = "Abschicken";
         payload.blocks[lastBlock].elements[lastElement].action_id = "lastMessage";
         payload.blocks[lastBlock].elements[lastElement].value = "lastMessage";
     } else {
-        var textOptions;
-        try {
-            textOptions = textOptionsArray.join(textOptionsOuterSplit);
-        } catch (e) {
-            textOptions = "empty";
-        }
         var buttonValue = actionIdArray.join(CAMUNDA_CONFIG.actionIdOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + leftFieldArray.join(CAMUNDA_CONFIG.leftFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + rightFieldArray.join(CAMUNDA_CONFIG.rightFieldSplit) + CAMUNDA_CONFIG.taskIdSplit + confirmShortened[0] + CAMUNDA_CONFIG.taskIdSplit + typeShortened[0] + CAMUNDA_CONFIG.taskIdSplit + dialog.join(CAMUNDA_CONFIG.dialogSplit) + CAMUNDA_CONFIG.taskIdSplit + textOptions + CAMUNDA_CONFIG.taskIdSplit + changesArray.join(CAMUNDA_CONFIG.changesOuterSplit) + CAMUNDA_CONFIG.taskIdSplit + message;
-        payload.blocks[lastBlock].elements[lastElement].value = buttonValue[0];
+        payload.blocks[lastBlock].elements[lastElement].value = buttonValue;
     }
 }
     for (var i = 2; i < lastBlock;i+=2) {
