@@ -23,13 +23,10 @@
   "leftFieldSplit": ";",
   "rightFieldSplit": ";",
   "buttonNameSplit": ";",
-  "textOptionsOuterSplit": "$$",
-  "textOptionsInnerSplit": ";",
+  "textOptionsSplit": ";",
   "actionIdOuterSplit": ";",
   "actionIdInnerSplit": "$$",
-
-
-
+  "vspSplit": "$$",
 
   "taskIdSplit": "&%",
   "typeSplit": "-",
@@ -37,6 +34,7 @@
   "correlationKeySplit": ";",
   "camundaMessageVariableSplit": ";",
 
+  "dialogSplit": ";",
   "dialogInTaskIdSplit": "&$$%",
   "dialogVariablesSplit": "$%",
 
