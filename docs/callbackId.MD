@@ -41,7 +41,7 @@ Elements:
 7. new callback id part 4 (message!)
 8. optional "delete" -> message will be deleted after dialog submission
 
-**Mind:** You can add more than one label, type, placeholder, minLength, maxLength, options/data_source by adding at the end of point 3.
+**Mind:** You can add more than one label, type, placeholder, minLength, maxLength, options/data_source by adding them at the end of point 3.
 (example: Veranstaltungsort$%Raum$%text$%z.B. EB222$%2$%15Veranstaltungsort$%Raum$%text$%z.B. EB222$%2$%15 -> two identical dialog elements)
 
 
