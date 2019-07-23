@@ -11,7 +11,8 @@ module.exports = {
     getVariables: getVariables,
     pushSpecificVariables: pushSpecificVariables,
     getChannels: getChannels,
-    getUsers: getUsers
+    getUsers: getUsers,
+    variableShorteningPrinciple: variableShorteningPrinciple
 };
 
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
@@ -164,6 +165,7 @@ async function preparePostMessage(task) {
                 
                 if (variablesToGet.indexOf("changes") == -1) {
                     var changes = "";
+                    msg["changes"] = "";
                 } else {
                     var changesShortened = variableShorteningPrinciple(lengthOfLeftFields, variables[variablesToGet.indexOf("changes")])
                     var changes = changesShortened[0];            
@@ -237,17 +239,18 @@ function getVariables(task, variablesToGet) {    //function to get Variables fro
 function variableShorteningPrinciple(length, sourceVariable) {
     var storeVariable = [];
     var sourceArray = sourceVariable.split(CAMUNDA_CONFIG.vspSplit);
-    for (var i = 0; i < leftFieldArray.length; i++) {
-    sourceArray[0] = parseInt(sourceArray[0], 10)
-    if (sourceArray[0] > 0) {
-        storeVariable.push(sourceArray[1]);
-        sourceArray[0] -= 1;
-        if (sourceArray[0] == 0) {
-            sourceArray.splice(0, 2);
-        } else if (sourceArray[0] == -1) {
+    for (var i = 0; i < length; i++) {
+        sourceArray[0] = parseInt(sourceArray[0], 10)
+        if (sourceArray[0] > 0) {
             storeVariable.push(sourceArray[1]);
-        } else {
-            storeVariable.push("undefined");
+            sourceArray[0] -= 1;
+            if (sourceArray[0] == 0) {
+                sourceArray.splice(0, 2);
+            } else if (sourceArray[0] == -1) {
+                storeVariable.push(sourceArray[1]);
+            } else {
+                storeVariable.push("undefined");
+            }
         }
     }
     return [sourceArray.join(CAMUNDA_CONFIG.vspSplit); storeVariable];
