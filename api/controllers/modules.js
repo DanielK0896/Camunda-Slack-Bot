@@ -253,7 +253,7 @@ function variableShorteningPrinciple(length, sourceVariable) {
             }
         }
     }
-    return [sourceArray.join(CAMUNDA_CONFIG.vspSplit); storeVariable];
+    return [sourceArray.join(CAMUNDA_CONFIG.vspSplit), storeVariable];
 }
 
 
