@@ -559,7 +559,23 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"       
+            $ref: "#/definitions/ErrorResponse" 
+  /slackGet/users:
+    x-swagger-router-controller: slackGetUsers
+    get:
+      operationId: slackGetUsers
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"        
   /slackGet/userProfile:
     x-swagger-router-controller: slackGetUserProfile
     post:

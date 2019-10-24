@@ -8,7 +8,6 @@ module.exports = {
     getFromSwaggerAPI: getFromSwaggerAPI,
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
-    getVariables: getVariables,
     pushSpecificVariables: pushSpecificVariables,
     getChannels: getChannels,
     getUsers: getUsers,
@@ -54,8 +53,11 @@ function createPDF(template, fileName, variables) {
     pdfDoc.end();
 }
 async function preparePostMessage(task) {
-    var variablesToGet = task.variables.get("variablesToGet").split(CAMUNDA_CONFIG.variablesToGetSplit);
-    var variables = getVariables(task, variablesToGet);
+    let variablesToGet = task.variables.get("variablesToGet").split(CAMUNDA_CONFIG.variablesToGetSplit);
+    let variables = [];
+    for (let i = 0; i < variablesToGet.length; i++) {
+            arrayOfVariables.push(task.variables.get(variablesToGet[i]));
+    }
         var msg = {};
         var path;
         var callback = function postCallback(body, resolve, reject) {
@@ -226,15 +228,6 @@ async function preparePostMessage(task) {
 
         return arrayOfTimeStamps.join(CAMUNDA_CONFIG.tsSplit);
 }
-
-function getVariables(task, variablesToGet) {    //function to get Variables from Camunda
-    var arrayOfVariables = [];
-    for (var i = 0; i < variablesToGet.length; i++) {
-            var variable = task.variables.get(variablesToGet[i])
-            arrayOfVariables.push(variable);
-    }
-    return arrayOfVariables;
-} 
 
 function variableShorteningPrinciple(length, sourceVariable) {
     var storeVariable = [];
@@ -421,7 +414,7 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
 
 function getChannels() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
-        var bodyParsed = JSON.parse(JSON.parse(body));
+        var bodyParsed = JSON.parse(body);
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
@@ -430,12 +423,12 @@ function getChannels() {
 }
 
 function getUsers() {
-    getFromSwaggerAPI("/slackGet/conversations", function (body) {
-        var bodyParsed = JSON.parse(JSON.parse(body));
-        for (var i = 0; i < bodyParsed.channels.length; i++) {
-            listOfAllLDAPUsers = pushSpecificVariables(listOfAllLDAPUsers, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);
-        }
-        return listOfAllLDAPUsers;
-    });
+    let userArray =JSON.parse(getFromSwaggerAPI("/slackGet/users", function (body) {}));
+
+    for (var i = 0; i < userArray.members.length; i++) {
+        let ldapName = JSON.parse(getFromSwaggerAPI("/name_slackid_query?query_value=" + userArray.members[i].id, function (body) {}));
+        listOfAllLDAPUsers[userArray.members[i].id] = ldapName;
+    }
+    return listOfAllLDAPUsers;
 }
 
