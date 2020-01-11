@@ -12,8 +12,8 @@
         var params = {
             kas_login: secrets.kasUserName,
             kas_auth_type: "sha1",
-            kas_action: "add_mailaccount",
             kas_auth_data: secrets.kasPassword,
+            kas_action: "add_mailaccount",
             mail_password: "Test1",
             local_part: "test.testQMWORKEND",
             domain_part: "cct-ev.de",
