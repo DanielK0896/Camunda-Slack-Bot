@@ -1,7 +1,7 @@
 'use strict';
 
 const { Client, logger } = require("camunda-external-task-client-js");
-const configCamunda = { baseUrl: "http://localhost:80/engine-rest", use: logger };
+const configCamunda = { baseUrl: "http://localhost:8005/engine-rest", use: logger };
 const client = new Client(configCamunda);
 const mod = require('./api/controllers/modules');
 const { Variables } = require("camunda-external-task-client-js");

@@ -2,7 +2,7 @@
  * For this you pass the variable name (nameVariable1) and the value (variable1). Furtermore you have to pass the message name and two 
  * variables, including name and value, trough one string named correlationKey. E.g.: name1,name2,value1,value2.*/
 var request = require('request');
-var URL = "http://localhost:80/engine-rest/message";
+var URL = "http://localhost:8005/engine-rest/message";
 const CAMUNDA_CONFIG = require('./camundaConfig');
 
 module.exports = {
