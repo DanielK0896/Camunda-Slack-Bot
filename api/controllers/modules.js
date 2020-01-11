@@ -414,7 +414,7 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
 function getChannels() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
         console.log(body);
-        var bodyParsed = JSON.parse(JSON.parse(body));
+        var bodyParsed = JSON.parse(body);
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
