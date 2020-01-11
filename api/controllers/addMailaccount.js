@@ -38,6 +38,7 @@
             '</soapenv:Envelope>';
 
         xmlhttp.onreadystatechange = function () {
+            console.log(xmlhttp.status);
             if (xmlhttp.readyState == 4) {
                 if (xmlhttp.status == 200) {
                     console.log(xmlhttp.responseText);
@@ -46,7 +47,6 @@
         }
         xmlhttp.setRequestHeader('Content-Type', 'text/xml');
         xmlhttp.send(sr);
-        res.Status(200);
    }
    
 
