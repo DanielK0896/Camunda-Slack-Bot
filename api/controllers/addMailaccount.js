@@ -2,6 +2,7 @@
 
 var request = require('request');
 var URL = "https://kasapi.kasserver.com/soap/wsdl/KasAuth.wsdl";
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var secrets = require('../../secrets');
 
 module.exports = {
@@ -24,7 +25,7 @@ function addMailaccount(req, res) {
         '<?xml version="1.0" encoding="utf-8"?>' +
         '<soapenv:Envelope ' + 
             'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-            'xmlns:api="https://kasapi.kasserver.com/soap/wsdl/KasAuth.wsdl" ' +
+            'xmlns:api="https://kasapi.kasserver.com/soap/" ' +
             'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' +
             'xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">' +
             '<soapenv:Body>' +
