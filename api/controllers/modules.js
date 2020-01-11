@@ -410,13 +410,5 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
     return arrayOfVariables;
 }
 
-function getUsers() {
-    let userArray = JSON.parse(getFromSwaggerAPI("/slackGet/users", function (body) {}));
 
-    for (var i = 0; i < userArray.members.length; i++) {
-        let ldapName = JSON.parse(getFromSwaggerAPI("/name_slackid_query?query_value=" + userArray.members[i].id, function (body) {}));
-        listOfAllLDAPUsers[userArray.members[i].id] = ldapName;
-    }
-    return listOfAllLDAPUsers;
-}
 
