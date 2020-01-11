@@ -749,7 +749,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-/mail/addMailaccount:
+  /mail/addMailaccount:
     x-swagger-router-controller: addMailaccount
     post:
       operationId: addMailaccount
