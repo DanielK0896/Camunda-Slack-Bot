@@ -12,6 +12,7 @@
         var params = {
             KasUser: secrets.kasUserName,
             KasAuthType: "sha1",
+            KasRequestType: "add_mailaccount",
             KasPassword: secrets.kasPassword,
             mail_password: "Test1",
             local_part: "test.testQMWORKEND",
