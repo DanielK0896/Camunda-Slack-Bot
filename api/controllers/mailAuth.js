@@ -13,11 +13,9 @@ function mailAuth(req, res) {
         kas_login: secrets.kasUserName,
         kas_auth_type: "sha1",
         kas_auth_data: secrets.kasPassword,
-        kas_action: "add_mailaccount",
-        mail_password: "Test1",
-        local_part: "test.testQMWORKEND",
-        domain_part: "cct-ev.de",
-        responder: "N"
+        kas_action: "add_session",
+        session_lifetime: "500",
+        session_update_lifetime: "Y"
     };
 
 soap.createClient(URL, function(err, client) {
