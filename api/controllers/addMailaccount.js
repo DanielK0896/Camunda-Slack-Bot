@@ -20,7 +20,7 @@
         };
 
     soap.createClient(URL, function(err, client) {
-      client.KasApi(params, function(err, result) {
+      client.kasAuth(params, function(err, result) {
           console.log(result);
         });
     });
