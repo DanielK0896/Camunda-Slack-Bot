@@ -11,8 +11,8 @@
     function addMailaccount(req, res) {
         var params = {
             kas_login: secrets.kasUserName,
-            kas_auth_type: "sha1",
-            kas_auth_data: secrets.kasPassword,
+            kas_auth_type: "session",
+            kas_auth_data: "1262ce9cf164df754f3d0a5a6f35be6b",
             kas_action: "add_mailaccount",
             mail_password: "Test1",
             local_part: "test.testQMWORKEND",
