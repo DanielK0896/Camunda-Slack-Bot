@@ -46,6 +46,7 @@
         }
         xmlhttp.setRequestHeader('Content-Type', 'text/xml');
         xmlhttp.send(sr);
+        res.Status(200);
    }
    
 
