@@ -1,6 +1,6 @@
 /* This file can be reached by calling swagger API endpoint. Pass mail password and local part */
 
-    var URL = "https://kasapi.kasserver.com/soap/wsdl/KasAuth.wsdl";
+    var URL = "https://kasapi.kasserver.com/soap/wsdl/KasApi.wsdl";
     var secrets = require('../../secrets');
     var soap = require('soap');
    
@@ -20,7 +20,7 @@
         };
 
     soap.createClient(URL, function(err, client) {
-      client.kasAuth(params, function(err, result) {
+      client.kasApi(params, function(err, result) {
           console.log(result);
         });
     });
