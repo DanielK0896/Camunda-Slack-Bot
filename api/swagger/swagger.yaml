@@ -762,7 +762,33 @@ definitions:
     properties:
       body:
         type: string
-
+/mail/addMailaccount:
+    x-swagger-router-controller: addMailaccount
+    post:
+      operationId: addMailaccount
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              mailPassword:
+                type: string  
+              localPart:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
 parameters:
   token:
