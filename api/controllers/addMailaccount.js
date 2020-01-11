@@ -13,8 +13,8 @@
             KasUser: secrets.kasUserName,
             KasAuthType: "sha1",
             KasPassword: secrets.kasPassword,
-            mail_password: req.mailPassword,
-            local_part: req.localPart,
+            mail_password: "Test1",
+            local_part: "test.testQMWORKEND",
             domain_part: "cct-ev.de",
             responder: "N",
         };
