@@ -20,7 +20,7 @@
         };
 
     soap.createClient(URL, function(err, client) {
-      client.post(params, function(err, result) {
+      client.add_mailaccount(params, function(err, result) {
           console.log(result);
         });
     });
