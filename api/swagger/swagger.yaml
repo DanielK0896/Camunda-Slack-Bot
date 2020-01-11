@@ -757,6 +757,16 @@ paths:
         - application/json
       produces:
         - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              mailPassword:
+                type: string  
+              localPart:
+                type: string
       responses:
         "200":
           description: Success

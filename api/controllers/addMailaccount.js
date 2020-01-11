@@ -13,8 +13,8 @@
         xmlhttp.open('POST', URL, true);
 
         var params = JSON.stringify({
-            mail_password: "Test123",
-            local_part: "test.postfachqm",
+            mail_password: req.mailPassword,
+            local_part: req.localPart,
             domain_part: "cct-ev.de",
             responder: "N",
         });
