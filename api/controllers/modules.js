@@ -20,7 +20,7 @@ function postToSwaggerAPI(msg, path, callback) {             //function to call 
             'Content-Type': 'application/json; charset=utf-8',
             'cache-control': 'no-cache'
         };
-        request({ method: 'POST', headers: headers, url: 'http://localhost:10010/' + path, body: msg, json: true }, function (error, response, body) {
+        request({ method: 'POST', headers: headers, url: 'http://localhost:10010' + path, body: msg, json: true }, function (error, response, body) {
             if (!error) {
                 callback(body, resolve, reject);
             }
@@ -28,7 +28,7 @@ function postToSwaggerAPI(msg, path, callback) {             //function to call 
     });
 }
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
-    request({ method: 'GET', url: 'http://localhost:10010/' + path }, function (error, response, body) {
+    request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
         if (error) throw new Error(error);  
         callback(body);
     });
