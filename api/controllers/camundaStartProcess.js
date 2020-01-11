@@ -11,7 +11,7 @@ module.exports = {
 async function camundaStartProcess(req, res) {
 
     var process = req.swagger.params.process.value;
-    var URL = "http://localhost:8080/engine-rest/process-definition/key/" + process + "/start"
+    var URL = "http://localhost:80/engine-rest/process-definition/key/" + process + "/start"
     body = {"variables":{}};
     for (var processIndex = 0; processIndex < Object.keys(processJSON).length; processIndex++) {
         if (typeof processJSON[processIndex][process] != "undefined") {
