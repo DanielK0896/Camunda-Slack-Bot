@@ -45,6 +45,7 @@
                 }
             }
         }
+        console.log(sr);
         xmlhttp.setRequestHeader('Content-Type', 'text/xml');
         xmlhttp.send(sr);
    }
