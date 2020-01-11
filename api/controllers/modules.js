@@ -2,7 +2,7 @@ var request = require("request");
 const CAMUNDA_CONFIG = require('./camundaConfig');
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
-var bodyParser = require('body-parser')
+//var bodyParser = require('body-parser')
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -31,6 +31,7 @@ function postToSwaggerAPI(msg, path, callback) {             //function to call 
 function getFromSwaggerAPI(path, callback) {             //function to call Swagger API
     request({ method: 'GET', url: 'http://localhost:10010' + path }, function (error, response, body) {
         if (error) throw new Error(error);
+        console.log(body);
         callback(body);
     });
     
