@@ -1,8 +1,8 @@
 /* This file can be reached by calling swagger API endpoint. Pass mail password and local part */
 
-    var request = require('request');
     var URL = "https://kasapi.kasserver.com/soap/wsdl/KasAuth.wsdl";
     var secrets = require('../../secrets');
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
    
     module.exports = {
         addMailaccount: addMailaccount
