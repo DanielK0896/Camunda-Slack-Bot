@@ -749,19 +749,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
-definitions:
-  jsonResponse:
-    required:
-      - body
-    properties:
-      body:
-        type: string
-  ErrorResponse:
-    required:
-      - body
-    properties:
-      body:
-        type: string
 /mail/addMailaccount:
     x-swagger-router-controller: addMailaccount
     post:
@@ -789,6 +776,21 @@ definitions:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+definitions:
+  jsonResponse:
+    required:
+      - body
+    properties:
+      body:
+        type: string
+  ErrorResponse:
+    required:
+      - body
+    properties:
+      body:
+        type: string
+
 
 parameters:
   token:
