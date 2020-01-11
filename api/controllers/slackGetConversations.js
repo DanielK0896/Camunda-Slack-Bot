@@ -16,13 +16,14 @@ function slackGetConversations(req, res) {
         {
             'cache-control': 'no-cache',
             Authorization: secrets.Authorization,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
         form: { undefined: undefined }
     };
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
+        console.log(body);
         res.send(body);
     });
 
