@@ -410,21 +410,6 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
     return arrayOfVariables;
 }
 
-function getChannels() {
-    getFromSwaggerAPI("/slackGet/conversations", function (body) {
-        console.log("Hallo" + body);
-        try {
-            var bodyParsed = JSON.parse(body);
-        } catch(e) {
-            console.log(body);
-        }
-        for (var i = 0; i < bodyParsed.channels.length; i++) {
-            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
-        }
-        return listOfAllChannels;
-    });
-}
-
 function getUsers() {
     let userArray = JSON.parse(getFromSwaggerAPI("/slackGet/users", function (body) {}));
 
