@@ -24,8 +24,11 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   app.listen(port);
 });
 
-setTimeout(mod.getChannels, 3000);
-setInterval(mod.getChannels, 300000);
+function getChannels(mod) {
+  setTimeout(mod.getChannels, 3000);
+} 
+
+getChannels(mod);
 //setTimeout(mod.getUsers, 500);
 //setInterval(mod.getUsers, 300000);
 setTimeout(function () {
