@@ -20,7 +20,7 @@
         };
 
     soap.createClient(URL, function(err, client) {
-      client.MyFunction(params, function(err, result) {
+      client.post(params, function(err, result) {
           console.log(result);
         });
     });
