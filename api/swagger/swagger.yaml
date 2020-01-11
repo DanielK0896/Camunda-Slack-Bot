@@ -776,7 +776,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  /mail/auth:
+    x-swagger-router-controller: mailAuth
+    post:
+      operationId: mailAuth
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              mailPassword:
+                type: string  
+              localPart:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
   jsonResponse:
     required:
