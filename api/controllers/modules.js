@@ -9,6 +9,8 @@ module.exports = {
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
     pushSpecificVariables: pushSpecificVariables,
+    getChannels: getChannels,
+    getUsers: getUsers,
     variableShorteningPrinciple: variableShorteningPrinciple
 };
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
@@ -48,6 +50,31 @@ function createPDF(template, fileName, variables) {
     pdfDoc.pipe(fs.createWriteStream('PDFs/' + fileName));
     pdfDoc.end();
 }
+
+function getChannels() {
+    getFromSwaggerAPI("/slackGet/conversations", function (body) {
+        try {
+            var bodyParsed = JSON.parse(body);
+        } catch(e) {
+            console.log(body);
+        }
+        for (var i = 0; i < bodyParsed.channels.length; i++) {
+            listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
+        }
+        return listOfAllChannels;
+    });
+}
+
+function getUsers() {
+    let userArray = JSON.parse(getFromSwaggerAPI("/slackGet/users", function (body) {}));
+
+    for (var i = 0; i < userArray.members.length; i++) {
+        let ldapName = JSON.parse(getFromSwaggerAPI("/name_slackid_query?query_value=" + userArray.members[i].id, function (body) {}));
+        listOfAllLDAPUsers[userArray.members[i].id] = ldapName;
+    }
+    return listOfAllLDAPUsers;
+}
+
 async function preparePostMessage(task) {
     let variablesToGet = task.variables.get("variablesToGet").split(CAMUNDA_CONFIG.variablesToGetSplit);
     let variables = [];
