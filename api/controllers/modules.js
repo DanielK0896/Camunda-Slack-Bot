@@ -13,7 +13,6 @@ module.exports = {
     getUsers: getUsers,
     variableShorteningPrinciple: variableShorteningPrinciple
 };
-
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
     return new Promise((resolve, reject) => {
         var headers = {
