@@ -9,6 +9,7 @@ module.exports = {
 };
 
 function slackGetConversations(req, res) {
+    console.log(secrets.Authorization);
      var options = {
         method: 'GET',
         url: URL,
