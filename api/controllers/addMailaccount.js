@@ -10,14 +10,14 @@
    
     function addMailaccount(req, res) {
         var params = {
-            KasUser: secrets.kasUserName,
-            KasAuthType: "sha1",
-            KasRequestType: "add_mailaccount",
-            KasPassword: secrets.kasPassword,
+            kas_login: secrets.kasUserName,
+            kas_auth_type: "sha1",
+            kas_action: "add_mailaccount",
+            kas_auth_data: secrets.kasPassword,
             mail_password: "Test1",
             local_part: "test.testQMWORKEND",
             domain_part: "cct-ev.de",
-            responder: "N",
+            responder: "N"
         };
 
     soap.createClient(URL, function(err, client) {
