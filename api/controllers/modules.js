@@ -9,8 +9,6 @@ module.exports = {
     preparePostMessage: preparePostMessage,
     createPDF: createPDF,
     pushSpecificVariables: pushSpecificVariables,
-    getChannels: getChannels,
-    getUsers: getUsers,
     variableShorteningPrinciple: variableShorteningPrinciple
 };
 function postToSwaggerAPI(msg, path, callback) {             //function to call Swagger API
