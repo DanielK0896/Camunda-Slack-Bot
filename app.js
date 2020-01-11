@@ -25,7 +25,13 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 });
 
 function getChannels(mod) {
-  setTimeout(mod.getChannels, 3000);
+  setTimeout(mod.getFromSwaggerAPI("/slackGet/conversations", function (body) {
+    var bodyParsed = JSON.parse(body);
+    for (var i = 0; i < bodyParsed.channels.length; i++) {
+        listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
+    }
+    return listOfAllChannels;
+}), 3000);
 } 
 
 getChannels(mod);
