@@ -20,7 +20,7 @@
         };
 
     soap.createClient(URL, function(err, client) {
-      client.add_mailaccount(params, function(err, result) {
+      client.KasApi(params, function(err, result) {
           console.log(result);
         });
     });
