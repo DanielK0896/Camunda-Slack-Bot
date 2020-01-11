@@ -5,10 +5,10 @@
     var secrets = require('../../secrets');
    
     module.exports = {
-        addMailAccount: addMailAccount
+        addMailaccount: addMailaccount
     };
    
-    function addMailAccount(req, res) {
+    function addMailaccount(req, res) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open('POST', URL, true);
 
