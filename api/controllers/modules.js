@@ -2,6 +2,7 @@ var request = require("request");
 const CAMUNDA_CONFIG = require('./camundaConfig');
 var listOfAllLDAPUsers = {};
 var listOfAllChannels = {};
+var bodyParser = require('body-parser')
 
 module.exports = {
     postToSwaggerAPI: postToSwaggerAPI,
@@ -414,7 +415,7 @@ function pushSpecificVariables(arrayOfVariables, variableName, variableValue, ms
 
 function getChannels() {
     getFromSwaggerAPI("/slackGet/conversations", function (body) {
-        var bodyParsed = JSON.parse(body);
+        var bodyParsed = JSON.parse(JSON.parse(body));
         for (var i = 0; i < bodyParsed.channels.length; i++) {
             listOfAllChannels = pushSpecificVariables(listOfAllChannels, bodyParsed.channels[i].name, "channels." + i + ".id", bodyParsed);            
         }
