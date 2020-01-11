@@ -9,9 +9,6 @@
     };
    
     function addMailaccount(req, res) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open('POST', URL, true);
-
         var params = {
             KasUser: secrets.kasUserName,
             KasAuthType: "sha1",
