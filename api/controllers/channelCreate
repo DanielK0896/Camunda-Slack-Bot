@@ -1,0 +1,39 @@
+/* Pass channel name create a new channel*/
+
+
+var request = require('request');
+var URL = "https://slack.com/api/channels.create";
+var secrets = require('../../secrets');
+
+module.exports = {
+    channelCreate: channelCreate
+};
+
+function channelCreate(req, res) {
+    var msg = req.swagger.params.body.value;
+    var body = {
+        "name": msg.name
+    };
+    var options = {
+        method: 'POST',
+        url: URL,
+        headers:
+        {
+            'cache-control': 'no-cache',
+            Authorization: secrets.Authorization,
+            'Content-Type': 'application/json'
+        },
+        body: body,
+        json: true
+    };
+
+    request(options, function (error, response, body) {
+        if (!error) {
+            var bodyStringified = JSON.stringify(body);
+            res.json(bodyStringified);
+            console.log(JSON.parse(bodyStringified))
+        } else { console.log("ERROR channelInvite: " + error); }
+    });
+}
+
+

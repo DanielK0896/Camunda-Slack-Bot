@@ -62,6 +62,31 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse" 
+  /channel/create:
+    x-swagger-router-controller: channelCreate
+    post:
+      operationId: channelCreate
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            properties:
+              name:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/jsonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /chat/delete:
     x-swagger-router-controller: chatDelete
     post:
